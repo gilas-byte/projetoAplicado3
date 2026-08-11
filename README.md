@@ -1,2 +1,53 @@
-# projetoAplicado3
-Repositório oficial do nosso grupo para o projeto aplicado 3.
+# 📚​ Projeto Aplicado 3
+
+> Repositório Oficial para o grupo de projeto aplicado 3 (editar tudo isso depois)
+
+<p align="center">
+    <img src="media/projetoaplicado.png" alt="Imagem representativa do nosso grupo de PJ3" width="85%">
+</p>
+
+---
+
+
+
+## Integrantes
+
+
+| Nome | Cargo |
+| --- | -- |
+|**Samuel Silva de Rezende**|`a decidir`|
+|**Guilherme Zamboni**|`a decidir`|
+|**Vinicius**|`a decidir`|
+|**Guilherme Anselmo**|`Engenheiro de Dados`|
+
+## Crie branches para seus pull requests
+
+Para cada feature, fix, docs, etc. repita os seguintes passos
+
+```
+git checkout -b nome-mudanca
+```
+
+Adicione os arquivos nos quais você alterou e de commit.
+
+```
+git add .
+
+git commit -m "minha mudança"
+```
+
+E de um git push para sua branch.
+
+```
+git push origin nome-mudanca
+```
+
+E por fim crie o pull request pela web.
+
+<p align="center">
+    <img src ="media/pullrequest.gif" alt="Pull request example"
+    width="80%">
+    <br><em>Siga os passos no gif e faça seu Pull Request.</em>
+</p>
+
+**Bora cozinhar ai piazada.**
