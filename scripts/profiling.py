@@ -31,45 +31,15 @@ from pathlib import Path
 
 import duckdb
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+
 RAIZ = Path(__file__).resolve().parent.parent
 RAW = RAIZ / "data" / "raw"
 SAIDA = RAIZ / "docs" / "profiling"
 
 ANOS_PADRAO = [2019, 2020, 2021, 2022]
 
-# Notas das quatro areas e da redacao. As notas por competencia da redacao
-# (COMP1..COMP5) entram no perfil geral de colunas, mas nao no bloco
-# descritivo, que trata do que o usuario final informa.
-NOTAS = [
-    "NU_NOTA_CN",
-    "NU_NOTA_CH",
-    "NU_NOTA_LC",
-    "NU_NOTA_MT",
-    "NU_NOTA_REDACAO",
-]
-
-PRESENCA = [
-    "TP_PRESENCA_CN",
-    "TP_PRESENCA_CH",
-    "TP_PRESENCA_LC",
-    "TP_PRESENCA_MT",
-]
-
-# Variaveis candidatas a recorte: o eixo socioeconomico do produto.
-RECORTE = [
-    "TP_FAIXA_ETARIA",
-    "TP_SEXO",
-    "TP_COR_RACA",
-    "TP_ESCOLA",
-    "TP_ST_CONCLUSAO",
-    "IN_TREINEIRO",
-    "SG_UF_PROVA",
-    "Q001",  # escolaridade do pai
-    "Q002",  # escolaridade da mae
-    "Q006",  # renda familiar mensal
-    "Q024",  # computador em casa
-    "Q025",  # acesso a internet
-]
+from colunas import NOTAS, PRESENCA, RECORTE  # noqa: E402
 
 # TP_PRESENCA: 0 = faltou, 1 = presente, 2 = eliminado (dicionario do INEP).
 ROTULO_PRESENCA = {0: "faltou", 1: "presente", 2: "eliminado"}
@@ -135,12 +105,19 @@ def perfil_colunas(con: duckdb.DuckDBPyConnection, total: int) -> list[dict]:
             partes.append(f'COUNT(DISTINCT "{nome}") AS distintos_{i}')
         else:
             partes.append(f'approx_count_distinct("{nome}") AS distintos_{i}')
+        # Peso da coluna no arquivo, para sustentar a selecao de colunas do
+        # contrato com numero medido em vez de estimativa. E o tamanho do
+        # valor em texto (strlen conta bytes UTF-8), que aproxima a pegada no CSV
+        # de origem; nos poucos campos acentuados o UTF-8 fica alguns bytes
+        # acima do latin-1 original.
+        partes.append(f'SUM(strlen(CAST("{nome}" AS VARCHAR))) AS bytes_{i}')
     valores = con.execute(f"SELECT {', '.join(partes)} FROM enem").fetchone()
 
     perfil = []
     for i, nome in enumerate(nomes):
-        preenchidos = valores[2 * i]
-        distintos = valores[2 * i + 1]
+        preenchidos = valores[3 * i]
+        distintos = valores[3 * i + 1]
+        octetos = valores[3 * i + 2] or 0
         ausentes = total - preenchidos
         perfil.append(
             {
@@ -151,6 +128,7 @@ def perfil_colunas(con: duckdb.DuckDBPyConnection, total: int) -> list[dict]:
                 "pct_ausentes": round(100 * ausentes / total, 2) if total else None,
                 "distintos": distintos,
                 "distintos_exato": nome in exatas,
+                "bytes_texto": int(octetos),
             }
         )
     return perfil

@@ -31,6 +31,8 @@ from pathlib import Path
 
 import openpyxl
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+
 RAIZ = Path(__file__).resolve().parent.parent
 RAW = RAIZ / "data" / "raw"
 SAIDA = RAIZ / "docs" / "dicionario"
@@ -38,23 +40,7 @@ PROFILING = RAIZ / "docs" / "profiling"
 
 ANOS = [2019, 2020, 2021, 2022]
 
-# As mesmas variaveis de recorte do profiling: sao as que viram filtro no
-# produto, entao o dominio delas precisa estar explicito no relatorio.
-RECORTE = [
-    "TP_FAIXA_ETARIA",
-    "TP_SEXO",
-    "TP_COR_RACA",
-    "TP_ESCOLA",
-    "TP_ST_CONCLUSAO",
-    "IN_TREINEIRO",
-    "Q001",
-    "Q002",
-    "Q006",
-    "Q024",
-    "Q025",
-]
-
-PRESENCA = ["TP_PRESENCA_CN", "TP_PRESENCA_CH", "TP_PRESENCA_LC", "TP_PRESENCA_MT"]
+from colunas import PRESENCA, RECORTE_COM_DOMINIO as RECORTE  # noqa: E402
 
 
 def achar_xlsx(ano: int) -> Path:
@@ -184,14 +170,16 @@ def gerar_relatorio(dicts: dict[int, dict]) -> str:
         return info["categorias"] if info else None
 
     # --- mesmo codigo, significado diferente -----------------------------
-    L.append("## 2. Mesmo codigo, significado diferente")
+    L.append("## 2. Mesmo codigo, rotulo diferente")
     L.append("")
     L.append(
-        "O caso perigoso: o codigo existe nas quatro edicoes, entao nenhuma "
-        "checagem de dominio acusa problema, mas o rotulo mudou. Comparar os "
-        "anos sem tratar estas variaveis produz resultado silenciosamente "
-        "errado. `CO_PROVA_*` fica de fora porque o codigo do caderno e "
-        "reemitido a cada aplicacao por construcao."
+        "O codigo existe nas quatro edicoes e nenhuma checagem de dominio "
+        "acusa problema, mas o rotulo mudou. Nas tres variaveis abaixo o "
+        "codigo e relativo a edicao e continua comparavel entre anos; o que "
+        "nao se pode e exibir o rotulo de uma edicao como se valesse para "
+        "todas. Ver `docs/contrato/` para a regra de cada uma. "
+        "`CO_PROVA_*` fica de fora porque o codigo do caderno e reemitido a "
+        "cada aplicacao por construcao."
     )
     L.append("")
 

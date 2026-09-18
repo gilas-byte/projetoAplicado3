@@ -5,7 +5,7 @@
     "csv_bytes": 2407957577,
     "linhas": 5095171,
     "colunas": 76,
-    "segundos_leitura_csv": 54.6
+    "segundos_leitura_csv": 51.8
   },
   "colunas": [
     {
@@ -15,7 +15,8 @@
       "ausentes": 0,
       "pct_ausentes": 0.0,
       "distintos": 4692410,
-      "distintos_exato": false
+      "distintos_exato": false,
+      "bytes_texto": 61142052
     },
     {
       "coluna": "NU_ANO",
@@ -24,7 +25,8 @@
       "ausentes": 0,
       "pct_ausentes": 0.0,
       "distintos": 1,
-      "distintos_exato": false
+      "distintos_exato": false,
+      "bytes_texto": 20380684
     },
     {
       "coluna": "TP_FAIXA_ETARIA",
@@ -33,7 +35,8 @@
       "ausentes": 0,
       "pct_ausentes": 0.0,
       "distintos": 20,
-      "distintos_exato": true
+      "distintos_exato": true,
+      "bytes_texto": 6224419
     },
     {
       "coluna": "TP_SEXO",
@@ -42,7 +45,8 @@
       "ausentes": 0,
       "pct_ausentes": 0.0,
       "distintos": 2,
-      "distintos_exato": true
+      "distintos_exato": true,
+      "bytes_texto": 5095171
     },
     {
       "coluna": "TP_ESTADO_CIVIL",
@@ -51,7 +55,8 @@
       "ausentes": 0,
       "pct_ausentes": 0.0,
       "distintos": 5,
-      "distintos_exato": false
+      "distintos_exato": true,
+      "bytes_texto": 5095171
     },
     {
       "coluna": "TP_COR_RACA",
@@ -60,7 +65,8 @@
       "ausentes": 0,
       "pct_ausentes": 0.0,
       "distintos": 6,
-      "distintos_exato": true
+      "distintos_exato": true,
+      "bytes_texto": 5095171
     },
     {
       "coluna": "TP_NACIONALIDADE",
@@ -69,7 +75,8 @@
       "ausentes": 0,
       "pct_ausentes": 0.0,
       "distintos": 5,
-      "distintos_exato": false
+      "distintos_exato": true,
+      "bytes_texto": 5095171
     },
     {
       "coluna": "TP_ST_CONCLUSAO",
@@ -78,7 +85,8 @@
       "ausentes": 0,
       "pct_ausentes": 0.0,
       "distintos": 4,
-      "distintos_exato": true
+      "distintos_exato": true,
+      "bytes_texto": 5095171
     },
     {
       "coluna": "TP_ANO_CONCLUIU",
@@ -86,8 +94,9 @@
       "preenchidos": 5095171,
       "ausentes": 0,
       "pct_ausentes": 0.0,
-      "distintos": 16,
-      "distintos_exato": false
+      "distintos": 14,
+      "distintos_exato": true,
+      "bytes_texto": 5701701
     },
     {
       "coluna": "TP_ESCOLA",
@@ -96,7 +105,8 @@
       "ausentes": 0,
       "pct_ausentes": 0.0,
       "distintos": 3,
-      "distintos_exato": true
+      "distintos_exato": true,
+      "bytes_texto": 5095171
     },
     {
       "coluna": "TP_ENSINO",
@@ -105,7 +115,8 @@
       "ausentes": 2217036,
       "pct_ausentes": 43.51,
       "distintos": 2,
-      "distintos_exato": false
+      "distintos_exato": true,
+      "bytes_texto": 2878135
     },
     {
       "coluna": "IN_TREINEIRO",
@@ -114,7 +125,8 @@
       "ausentes": 0,
       "pct_ausentes": 0.0,
       "distintos": 2,
-      "distintos_exato": true
+      "distintos_exato": true,
+      "bytes_texto": 5095171
     },
     {
       "coluna": "CO_MUNICIPIO_ESC",
@@ -123,7 +135,8 @@
       "ausentes": 3947784,
       "pct_ausentes": 77.48,
       "distintos": 6308,
-      "distintos_exato": false
+      "distintos_exato": false,
+      "bytes_texto": 8031709
     },
     {
       "coluna": "NO_MUNICIPIO_ESC",
@@ -132,7 +145,8 @@
       "ausentes": 3947784,
       "pct_ausentes": 77.48,
       "distintos": 5869,
-      "distintos_exato": false
+      "distintos_exato": false,
+      "bytes_texto": 12232440
     },
     {
       "coluna": "CO_UF_ESC",
@@ -141,7 +155,8 @@
       "ausentes": 3947784,
       "pct_ausentes": 77.48,
       "distintos": 21,
-      "distintos_exato": false
+      "distintos_exato": false,
+      "bytes_texto": 2294774
     },
     {
       "coluna": "SG_UF_ESC",
@@ -149,8 +164,9 @@
       "preenchidos": 1147387,
       "ausentes": 3947784,
       "pct_ausentes": 77.48,
-      "distintos": 28,
-      "distintos_exato": false
+      "distintos": 27,
+      "distintos_exato": true,
+      "bytes_texto": 2294774
     },
     {
       "coluna": "TP_DEPENDENCIA_ADM_ESC",
@@ -159,7 +175,8 @@
       "ausentes": 3947784,
       "pct_ausentes": 77.48,
       "distintos": 4,
-      "distintos_exato": false
+      "distintos_exato": true,
+      "bytes_texto": 1147387
     },
     {
       "coluna": "TP_LOCALIZACAO_ESC",
@@ -168,7 +185,8 @@
       "ausentes": 3947784,
       "pct_ausentes": 77.48,
       "distintos": 2,
-      "distintos_exato": false
+      "distintos_exato": true,
+      "bytes_texto": 1147387
     },
     {
       "coluna": "TP_SIT_FUNC_ESC",
@@ -177,7 +195,8 @@
       "ausentes": 3947784,
       "pct_ausentes": 77.48,
       "distintos": 4,
-      "distintos_exato": false
+      "distintos_exato": false,
+      "bytes_texto": 1147387
     },
     {
       "coluna": "CO_MUNICIPIO_PROVA",
@@ -186,7 +205,8 @@
       "ausentes": 0,
       "pct_ausentes": 0.0,
       "distintos": 1833,
-      "distintos_exato": false
+      "distintos_exato": false,
+      "bytes_texto": 35666197
     },
     {
       "coluna": "NO_MUNICIPIO_PROVA",
@@ -195,7 +215,8 @@
       "ausentes": 0,
       "pct_ausentes": 0.0,
       "distintos": 1559,
-      "distintos_exato": false
+      "distintos_exato": false,
+      "bytes_texto": 53122460
     },
     {
       "coluna": "CO_UF_PROVA",
@@ -204,7 +225,8 @@
       "ausentes": 0,
       "pct_ausentes": 0.0,
       "distintos": 21,
-      "distintos_exato": false
+      "distintos_exato": false,
+      "bytes_texto": 10190342
     },
     {
       "coluna": "SG_UF_PROVA",
@@ -213,7 +235,8 @@
       "ausentes": 0,
       "pct_ausentes": 0.0,
       "distintos": 27,
-      "distintos_exato": true
+      "distintos_exato": true,
+      "bytes_texto": 10190342
     },
     {
       "coluna": "TP_PRESENCA_CN",
@@ -222,7 +245,8 @@
       "ausentes": 0,
       "pct_ausentes": 0.0,
       "distintos": 3,
-      "distintos_exato": true
+      "distintos_exato": true,
+      "bytes_texto": 5095171
     },
     {
       "coluna": "TP_PRESENCA_CH",
@@ -231,7 +255,8 @@
       "ausentes": 0,
       "pct_ausentes": 0.0,
       "distintos": 3,
-      "distintos_exato": true
+      "distintos_exato": true,
+      "bytes_texto": 5095171
     },
     {
       "coluna": "TP_PRESENCA_LC",
@@ -240,7 +265,8 @@
       "ausentes": 0,
       "pct_ausentes": 0.0,
       "distintos": 3,
-      "distintos_exato": true
+      "distintos_exato": true,
+      "bytes_texto": 5095171
     },
     {
       "coluna": "TP_PRESENCA_MT",
@@ -249,7 +275,8 @@
       "ausentes": 0,
       "pct_ausentes": 0.0,
       "distintos": 3,
-      "distintos_exato": true
+      "distintos_exato": true,
+      "bytes_texto": 5095171
     },
     {
       "coluna": "CO_PROVA_CN",
@@ -258,7 +285,8 @@
       "ausentes": 1384836,
       "pct_ausentes": 27.18,
       "distintos": 6,
-      "distintos_exato": false
+      "distintos_exato": false,
+      "bytes_texto": 11131005
     },
     {
       "coluna": "CO_PROVA_CH",
@@ -267,7 +295,8 @@
       "ausentes": 1172125,
       "pct_ausentes": 23.0,
       "distintos": 6,
-      "distintos_exato": false
+      "distintos_exato": false,
+      "bytes_texto": 11769138
     },
     {
       "coluna": "CO_PROVA_LC",
@@ -276,7 +305,8 @@
       "ausentes": 1172125,
       "pct_ausentes": 23.0,
       "distintos": 6,
-      "distintos_exato": false
+      "distintos_exato": false,
+      "bytes_texto": 11769138
     },
     {
       "coluna": "CO_PROVA_MT",
@@ -285,7 +315,8 @@
       "ausentes": 1384836,
       "pct_ausentes": 27.18,
       "distintos": 6,
-      "distintos_exato": false
+      "distintos_exato": false,
+      "bytes_texto": 11131005
     },
     {
       "coluna": "NU_NOTA_CN",
@@ -294,7 +325,8 @@
       "ausentes": 1384836,
       "pct_ausentes": 27.18,
       "distintos": 4479,
-      "distintos_exato": false
+      "distintos_exato": false,
+      "bytes_texto": 18550463
     },
     {
       "coluna": "NU_NOTA_CH",
@@ -303,7 +335,8 @@
       "ausentes": 1172125,
       "pct_ausentes": 23.0,
       "distintos": 4486,
-      "distintos_exato": false
+      "distintos_exato": false,
+      "bytes_texto": 19603430
     },
     {
       "coluna": "NU_NOTA_LC",
@@ -312,7 +345,8 @@
       "ausentes": 1172125,
       "pct_ausentes": 23.0,
       "distintos": 3927,
-      "distintos_exato": false
+      "distintos_exato": false,
+      "bytes_texto": 19609056
     },
     {
       "coluna": "NU_NOTA_MT",
@@ -321,7 +355,8 @@
       "ausentes": 1384836,
       "pct_ausentes": 27.18,
       "distintos": 5973,
-      "distintos_exato": false
+      "distintos_exato": false,
+      "bytes_texto": 18550181
     },
     {
       "coluna": "TX_RESPOSTAS_CN",
@@ -330,7 +365,8 @@
       "ausentes": 1384836,
       "pct_ausentes": 27.18,
       "distintos": 3834361,
-      "distintos_exato": false
+      "distintos_exato": false,
+      "bytes_texto": 166965075
     },
     {
       "coluna": "TX_RESPOSTAS_CH",
@@ -339,7 +375,8 @@
       "ausentes": 1172125,
       "pct_ausentes": 23.0,
       "distintos": 4435453,
-      "distintos_exato": false
+      "distintos_exato": false,
+      "bytes_texto": 176537070
     },
     {
       "coluna": "TX_RESPOSTAS_LC",
@@ -348,7 +385,8 @@
       "ausentes": 1172125,
       "pct_ausentes": 23.0,
       "distintos": 4155472,
-      "distintos_exato": false
+      "distintos_exato": false,
+      "bytes_texto": 196152300
     },
     {
       "coluna": "TX_RESPOSTAS_MT",
@@ -357,7 +395,8 @@
       "ausentes": 1384836,
       "pct_ausentes": 27.18,
       "distintos": 3958050,
-      "distintos_exato": false
+      "distintos_exato": false,
+      "bytes_texto": 166965075
     },
     {
       "coluna": "TP_LINGUA",
@@ -366,7 +405,8 @@
       "ausentes": 0,
       "pct_ausentes": 0.0,
       "distintos": 2,
-      "distintos_exato": false
+      "distintos_exato": true,
+      "bytes_texto": 5095171
     },
     {
       "coluna": "TX_GABARITO_CN",
@@ -375,7 +415,8 @@
       "ausentes": 1384836,
       "pct_ausentes": 27.18,
       "distintos": 4,
-      "distintos_exato": false
+      "distintos_exato": false,
+      "bytes_texto": 166965075
     },
     {
       "coluna": "TX_GABARITO_CH",
@@ -384,7 +425,8 @@
       "ausentes": 1172125,
       "pct_ausentes": 23.0,
       "distintos": 4,
-      "distintos_exato": false
+      "distintos_exato": false,
+      "bytes_texto": 176537070
     },
     {
       "coluna": "TX_GABARITO_LC",
@@ -393,7 +435,8 @@
       "ausentes": 1172125,
       "pct_ausentes": 23.0,
       "distintos": 4,
-      "distintos_exato": false
+      "distintos_exato": false,
+      "bytes_texto": 196152300
     },
     {
       "coluna": "TX_GABARITO_MT",
@@ -402,7 +445,8 @@
       "ausentes": 1384836,
       "pct_ausentes": 27.18,
       "distintos": 5,
-      "distintos_exato": false
+      "distintos_exato": false,
+      "bytes_texto": 166965075
     },
     {
       "coluna": "TP_STATUS_REDACAO",
@@ -410,8 +454,9 @@
       "preenchidos": 3923045,
       "ausentes": 1172126,
       "pct_ausentes": 23.0,
-      "distintos": 9,
-      "distintos_exato": false
+      "distintos": 8,
+      "distintos_exato": true,
+      "bytes_texto": 3923045
     },
     {
       "coluna": "NU_NOTA_COMP1",
@@ -420,7 +465,8 @@
       "ausentes": 1172126,
       "pct_ausentes": 23.0,
       "distintos": 12,
-      "distintos_exato": false
+      "distintos_exato": false,
+      "bytes_texto": 11192588
     },
     {
       "coluna": "NU_NOTA_COMP2",
@@ -429,7 +475,8 @@
       "ausentes": 1172126,
       "pct_ausentes": 23.0,
       "distintos": 11,
-      "distintos_exato": false
+      "distintos_exato": false,
+      "bytes_texto": 11117497
     },
     {
       "coluna": "NU_NOTA_COMP3",
@@ -438,7 +485,8 @@
       "ausentes": 1172126,
       "pct_ausentes": 23.0,
       "distintos": 12,
-      "distintos_exato": false
+      "distintos_exato": false,
+      "bytes_texto": 10887463
     },
     {
       "coluna": "NU_NOTA_COMP4",
@@ -447,7 +495,8 @@
       "ausentes": 1172126,
       "pct_ausentes": 23.0,
       "distintos": 12,
-      "distintos_exato": false
+      "distintos_exato": false,
+      "bytes_texto": 11105239
     },
     {
       "coluna": "NU_NOTA_COMP5",
@@ -456,7 +505,8 @@
       "ausentes": 1172126,
       "pct_ausentes": 23.0,
       "distintos": 12,
-      "distintos_exato": false
+      "distintos_exato": false,
+      "bytes_texto": 9302603
     },
     {
       "coluna": "NU_NOTA_REDACAO",
@@ -465,7 +515,8 @@
       "ausentes": 1172126,
       "pct_ausentes": 23.0,
       "distintos": 51,
-      "distintos_exato": false
+      "distintos_exato": false,
+      "bytes_texto": 11481570
     },
     {
       "coluna": "Q001",
@@ -474,7 +525,8 @@
       "ausentes": 0,
       "pct_ausentes": 0.0,
       "distintos": 8,
-      "distintos_exato": true
+      "distintos_exato": true,
+      "bytes_texto": 5095171
     },
     {
       "coluna": "Q002",
@@ -483,7 +535,8 @@
       "ausentes": 0,
       "pct_ausentes": 0.0,
       "distintos": 8,
-      "distintos_exato": true
+      "distintos_exato": true,
+      "bytes_texto": 5095171
     },
     {
       "coluna": "Q003",
@@ -492,7 +545,8 @@
       "ausentes": 0,
       "pct_ausentes": 0.0,
       "distintos": 6,
-      "distintos_exato": false
+      "distintos_exato": true,
+      "bytes_texto": 5095171
     },
     {
       "coluna": "Q004",
@@ -501,7 +555,8 @@
       "ausentes": 0,
       "pct_ausentes": 0.0,
       "distintos": 6,
-      "distintos_exato": false
+      "distintos_exato": true,
+      "bytes_texto": 5095171
     },
     {
       "coluna": "Q005",
@@ -509,8 +564,9 @@
       "preenchidos": 5095171,
       "ausentes": 0,
       "pct_ausentes": 0.0,
-      "distintos": 21,
-      "distintos_exato": false
+      "distintos": 20,
+      "distintos_exato": true,
+      "bytes_texto": 5121002
     },
     {
       "coluna": "Q006",
@@ -519,7 +575,8 @@
       "ausentes": 0,
       "pct_ausentes": 0.0,
       "distintos": 17,
-      "distintos_exato": true
+      "distintos_exato": true,
+      "bytes_texto": 5095171
     },
     {
       "coluna": "Q007",
@@ -528,7 +585,8 @@
       "ausentes": 0,
       "pct_ausentes": 0.0,
       "distintos": 4,
-      "distintos_exato": false
+      "distintos_exato": true,
+      "bytes_texto": 5095171
     },
     {
       "coluna": "Q008",
@@ -537,7 +595,8 @@
       "ausentes": 0,
       "pct_ausentes": 0.0,
       "distintos": 5,
-      "distintos_exato": false
+      "distintos_exato": true,
+      "bytes_texto": 5095171
     },
     {
       "coluna": "Q009",
@@ -546,7 +605,8 @@
       "ausentes": 0,
       "pct_ausentes": 0.0,
       "distintos": 5,
-      "distintos_exato": false
+      "distintos_exato": true,
+      "bytes_texto": 5095171
     },
     {
       "coluna": "Q010",
@@ -555,7 +615,8 @@
       "ausentes": 0,
       "pct_ausentes": 0.0,
       "distintos": 5,
-      "distintos_exato": false
+      "distintos_exato": true,
+      "bytes_texto": 5095171
     },
     {
       "coluna": "Q011",
@@ -564,7 +625,8 @@
       "ausentes": 0,
       "pct_ausentes": 0.0,
       "distintos": 5,
-      "distintos_exato": false
+      "distintos_exato": true,
+      "bytes_texto": 5095171
     },
     {
       "coluna": "Q012",
@@ -573,7 +635,8 @@
       "ausentes": 0,
       "pct_ausentes": 0.0,
       "distintos": 5,
-      "distintos_exato": false
+      "distintos_exato": true,
+      "bytes_texto": 5095171
     },
     {
       "coluna": "Q013",
@@ -582,7 +645,8 @@
       "ausentes": 0,
       "pct_ausentes": 0.0,
       "distintos": 5,
-      "distintos_exato": false
+      "distintos_exato": true,
+      "bytes_texto": 5095171
     },
     {
       "coluna": "Q014",
@@ -591,7 +655,8 @@
       "ausentes": 0,
       "pct_ausentes": 0.0,
       "distintos": 5,
-      "distintos_exato": false
+      "distintos_exato": true,
+      "bytes_texto": 5095171
     },
     {
       "coluna": "Q015",
@@ -600,7 +665,8 @@
       "ausentes": 0,
       "pct_ausentes": 0.0,
       "distintos": 5,
-      "distintos_exato": false
+      "distintos_exato": true,
+      "bytes_texto": 5095171
     },
     {
       "coluna": "Q016",
@@ -609,7 +675,8 @@
       "ausentes": 0,
       "pct_ausentes": 0.0,
       "distintos": 5,
-      "distintos_exato": false
+      "distintos_exato": true,
+      "bytes_texto": 5095171
     },
     {
       "coluna": "Q017",
@@ -618,7 +685,8 @@
       "ausentes": 0,
       "pct_ausentes": 0.0,
       "distintos": 5,
-      "distintos_exato": false
+      "distintos_exato": true,
+      "bytes_texto": 5095171
     },
     {
       "coluna": "Q018",
@@ -627,7 +695,8 @@
       "ausentes": 0,
       "pct_ausentes": 0.0,
       "distintos": 2,
-      "distintos_exato": false
+      "distintos_exato": true,
+      "bytes_texto": 5095171
     },
     {
       "coluna": "Q019",
@@ -636,7 +705,8 @@
       "ausentes": 0,
       "pct_ausentes": 0.0,
       "distintos": 5,
-      "distintos_exato": false
+      "distintos_exato": true,
+      "bytes_texto": 5095171
     },
     {
       "coluna": "Q020",
@@ -645,7 +715,8 @@
       "ausentes": 0,
       "pct_ausentes": 0.0,
       "distintos": 2,
-      "distintos_exato": false
+      "distintos_exato": true,
+      "bytes_texto": 5095171
     },
     {
       "coluna": "Q021",
@@ -654,7 +725,8 @@
       "ausentes": 0,
       "pct_ausentes": 0.0,
       "distintos": 2,
-      "distintos_exato": false
+      "distintos_exato": true,
+      "bytes_texto": 5095171
     },
     {
       "coluna": "Q022",
@@ -663,7 +735,8 @@
       "ausentes": 0,
       "pct_ausentes": 0.0,
       "distintos": 5,
-      "distintos_exato": false
+      "distintos_exato": true,
+      "bytes_texto": 5095171
     },
     {
       "coluna": "Q023",
@@ -672,7 +745,8 @@
       "ausentes": 0,
       "pct_ausentes": 0.0,
       "distintos": 2,
-      "distintos_exato": false
+      "distintos_exato": true,
+      "bytes_texto": 5095171
     },
     {
       "coluna": "Q024",
@@ -681,7 +755,8 @@
       "ausentes": 0,
       "pct_ausentes": 0.0,
       "distintos": 5,
-      "distintos_exato": true
+      "distintos_exato": true,
+      "bytes_texto": 5095171
     },
     {
       "coluna": "Q025",
@@ -690,15 +765,16 @@
       "ausentes": 0,
       "pct_ausentes": 0.0,
       "distintos": 2,
-      "distintos_exato": true
+      "distintos_exato": true,
+      "bytes_texto": 5095171
     }
   ],
   "notas": [
     {
       "coluna": "NU_NOTA_CN",
       "n": 3710335,
-      "media": 477.82360646679973,
-      "desvio_padrao": 76.09736551533702,
+      "media": 477.8236064667942,
+      "desvio_padrao": 76.09736551533655,
       "minimo": 0.0,
       "p05": 366.8,
       "p25": 417.8,
@@ -711,8 +787,8 @@
     {
       "coluna": "NU_NOTA_CH",
       "n": 3923046,
-      "media": 507.2478384398218,
-      "desvio_padrao": 82.41122254074975,
+      "media": 507.2478384398234,
+      "desvio_padrao": 82.41122254075032,
       "minimo": 0.0,
       "p05": 373.7,
       "p25": 447.9,
@@ -725,8 +801,8 @@
     {
       "coluna": "NU_NOTA_LC",
       "n": 3923046,
-      "media": 520.517608078009,
-      "desvio_padrao": 64.1504110721469,
+      "media": 520.5176080780135,
+      "desvio_padrao": 64.15041107214626,
       "minimo": 0.0,
       "p05": 403.6,
       "p25": 483.5,
@@ -739,8 +815,8 @@
     {
       "coluna": "NU_NOTA_MT",
       "n": 3710335,
-      "media": 523.1240602802797,
-      "desvio_padrao": 109.06295667326029,
+      "media": 523.1240602802726,
+      "desvio_padrao": 109.06295667326005,
       "minimo": 0.0,
       "p05": 383.3,
       "p25": 435.1,
@@ -754,7 +830,7 @@
       "coluna": "NU_NOTA_REDACAO",
       "n": 3923045,
       "media": 571.1854694503886,
-      "desvio_padrao": 188.76345186693447,
+      "desvio_padrao": 188.76345186693587,
       "minimo": 0,
       "p05": 260.0,
       "p25": 480.0,
@@ -971,6 +1047,33 @@
         "pct": 40.5
       }
     ],
+    "TP_ESTADO_CIVIL": [
+      {
+        "categoria": 1,
+        "n": 4398396,
+        "pct": 86.32
+      },
+      {
+        "categoria": 2,
+        "n": 395851,
+        "pct": 7.77
+      },
+      {
+        "categoria": 0,
+        "n": 206796,
+        "pct": 4.06
+      },
+      {
+        "categoria": 3,
+        "n": 87892,
+        "pct": 1.73
+      },
+      {
+        "categoria": 4,
+        "n": 6236,
+        "pct": 0.12
+      }
+    ],
     "TP_COR_RACA": [
       {
         "categoria": 3,
@@ -1003,21 +1106,31 @@
         "pct": 0.62
       }
     ],
-    "TP_ESCOLA": [
+    "TP_NACIONALIDADE": [
       {
         "categoria": 1,
-        "n": 3629310,
-        "pct": 71.23
+        "n": 4949923,
+        "pct": 97.15
       },
       {
         "categoria": 2,
-        "n": 1247234,
-        "pct": 24.48
+        "n": 124331,
+        "pct": 2.44
+      },
+      {
+        "categoria": 4,
+        "n": 8233,
+        "pct": 0.16
+      },
+      {
+        "categoria": 0,
+        "n": 6749,
+        "pct": 0.13
       },
       {
         "categoria": 3,
-        "n": 218627,
-        "pct": 4.29
+        "n": 5935,
+        "pct": 0.12
       }
     ],
     "TP_ST_CONCLUSAO": [
@@ -1042,6 +1155,112 @@
         "pct": 0.39
       }
     ],
+    "TP_ANO_CONCLUIU": [
+      {
+        "categoria": 0,
+        "n": 2203356,
+        "pct": 43.24
+      },
+      {
+        "categoria": 1,
+        "n": 660946,
+        "pct": 12.97
+      },
+      {
+        "categoria": 2,
+        "n": 447318,
+        "pct": 8.78
+      },
+      {
+        "categoria": 13,
+        "n": 405358,
+        "pct": 7.96
+      },
+      {
+        "categoria": 3,
+        "n": 307220,
+        "pct": 6.03
+      },
+      {
+        "categoria": 4,
+        "n": 232858,
+        "pct": 4.57
+      },
+      {
+        "categoria": 5,
+        "n": 182886,
+        "pct": 3.59
+      },
+      {
+        "categoria": 6,
+        "n": 144794,
+        "pct": 2.84
+      },
+      {
+        "categoria": 7,
+        "n": 123769,
+        "pct": 2.43
+      },
+      {
+        "categoria": 8,
+        "n": 97014,
+        "pct": 1.9
+      },
+      {
+        "categoria": 9,
+        "n": 88480,
+        "pct": 1.74
+      },
+      {
+        "categoria": 10,
+        "n": 78230,
+        "pct": 1.54
+      },
+      {
+        "categoria": 11,
+        "n": 63815,
+        "pct": 1.25
+      },
+      {
+        "categoria": 12,
+        "n": 59127,
+        "pct": 1.16
+      }
+    ],
+    "TP_ESCOLA": [
+      {
+        "categoria": 1,
+        "n": 3629310,
+        "pct": 71.23
+      },
+      {
+        "categoria": 2,
+        "n": 1247234,
+        "pct": 24.48
+      },
+      {
+        "categoria": 3,
+        "n": 218627,
+        "pct": 4.29
+      }
+    ],
+    "TP_ENSINO": [
+      {
+        "categoria": 1,
+        "n": 2864336,
+        "pct": 56.22
+      },
+      {
+        "categoria": null,
+        "n": 2217036,
+        "pct": 43.51
+      },
+      {
+        "categoria": 2,
+        "n": 13799,
+        "pct": 0.27
+      }
+    ],
     "IN_TREINEIRO": [
       {
         "categoria": 0,
@@ -1052,6 +1271,192 @@
         "categoria": 1,
         "n": 616667,
         "pct": 12.1
+      }
+    ],
+    "TP_DEPENDENCIA_ADM_ESC": [
+      {
+        "categoria": null,
+        "n": 3947784,
+        "pct": 77.48
+      },
+      {
+        "categoria": 2,
+        "n": 924321,
+        "pct": 18.14
+      },
+      {
+        "categoria": 4,
+        "n": 164329,
+        "pct": 3.23
+      },
+      {
+        "categoria": 1,
+        "n": 49087,
+        "pct": 0.96
+      },
+      {
+        "categoria": 3,
+        "n": 9650,
+        "pct": 0.19
+      }
+    ],
+    "TP_LOCALIZACAO_ESC": [
+      {
+        "categoria": null,
+        "n": 3947784,
+        "pct": 77.48
+      },
+      {
+        "categoria": 1,
+        "n": 1105846,
+        "pct": 21.7
+      },
+      {
+        "categoria": 2,
+        "n": 41541,
+        "pct": 0.82
+      }
+    ],
+    "SG_UF_ESC": [
+      {
+        "categoria": null,
+        "n": 3947784,
+        "pct": 77.48
+      },
+      {
+        "categoria": "SP",
+        "n": 219424,
+        "pct": 4.31
+      },
+      {
+        "categoria": "CE",
+        "n": 112313,
+        "pct": 2.2
+      },
+      {
+        "categoria": "MG",
+        "n": 108173,
+        "pct": 2.12
+      },
+      {
+        "categoria": "RJ",
+        "n": 73085,
+        "pct": 1.43
+      },
+      {
+        "categoria": "BA",
+        "n": 70323,
+        "pct": 1.38
+      },
+      {
+        "categoria": "PE",
+        "n": 61506,
+        "pct": 1.21
+      },
+      {
+        "categoria": "PR",
+        "n": 52788,
+        "pct": 1.04
+      },
+      {
+        "categoria": "PA",
+        "n": 46740,
+        "pct": 0.92
+      },
+      {
+        "categoria": "RS",
+        "n": 46173,
+        "pct": 0.91
+      },
+      {
+        "categoria": "MA",
+        "n": 43496,
+        "pct": 0.85
+      },
+      {
+        "categoria": "GO",
+        "n": 35545,
+        "pct": 0.7
+      },
+      {
+        "categoria": "SC",
+        "n": 34646,
+        "pct": 0.68
+      },
+      {
+        "categoria": "PB",
+        "n": 26938,
+        "pct": 0.53
+      },
+      {
+        "categoria": "AM",
+        "n": 25817,
+        "pct": 0.51
+      },
+      {
+        "categoria": "ES",
+        "n": 25422,
+        "pct": 0.5
+      },
+      {
+        "categoria": "PI",
+        "n": 24145,
+        "pct": 0.47
+      },
+      {
+        "categoria": "DF",
+        "n": 21075,
+        "pct": 0.41
+      },
+      {
+        "categoria": "RN",
+        "n": 20349,
+        "pct": 0.4
+      },
+      {
+        "categoria": "MT",
+        "n": 18022,
+        "pct": 0.35
+      },
+      {
+        "categoria": "AL",
+        "n": 17551,
+        "pct": 0.34
+      },
+      {
+        "categoria": "MS",
+        "n": 15539,
+        "pct": 0.3
+      },
+      {
+        "categoria": "SE",
+        "n": 13494,
+        "pct": 0.26
+      },
+      {
+        "categoria": "RO",
+        "n": 12069,
+        "pct": 0.24
+      },
+      {
+        "categoria": "TO",
+        "n": 9087,
+        "pct": 0.18
+      },
+      {
+        "categoria": "AP",
+        "n": 6135,
+        "pct": 0.12
+      },
+      {
+        "categoria": "AC",
+        "n": 5330,
+        "pct": 0.1
+      },
+      {
+        "categoria": "RR",
+        "n": 2202,
+        "pct": 0.04
       }
     ],
     "SG_UF_PROVA": [
@@ -1191,6 +1596,65 @@
         "pct": 0.25
       }
     ],
+    "TP_LINGUA": [
+      {
+        "categoria": 1,
+        "n": 2673447,
+        "pct": 52.47
+      },
+      {
+        "categoria": 0,
+        "n": 2421724,
+        "pct": 47.53
+      }
+    ],
+    "TP_STATUS_REDACAO": [
+      {
+        "categoria": 1,
+        "n": 3779356,
+        "pct": 74.18
+      },
+      {
+        "categoria": null,
+        "n": 1172126,
+        "pct": 23.0
+      },
+      {
+        "categoria": 4,
+        "n": 56901,
+        "pct": 1.12
+      },
+      {
+        "categoria": 6,
+        "n": 40623,
+        "pct": 0.8
+      },
+      {
+        "categoria": 3,
+        "n": 23265,
+        "pct": 0.46
+      },
+      {
+        "categoria": 8,
+        "n": 8578,
+        "pct": 0.17
+      },
+      {
+        "categoria": 2,
+        "n": 5659,
+        "pct": 0.11
+      },
+      {
+        "categoria": 9,
+        "n": 4863,
+        "pct": 0.1
+      },
+      {
+        "categoria": 7,
+        "n": 3800,
+        "pct": 0.07
+      }
+    ],
     "Q001": [
       {
         "categoria": "E",
@@ -1273,6 +1737,172 @@
         "categoria": "H",
         "n": 145329,
         "pct": 2.85
+      }
+    ],
+    "Q003": [
+      {
+        "categoria": "C",
+        "n": 1203173,
+        "pct": 23.61
+      },
+      {
+        "categoria": "A",
+        "n": 1092522,
+        "pct": 21.44
+      },
+      {
+        "categoria": "B",
+        "n": 1079053,
+        "pct": 21.18
+      },
+      {
+        "categoria": "D",
+        "n": 865501,
+        "pct": 16.99
+      },
+      {
+        "categoria": "F",
+        "n": 575107,
+        "pct": 11.29
+      },
+      {
+        "categoria": "E",
+        "n": 279815,
+        "pct": 5.49
+      }
+    ],
+    "Q004": [
+      {
+        "categoria": "B",
+        "n": 2204237,
+        "pct": 43.26
+      },
+      {
+        "categoria": "D",
+        "n": 1023502,
+        "pct": 20.09
+      },
+      {
+        "categoria": "A",
+        "n": 889087,
+        "pct": 17.45
+      },
+      {
+        "categoria": "F",
+        "n": 437456,
+        "pct": 8.59
+      },
+      {
+        "categoria": "C",
+        "n": 349390,
+        "pct": 6.86
+      },
+      {
+        "categoria": "E",
+        "n": 191499,
+        "pct": 3.76
+      }
+    ],
+    "Q005": [
+      {
+        "categoria": 4,
+        "n": 1639426,
+        "pct": 32.18
+      },
+      {
+        "categoria": 3,
+        "n": 1299812,
+        "pct": 25.51
+      },
+      {
+        "categoria": 5,
+        "n": 830371,
+        "pct": 16.3
+      },
+      {
+        "categoria": 2,
+        "n": 645549,
+        "pct": 12.67
+      },
+      {
+        "categoria": 6,
+        "n": 306830,
+        "pct": 6.02
+      },
+      {
+        "categoria": 1,
+        "n": 142011,
+        "pct": 2.79
+      },
+      {
+        "categoria": 7,
+        "n": 128878,
+        "pct": 2.53
+      },
+      {
+        "categoria": 8,
+        "n": 55544,
+        "pct": 1.09
+      },
+      {
+        "categoria": 9,
+        "n": 20919,
+        "pct": 0.41
+      },
+      {
+        "categoria": 10,
+        "n": 14191,
+        "pct": 0.28
+      },
+      {
+        "categoria": 11,
+        "n": 4469,
+        "pct": 0.09
+      },
+      {
+        "categoria": 12,
+        "n": 2915,
+        "pct": 0.06
+      },
+      {
+        "categoria": 13,
+        "n": 1511,
+        "pct": 0.03
+      },
+      {
+        "categoria": 14,
+        "n": 749,
+        "pct": 0.01
+      },
+      {
+        "categoria": 15,
+        "n": 619,
+        "pct": 0.01
+      },
+      {
+        "categoria": 20,
+        "n": 572,
+        "pct": 0.01
+      },
+      {
+        "categoria": 16,
+        "n": 331,
+        "pct": 0.01
+      },
+      {
+        "categoria": 17,
+        "n": 183,
+        "pct": 0.0
+      },
+      {
+        "categoria": 18,
+        "n": 159,
+        "pct": 0.0
+      },
+      {
+        "categoria": 19,
+        "n": 132,
+        "pct": 0.0
       }
     ],
     "Q006": [
@@ -1360,6 +1990,400 @@
         "categoria": "P",
         "n": 43253,
         "pct": 0.85
+      }
+    ],
+    "Q007": [
+      {
+        "categoria": "A",
+        "n": 4724963,
+        "pct": 92.73
+      },
+      {
+        "categoria": "B",
+        "n": 197931,
+        "pct": 3.88
+      },
+      {
+        "categoria": "D",
+        "n": 130159,
+        "pct": 2.55
+      },
+      {
+        "categoria": "C",
+        "n": 42118,
+        "pct": 0.83
+      }
+    ],
+    "Q008": [
+      {
+        "categoria": "B",
+        "n": 3600334,
+        "pct": 70.66
+      },
+      {
+        "categoria": "C",
+        "n": 1029611,
+        "pct": 20.21
+      },
+      {
+        "categoria": "D",
+        "n": 274374,
+        "pct": 5.38
+      },
+      {
+        "categoria": "E",
+        "n": 141442,
+        "pct": 2.78
+      },
+      {
+        "categoria": "A",
+        "n": 49410,
+        "pct": 0.97
+      }
+    ],
+    "Q009": [
+      {
+        "categoria": "C",
+        "n": 2576608,
+        "pct": 50.57
+      },
+      {
+        "categoria": "D",
+        "n": 1534138,
+        "pct": 30.11
+      },
+      {
+        "categoria": "B",
+        "n": 697372,
+        "pct": 13.69
+      },
+      {
+        "categoria": "E",
+        "n": 246157,
+        "pct": 4.83
+      },
+      {
+        "categoria": "A",
+        "n": 40896,
+        "pct": 0.8
+      }
+    ],
+    "Q010": [
+      {
+        "categoria": "A",
+        "n": 2897611,
+        "pct": 56.87
+      },
+      {
+        "categoria": "B",
+        "n": 1757752,
+        "pct": 34.5
+      },
+      {
+        "categoria": "C",
+        "n": 375804,
+        "pct": 7.38
+      },
+      {
+        "categoria": "D",
+        "n": 52511,
+        "pct": 1.03
+      },
+      {
+        "categoria": "E",
+        "n": 11493,
+        "pct": 0.23
+      }
+    ],
+    "Q011": [
+      {
+        "categoria": "A",
+        "n": 3953157,
+        "pct": 77.59
+      },
+      {
+        "categoria": "B",
+        "n": 1032688,
+        "pct": 20.27
+      },
+      {
+        "categoria": "C",
+        "n": 98010,
+        "pct": 1.92
+      },
+      {
+        "categoria": "D",
+        "n": 9538,
+        "pct": 0.19
+      },
+      {
+        "categoria": "E",
+        "n": 1778,
+        "pct": 0.03
+      }
+    ],
+    "Q012": [
+      {
+        "categoria": "B",
+        "n": 4794156,
+        "pct": 94.09
+      },
+      {
+        "categoria": "C",
+        "n": 196877,
+        "pct": 3.86
+      },
+      {
+        "categoria": "A",
+        "n": 87412,
+        "pct": 1.72
+      },
+      {
+        "categoria": "D",
+        "n": 13969,
+        "pct": 0.27
+      },
+      {
+        "categoria": "E",
+        "n": 2757,
+        "pct": 0.05
+      }
+    ],
+    "Q013": [
+      {
+        "categoria": "A",
+        "n": 3262290,
+        "pct": 64.03
+      },
+      {
+        "categoria": "B",
+        "n": 1708068,
+        "pct": 33.52
+      },
+      {
+        "categoria": "C",
+        "n": 108664,
+        "pct": 2.13
+      },
+      {
+        "categoria": "D",
+        "n": 13020,
+        "pct": 0.26
+      },
+      {
+        "categoria": "E",
+        "n": 3129,
+        "pct": 0.06
+      }
+    ],
+    "Q014": [
+      {
+        "categoria": "B",
+        "n": 2962204,
+        "pct": 58.14
+      },
+      {
+        "categoria": "A",
+        "n": 2087242,
+        "pct": 40.97
+      },
+      {
+        "categoria": "C",
+        "n": 43504,
+        "pct": 0.85
+      },
+      {
+        "categoria": "D",
+        "n": 1737,
+        "pct": 0.03
+      },
+      {
+        "categoria": "E",
+        "n": 484,
+        "pct": 0.01
+      }
+    ],
+    "Q015": [
+      {
+        "categoria": "A",
+        "n": 4515811,
+        "pct": 88.63
+      },
+      {
+        "categoria": "B",
+        "n": 572370,
+        "pct": 11.23
+      },
+      {
+        "categoria": "C",
+        "n": 6135,
+        "pct": 0.12
+      },
+      {
+        "categoria": "D",
+        "n": 528,
+        "pct": 0.01
+      },
+      {
+        "categoria": "E",
+        "n": 327,
+        "pct": 0.01
+      }
+    ],
+    "Q016": [
+      {
+        "categoria": "A",
+        "n": 2591597,
+        "pct": 50.86
+      },
+      {
+        "categoria": "B",
+        "n": 2477843,
+        "pct": 48.63
+      },
+      {
+        "categoria": "C",
+        "n": 24113,
+        "pct": 0.47
+      },
+      {
+        "categoria": "D",
+        "n": 1213,
+        "pct": 0.02
+      },
+      {
+        "categoria": "E",
+        "n": 405,
+        "pct": 0.01
+      }
+    ],
+    "Q017": [
+      {
+        "categoria": "A",
+        "n": 4970542,
+        "pct": 97.55
+      },
+      {
+        "categoria": "B",
+        "n": 122227,
+        "pct": 2.4
+      },
+      {
+        "categoria": "C",
+        "n": 1720,
+        "pct": 0.03
+      },
+      {
+        "categoria": "D",
+        "n": 389,
+        "pct": 0.01
+      },
+      {
+        "categoria": "E",
+        "n": 293,
+        "pct": 0.01
+      }
+    ],
+    "Q018": [
+      {
+        "categoria": "A",
+        "n": 4122502,
+        "pct": 80.91
+      },
+      {
+        "categoria": "B",
+        "n": 972669,
+        "pct": 19.09
+      }
+    ],
+    "Q019": [
+      {
+        "categoria": "B",
+        "n": 3519385,
+        "pct": 69.07
+      },
+      {
+        "categoria": "C",
+        "n": 909102,
+        "pct": 17.84
+      },
+      {
+        "categoria": "D",
+        "n": 286887,
+        "pct": 5.63
+      },
+      {
+        "categoria": "A",
+        "n": 251147,
+        "pct": 4.93
+      },
+      {
+        "categoria": "E",
+        "n": 128650,
+        "pct": 2.52
+      }
+    ],
+    "Q020": [
+      {
+        "categoria": "A",
+        "n": 3546317,
+        "pct": 69.6
+      },
+      {
+        "categoria": "B",
+        "n": 1548854,
+        "pct": 30.4
+      }
+    ],
+    "Q021": [
+      {
+        "categoria": "A",
+        "n": 3982910,
+        "pct": 78.17
+      },
+      {
+        "categoria": "B",
+        "n": 1112261,
+        "pct": 21.83
+      }
+    ],
+    "Q022": [
+      {
+        "categoria": "C",
+        "n": 1595004,
+        "pct": 31.3
+      },
+      {
+        "categoria": "D",
+        "n": 1386222,
+        "pct": 27.21
+      },
+      {
+        "categoria": "B",
+        "n": 1085398,
+        "pct": 21.3
+      },
+      {
+        "categoria": "E",
+        "n": 919208,
+        "pct": 18.04
+      },
+      {
+        "categoria": "A",
+        "n": 109339,
+        "pct": 2.15
+      }
+    ],
+    "Q023": [
+      {
+        "categoria": "A",
+        "n": 3891692,
+        "pct": 76.38
+      },
+      {
+        "categoria": "B",
+        "n": 1203479,
+        "pct": 23.62
       }
     ],
     "Q024": [
