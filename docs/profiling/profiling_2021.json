@@ -1,0 +1,1435 @@
+{
+  "ano": 2021,
+  "volume": {
+    "zip_bytes": 498188358,
+    "csv_bytes": 1507939871,
+    "linhas": 3389832,
+    "colunas": 76,
+    "segundos_leitura_csv": 35.6
+  },
+  "colunas": [
+    {
+      "coluna": "NU_INSCRICAO",
+      "tipo": "BIGINT",
+      "preenchidos": 3389832,
+      "ausentes": 0,
+      "pct_ausentes": 0.0,
+      "distintos": 2712334,
+      "distintos_exato": false
+    },
+    {
+      "coluna": "NU_ANO",
+      "tipo": "BIGINT",
+      "preenchidos": 3389832,
+      "ausentes": 0,
+      "pct_ausentes": 0.0,
+      "distintos": 1,
+      "distintos_exato": false
+    },
+    {
+      "coluna": "TP_FAIXA_ETARIA",
+      "tipo": "BIGINT",
+      "preenchidos": 3389832,
+      "ausentes": 0,
+      "pct_ausentes": 0.0,
+      "distintos": 20,
+      "distintos_exato": true
+    },
+    {
+      "coluna": "TP_SEXO",
+      "tipo": "VARCHAR",
+      "preenchidos": 3389832,
+      "ausentes": 0,
+      "pct_ausentes": 0.0,
+      "distintos": 2,
+      "distintos_exato": true
+    },
+    {
+      "coluna": "TP_ESTADO_CIVIL",
+      "tipo": "BIGINT",
+      "preenchidos": 3389832,
+      "ausentes": 0,
+      "pct_ausentes": 0.0,
+      "distintos": 5,
+      "distintos_exato": false
+    },
+    {
+      "coluna": "TP_COR_RACA",
+      "tipo": "BIGINT",
+      "preenchidos": 3389832,
+      "ausentes": 0,
+      "pct_ausentes": 0.0,
+      "distintos": 7,
+      "distintos_exato": true
+    },
+    {
+      "coluna": "TP_NACIONALIDADE",
+      "tipo": "BIGINT",
+      "preenchidos": 3389832,
+      "ausentes": 0,
+      "pct_ausentes": 0.0,
+      "distintos": 5,
+      "distintos_exato": false
+    },
+    {
+      "coluna": "TP_ST_CONCLUSAO",
+      "tipo": "BIGINT",
+      "preenchidos": 3389832,
+      "ausentes": 0,
+      "pct_ausentes": 0.0,
+      "distintos": 4,
+      "distintos_exato": true
+    },
+    {
+      "coluna": "TP_ANO_CONCLUIU",
+      "tipo": "BIGINT",
+      "preenchidos": 3389832,
+      "ausentes": 0,
+      "pct_ausentes": 0.0,
+      "distintos": 18,
+      "distintos_exato": false
+    },
+    {
+      "coluna": "TP_ESCOLA",
+      "tipo": "BIGINT",
+      "preenchidos": 3389832,
+      "ausentes": 0,
+      "pct_ausentes": 0.0,
+      "distintos": 3,
+      "distintos_exato": true
+    },
+    {
+      "coluna": "TP_ENSINO",
+      "tipo": "BIGINT",
+      "preenchidos": 1096828,
+      "ausentes": 2293004,
+      "pct_ausentes": 67.64,
+      "distintos": 2,
+      "distintos_exato": false
+    },
+    {
+      "coluna": "IN_TREINEIRO",
+      "tipo": "BIGINT",
+      "preenchidos": 3389832,
+      "ausentes": 0,
+      "pct_ausentes": 0.0,
+      "distintos": 2,
+      "distintos_exato": true
+    },
+    {
+      "coluna": "CO_MUNICIPIO_ESC",
+      "tipo": "BIGINT",
+      "preenchidos": 813806,
+      "ausentes": 2576026,
+      "pct_ausentes": 75.99,
+      "distintos": 6308,
+      "distintos_exato": false
+    },
+    {
+      "coluna": "NO_MUNICIPIO_ESC",
+      "tipo": "VARCHAR",
+      "preenchidos": 813806,
+      "ausentes": 2576026,
+      "pct_ausentes": 75.99,
+      "distintos": 5869,
+      "distintos_exato": false
+    },
+    {
+      "coluna": "CO_UF_ESC",
+      "tipo": "BIGINT",
+      "preenchidos": 813806,
+      "ausentes": 2576026,
+      "pct_ausentes": 75.99,
+      "distintos": 21,
+      "distintos_exato": false
+    },
+    {
+      "coluna": "SG_UF_ESC",
+      "tipo": "VARCHAR",
+      "preenchidos": 813806,
+      "ausentes": 2576026,
+      "pct_ausentes": 75.99,
+      "distintos": 28,
+      "distintos_exato": false
+    },
+    {
+      "coluna": "TP_DEPENDENCIA_ADM_ESC",
+      "tipo": "BIGINT",
+      "preenchidos": 813806,
+      "ausentes": 2576026,
+      "pct_ausentes": 75.99,
+      "distintos": 4,
+      "distintos_exato": false
+    },
+    {
+      "coluna": "TP_LOCALIZACAO_ESC",
+      "tipo": "BIGINT",
+      "preenchidos": 813806,
+      "ausentes": 2576026,
+      "pct_ausentes": 75.99,
+      "distintos": 2,
+      "distintos_exato": false
+    },
+    {
+      "coluna": "TP_SIT_FUNC_ESC",
+      "tipo": "BIGINT",
+      "preenchidos": 813806,
+      "ausentes": 2576026,
+      "pct_ausentes": 75.99,
+      "distintos": 4,
+      "distintos_exato": false
+    },
+    {
+      "coluna": "CO_MUNICIPIO_PROVA",
+      "tipo": "BIGINT",
+      "preenchidos": 3389832,
+      "ausentes": 0,
+      "pct_ausentes": 0.0,
+      "distintos": 1833,
+      "distintos_exato": false
+    },
+    {
+      "coluna": "NO_MUNICIPIO_PROVA",
+      "tipo": "VARCHAR",
+      "preenchidos": 3389832,
+      "ausentes": 0,
+      "pct_ausentes": 0.0,
+      "distintos": 1559,
+      "distintos_exato": false
+    },
+    {
+      "coluna": "CO_UF_PROVA",
+      "tipo": "BIGINT",
+      "preenchidos": 3389832,
+      "ausentes": 0,
+      "pct_ausentes": 0.0,
+      "distintos": 21,
+      "distintos_exato": false
+    },
+    {
+      "coluna": "SG_UF_PROVA",
+      "tipo": "VARCHAR",
+      "preenchidos": 3389832,
+      "ausentes": 0,
+      "pct_ausentes": 0.0,
+      "distintos": 27,
+      "distintos_exato": true
+    },
+    {
+      "coluna": "TP_PRESENCA_CN",
+      "tipo": "BIGINT",
+      "preenchidos": 3389832,
+      "ausentes": 0,
+      "pct_ausentes": 0.0,
+      "distintos": 3,
+      "distintos_exato": true
+    },
+    {
+      "coluna": "TP_PRESENCA_CH",
+      "tipo": "BIGINT",
+      "preenchidos": 3389832,
+      "ausentes": 0,
+      "pct_ausentes": 0.0,
+      "distintos": 3,
+      "distintos_exato": true
+    },
+    {
+      "coluna": "TP_PRESENCA_LC",
+      "tipo": "BIGINT",
+      "preenchidos": 3389832,
+      "ausentes": 0,
+      "pct_ausentes": 0.0,
+      "distintos": 3,
+      "distintos_exato": true
+    },
+    {
+      "coluna": "TP_PRESENCA_MT",
+      "tipo": "BIGINT",
+      "preenchidos": 3389832,
+      "ausentes": 0,
+      "pct_ausentes": 0.0,
+      "distintos": 3,
+      "distintos_exato": true
+    },
+    {
+      "coluna": "CO_PROVA_CN",
+      "tipo": "BIGINT",
+      "preenchidos": 2245844,
+      "ausentes": 1143988,
+      "pct_ausentes": 33.75,
+      "distintos": 17,
+      "distintos_exato": false
+    },
+    {
+      "coluna": "CO_PROVA_CH",
+      "tipo": "BIGINT",
+      "preenchidos": 2378379,
+      "ausentes": 1011453,
+      "pct_ausentes": 29.84,
+      "distintos": 20,
+      "distintos_exato": false
+    },
+    {
+      "coluna": "CO_PROVA_LC",
+      "tipo": "BIGINT",
+      "preenchidos": 2378379,
+      "ausentes": 1011453,
+      "pct_ausentes": 29.84,
+      "distintos": 19,
+      "distintos_exato": false
+    },
+    {
+      "coluna": "CO_PROVA_MT",
+      "tipo": "BIGINT",
+      "preenchidos": 2245844,
+      "ausentes": 1143988,
+      "pct_ausentes": 33.75,
+      "distintos": 16,
+      "distintos_exato": false
+    },
+    {
+      "coluna": "NU_NOTA_CN",
+      "tipo": "DOUBLE",
+      "preenchidos": 2245844,
+      "ausentes": 1143988,
+      "pct_ausentes": 33.75,
+      "distintos": 5124,
+      "distintos_exato": false
+    },
+    {
+      "coluna": "NU_NOTA_CH",
+      "tipo": "DOUBLE",
+      "preenchidos": 2378379,
+      "ausentes": 1011453,
+      "pct_ausentes": 29.84,
+      "distintos": 4595,
+      "distintos_exato": false
+    },
+    {
+      "coluna": "NU_NOTA_LC",
+      "tipo": "DOUBLE",
+      "preenchidos": 2378379,
+      "ausentes": 1011453,
+      "pct_ausentes": 29.84,
+      "distintos": 4199,
+      "distintos_exato": false
+    },
+    {
+      "coluna": "NU_NOTA_MT",
+      "tipo": "DOUBLE",
+      "preenchidos": 2245844,
+      "ausentes": 1143988,
+      "pct_ausentes": 33.75,
+      "distintos": 5813,
+      "distintos_exato": false
+    },
+    {
+      "coluna": "TX_RESPOSTAS_CN",
+      "tipo": "VARCHAR",
+      "preenchidos": 2245844,
+      "ausentes": 1143988,
+      "pct_ausentes": 33.75,
+      "distintos": 1776470,
+      "distintos_exato": false
+    },
+    {
+      "coluna": "TX_RESPOSTAS_CH",
+      "tipo": "VARCHAR",
+      "preenchidos": 2378379,
+      "ausentes": 1011453,
+      "pct_ausentes": 29.84,
+      "distintos": 2311578,
+      "distintos_exato": false
+    },
+    {
+      "coluna": "TX_RESPOSTAS_LC",
+      "tipo": "VARCHAR",
+      "preenchidos": 2378379,
+      "ausentes": 1011453,
+      "pct_ausentes": 29.84,
+      "distintos": 2545739,
+      "distintos_exato": false
+    },
+    {
+      "coluna": "TX_RESPOSTAS_MT",
+      "tipo": "VARCHAR",
+      "preenchidos": 2245844,
+      "ausentes": 1143988,
+      "pct_ausentes": 33.75,
+      "distintos": 1992388,
+      "distintos_exato": false
+    },
+    {
+      "coluna": "TP_LINGUA",
+      "tipo": "BIGINT",
+      "preenchidos": 3389832,
+      "ausentes": 0,
+      "pct_ausentes": 0.0,
+      "distintos": 2,
+      "distintos_exato": false
+    },
+    {
+      "coluna": "TX_GABARITO_CN",
+      "tipo": "VARCHAR",
+      "preenchidos": 2245844,
+      "ausentes": 1143988,
+      "pct_ausentes": 33.75,
+      "distintos": 6,
+      "distintos_exato": false
+    },
+    {
+      "coluna": "TX_GABARITO_CH",
+      "tipo": "VARCHAR",
+      "preenchidos": 2378379,
+      "ausentes": 1011453,
+      "pct_ausentes": 29.84,
+      "distintos": 9,
+      "distintos_exato": false
+    },
+    {
+      "coluna": "TX_GABARITO_LC",
+      "tipo": "VARCHAR",
+      "preenchidos": 2378379,
+      "ausentes": 1011453,
+      "pct_ausentes": 29.84,
+      "distintos": 10,
+      "distintos_exato": false
+    },
+    {
+      "coluna": "TX_GABARITO_MT",
+      "tipo": "VARCHAR",
+      "preenchidos": 2245844,
+      "ausentes": 1143988,
+      "pct_ausentes": 33.75,
+      "distintos": 7,
+      "distintos_exato": false
+    },
+    {
+      "coluna": "TP_STATUS_REDACAO",
+      "tipo": "BIGINT",
+      "preenchidos": 2378379,
+      "ausentes": 1011453,
+      "pct_ausentes": 29.84,
+      "distintos": 9,
+      "distintos_exato": false
+    },
+    {
+      "coluna": "NU_NOTA_COMP1",
+      "tipo": "BIGINT",
+      "preenchidos": 2378379,
+      "ausentes": 1011453,
+      "pct_ausentes": 29.84,
+      "distintos": 12,
+      "distintos_exato": false
+    },
+    {
+      "coluna": "NU_NOTA_COMP2",
+      "tipo": "BIGINT",
+      "preenchidos": 2378379,
+      "ausentes": 1011453,
+      "pct_ausentes": 29.84,
+      "distintos": 11,
+      "distintos_exato": false
+    },
+    {
+      "coluna": "NU_NOTA_COMP3",
+      "tipo": "BIGINT",
+      "preenchidos": 2378379,
+      "ausentes": 1011453,
+      "pct_ausentes": 29.84,
+      "distintos": 12,
+      "distintos_exato": false
+    },
+    {
+      "coluna": "NU_NOTA_COMP4",
+      "tipo": "BIGINT",
+      "preenchidos": 2378379,
+      "ausentes": 1011453,
+      "pct_ausentes": 29.84,
+      "distintos": 12,
+      "distintos_exato": false
+    },
+    {
+      "coluna": "NU_NOTA_COMP5",
+      "tipo": "BIGINT",
+      "preenchidos": 2378379,
+      "ausentes": 1011453,
+      "pct_ausentes": 29.84,
+      "distintos": 12,
+      "distintos_exato": false
+    },
+    {
+      "coluna": "NU_NOTA_REDACAO",
+      "tipo": "BIGINT",
+      "preenchidos": 2378379,
+      "ausentes": 1011453,
+      "pct_ausentes": 29.84,
+      "distintos": 51,
+      "distintos_exato": false
+    },
+    {
+      "coluna": "Q001",
+      "tipo": "VARCHAR",
+      "preenchidos": 3389830,
+      "ausentes": 2,
+      "pct_ausentes": 0.0,
+      "distintos": 8,
+      "distintos_exato": true
+    },
+    {
+      "coluna": "Q002",
+      "tipo": "VARCHAR",
+      "preenchidos": 3389830,
+      "ausentes": 2,
+      "pct_ausentes": 0.0,
+      "distintos": 8,
+      "distintos_exato": true
+    },
+    {
+      "coluna": "Q003",
+      "tipo": "VARCHAR",
+      "preenchidos": 3389830,
+      "ausentes": 2,
+      "pct_ausentes": 0.0,
+      "distintos": 6,
+      "distintos_exato": false
+    },
+    {
+      "coluna": "Q004",
+      "tipo": "VARCHAR",
+      "preenchidos": 3389830,
+      "ausentes": 2,
+      "pct_ausentes": 0.0,
+      "distintos": 6,
+      "distintos_exato": false
+    },
+    {
+      "coluna": "Q005",
+      "tipo": "BIGINT",
+      "preenchidos": 3389830,
+      "ausentes": 2,
+      "pct_ausentes": 0.0,
+      "distintos": 21,
+      "distintos_exato": false
+    },
+    {
+      "coluna": "Q006",
+      "tipo": "VARCHAR",
+      "preenchidos": 3389830,
+      "ausentes": 2,
+      "pct_ausentes": 0.0,
+      "distintos": 17,
+      "distintos_exato": true
+    },
+    {
+      "coluna": "Q007",
+      "tipo": "VARCHAR",
+      "preenchidos": 3389830,
+      "ausentes": 2,
+      "pct_ausentes": 0.0,
+      "distintos": 4,
+      "distintos_exato": false
+    },
+    {
+      "coluna": "Q008",
+      "tipo": "VARCHAR",
+      "preenchidos": 3389830,
+      "ausentes": 2,
+      "pct_ausentes": 0.0,
+      "distintos": 5,
+      "distintos_exato": false
+    },
+    {
+      "coluna": "Q009",
+      "tipo": "VARCHAR",
+      "preenchidos": 3389830,
+      "ausentes": 2,
+      "pct_ausentes": 0.0,
+      "distintos": 5,
+      "distintos_exato": false
+    },
+    {
+      "coluna": "Q010",
+      "tipo": "VARCHAR",
+      "preenchidos": 3389830,
+      "ausentes": 2,
+      "pct_ausentes": 0.0,
+      "distintos": 5,
+      "distintos_exato": false
+    },
+    {
+      "coluna": "Q011",
+      "tipo": "VARCHAR",
+      "preenchidos": 3389830,
+      "ausentes": 2,
+      "pct_ausentes": 0.0,
+      "distintos": 5,
+      "distintos_exato": false
+    },
+    {
+      "coluna": "Q012",
+      "tipo": "VARCHAR",
+      "preenchidos": 3389830,
+      "ausentes": 2,
+      "pct_ausentes": 0.0,
+      "distintos": 5,
+      "distintos_exato": false
+    },
+    {
+      "coluna": "Q013",
+      "tipo": "VARCHAR",
+      "preenchidos": 3389830,
+      "ausentes": 2,
+      "pct_ausentes": 0.0,
+      "distintos": 5,
+      "distintos_exato": false
+    },
+    {
+      "coluna": "Q014",
+      "tipo": "VARCHAR",
+      "preenchidos": 3389830,
+      "ausentes": 2,
+      "pct_ausentes": 0.0,
+      "distintos": 5,
+      "distintos_exato": false
+    },
+    {
+      "coluna": "Q015",
+      "tipo": "VARCHAR",
+      "preenchidos": 3389830,
+      "ausentes": 2,
+      "pct_ausentes": 0.0,
+      "distintos": 5,
+      "distintos_exato": false
+    },
+    {
+      "coluna": "Q016",
+      "tipo": "VARCHAR",
+      "preenchidos": 3389830,
+      "ausentes": 2,
+      "pct_ausentes": 0.0,
+      "distintos": 5,
+      "distintos_exato": false
+    },
+    {
+      "coluna": "Q017",
+      "tipo": "VARCHAR",
+      "preenchidos": 3389830,
+      "ausentes": 2,
+      "pct_ausentes": 0.0,
+      "distintos": 5,
+      "distintos_exato": false
+    },
+    {
+      "coluna": "Q018",
+      "tipo": "VARCHAR",
+      "preenchidos": 3389830,
+      "ausentes": 2,
+      "pct_ausentes": 0.0,
+      "distintos": 2,
+      "distintos_exato": false
+    },
+    {
+      "coluna": "Q019",
+      "tipo": "VARCHAR",
+      "preenchidos": 3389830,
+      "ausentes": 2,
+      "pct_ausentes": 0.0,
+      "distintos": 5,
+      "distintos_exato": false
+    },
+    {
+      "coluna": "Q020",
+      "tipo": "VARCHAR",
+      "preenchidos": 3389830,
+      "ausentes": 2,
+      "pct_ausentes": 0.0,
+      "distintos": 2,
+      "distintos_exato": false
+    },
+    {
+      "coluna": "Q021",
+      "tipo": "VARCHAR",
+      "preenchidos": 3389830,
+      "ausentes": 2,
+      "pct_ausentes": 0.0,
+      "distintos": 2,
+      "distintos_exato": false
+    },
+    {
+      "coluna": "Q022",
+      "tipo": "VARCHAR",
+      "preenchidos": 3389830,
+      "ausentes": 2,
+      "pct_ausentes": 0.0,
+      "distintos": 5,
+      "distintos_exato": false
+    },
+    {
+      "coluna": "Q023",
+      "tipo": "VARCHAR",
+      "preenchidos": 3389830,
+      "ausentes": 2,
+      "pct_ausentes": 0.0,
+      "distintos": 2,
+      "distintos_exato": false
+    },
+    {
+      "coluna": "Q024",
+      "tipo": "VARCHAR",
+      "preenchidos": 3389830,
+      "ausentes": 2,
+      "pct_ausentes": 0.0,
+      "distintos": 5,
+      "distintos_exato": true
+    },
+    {
+      "coluna": "Q025",
+      "tipo": "VARCHAR",
+      "preenchidos": 3389830,
+      "ausentes": 2,
+      "pct_ausentes": 0.0,
+      "distintos": 2,
+      "distintos_exato": true
+    }
+  ],
+  "notas": [
+    {
+      "coluna": "NU_NOTA_CN",
+      "n": 2245844,
+      "media": 491.78567522944064,
+      "desvio_padrao": 80.56675679752139,
+      "minimo": 0.0,
+      "p05": 374.4,
+      "p25": 431.0,
+      "p50": 482.0,
+      "p75": 545.8,
+      "p95": 635.7,
+      "maximo": 867.1,
+      "zeros": 393
+    },
+    {
+      "coluna": "NU_NOTA_CH",
+      "n": 2378379,
+      "media": 519.9433951443369,
+      "desvio_padrao": 95.79050329725231,
+      "minimo": 0.0,
+      "p05": 373.7,
+      "p25": 445.4,
+      "p50": 521.9,
+      "p75": 589.3,
+      "p95": 674.8,
+      "maximo": 846.9,
+      "zeros": 4632
+    },
+    {
+      "coluna": "NU_NOTA_LC",
+      "n": 2378379,
+      "media": 502.55556856161405,
+      "desvio_padrao": 79.16404691459782,
+      "minimo": 0.0,
+      "p05": 370.2,
+      "p25": 447.6,
+      "p50": 505.9,
+      "p75": 558.8,
+      "p95": 626.9,
+      "maximo": 826.1,
+      "zeros": 2248
+    },
+    {
+      "coluna": "NU_NOTA_MT",
+      "n": 2245844,
+      "media": 535.0801860681338,
+      "desvio_padrao": 110.62665200785558,
+      "minimo": 0.0,
+      "p05": 389.7,
+      "p25": 444.7,
+      "p50": 515.4,
+      "p75": 613.9,
+      "p95": 736.1,
+      "maximo": 953.1,
+      "zeros": 453
+    },
+    {
+      "coluna": "NU_NOTA_REDACAO",
+      "n": 2378379,
+      "media": 613.5004891987357,
+      "desvio_padrao": 190.71416182628914,
+      "minimo": 0,
+      "p05": 340.0,
+      "p25": 520.0,
+      "p50": 600.0,
+      "p75": 740.0,
+      "p95": 900.0,
+      "maximo": 1000,
+      "zeros": 84582
+    }
+  ],
+  "presenca": {
+    "por_area": {
+      "TP_PRESENCA_CN": [
+        {
+          "codigo": 0,
+          "rotulo": "faltou",
+          "n": 1142539,
+          "pct": 33.7
+        },
+        {
+          "codigo": 1,
+          "rotulo": "presente",
+          "n": 2245844,
+          "pct": 66.25
+        },
+        {
+          "codigo": 2,
+          "rotulo": "eliminado",
+          "n": 1449,
+          "pct": 0.04
+        }
+      ],
+      "TP_PRESENCA_CH": [
+        {
+          "codigo": 0,
+          "rotulo": "faltou",
+          "n": 1007397,
+          "pct": 29.72
+        },
+        {
+          "codigo": 1,
+          "rotulo": "presente",
+          "n": 2378379,
+          "pct": 70.16
+        },
+        {
+          "codigo": 2,
+          "rotulo": "eliminado",
+          "n": 4056,
+          "pct": 0.12
+        }
+      ],
+      "TP_PRESENCA_LC": [
+        {
+          "codigo": 0,
+          "rotulo": "faltou",
+          "n": 1007397,
+          "pct": 29.72
+        },
+        {
+          "codigo": 1,
+          "rotulo": "presente",
+          "n": 2378379,
+          "pct": 70.16
+        },
+        {
+          "codigo": 2,
+          "rotulo": "eliminado",
+          "n": 4056,
+          "pct": 0.12
+        }
+      ],
+      "TP_PRESENCA_MT": [
+        {
+          "codigo": 0,
+          "rotulo": "faltou",
+          "n": 1142539,
+          "pct": 33.7
+        },
+        {
+          "codigo": 1,
+          "rotulo": "presente",
+          "n": 2245844,
+          "pct": 66.25
+        },
+        {
+          "codigo": 2,
+          "rotulo": "eliminado",
+          "n": 1449,
+          "pct": 0.04
+        }
+      ]
+    },
+    "funil": {
+      "inscritos": 3389832,
+      "presentes_nas_quatro_areas": 2238107,
+      "treineiros": 437190,
+      "presentes_nas_quatro_areas_sem_treineiros": 1870734,
+      "pct_presentes_nas_quatro_areas": 66.02
+    }
+  },
+  "recorte": {
+    "TP_FAIXA_ETARIA": [
+      {
+        "categoria": 3,
+        "n": 699365,
+        "pct": 20.63
+      },
+      {
+        "categoria": 2,
+        "n": 620784,
+        "pct": 18.31
+      },
+      {
+        "categoria": 4,
+        "n": 394689,
+        "pct": 11.64
+      },
+      {
+        "categoria": 1,
+        "n": 274318,
+        "pct": 8.09
+      },
+      {
+        "categoria": 5,
+        "n": 250690,
+        "pct": 7.4
+      },
+      {
+        "categoria": 11,
+        "n": 227574,
+        "pct": 6.71
+      },
+      {
+        "categoria": 6,
+        "n": 177086,
+        "pct": 5.22
+      },
+      {
+        "categoria": 7,
+        "n": 132052,
+        "pct": 3.9
+      },
+      {
+        "categoria": 12,
+        "n": 130746,
+        "pct": 3.86
+      },
+      {
+        "categoria": 8,
+        "n": 100580,
+        "pct": 2.97
+      },
+      {
+        "categoria": 13,
+        "n": 93073,
+        "pct": 2.75
+      },
+      {
+        "categoria": 9,
+        "n": 85742,
+        "pct": 2.53
+      },
+      {
+        "categoria": 10,
+        "n": 71199,
+        "pct": 2.1
+      },
+      {
+        "categoria": 14,
+        "n": 58754,
+        "pct": 1.73
+      },
+      {
+        "categoria": 15,
+        "n": 35808,
+        "pct": 1.06
+      },
+      {
+        "categoria": 16,
+        "n": 20564,
+        "pct": 0.61
+      },
+      {
+        "categoria": 17,
+        "n": 10804,
+        "pct": 0.32
+      },
+      {
+        "categoria": 18,
+        "n": 4102,
+        "pct": 0.12
+      },
+      {
+        "categoria": 19,
+        "n": 1342,
+        "pct": 0.04
+      },
+      {
+        "categoria": 20,
+        "n": 560,
+        "pct": 0.02
+      }
+    ],
+    "TP_SEXO": [
+      {
+        "categoria": "F",
+        "n": 2090526,
+        "pct": 61.67
+      },
+      {
+        "categoria": "M",
+        "n": 1299306,
+        "pct": 38.33
+      }
+    ],
+    "TP_COR_RACA": [
+      {
+        "categoria": 3,
+        "n": 1457454,
+        "pct": 42.99
+      },
+      {
+        "categoria": 1,
+        "n": 1362256,
+        "pct": 40.19
+      },
+      {
+        "categoria": 2,
+        "n": 411302,
+        "pct": 12.13
+      },
+      {
+        "categoria": 0,
+        "n": 71149,
+        "pct": 2.1
+      },
+      {
+        "categoria": 4,
+        "n": 68491,
+        "pct": 2.02
+      },
+      {
+        "categoria": 5,
+        "n": 19175,
+        "pct": 0.57
+      },
+      {
+        "categoria": 6,
+        "n": 5,
+        "pct": 0.0
+      }
+    ],
+    "TP_ESCOLA": [
+      {
+        "categoria": 1,
+        "n": 2238977,
+        "pct": 66.05
+      },
+      {
+        "categoria": 2,
+        "n": 958611,
+        "pct": 28.28
+      },
+      {
+        "categoria": 3,
+        "n": 192244,
+        "pct": 5.67
+      }
+    ],
+    "TP_ST_CONCLUSAO": [
+      {
+        "categoria": 1,
+        "n": 1789372,
+        "pct": 52.79
+      },
+      {
+        "categoria": 2,
+        "n": 1150857,
+        "pct": 33.95
+      },
+      {
+        "categoria": 3,
+        "n": 437190,
+        "pct": 12.9
+      },
+      {
+        "categoria": 4,
+        "n": 12413,
+        "pct": 0.37
+      }
+    ],
+    "IN_TREINEIRO": [
+      {
+        "categoria": 0,
+        "n": 2952642,
+        "pct": 87.1
+      },
+      {
+        "categoria": 1,
+        "n": 437190,
+        "pct": 12.9
+      }
+    ],
+    "SG_UF_PROVA": [
+      {
+        "categoria": "SP",
+        "n": 509954,
+        "pct": 15.04
+      },
+      {
+        "categoria": "MG",
+        "n": 327829,
+        "pct": 9.67
+      },
+      {
+        "categoria": "BA",
+        "n": 266194,
+        "pct": 7.85
+      },
+      {
+        "categoria": "RJ",
+        "n": 238347,
+        "pct": 7.03
+      },
+      {
+        "categoria": "CE",
+        "n": 220517,
+        "pct": 6.51
+      },
+      {
+        "categoria": "PE",
+        "n": 193616,
+        "pct": 5.71
+      },
+      {
+        "categoria": "PA",
+        "n": 185978,
+        "pct": 5.49
+      },
+      {
+        "categoria": "RS",
+        "n": 150484,
+        "pct": 4.44
+      },
+      {
+        "categoria": "PR",
+        "n": 144282,
+        "pct": 4.26
+      },
+      {
+        "categoria": "GO",
+        "n": 136915,
+        "pct": 4.04
+      },
+      {
+        "categoria": "MA",
+        "n": 127905,
+        "pct": 3.77
+      },
+      {
+        "categoria": "PB",
+        "n": 102002,
+        "pct": 3.01
+      },
+      {
+        "categoria": "AM",
+        "n": 89778,
+        "pct": 2.65
+      },
+      {
+        "categoria": "RN",
+        "n": 80820,
+        "pct": 2.38
+      },
+      {
+        "categoria": "SC",
+        "n": 80765,
+        "pct": 2.38
+      },
+      {
+        "categoria": "PI",
+        "n": 79969,
+        "pct": 2.36
+      },
+      {
+        "categoria": "DF",
+        "n": 67501,
+        "pct": 1.99
+      },
+      {
+        "categoria": "ES",
+        "n": 64181,
+        "pct": 1.89
+      },
+      {
+        "categoria": "AL",
+        "n": 56584,
+        "pct": 1.67
+      },
+      {
+        "categoria": "MT",
+        "n": 56085,
+        "pct": 1.65
+      },
+      {
+        "categoria": "SE",
+        "n": 53796,
+        "pct": 1.59
+      },
+      {
+        "categoria": "MS",
+        "n": 42490,
+        "pct": 1.25
+      },
+      {
+        "categoria": "RO",
+        "n": 32801,
+        "pct": 0.97
+      },
+      {
+        "categoria": "TO",
+        "n": 30873,
+        "pct": 0.91
+      },
+      {
+        "categoria": "AP",
+        "n": 21774,
+        "pct": 0.64
+      },
+      {
+        "categoria": "AC",
+        "n": 20336,
+        "pct": 0.6
+      },
+      {
+        "categoria": "RR",
+        "n": 8056,
+        "pct": 0.24
+      }
+    ],
+    "Q001": [
+      {
+        "categoria": "E",
+        "n": 955155,
+        "pct": 28.18
+      },
+      {
+        "categoria": "B",
+        "n": 638092,
+        "pct": 18.82
+      },
+      {
+        "categoria": "C",
+        "n": 453042,
+        "pct": 13.36
+      },
+      {
+        "categoria": "D",
+        "n": 373620,
+        "pct": 11.02
+      },
+      {
+        "categoria": "F",
+        "n": 308151,
+        "pct": 9.09
+      },
+      {
+        "categoria": "H",
+        "n": 293412,
+        "pct": 8.66
+      },
+      {
+        "categoria": "G",
+        "n": 219969,
+        "pct": 6.49
+      },
+      {
+        "categoria": "A",
+        "n": 148389,
+        "pct": 4.38
+      },
+      {
+        "categoria": null,
+        "n": 2,
+        "pct": 0.0
+      }
+    ],
+    "Q002": [
+      {
+        "categoria": "E",
+        "n": 1148575,
+        "pct": 33.88
+      },
+      {
+        "categoria": "B",
+        "n": 471207,
+        "pct": 13.9
+      },
+      {
+        "categoria": "F",
+        "n": 411426,
+        "pct": 12.14
+      },
+      {
+        "categoria": "D",
+        "n": 399095,
+        "pct": 11.77
+      },
+      {
+        "categoria": "C",
+        "n": 390463,
+        "pct": 11.52
+      },
+      {
+        "categoria": "G",
+        "n": 380126,
+        "pct": 11.21
+      },
+      {
+        "categoria": "A",
+        "n": 99094,
+        "pct": 2.92
+      },
+      {
+        "categoria": "H",
+        "n": 89844,
+        "pct": 2.65
+      },
+      {
+        "categoria": null,
+        "n": 2,
+        "pct": 0.0
+      }
+    ],
+    "Q006": [
+      {
+        "categoria": "B",
+        "n": 932838,
+        "pct": 27.52
+      },
+      {
+        "categoria": "C",
+        "n": 575943,
+        "pct": 16.99
+      },
+      {
+        "categoria": "D",
+        "n": 432478,
+        "pct": 12.76
+      },
+      {
+        "categoria": "F",
+        "n": 233353,
+        "pct": 6.88
+      },
+      {
+        "categoria": "E",
+        "n": 209943,
+        "pct": 6.19
+      },
+      {
+        "categoria": "A",
+        "n": 202114,
+        "pct": 5.96
+      },
+      {
+        "categoria": "G",
+        "n": 195709,
+        "pct": 5.77
+      },
+      {
+        "categoria": "H",
+        "n": 151384,
+        "pct": 4.47
+      },
+      {
+        "categoria": "I",
+        "n": 93898,
+        "pct": 2.77
+      },
+      {
+        "categoria": "J",
+        "n": 57492,
+        "pct": 1.7
+      },
+      {
+        "categoria": "M",
+        "n": 57363,
+        "pct": 1.69
+      },
+      {
+        "categoria": "Q",
+        "n": 48686,
+        "pct": 1.44
+      },
+      {
+        "categoria": "K",
+        "n": 45090,
+        "pct": 1.33
+      },
+      {
+        "categoria": "L",
+        "n": 39388,
+        "pct": 1.16
+      },
+      {
+        "categoria": "O",
+        "n": 39169,
+        "pct": 1.16
+      },
+      {
+        "categoria": "P",
+        "n": 39117,
+        "pct": 1.15
+      },
+      {
+        "categoria": "N",
+        "n": 35865,
+        "pct": 1.06
+      },
+      {
+        "categoria": null,
+        "n": 2,
+        "pct": 0.0
+      }
+    ],
+    "Q024": [
+      {
+        "categoria": "A",
+        "n": 1436524,
+        "pct": 42.38
+      },
+      {
+        "categoria": "B",
+        "n": 1390647,
+        "pct": 41.02
+      },
+      {
+        "categoria": "C",
+        "n": 357005,
+        "pct": 10.53
+      },
+      {
+        "categoria": "D",
+        "n": 136242,
+        "pct": 4.02
+      },
+      {
+        "categoria": "E",
+        "n": 69412,
+        "pct": 2.05
+      },
+      {
+        "categoria": null,
+        "n": 2,
+        "pct": 0.0
+      }
+    ],
+    "Q025": [
+      {
+        "categoria": "B",
+        "n": 3037632,
+        "pct": 89.61
+      },
+      {
+        "categoria": "A",
+        "n": 352198,
+        "pct": 10.39
+      },
+      {
+        "categoria": null,
+        "n": 2,
+        "pct": 0.0
+      }
+    ]
+  }
+}
