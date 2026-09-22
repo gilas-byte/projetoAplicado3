@@ -5,7 +5,7 @@
     "csv_bytes": 1568153861,
     "linhas": 3476105,
     "colunas": 76,
-    "segundos_leitura_csv": 41.6
+    "segundos_leitura_csv": 18.2
   },
   "colunas": [
     {
@@ -773,8 +773,8 @@
     {
       "coluna": "NU_NOTA_CN",
       "n": 2355395,
-      "media": 495.9305203585876,
-      "desvio_padrao": 72.00975185663323,
+      "media": 495.93052035858517,
+      "desvio_padrao": 72.00975185663329,
       "minimo": 0.0,
       "p05": 396.8,
       "p25": 440.5,
@@ -787,8 +787,8 @@
     {
       "coluna": "NU_NOTA_CH",
       "n": 2493442,
-      "media": 526.9531490606188,
-      "desvio_padrao": 81.48446312586357,
+      "media": 526.9531490606192,
+      "desvio_padrao": 81.48446312586407,
       "minimo": 0.0,
       "p05": 387.8,
       "p25": 477.0,
@@ -801,8 +801,8 @@
     {
       "coluna": "NU_NOTA_LC",
       "n": 2493442,
-      "media": 517.4389348940172,
-      "desvio_padrao": 77.55491455125163,
+      "media": 517.4389348940181,
+      "desvio_padrao": 77.55491455125191,
       "minimo": 0.0,
       "p05": 377.1,
       "p25": 468.4,
@@ -815,8 +815,8 @@
     {
       "coluna": "NU_NOTA_MT",
       "n": 2355395,
-      "media": 542.5032163182831,
-      "desvio_padrao": 116.02251368300129,
+      "media": 542.5032163182829,
+      "desvio_padrao": 116.02251368300124,
       "minimo": 0.0,
       "p05": 379.1,
       "p25": 449.0,
@@ -830,7 +830,7 @@
       "coluna": "NU_NOTA_REDACAO",
       "n": 2493442,
       "media": 618.4796999489059,
-      "desvio_padrao": 212.21247934799797,
+      "desvio_padrao": 212.21247934799726,
       "minimo": 0,
       "p05": 0.0,
       "p25": 520.0,
@@ -1906,18 +1906,21 @@
       },
       {
         "categoria": 17,
-        "n": 72,
-        "pct": 0.0
+        "n": null,
+        "pct": null,
+        "suprimido": true
       },
       {
         "categoria": 18,
-        "n": 52,
-        "pct": 0.0
+        "n": null,
+        "pct": null,
+        "suprimido": true
       },
       {
         "categoria": 19,
-        "n": 44,
-        "pct": 0.0
+        "n": null,
+        "pct": null,
+        "suprimido": true
       }
     ],
     "Q006": [

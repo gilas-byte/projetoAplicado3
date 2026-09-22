@@ -29,7 +29,9 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from colunas import (  # noqa: E402
     ANOS,
     CONTRATO,
+    PISO_GRUPO,
     SALARIO_MINIMO,
+    SENSIVEIS,
     descartadas,
     mantidas,
 )
@@ -38,10 +40,6 @@ RAIZ = Path(__file__).resolve().parent.parent
 PROFILING = RAIZ / "docs" / "profiling"
 DICIONARIO = RAIZ / "docs" / "dicionario"
 SAIDA = RAIZ / "docs" / "contrato"
-
-# Piso de tamanho de grupo: abaixo disso o recorte nao e exibido. Proposta
-# tecnica, pendente de aceite do PO (ver secao "Decisoes em aberto").
-PISO_GRUPO = 100
 
 
 def carregar() -> tuple[dict, dict]:
@@ -82,6 +80,7 @@ def montar(perfis: dict, dicts: dict) -> dict:
             "inep": inep,
             "descricao_inep": next((d for d in descricoes if d), ""),
             **decisao,
+            "sensivel": inep in SENSIVEIS,
             "por_ano": por_ano,
         }
     return campos
@@ -220,9 +219,10 @@ def gerar_relatorio(campos: dict, perfis: dict) -> str:
     L.append("| --- | --- | --- |")
     L.append(
         "| `TP_COR_RACA` | `6` | Documentada em 2021-2022; ocorre so em "
-        "2021, com 5 registros. Categoria propria, nunca agrupada com `0`. |"
+        "2021, abaixo do piso de grupo. Categoria propria, nunca agrupada "
+        "com `0`, suprimida de toda saida. |"
     )
-    L.append("| `TP_ENSINO` | `3` | EJA. Existe so em 2019-2020. |")
+    L.append("| `TP_ENSINO` | `3` | EJA. Documentada em 2019-2020, nunca observada. |")
     L.append("| `TP_ESCOLA` | `4` | 'Exterior'. Documentada em 2019-2020, nunca observada. |")
     L.append("")
 
@@ -290,15 +290,45 @@ def gerar_relatorio(campos: dict, perfis: dict) -> str:
         L.append(f"| `{inep}` | {gb(peso)} | {c['nota']} |")
     L.append("")
 
-    # --- 6. decisoes em aberto ------------------------------------------
-    L.append("## 6. Decisoes em aberto")
+    # --- 6. protecao de dados -------------------------------------------
+    L.append("## 6. Protecao de dados (LGPD)")
     L.append("")
     L.append(
-        f"1. **Piso de tamanho de grupo.** Proposta tecnica: nao exibir "
-        f"recorte com menos de **{PISO_GRUPO} participantes** elegiveis. "
-        f"Cobre o caso concreto ja detectado (`TP_COR_RACA = 6`, com 5 "
-        f"registros em 2021) e mantem folga sobre o minimo estatistico "
-        f"usual de 30. Pendente de aceite do PO."
+        "Regras completas em [`docs/privacidade.md`](../privacidade.md). "
+        "O que o contrato impoe ao ETL:"
+    )
+    L.append("")
+    L.append(
+        f"- **Piso de grupo:** nenhuma contagem ou estatistica calculada "
+        f"sobre menos de **{PISO_GRUPO} participantes** sai da camada "
+        f"ANALYTICS. Vale para cada celula de um cruzamento, nao so para o "
+        f"total do recorte."
+    )
+    sens = ", ".join(f"`{c}`" for c in sorted(SENSIVEIS))
+    L.append(
+        f"- **Dados sensiveis** (art. 5o, II): {sens}. So agregados e "
+        f"sujeitos ao piso; o campo `sensivel` do `contrato.json` marca "
+        f"quais sao."
+    )
+    L.append(
+        "- **Identificador:** `NU_INSCRICAO` e descartado na passagem "
+        "RAW -> TRUSTED (secao 5)."
+    )
+    L.append(
+        "- **Recorte municipal:** `CO_MUNICIPIO_PROVA` e o campo de maior "
+        "risco. Cruzamentos municipais passam pelo piso celula a celula."
+    )
+    L.append("")
+
+    # --- 7. decisoes em aberto ------------------------------------------
+    L.append("## 7. Decisoes em aberto")
+    L.append("")
+    L.append(
+        f"1. **Valor do piso de tamanho de grupo.** Ja aplicado com "
+        f"**{PISO_GRUPO} participantes** (secao 6), o que mantem folga sobre "
+        f"o minimo estatistico usual de 30. O valor segue pendente de "
+        f"aceite do PO; mudar exige alterar `PISO_GRUPO` em "
+        f"`scripts/colunas.py` e regerar profiling e contrato."
     )
     L.append(
         "2. **Modulos consumidores.** O plano preve quatro modulos autorais "

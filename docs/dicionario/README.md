@@ -94,6 +94,8 @@ Cruza o dominio do dicionario com os valores que aparecem de fato nos CSVs (`doc
 | `TP_COR_RACA` | 2022 | - | `6` |
 | `TP_ESCOLA` | 2019 | - | `4` |
 | `TP_ESCOLA` | 2020 | - | `4` |
+| `TP_ENSINO` | 2019 | - | `3` |
+| `TP_ENSINO` | 2020 | - | `3` |
 
 ## 5. Dominios das variaveis de recorte
 

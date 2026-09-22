@@ -14,6 +14,18 @@ from __future__ import annotations
 
 ANOS = [2019, 2020, 2021, 2022]
 
+# Piso de tamanho de grupo (LGPD, ver docs/privacidade.md). Nenhuma contagem
+# abaixo disso sai da maquina de quem processa os microdados: nem no
+# profiling versionado, nem nos agregados da camada ANALYTICS, nem na
+# interface. Vale tambem como minimo estatistico de comparacao (plano,
+# item 5, "Grupos pequenos"). Valor tecnico pendente de aceite do PO.
+PISO_GRUPO = 100
+
+# Dados pessoais sensiveis (LGPD, art. 5o, II): origem racial. So podem
+# aparecer agregados e sujeitos ao piso; nunca em nivel de registro fora
+# da camada RAW/TRUSTED local.
+SENSIVEIS = {"TP_COR_RACA"}
+
 # Salario minimo nacional vigente na aplicacao de cada edicao. Base da
 # conversao de Q006 em multiplos do salario minimo.
 SALARIO_MINIMO = {2019: 998.00, 2020: 1045.00, 2021: 1100.00, 2022: 1212.00}
@@ -222,9 +234,9 @@ CONTRATO["TP_COR_RACA"] = _campo(
     AUS_NUNCA,
     transformacao=(
         "Codigo preservado. O codigo 6 ('Nao dispoe da informacao') so "
-        "existe no dicionario de 2021-2022 e so ocorre em 2021, com 5 "
-        "registros: tratado como categoria propria, nunca agrupado com 0 "
-        "('Nao declarado'), e suprimido pelo piso de tamanho de grupo."
+        "existe no dicionario de 2021-2022 e so ocorre em 2021, abaixo do "
+        "piso de tamanho de grupo: tratado como categoria propria, nunca "
+        "agrupado com 0 ('Nao declarado'), e suprimido de toda saida."
     ),
 )
 CONTRATO["TP_NACIONALIDADE"] = _campo("nacionalidade", "analytics", AUS_NUNCA)
@@ -273,8 +285,8 @@ CONTRATO["TP_ENSINO"] = _campo(
     "64% a 77% de ausencia: preenchida apenas para quem declarou escola.",
     transformacao=(
         "Codigo preservado. O codigo 3 ('Educacao de Jovens e Adultos') "
-        "existe so em 2019-2020: recorte por EJA nao e comparavel nas "
-        "quatro edicoes e fica restrito a essas duas."
+        "consta no dicionario de 2019-2020, mas nunca ocorre nos dados de "
+        "nenhuma edicao: nao ha recorte por EJA."
     ),
 )
 
@@ -295,6 +307,12 @@ CONTRATO["CO_MUNICIPIO_PROVA"] = _campo(
     "analytics",
     AUS_NUNCA,
     transformacao="Codigo IBGE preservado; chave estavel para recorte municipal.",
+    nota=(
+        "LGPD: e o campo de maior risco de reidentificacao do contrato. "
+        "Municipio cruzado com cor/raca, faixa etaria ou renda gera grupos "
+        "de poucas pessoas; todo agregado municipal passa pelo piso de "
+        "tamanho de grupo antes de sair da camada ANALYTICS."
+    ),
 )
 CONTRATO["NO_MUNICIPIO_PROVA"] = _campo(
     "municipio_prova",

@@ -39,7 +39,7 @@ SAIDA = RAIZ / "docs" / "profiling"
 
 ANOS_PADRAO = [2019, 2020, 2021, 2022]
 
-from colunas import NOTAS, PRESENCA, RECORTE  # noqa: E402
+from colunas import NOTAS, PISO_GRUPO, PRESENCA, RECORTE  # noqa: E402
 
 # TP_PRESENCA: 0 = faltou, 1 = presente, 2 = eliminado (dicionario do INEP).
 ROTULO_PRESENCA = {0: "faltou", 1: "presente", 2: "eliminado"}
@@ -220,7 +220,14 @@ def perfil_presenca(con: duckdb.DuckDBPyConnection, total: int) -> dict:
 
 
 def perfil_recorte(con: duckdb.DuckDBPyConnection, total: int) -> dict:
-    """Distribuicao das variaveis candidatas a recorte socioeconomico."""
+    """Distribuicao das variaveis candidatas a recorte socioeconomico.
+
+    Categorias com menos de PISO_GRUPO participantes saem com `n` e `pct`
+    nulos e `suprimido: true` (LGPD, ver docs/privacidade.md). O codigo da
+    categoria continua listado: o dicionario usa essa lista para cruzar
+    dominio documentado x observado, e saber que o codigo ocorre nao
+    expoe ninguem - a contagem pequena, sim.
+    """
     resultado = {}
     for coluna in RECORTE:
         linhas = con.execute(
@@ -230,7 +237,9 @@ def perfil_recorte(con: duckdb.DuckDBPyConnection, total: int) -> dict:
             """
         ).fetchall()
         resultado[coluna] = [
-            {
+            {"categoria": categoria, "n": None, "pct": None, "suprimido": True}
+            if n < PISO_GRUPO
+            else {
                 "categoria": categoria,
                 "n": n,
                 "pct": round(100 * n / total, 2) if total else None,

@@ -5,7 +5,7 @@
     "csv_bytes": 1507939871,
     "linhas": 3389832,
     "colunas": 76,
-    "segundos_leitura_csv": 38.2
+    "segundos_leitura_csv": 14.9
   },
   "colunas": [
     {
@@ -773,8 +773,8 @@
     {
       "coluna": "NU_NOTA_CN",
       "n": 2245844,
-      "media": 491.7856752294401,
-      "desvio_padrao": 80.56675679752148,
+      "media": 491.78567522944104,
+      "desvio_padrao": 80.56675679752159,
       "minimo": 0.0,
       "p05": 374.4,
       "p25": 431.0,
@@ -787,8 +787,8 @@
     {
       "coluna": "NU_NOTA_CH",
       "n": 2378379,
-      "media": 519.9433951443368,
-      "desvio_padrao": 95.79050329725202,
+      "media": 519.9433951443355,
+      "desvio_padrao": 95.79050329725241,
       "minimo": 0.0,
       "p05": 373.7,
       "p25": 445.4,
@@ -801,8 +801,8 @@
     {
       "coluna": "NU_NOTA_LC",
       "n": 2378379,
-      "media": 502.55556856161553,
-      "desvio_padrao": 79.1640469145976,
+      "media": 502.5555685616158,
+      "desvio_padrao": 79.16404691459796,
       "minimo": 0.0,
       "p05": 370.2,
       "p25": 447.6,
@@ -815,8 +815,8 @@
     {
       "coluna": "NU_NOTA_MT",
       "n": 2245844,
-      "media": 535.080186068134,
-      "desvio_padrao": 110.62665200785494,
+      "media": 535.0801860681322,
+      "desvio_padrao": 110.62665200785504,
       "minimo": 0.0,
       "p05": 389.7,
       "p25": 444.7,
@@ -830,7 +830,7 @@
       "coluna": "NU_NOTA_REDACAO",
       "n": 2378379,
       "media": 613.5004891987357,
-      "desvio_padrao": 190.71416182629065,
+      "desvio_padrao": 190.71416182628857,
       "minimo": 0,
       "p05": 340.0,
       "p25": 520.0,
@@ -1107,8 +1107,9 @@
       },
       {
         "categoria": 6,
-        "n": 5,
-        "pct": 0.0
+        "n": null,
+        "pct": null,
+        "suprimido": true
       }
     ],
     "TP_NACIONALIDADE": [
@@ -1713,8 +1714,9 @@
       },
       {
         "categoria": null,
-        "n": 2,
-        "pct": 0.0
+        "n": null,
+        "pct": null,
+        "suprimido": true
       }
     ],
     "Q002": [
@@ -1760,8 +1762,9 @@
       },
       {
         "categoria": null,
-        "n": 2,
-        "pct": 0.0
+        "n": null,
+        "pct": null,
+        "suprimido": true
       }
     ],
     "Q003": [
@@ -1797,8 +1800,9 @@
       },
       {
         "categoria": null,
-        "n": 2,
-        "pct": 0.0
+        "n": null,
+        "pct": null,
+        "suprimido": true
       }
     ],
     "Q004": [
@@ -1834,8 +1838,9 @@
       },
       {
         "categoria": null,
-        "n": 2,
-        "pct": 0.0
+        "n": null,
+        "pct": null,
+        "suprimido": true
       }
     ],
     "Q005": [
@@ -1926,23 +1931,27 @@
       },
       {
         "categoria": 17,
-        "n": 54,
-        "pct": 0.0
+        "n": null,
+        "pct": null,
+        "suprimido": true
       },
       {
         "categoria": 18,
-        "n": 48,
-        "pct": 0.0
+        "n": null,
+        "pct": null,
+        "suprimido": true
       },
       {
         "categoria": 19,
-        "n": 39,
-        "pct": 0.0
+        "n": null,
+        "pct": null,
+        "suprimido": true
       },
       {
         "categoria": null,
-        "n": 2,
-        "pct": 0.0
+        "n": null,
+        "pct": null,
+        "suprimido": true
       }
     ],
     "Q006": [
@@ -2033,8 +2042,9 @@
       },
       {
         "categoria": null,
-        "n": 2,
-        "pct": 0.0
+        "n": null,
+        "pct": null,
+        "suprimido": true
       }
     ],
     "Q007": [
@@ -2060,8 +2070,9 @@
       },
       {
         "categoria": null,
-        "n": 2,
-        "pct": 0.0
+        "n": null,
+        "pct": null,
+        "suprimido": true
       }
     ],
     "Q008": [
@@ -2092,8 +2103,9 @@
       },
       {
         "categoria": null,
-        "n": 2,
-        "pct": 0.0
+        "n": null,
+        "pct": null,
+        "suprimido": true
       }
     ],
     "Q009": [
@@ -2124,8 +2136,9 @@
       },
       {
         "categoria": null,
-        "n": 2,
-        "pct": 0.0
+        "n": null,
+        "pct": null,
+        "suprimido": true
       }
     ],
     "Q010": [
@@ -2156,8 +2169,9 @@
       },
       {
         "categoria": null,
-        "n": 2,
-        "pct": 0.0
+        "n": null,
+        "pct": null,
+        "suprimido": true
       }
     ],
     "Q011": [
@@ -2188,8 +2202,9 @@
       },
       {
         "categoria": null,
-        "n": 2,
-        "pct": 0.0
+        "n": null,
+        "pct": null,
+        "suprimido": true
       }
     ],
     "Q012": [
@@ -2220,8 +2235,9 @@
       },
       {
         "categoria": null,
-        "n": 2,
-        "pct": 0.0
+        "n": null,
+        "pct": null,
+        "suprimido": true
       }
     ],
     "Q013": [
@@ -2252,8 +2268,9 @@
       },
       {
         "categoria": null,
-        "n": 2,
-        "pct": 0.0
+        "n": null,
+        "pct": null,
+        "suprimido": true
       }
     ],
     "Q014": [
@@ -2284,8 +2301,9 @@
       },
       {
         "categoria": null,
-        "n": 2,
-        "pct": 0.0
+        "n": null,
+        "pct": null,
+        "suprimido": true
       }
     ],
     "Q015": [
@@ -2316,8 +2334,9 @@
       },
       {
         "categoria": null,
-        "n": 2,
-        "pct": 0.0
+        "n": null,
+        "pct": null,
+        "suprimido": true
       }
     ],
     "Q016": [
@@ -2348,8 +2367,9 @@
       },
       {
         "categoria": null,
-        "n": 2,
-        "pct": 0.0
+        "n": null,
+        "pct": null,
+        "suprimido": true
       }
     ],
     "Q017": [
@@ -2380,8 +2400,9 @@
       },
       {
         "categoria": null,
-        "n": 2,
-        "pct": 0.0
+        "n": null,
+        "pct": null,
+        "suprimido": true
       }
     ],
     "Q018": [
@@ -2397,8 +2418,9 @@
       },
       {
         "categoria": null,
-        "n": 2,
-        "pct": 0.0
+        "n": null,
+        "pct": null,
+        "suprimido": true
       }
     ],
     "Q019": [
@@ -2429,8 +2451,9 @@
       },
       {
         "categoria": null,
-        "n": 2,
-        "pct": 0.0
+        "n": null,
+        "pct": null,
+        "suprimido": true
       }
     ],
     "Q020": [
@@ -2446,8 +2469,9 @@
       },
       {
         "categoria": null,
-        "n": 2,
-        "pct": 0.0
+        "n": null,
+        "pct": null,
+        "suprimido": true
       }
     ],
     "Q021": [
@@ -2463,8 +2487,9 @@
       },
       {
         "categoria": null,
-        "n": 2,
-        "pct": 0.0
+        "n": null,
+        "pct": null,
+        "suprimido": true
       }
     ],
     "Q022": [
@@ -2495,8 +2520,9 @@
       },
       {
         "categoria": null,
-        "n": 2,
-        "pct": 0.0
+        "n": null,
+        "pct": null,
+        "suprimido": true
       }
     ],
     "Q023": [
@@ -2512,8 +2538,9 @@
       },
       {
         "categoria": null,
-        "n": 2,
-        "pct": 0.0
+        "n": null,
+        "pct": null,
+        "suprimido": true
       }
     ],
     "Q024": [
@@ -2544,8 +2571,9 @@
       },
       {
         "categoria": null,
-        "n": 2,
-        "pct": 0.0
+        "n": null,
+        "pct": null,
+        "suprimido": true
       }
     ],
     "Q025": [
@@ -2561,8 +2589,9 @@
       },
       {
         "categoria": null,
-        "n": 2,
-        "pct": 0.0
+        "n": null,
+        "pct": null,
+        "suprimido": true
       }
     ]
   }

@@ -20,6 +20,19 @@
 
 ---
 
+## 🔒 Protecao de dados (LGPD)
+
+Os microdados nunca vao para o repositorio e nenhum grupo com menos de 100
+participantes e publicado. Regras completas e checklist de PR em
+[`docs/privacidade.md`](docs/privacidade.md). Antes de abrir um PR que
+toque dados:
+
+```
+./.venv/bin/python scripts/verificar_piso.py
+```
+
+---
+
 ## ​🖥️​ Crie branches para seus pull requests
 
 Para cada feature, fix, docs, etc. repita os seguintes passos

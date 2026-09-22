@@ -5,7 +5,7 @@
     "csv_bytes": 2024556838,
     "linhas": 5783109,
     "colunas": 76,
-    "segundos_leitura_csv": 51.3
+    "segundos_leitura_csv": 24.4
   },
   "colunas": [
     {
@@ -773,8 +773,8 @@
     {
       "coluna": "NU_NOTA_CN",
       "n": 2597440,
-      "media": 490.4097924879797,
-      "desvio_padrao": 79.99999259357928,
+      "media": 490.4097924879811,
+      "desvio_padrao": 79.99999259357931,
       "minimo": 0.0,
       "p05": 373.5,
       "p25": 427.0,
@@ -787,8 +787,8 @@
     {
       "coluna": "NU_NOTA_CH",
       "n": 2754140,
-      "media": 511.1522016310064,
-      "desvio_padrao": 96.22298759574196,
+      "media": 511.15220163100656,
+      "desvio_padrao": 96.2229875957411,
       "minimo": 0.0,
       "p05": 365.8,
       "p25": 435.3,
@@ -801,8 +801,8 @@
     {
       "coluna": "NU_NOTA_LC",
       "n": 2754140,
-      "media": 523.8009359364431,
-      "desvio_padrao": 74.54599977084264,
+      "media": 523.8009359364409,
+      "desvio_padrao": 74.5459997708428,
       "minimo": 0.0,
       "p05": 389.3,
       "p25": 478.0,
@@ -815,8 +815,8 @@
     {
       "coluna": "NU_NOTA_MT",
       "n": 2597440,
-      "media": 520.5783348219769,
-      "desvio_padrao": 117.30545253265969,
+      "media": 520.5783348219728,
+      "desvio_padrao": 117.30545253265902,
       "minimo": 0.0,
       "p05": 359.1,
       "p25": 425.8,
@@ -830,7 +830,7 @@
       "coluna": "NU_NOTA_REDACAO",
       "n": 2754140,
       "media": 573.4127241171473,
-      "desvio_padrao": 199.82015169962145,
+      "desvio_padrao": 199.82015169962176,
       "minimo": 0,
       "p05": 280.0,
       "p25": 460.0,
@@ -1926,13 +1926,15 @@
       },
       {
         "categoria": 18,
-        "n": 98,
-        "pct": 0.0
+        "n": null,
+        "pct": null,
+        "suprimido": true
       },
       {
         "categoria": 19,
-        "n": 64,
-        "pct": 0.0
+        "n": null,
+        "pct": null,
+        "suprimido": true
       }
     ],
     "Q006": [

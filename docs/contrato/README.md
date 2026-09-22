@@ -55,8 +55,8 @@ Categorias que entram ou saem ao longo do periodo — filtrar por uma delas rest
 
 | Variavel | Codigo | Situacao |
 | --- | --- | --- |
-| `TP_COR_RACA` | `6` | Documentada em 2021-2022; ocorre so em 2021, com 5 registros. Categoria propria, nunca agrupada com `0`. |
-| `TP_ENSINO` | `3` | EJA. Existe so em 2019-2020. |
+| `TP_COR_RACA` | `6` | Documentada em 2021-2022; ocorre so em 2021, abaixo do piso de grupo. Categoria propria, nunca agrupada com `0`, suprimida de toda saida. |
+| `TP_ENSINO` | `3` | EJA. Documentada em 2019-2020, nunca observada. |
 | `TP_ESCOLA` | `4` | 'Exterior'. Documentada em 2019-2020, nunca observada. |
 
 ## 4. Campos mantidos
@@ -173,7 +173,7 @@ Campos cuja regra nao e a identidade, ou que filtram populacao.
 
 **`TP_COR_RACA` -> `cor_raca`**
 
-- Transformacao: Codigo preservado. O codigo 6 ('Nao dispoe da informacao') so existe no dicionario de 2021-2022 e so ocorre em 2021, com 5 registros: tratado como categoria propria, nunca agrupado com 0 ('Nao declarado'), e suprimido pelo piso de tamanho de grupo.
+- Transformacao: Codigo preservado. O codigo 6 ('Nao dispoe da informacao') so existe no dicionario de 2021-2022 e so ocorre em 2021, abaixo do piso de tamanho de grupo: tratado como categoria propria, nunca agrupado com 0 ('Nao declarado'), e suprimido de toda saida.
 
 **`TP_ST_CONCLUSAO` -> `situacao_conclusao`**
 
@@ -190,7 +190,7 @@ Campos cuja regra nao e a identidade, ou que filtram populacao.
 
 **`TP_ENSINO` -> `tipo_ensino`**
 
-- Transformacao: Codigo preservado. O codigo 3 ('Educacao de Jovens e Adultos') existe so em 2019-2020: recorte por EJA nao e comparavel nas quatro edicoes e fica restrito a essas duas.
+- Transformacao: Codigo preservado. O codigo 3 ('Educacao de Jovens e Adultos') consta no dicionario de 2019-2020, mas nunca ocorre nos dados de nenhuma edicao: nao ha recorte por EJA.
 
 **`SG_UF_PROVA` -> `uf_prova`**
 
@@ -199,6 +199,7 @@ Campos cuja regra nao e a identidade, ou que filtram populacao.
 **`CO_MUNICIPIO_PROVA` -> `cod_municipio_prova`**
 
 - Transformacao: Codigo IBGE preservado; chave estavel para recorte municipal.
+- Nota: LGPD: e o campo de maior risco de reidentificacao do contrato. Municipio cruzado com cor/raca, faixa etaria ou renda gera grupos de poucas pessoas; todo agregado municipal passa pelo piso de tamanho de grupo antes de sair da camada ANALYTICS.
 
 **`NO_MUNICIPIO_PROVA` -> `municipio_prova`**
 
@@ -236,8 +237,17 @@ Campos cuja regra nao e a identidade, ou que filtram populacao.
 | `CO_UF_ESC` | 0.01 GB | Redundante com SG_UF_ESC. |
 | `TP_SIT_FUNC_ESC` | 0.00 GB | Situacao de funcionamento da escola. Atributo do estabelecimento, nao do participante; fora dos recortes previstos. |
 
-## 6. Decisoes em aberto
+## 6. Protecao de dados (LGPD)
 
-1. **Piso de tamanho de grupo.** Proposta tecnica: nao exibir recorte com menos de **100 participantes** elegiveis. Cobre o caso concreto ja detectado (`TP_COR_RACA = 6`, com 5 registros em 2021) e mantem folga sobre o minimo estatistico usual de 30. Pendente de aceite do PO.
+Regras completas em [`docs/privacidade.md`](../privacidade.md). O que o contrato impoe ao ETL:
+
+- **Piso de grupo:** nenhuma contagem ou estatistica calculada sobre menos de **100 participantes** sai da camada ANALYTICS. Vale para cada celula de um cruzamento, nao so para o total do recorte.
+- **Dados sensiveis** (art. 5o, II): `TP_COR_RACA`. So agregados e sujeitos ao piso; o campo `sensivel` do `contrato.json` marca quais sao.
+- **Identificador:** `NU_INSCRICAO` e descartado na passagem RAW -> TRUSTED (secao 5).
+- **Recorte municipal:** `CO_MUNICIPIO_PROVA` e o campo de maior risco. Cruzamentos municipais passam pelo piso celula a celula.
+
+## 7. Decisoes em aberto
+
+1. **Valor do piso de tamanho de grupo.** Ja aplicado com **100 participantes** (secao 6), o que mantem folga sobre o minimo estatistico usual de 30. O valor segue pendente de aceite do PO; mudar exige alterar `PISO_GRUPO` em `scripts/colunas.py` e regerar profiling e contrato.
 2. **Modulos consumidores.** O plano preve quatro modulos autorais definidos na Sprint 5; ate la os campos estao marcados como `a definir`. Os campos de nota, presenca e `IN_TREINEIRO` ja constam como `todos`, por sustentarem a elegibilidade comum.
 3. **Deflator.** As faixas de `Q006` sao estaveis em multiplos do salario minimo, mas comparar poder de compra entre 2019 e 2022 exigiria deflacionar. O produto **nao** aplica deflator: e uma limitacao declarada, coerente com a ressalva do plano de que o Radar ENEM e instrumento descritivo.

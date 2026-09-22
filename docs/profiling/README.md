@@ -6,10 +6,10 @@ Gerado por `scripts/profiling.py`. Numeros brutos em `profiling_<ano>.json`. Ate
 
 | Edicao | ZIP | CSV | Linhas | Colunas | Leitura |
 | --- | --- | --- | --- | --- | --- |
-| 2019 | 0.61 GB | 2.24 GB | 5.095.171 | 76 | 51.8s |
-| 2020 | 0.58 GB | 1.89 GB | 5.783.109 | 76 | 51.3s |
-| 2021 | 0.46 GB | 1.40 GB | 3.389.832 | 76 | 38.2s |
-| 2022 | 0.58 GB | 1.46 GB | 3.476.105 | 76 | 41.6s |
+| 2019 | 0.61 GB | 2.24 GB | 5.095.171 | 76 | 21.7s |
+| 2020 | 0.58 GB | 1.89 GB | 5.783.109 | 76 | 24.4s |
+| 2021 | 0.46 GB | 1.40 GB | 3.389.832 | 76 | 14.9s |
+| 2022 | 0.58 GB | 1.46 GB | 3.476.105 | 76 | 18.2s |
 
 ## 2. Funil de presenca e elegibilidade
 
