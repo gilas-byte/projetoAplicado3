@@ -6,3 +6,23 @@ __pycache__/
 
 # Arquivos copiados
 *_copy.*
+
+# Dados: nenhuma camada (RAW/TRUSTED/ANALYTICS) vai para o repositorio.
+# Ver Plano de Trabalho, item 5: "fixtures sinteticas serao mantidas no
+# repositorio, sem versionar o dataset completo".
+/data/*
+!/data/raw/
+/data/raw/*
+# Excecao: o hash da fonte e a evidencia de rastreabilidade exigida pelo
+# plano ("arquivo original preservado e identificado por hash SHA-256").
+!/data/raw/hashes.sha256
+
+# Rede de seguranca: formatos de dados pesados fora de data/, caso alguem
+# salve um arquivo no lugar errado antes de rodar "git add .".
+*.parquet
+*.zip
+*.csv
+*.ods
+# ...mas as fixtures sinteticas SAO versionadas (exigencia do plano, item 5
+# e "Validacao": datasets sinteticos de resultado conhecido).
+!tests/fixtures/**

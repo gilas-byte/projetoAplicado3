@@ -1,0 +1,4619 @@
+{
+  "recorte": [
+    2019,
+    2020,
+    2021,
+    2022
+  ],
+  "piso_grupo": 100,
+  "salario_minimo": {
+    "2019": 998.0,
+    "2020": 1045.0,
+    "2021": 1100.0,
+    "2022": 1212.0
+  },
+  "campos": {
+    "NU_ANO": {
+      "inep": "NU_ANO",
+      "descricao_inep": "Ano do Enem",
+      "interno": "ano",
+      "destino": "particao",
+      "ausencia": "Nunca ausente nas quatro edicoes.",
+      "transformacao": "Constante dentro de cada edicao; vira coluna de particao do Parquet.",
+      "elegibilidade": "Nao participa da elegibilidade.",
+      "modulos": "todos",
+      "nota": "",
+      "sensivel": false,
+      "por_ano": {
+        "2019": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 0.0,
+          "distintos": 1,
+          "bytes_texto": 20380684,
+          "categorias": {}
+        },
+        "2020": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 0.0,
+          "distintos": 1,
+          "bytes_texto": 23132436,
+          "categorias": {}
+        },
+        "2021": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 0.0,
+          "distintos": 1,
+          "bytes_texto": 13559328,
+          "categorias": {}
+        },
+        "2022": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 0.0,
+          "distintos": 1,
+          "bytes_texto": 13904420,
+          "categorias": {}
+        }
+      }
+    },
+    "NU_INSCRICAO": {
+      "inep": "NU_INSCRICAO",
+      "descricao_inep": "Número de inscrição1",
+      "interno": "-",
+      "destino": "descartada",
+      "ausencia": "-",
+      "transformacao": "-",
+      "elegibilidade": "Nao participa da elegibilidade.",
+      "modulos": "-",
+      "nota": "Identificador individual. O produto so publica agregados, entao o numero de inscricao nao tem uso analitico e carrega risco de reidentificacao. Removido na passagem RAW -> TRUSTED.",
+      "sensivel": false,
+      "por_ano": {
+        "2019": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 0.0,
+          "distintos": 4692410,
+          "bytes_texto": 61142052,
+          "categorias": {}
+        },
+        "2020": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 0.0,
+          "distintos": 5275716,
+          "bytes_texto": 69397308,
+          "categorias": {}
+        },
+        "2021": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 0.0,
+          "distintos": 2712334,
+          "bytes_texto": 40677984,
+          "categorias": {}
+        },
+        "2022": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 0.0,
+          "distintos": 3191516,
+          "bytes_texto": 41713260,
+          "categorias": {}
+        }
+      }
+    },
+    "TP_PRESENCA_CN": {
+      "inep": "TP_PRESENCA_CN",
+      "descricao_inep": "Presença na prova objetiva de Ciências da Natureza",
+      "interno": "presenca_cn",
+      "destino": "analytics",
+      "ausencia": "Nunca ausente nas quatro edicoes.",
+      "transformacao": "0=faltou, 1=presente, 2=eliminado. Codigo preservado.",
+      "elegibilidade": "Criterio primario: elegivel exige valor 1 nas quatro areas. Eliminados (2) sao excluidos e contabilizados no funil.",
+      "modulos": "todos",
+      "nota": "",
+      "sensivel": false,
+      "por_ano": {
+        "2019": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 0.0,
+          "distintos": 3,
+          "bytes_texto": 5095171,
+          "categorias": {
+            "0": "Faltou à prova",
+            "1": "Presente na prova",
+            "2": "Eliminado na prova"
+          }
+        },
+        "2020": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 0.0,
+          "distintos": 3,
+          "bytes_texto": 5783109,
+          "categorias": {
+            "0": "Faltou à prova",
+            "1": "Presente na prova",
+            "2": "Eliminado na prova"
+          }
+        },
+        "2021": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 0.0,
+          "distintos": 3,
+          "bytes_texto": 3389832,
+          "categorias": {
+            "0": "Faltou à prova",
+            "1": "Presente na prova",
+            "2": "Eliminado na prova"
+          }
+        },
+        "2022": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 0.0,
+          "distintos": 3,
+          "bytes_texto": 3476105,
+          "categorias": {
+            "0": "Faltou à prova",
+            "1": "Presente na prova",
+            "2": "Eliminado na prova"
+          }
+        }
+      }
+    },
+    "TP_PRESENCA_CH": {
+      "inep": "TP_PRESENCA_CH",
+      "descricao_inep": "Presença na prova objetiva de Ciências Humanas",
+      "interno": "presenca_ch",
+      "destino": "analytics",
+      "ausencia": "Nunca ausente nas quatro edicoes.",
+      "transformacao": "0=faltou, 1=presente, 2=eliminado. Codigo preservado.",
+      "elegibilidade": "Criterio primario: elegivel exige valor 1 nas quatro areas. Eliminados (2) sao excluidos e contabilizados no funil.",
+      "modulos": "todos",
+      "nota": "",
+      "sensivel": false,
+      "por_ano": {
+        "2019": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 0.0,
+          "distintos": 3,
+          "bytes_texto": 5095171,
+          "categorias": {
+            "0": "Faltou à prova",
+            "1": "Presente na prova",
+            "2": "Eliminado na prova"
+          }
+        },
+        "2020": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 0.0,
+          "distintos": 3,
+          "bytes_texto": 5783109,
+          "categorias": {
+            "0": "Faltou à prova",
+            "1": "Presente na prova",
+            "2": "Eliminado na prova"
+          }
+        },
+        "2021": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 0.0,
+          "distintos": 3,
+          "bytes_texto": 3389832,
+          "categorias": {
+            "0": "Faltou à prova",
+            "1": "Presente na prova",
+            "2": "Eliminado na prova"
+          }
+        },
+        "2022": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 0.0,
+          "distintos": 3,
+          "bytes_texto": 3476105,
+          "categorias": {
+            "0": "Faltou à prova",
+            "1": "Presente na prova",
+            "2": "Eliminado na prova"
+          }
+        }
+      }
+    },
+    "TP_PRESENCA_LC": {
+      "inep": "TP_PRESENCA_LC",
+      "descricao_inep": "Presença na prova objetiva de Linguagens e Códigos",
+      "interno": "presenca_lc",
+      "destino": "analytics",
+      "ausencia": "Nunca ausente nas quatro edicoes.",
+      "transformacao": "0=faltou, 1=presente, 2=eliminado. Codigo preservado.",
+      "elegibilidade": "Criterio primario: elegivel exige valor 1 nas quatro areas. Eliminados (2) sao excluidos e contabilizados no funil.",
+      "modulos": "todos",
+      "nota": "",
+      "sensivel": false,
+      "por_ano": {
+        "2019": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 0.0,
+          "distintos": 3,
+          "bytes_texto": 5095171,
+          "categorias": {
+            "0": "Faltou à prova",
+            "1": "Presente na prova",
+            "2": "Eliminado na prova"
+          }
+        },
+        "2020": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 0.0,
+          "distintos": 3,
+          "bytes_texto": 5783109,
+          "categorias": {
+            "0": "Faltou à prova",
+            "1": "Presente na prova",
+            "2": "Eliminado na prova"
+          }
+        },
+        "2021": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 0.0,
+          "distintos": 3,
+          "bytes_texto": 3389832,
+          "categorias": {
+            "0": "Faltou à prova",
+            "1": "Presente na prova",
+            "2": "Eliminado na prova"
+          }
+        },
+        "2022": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 0.0,
+          "distintos": 3,
+          "bytes_texto": 3476105,
+          "categorias": {
+            "0": "Faltou à prova",
+            "1": "Presente na prova",
+            "2": "Eliminado na prova"
+          }
+        }
+      }
+    },
+    "TP_PRESENCA_MT": {
+      "inep": "TP_PRESENCA_MT",
+      "descricao_inep": "Presença na prova objetiva de Matemática",
+      "interno": "presenca_mt",
+      "destino": "analytics",
+      "ausencia": "Nunca ausente nas quatro edicoes.",
+      "transformacao": "0=faltou, 1=presente, 2=eliminado. Codigo preservado.",
+      "elegibilidade": "Criterio primario: elegivel exige valor 1 nas quatro areas. Eliminados (2) sao excluidos e contabilizados no funil.",
+      "modulos": "todos",
+      "nota": "",
+      "sensivel": false,
+      "por_ano": {
+        "2019": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 0.0,
+          "distintos": 3,
+          "bytes_texto": 5095171,
+          "categorias": {
+            "0": "Faltou à prova",
+            "1": "Presente na prova",
+            "2": "Eliminado na prova"
+          }
+        },
+        "2020": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 0.0,
+          "distintos": 3,
+          "bytes_texto": 5783109,
+          "categorias": {
+            "0": "Faltou à prova",
+            "1": "Presente na prova",
+            "2": "Eliminado na prova"
+          }
+        },
+        "2021": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 0.0,
+          "distintos": 3,
+          "bytes_texto": 3389832,
+          "categorias": {
+            "0": "Faltou à prova",
+            "1": "Presente na prova",
+            "2": "Eliminado na prova"
+          }
+        },
+        "2022": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 0.0,
+          "distintos": 3,
+          "bytes_texto": 3476105,
+          "categorias": {
+            "0": "Faltou à prova",
+            "1": "Presente na prova",
+            "2": "Eliminado na prova"
+          }
+        }
+      }
+    },
+    "IN_TREINEIRO": {
+      "inep": "IN_TREINEIRO",
+      "descricao_inep": "Indica se o inscrito fez a prova com intuito de apenas treinar seus conhecimentos3",
+      "interno": "treineiro",
+      "destino": "analytics",
+      "ausencia": "Nunca ausente nas quatro edicoes.",
+      "transformacao": "0/1. Codigo preservado.",
+      "elegibilidade": "Criterio primario: treineiros (1) ficam fora da populacao de comparacao, porque nao disputam vaga e sua distribuicao de notas responde a outra motivacao.",
+      "modulos": "todos",
+      "nota": "",
+      "sensivel": false,
+      "por_ano": {
+        "2019": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 0.0,
+          "distintos": 2,
+          "bytes_texto": 5095171,
+          "categorias": {
+            "1": "Sim",
+            "0": "Não"
+          }
+        },
+        "2020": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 0.0,
+          "distintos": 2,
+          "bytes_texto": 5783109,
+          "categorias": {
+            "1": "Sim",
+            "0": "Não"
+          }
+        },
+        "2021": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 0.0,
+          "distintos": 2,
+          "bytes_texto": 3389832,
+          "categorias": {
+            "1": "Sim",
+            "0": "Não"
+          }
+        },
+        "2022": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 0.0,
+          "distintos": 2,
+          "bytes_texto": 3476105,
+          "categorias": {
+            "1": "Sim",
+            "0": "Não"
+          }
+        }
+      }
+    },
+    "NU_NOTA_CN": {
+      "inep": "NU_NOTA_CN",
+      "descricao_inep": "Nota da prova de Ciências da Natureza",
+      "interno": "nota_cn",
+      "destino": "analytics",
+      "ausencia": "Ausente quando o participante nao fez a prova da area. Ausencia e nota zero sao estados distintos: zero significa prova feita e zerada.",
+      "transformacao": "Nenhuma. Escala TRI de 0 a 1000, ja comparavel dentro da edicao.",
+      "elegibilidade": "Nao participa da elegibilidade.",
+      "modulos": "todos",
+      "nota": "Entrada informada pelo usuario no produto.",
+      "sensivel": false,
+      "por_ano": {
+        "2019": {
+          "tipo_observado": "DOUBLE",
+          "pct_ausentes": 27.18,
+          "distintos": 4479,
+          "bytes_texto": 18550463,
+          "categorias": {}
+        },
+        "2020": {
+          "tipo_observado": "DOUBLE",
+          "pct_ausentes": 55.09,
+          "distintos": 4739,
+          "bytes_texto": 12985790,
+          "categorias": {}
+        },
+        "2021": {
+          "tipo_observado": "DOUBLE",
+          "pct_ausentes": 33.75,
+          "distintos": 5124,
+          "bytes_texto": 11228434,
+          "categorias": {}
+        },
+        "2022": {
+          "tipo_observado": "DOUBLE",
+          "pct_ausentes": 32.24,
+          "distintos": 4512,
+          "bytes_texto": 11775947,
+          "categorias": {}
+        }
+      }
+    },
+    "NU_NOTA_CH": {
+      "inep": "NU_NOTA_CH",
+      "descricao_inep": "Nota da prova de Ciências Humanas",
+      "interno": "nota_ch",
+      "destino": "analytics",
+      "ausencia": "Ausente quando o participante nao fez a prova da area. Ausencia e nota zero sao estados distintos: zero significa prova feita e zerada.",
+      "transformacao": "Nenhuma. Escala TRI de 0 a 1000, ja comparavel dentro da edicao.",
+      "elegibilidade": "Nao participa da elegibilidade.",
+      "modulos": "todos",
+      "nota": "Entrada informada pelo usuario no produto.",
+      "sensivel": false,
+      "por_ano": {
+        "2019": {
+          "tipo_observado": "DOUBLE",
+          "pct_ausentes": 23.0,
+          "distintos": 4486,
+          "bytes_texto": 19603430,
+          "categorias": {}
+        },
+        "2020": {
+          "tipo_observado": "DOUBLE",
+          "pct_ausentes": 52.38,
+          "distintos": 4989,
+          "bytes_texto": 13760566,
+          "categorias": {}
+        },
+        "2021": {
+          "tipo_observado": "DOUBLE",
+          "pct_ausentes": 29.84,
+          "distintos": 4595,
+          "bytes_texto": 11882631,
+          "categorias": {}
+        },
+        "2022": {
+          "tipo_observado": "DOUBLE",
+          "pct_ausentes": 28.27,
+          "distintos": 4433,
+          "bytes_texto": 12458264,
+          "categorias": {}
+        }
+      }
+    },
+    "NU_NOTA_LC": {
+      "inep": "NU_NOTA_LC",
+      "descricao_inep": "Nota da prova de Linguagens e Códigos",
+      "interno": "nota_lc",
+      "destino": "analytics",
+      "ausencia": "Ausente quando o participante nao fez a prova da area. Ausencia e nota zero sao estados distintos: zero significa prova feita e zerada.",
+      "transformacao": "Nenhuma. Escala TRI de 0 a 1000, ja comparavel dentro da edicao.",
+      "elegibilidade": "Nao participa da elegibilidade.",
+      "modulos": "todos",
+      "nota": "Entrada informada pelo usuario no produto.",
+      "sensivel": false,
+      "por_ano": {
+        "2019": {
+          "tipo_observado": "DOUBLE",
+          "pct_ausentes": 23.0,
+          "distintos": 3927,
+          "bytes_texto": 19609056,
+          "categorias": {}
+        },
+        "2020": {
+          "tipo_observado": "DOUBLE",
+          "pct_ausentes": 52.38,
+          "distintos": 4010,
+          "bytes_texto": 13766002,
+          "categorias": {}
+        },
+        "2021": {
+          "tipo_observado": "DOUBLE",
+          "pct_ausentes": 29.84,
+          "distintos": 4199,
+          "bytes_texto": 11887399,
+          "categorias": {}
+        },
+        "2022": {
+          "tipo_observado": "DOUBLE",
+          "pct_ausentes": 28.27,
+          "distintos": 4237,
+          "bytes_texto": 12463672,
+          "categorias": {}
+        }
+      }
+    },
+    "NU_NOTA_MT": {
+      "inep": "NU_NOTA_MT",
+      "descricao_inep": "Nota da prova de Matemática",
+      "interno": "nota_mt",
+      "destino": "analytics",
+      "ausencia": "Ausente quando o participante nao fez a prova da area. Ausencia e nota zero sao estados distintos: zero significa prova feita e zerada.",
+      "transformacao": "Nenhuma. Escala TRI de 0 a 1000, ja comparavel dentro da edicao.",
+      "elegibilidade": "Nao participa da elegibilidade.",
+      "modulos": "todos",
+      "nota": "Entrada informada pelo usuario no produto.",
+      "sensivel": false,
+      "por_ano": {
+        "2019": {
+          "tipo_observado": "DOUBLE",
+          "pct_ausentes": 27.18,
+          "distintos": 5973,
+          "bytes_texto": 18550181,
+          "categorias": {}
+        },
+        "2020": {
+          "tipo_observado": "DOUBLE",
+          "pct_ausentes": 55.09,
+          "distintos": 6431,
+          "bytes_texto": 12985374,
+          "categorias": {}
+        },
+        "2021": {
+          "tipo_observado": "DOUBLE",
+          "pct_ausentes": 33.75,
+          "distintos": 5813,
+          "bytes_texto": 11228314,
+          "categorias": {}
+        },
+        "2022": {
+          "tipo_observado": "DOUBLE",
+          "pct_ausentes": 32.24,
+          "distintos": 6479,
+          "bytes_texto": 11775889,
+          "categorias": {}
+        }
+      }
+    },
+    "NU_NOTA_REDACAO": {
+      "inep": "NU_NOTA_REDACAO",
+      "descricao_inep": "Nota da prova de redação",
+      "interno": "nota_redacao",
+      "destino": "analytics",
+      "ausencia": "Ausente quando o participante nao fez a prova da area. Ausencia e nota zero sao estados distintos: zero significa prova feita e zerada.",
+      "transformacao": "Nenhuma. Escala de 0 a 1000.",
+      "elegibilidade": "Nao participa da elegibilidade.",
+      "modulos": "todos",
+      "nota": "Entrada informada pelo usuario no produto.",
+      "sensivel": false,
+      "por_ano": {
+        "2019": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 23.0,
+          "distintos": 51,
+          "bytes_texto": 11481570,
+          "categorias": {}
+        },
+        "2020": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 52.38,
+          "distintos": 51,
+          "bytes_texto": 8103797,
+          "categorias": {}
+        },
+        "2021": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 29.84,
+          "distintos": 51,
+          "bytes_texto": 6965698,
+          "categorias": {}
+        },
+        "2022": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 28.27,
+          "distintos": 51,
+          "bytes_texto": 7220498,
+          "categorias": {}
+        }
+      }
+    },
+    "NU_NOTA_COMP1": {
+      "inep": "NU_NOTA_COMP1",
+      "descricao_inep": "Nota da competência 1 - Demonstrar domínio da modalidade escrita formal da Língua Portuguesa.",
+      "interno": "nota_redacao_comp1",
+      "destino": "analytics",
+      "ausencia": "Ausente quando o participante nao fez a prova da area. Ausencia e nota zero sao estados distintos: zero significa prova feita e zerada.",
+      "transformacao": "Nenhuma. Escala de 0 a 200 por competencia.",
+      "elegibilidade": "Nao participa da elegibilidade.",
+      "modulos": "a definir (Sprint 5)",
+      "nota": "Competencia interna da redacao; nao e entrada do usuario.",
+      "sensivel": false,
+      "por_ano": {
+        "2019": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 23.0,
+          "distintos": 12,
+          "bytes_texto": 11192588,
+          "categorias": {}
+        },
+        "2020": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 52.38,
+          "distintos": 12,
+          "bytes_texto": 7809554,
+          "categorias": {}
+        },
+        "2021": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 29.84,
+          "distintos": 12,
+          "bytes_texto": 6738721,
+          "categorias": {}
+        },
+        "2022": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 28.27,
+          "distintos": 12,
+          "bytes_texto": 7035294,
+          "categorias": {}
+        }
+      }
+    },
+    "NU_NOTA_COMP2": {
+      "inep": "NU_NOTA_COMP2",
+      "descricao_inep": "Nota da competência 2 - Compreender a proposta de redação e aplicar conceitos das várias áreas de conhecimento para desenvolver o tema, dentro dos limites estruturais do texto dissertativo-argumentativo em prosa.",
+      "interno": "nota_redacao_comp2",
+      "destino": "analytics",
+      "ausencia": "Ausente quando o participante nao fez a prova da area. Ausencia e nota zero sao estados distintos: zero significa prova feita e zerada.",
+      "transformacao": "Nenhuma. Escala de 0 a 200 por competencia.",
+      "elegibilidade": "Nao participa da elegibilidade.",
+      "modulos": "a definir (Sprint 5)",
+      "nota": "Competencia interna da redacao; nao e entrada do usuario.",
+      "sensivel": false,
+      "por_ano": {
+        "2019": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 23.0,
+          "distintos": 11,
+          "bytes_texto": 11117497,
+          "categorias": {}
+        },
+        "2020": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 52.38,
+          "distintos": 11,
+          "bytes_texto": 7639290,
+          "categorias": {}
+        },
+        "2021": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 29.84,
+          "distintos": 11,
+          "bytes_texto": 6884312,
+          "categorias": {}
+        },
+        "2022": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 28.27,
+          "distintos": 11,
+          "bytes_texto": 7062968,
+          "categorias": {}
+        }
+      }
+    },
+    "NU_NOTA_COMP3": {
+      "inep": "NU_NOTA_COMP3",
+      "descricao_inep": "Nota da competência 3 - Selecionar, relacionar, organizar e interpretar informações, fatos, opiniões e argumentos em defesa de um ponto de vista.",
+      "interno": "nota_redacao_comp3",
+      "destino": "analytics",
+      "ausencia": "Ausente quando o participante nao fez a prova da area. Ausencia e nota zero sao estados distintos: zero significa prova feita e zerada.",
+      "transformacao": "Nenhuma. Escala de 0 a 200 por competencia.",
+      "elegibilidade": "Nao participa da elegibilidade.",
+      "modulos": "a definir (Sprint 5)",
+      "nota": "Competencia interna da redacao; nao e entrada do usuario.",
+      "sensivel": false,
+      "por_ano": {
+        "2019": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 23.0,
+          "distintos": 12,
+          "bytes_texto": 10887463,
+          "categorias": {}
+        },
+        "2020": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 52.38,
+          "distintos": 12,
+          "bytes_texto": 7473344,
+          "categorias": {}
+        },
+        "2021": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 29.84,
+          "distintos": 12,
+          "bytes_texto": 6638167,
+          "categorias": {}
+        },
+        "2022": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 28.27,
+          "distintos": 12,
+          "bytes_texto": 6902456,
+          "categorias": {}
+        }
+      }
+    },
+    "NU_NOTA_COMP4": {
+      "inep": "NU_NOTA_COMP4",
+      "descricao_inep": "Nota da competência 4 - Demonstrar conhecimento dos mecanismos linguísticos necessários para a construção da argumentação.",
+      "interno": "nota_redacao_comp4",
+      "destino": "analytics",
+      "ausencia": "Ausente quando o participante nao fez a prova da area. Ausencia e nota zero sao estados distintos: zero significa prova feita e zerada.",
+      "transformacao": "Nenhuma. Escala de 0 a 200 por competencia.",
+      "elegibilidade": "Nao participa da elegibilidade.",
+      "modulos": "a definir (Sprint 5)",
+      "nota": "Competencia interna da redacao; nao e entrada do usuario.",
+      "sensivel": false,
+      "por_ano": {
+        "2019": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 23.0,
+          "distintos": 12,
+          "bytes_texto": 11105239,
+          "categorias": {}
+        },
+        "2020": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 52.38,
+          "distintos": 12,
+          "bytes_texto": 7822847,
+          "categorias": {}
+        },
+        "2021": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 29.84,
+          "distintos": 12,
+          "bytes_texto": 6836342,
+          "categorias": {}
+        },
+        "2022": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 28.27,
+          "distintos": 12,
+          "bytes_texto": 7113910,
+          "categorias": {}
+        }
+      }
+    },
+    "NU_NOTA_COMP5": {
+      "inep": "NU_NOTA_COMP5",
+      "descricao_inep": "Nota da competência 5 - Elaborar proposta de intervenção para o problema abordado, respeitando os direitos humanos.",
+      "interno": "nota_redacao_comp5",
+      "destino": "analytics",
+      "ausencia": "Ausente quando o participante nao fez a prova da area. Ausencia e nota zero sao estados distintos: zero significa prova feita e zerada.",
+      "transformacao": "Nenhuma. Escala de 0 a 200 por competencia.",
+      "elegibilidade": "Nao participa da elegibilidade.",
+      "modulos": "a definir (Sprint 5)",
+      "nota": "Competencia interna da redacao; nao e entrada do usuario.",
+      "sensivel": false,
+      "por_ano": {
+        "2019": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 23.0,
+          "distintos": 12,
+          "bytes_texto": 9302603,
+          "categorias": {}
+        },
+        "2020": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 52.38,
+          "distintos": 12,
+          "bytes_texto": 6761562,
+          "categorias": {}
+        },
+        "2021": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 29.84,
+          "distintos": 12,
+          "bytes_texto": 6109419,
+          "categorias": {}
+        },
+        "2022": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 28.27,
+          "distintos": 12,
+          "bytes_texto": 6432748,
+          "categorias": {}
+        }
+      }
+    },
+    "TP_STATUS_REDACAO": {
+      "inep": "TP_STATUS_REDACAO",
+      "descricao_inep": "Situação da redação do participante",
+      "interno": "status_redacao",
+      "destino": "analytics",
+      "ausencia": "Ausente quando o participante nao fez a prova da area. Ausencia e nota zero sao estados distintos: zero significa prova feita e zerada.",
+      "transformacao": "Codigo preservado. Distingue anulada, em branco e situacoes especiais.",
+      "elegibilidade": "Nao participa da elegibilidade.",
+      "modulos": "a definir (Sprint 5)",
+      "nota": "Necessaria para separar redacao zerada por anulacao de redacao zerada por desempenho.",
+      "sensivel": false,
+      "por_ano": {
+        "2019": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 23.0,
+          "distintos": 8,
+          "bytes_texto": 3923045,
+          "categorias": {
+            "1": "Sem problemas",
+            "2": "Anulada",
+            "3": "Cópia Texto Motivador",
+            "4": "Em Branco",
+            "6": "Fuga ao tema",
+            "7": "Não atendimento ao tipo textual",
+            "8": "Texto insuficiente",
+            "9": "Parte desconectada"
+          }
+        },
+        "2020": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 52.38,
+          "distintos": 8,
+          "bytes_texto": 2754140,
+          "categorias": {
+            "1": "Sem problemas",
+            "2": "Anulada",
+            "3": "Cópia Texto Motivador",
+            "4": "Em Branco",
+            "6": "Fuga ao tema",
+            "7": "Não atendimento ao tipo textual",
+            "8": "Texto insuficiente",
+            "9": "Parte desconectada"
+          }
+        },
+        "2021": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 29.84,
+          "distintos": 8,
+          "bytes_texto": 2378379,
+          "categorias": {
+            "1": "Sem problemas",
+            "2": "Anulada",
+            "3": "Cópia Texto Motivador",
+            "4": "Em Branco",
+            "6": "Fuga ao tema",
+            "7": "Não atendimento ao tipo textual",
+            "8": "Texto insuficiente",
+            "9": "Parte desconectada"
+          }
+        },
+        "2022": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 28.27,
+          "distintos": 8,
+          "bytes_texto": 2493442,
+          "categorias": {
+            "1": "Sem problemas",
+            "2": "Anulada",
+            "3": "Cópia Texto Motivador",
+            "4": "Em Branco",
+            "6": "Fuga ao tema",
+            "7": "Não atendimento ao tipo textual",
+            "8": "Texto insuficiente",
+            "9": "Parte desconectada"
+          }
+        }
+      }
+    },
+    "TP_LINGUA": {
+      "inep": "TP_LINGUA",
+      "descricao_inep": "Língua Estrangeira",
+      "interno": "lingua_estrangeira",
+      "destino": "analytics",
+      "ausencia": "Nunca ausente nas quatro edicoes.",
+      "transformacao": "0=ingles, 1=espanhol. Codigo preservado.",
+      "elegibilidade": "Nao participa da elegibilidade.",
+      "modulos": "a definir (Sprint 5)",
+      "nota": "Afeta a prova de LC; recorte relevante para comparar notas de LC.",
+      "sensivel": false,
+      "por_ano": {
+        "2019": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 0.0,
+          "distintos": 2,
+          "bytes_texto": 5095171,
+          "categorias": {
+            "0": "Inglês",
+            "1": "Espanhol"
+          }
+        },
+        "2020": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 0.0,
+          "distintos": 2,
+          "bytes_texto": 5783109,
+          "categorias": {
+            "0": "Inglês",
+            "1": "Espanhol"
+          }
+        },
+        "2021": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 0.0,
+          "distintos": 2,
+          "bytes_texto": 3389832,
+          "categorias": {
+            "0": "Inglês",
+            "1": "Espanhol"
+          }
+        },
+        "2022": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 0.0,
+          "distintos": 2,
+          "bytes_texto": 3476105,
+          "categorias": {
+            "0": "Inglês",
+            "1": "Espanhol"
+          }
+        }
+      }
+    },
+    "TP_FAIXA_ETARIA": {
+      "inep": "TP_FAIXA_ETARIA",
+      "descricao_inep": "Faixa etária2",
+      "interno": "faixa_etaria",
+      "destino": "analytics",
+      "ausencia": "Nunca ausente nas quatro edicoes.",
+      "transformacao": "20 faixas, estaveis nas quatro edicoes.",
+      "elegibilidade": "Nao participa da elegibilidade.",
+      "modulos": "a definir (Sprint 5)",
+      "nota": "",
+      "sensivel": false,
+      "por_ano": {
+        "2019": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 0.0,
+          "distintos": 20,
+          "bytes_texto": 6224419,
+          "categorias": {
+            "1": "Menor de 17 anos",
+            "2": "17 anos",
+            "3": "18 anos",
+            "4": "19 anos",
+            "5": "20 anos",
+            "6": "21 anos",
+            "7": "22 anos",
+            "8": "23 anos",
+            "9": "24 anos",
+            "10": "25 anos",
+            "11": "Entre 26 e 30 anos",
+            "12": "Entre 31 e 35 anos",
+            "13": "Entre 36 e 40 anos",
+            "14": "Entre 41 e 45 anos",
+            "15": "Entre 46 e 50 anos",
+            "16": "Entre 51 e 55 anos",
+            "17": "Entre 56 e 60 anos",
+            "18": "Entre 61 e 65 anos",
+            "19": "Entre 66 e 70 anos",
+            "20": "Maior de 70 anos"
+          }
+        },
+        "2020": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 0.0,
+          "distintos": 20,
+          "bytes_texto": 7424294,
+          "categorias": {
+            "1": "Menor de 17 anos",
+            "2": "17 anos",
+            "3": "18 anos",
+            "4": "19 anos",
+            "5": "20 anos",
+            "6": "21 anos",
+            "7": "22 anos",
+            "8": "23 anos",
+            "9": "24 anos",
+            "10": "25 anos",
+            "11": "Entre 26 e 30 anos",
+            "12": "Entre 31 e 35 anos",
+            "13": "Entre 36 e 40 anos",
+            "14": "Entre 41 e 45 anos",
+            "15": "Entre 46 e 50 anos",
+            "16": "Entre 51 e 55 anos",
+            "17": "Entre 56 e 60 anos",
+            "18": "Entre 61 e 65 anos",
+            "19": "Entre 66 e 70 anos",
+            "20": "Maior de 70 anos"
+          }
+        },
+        "2021": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 0.0,
+          "distintos": 20,
+          "bytes_texto": 4044358,
+          "categorias": {
+            "1": "Menor de 17 anos",
+            "2": "17 anos",
+            "3": "18 anos",
+            "4": "19 anos",
+            "5": "20 anos",
+            "6": "21 anos",
+            "7": "22 anos",
+            "8": "23 anos",
+            "9": "24 anos",
+            "10": "25 anos",
+            "11": "Entre 26 e 30 anos",
+            "12": "Entre 31 e 35 anos",
+            "13": "Entre 36 e 40 anos",
+            "14": "Entre 41 e 45 anos",
+            "15": "Entre 46 e 50 anos",
+            "16": "Entre 51 e 55 anos",
+            "17": "Entre 56 e 60 anos",
+            "18": "Entre 61 e 65 anos",
+            "19": "Entre 66 e 70 anos",
+            "20": "Maior de 70 anos"
+          }
+        },
+        "2022": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 0.0,
+          "distintos": 20,
+          "bytes_texto": 4018242,
+          "categorias": {
+            "1": "Menor de 17 anos",
+            "2": "17 anos",
+            "3": "18 anos",
+            "4": "19 anos",
+            "5": "20 anos",
+            "6": "21 anos",
+            "7": "22 anos",
+            "8": "23 anos",
+            "9": "24 anos",
+            "10": "25 anos",
+            "11": "Entre 26 e 30 anos",
+            "12": "Entre 31 e 35 anos",
+            "13": "Entre 36 e 40 anos",
+            "14": "Entre 41 e 45 anos",
+            "15": "Entre 46 e 50 anos",
+            "16": "Entre 51 e 55 anos",
+            "17": "Entre 56 e 60 anos",
+            "18": "Entre 61 e 65 anos",
+            "19": "Entre 66 e 70 anos",
+            "20": "Maior de 70 anos"
+          }
+        }
+      }
+    },
+    "TP_SEXO": {
+      "inep": "TP_SEXO",
+      "descricao_inep": "Sexo",
+      "interno": "sexo",
+      "destino": "analytics",
+      "ausencia": "Nunca ausente nas quatro edicoes.",
+      "transformacao": "Nenhuma. Codigo do INEP preservado.",
+      "elegibilidade": "Nao participa da elegibilidade.",
+      "modulos": "a definir (Sprint 5)",
+      "nota": "",
+      "sensivel": false,
+      "por_ano": {
+        "2019": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 0.0,
+          "distintos": 2,
+          "bytes_texto": 5095171,
+          "categorias": {
+            "M": "Masculino",
+            "F": "Feminino"
+          }
+        },
+        "2020": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 0.0,
+          "distintos": 2,
+          "bytes_texto": 5783109,
+          "categorias": {
+            "M": "Masculino",
+            "F": "Feminino"
+          }
+        },
+        "2021": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 0.0,
+          "distintos": 2,
+          "bytes_texto": 3389832,
+          "categorias": {
+            "M": "Masculino",
+            "F": "Feminino"
+          }
+        },
+        "2022": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 0.0,
+          "distintos": 2,
+          "bytes_texto": 3476105,
+          "categorias": {
+            "M": "Masculino",
+            "F": "Feminino"
+          }
+        }
+      }
+    },
+    "TP_ESTADO_CIVIL": {
+      "inep": "TP_ESTADO_CIVIL",
+      "descricao_inep": "Estado Civil",
+      "interno": "estado_civil",
+      "destino": "analytics",
+      "ausencia": "Nunca ausente nas quatro edicoes.",
+      "transformacao": "Nenhuma. Codigo do INEP preservado.",
+      "elegibilidade": "Nao participa da elegibilidade.",
+      "modulos": "a definir (Sprint 5)",
+      "nota": "",
+      "sensivel": false,
+      "por_ano": {
+        "2019": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 0.0,
+          "distintos": 5,
+          "bytes_texto": 5095171,
+          "categorias": {
+            "0": "Não informado",
+            "1": "Solteiro(a)",
+            "2": "Casado(a)/Mora com companheiro(a)",
+            "3": "Divorciado(a)/Desquitado(a)/Separado(a)",
+            "4": "Viúvo(a)"
+          }
+        },
+        "2020": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 0.0,
+          "distintos": 5,
+          "bytes_texto": 5783109,
+          "categorias": {
+            "0": "Não informado",
+            "1": "Solteiro(a)",
+            "2": "Casado(a)/Mora com companheiro(a)",
+            "3": "Divorciado(a)/Desquitado(a)/Separado(a)",
+            "4": "Viúvo(a)"
+          }
+        },
+        "2021": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 0.0,
+          "distintos": 5,
+          "bytes_texto": 3389832,
+          "categorias": {
+            "0": "Não informado",
+            "1": "Solteiro(a)",
+            "2": "Casado(a)/Mora com companheiro(a)",
+            "3": "Divorciado(a)/Desquitado(a)/Separado(a)",
+            "4": "Viúvo(a)"
+          }
+        },
+        "2022": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 0.0,
+          "distintos": 5,
+          "bytes_texto": 3476105,
+          "categorias": {
+            "0": "Não informado",
+            "1": "Solteiro(a)",
+            "2": "Casado(a)/Mora com companheiro(a)",
+            "3": "Divorciado(a)/Desquitado(a)/Separado(a)",
+            "4": "Viúvo(a)"
+          }
+        }
+      }
+    },
+    "TP_COR_RACA": {
+      "inep": "TP_COR_RACA",
+      "descricao_inep": "Cor/raça",
+      "interno": "cor_raca",
+      "destino": "analytics",
+      "ausencia": "Nunca ausente nas quatro edicoes.",
+      "transformacao": "Codigo preservado. O codigo 6 ('Nao dispoe da informacao') so existe no dicionario de 2021-2022 e so ocorre em 2021, abaixo do piso de tamanho de grupo: tratado como categoria propria, nunca agrupado com 0 ('Nao declarado'), e suprimido de toda saida.",
+      "elegibilidade": "Nao participa da elegibilidade.",
+      "modulos": "a definir (Sprint 5)",
+      "nota": "",
+      "sensivel": true,
+      "por_ano": {
+        "2019": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 0.0,
+          "distintos": 6,
+          "bytes_texto": 5095171,
+          "categorias": {
+            "0": "Não declarado",
+            "1": "Branca",
+            "2": "Preta",
+            "3": "Parda",
+            "4": "Amarela",
+            "5": "Indígena"
+          }
+        },
+        "2020": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 0.0,
+          "distintos": 6,
+          "bytes_texto": 5783109,
+          "categorias": {
+            "0": "Não declarado",
+            "1": "Branca",
+            "2": "Preta",
+            "3": "Parda",
+            "4": "Amarela",
+            "5": "Indígena"
+          }
+        },
+        "2021": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 0.0,
+          "distintos": 7,
+          "bytes_texto": 3389832,
+          "categorias": {
+            "0": "Não declarado",
+            "1": "Branca",
+            "2": "Preta",
+            "3": "Parda",
+            "4": "Amarela",
+            "5": "Indígena",
+            "6": "Não dispõe da informação"
+          }
+        },
+        "2022": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 0.0,
+          "distintos": 6,
+          "bytes_texto": 3476105,
+          "categorias": {
+            "0": "Não declarado",
+            "1": "Branca",
+            "2": "Preta",
+            "3": "Parda",
+            "4": "Amarela",
+            "5": "Indígena",
+            "6": "Não dispõe da informação"
+          }
+        }
+      }
+    },
+    "TP_NACIONALIDADE": {
+      "inep": "TP_NACIONALIDADE",
+      "descricao_inep": "Nacionalidade",
+      "interno": "nacionalidade",
+      "destino": "analytics",
+      "ausencia": "Nunca ausente nas quatro edicoes.",
+      "transformacao": "Nenhuma. Codigo do INEP preservado.",
+      "elegibilidade": "Nao participa da elegibilidade.",
+      "modulos": "a definir (Sprint 5)",
+      "nota": "",
+      "sensivel": false,
+      "por_ano": {
+        "2019": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 0.0,
+          "distintos": 5,
+          "bytes_texto": 5095171,
+          "categorias": {
+            "0": "Não informado",
+            "1": "Brasileiro(a)",
+            "2": "Brasileiro(a) Naturalizado(a)",
+            "3": "Estrangeiro(a)",
+            "4": "Brasileiro(a) Nato(a), nascido(a) no exterior"
+          }
+        },
+        "2020": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 0.0,
+          "distintos": 5,
+          "bytes_texto": 5783109,
+          "categorias": {
+            "0": "Não informado",
+            "1": "Brasileiro(a)",
+            "2": "Brasileiro(a) Naturalizado(a)",
+            "3": "Estrangeiro(a)",
+            "4": "Brasileiro(a) Nato(a), nascido(a) no exterior"
+          }
+        },
+        "2021": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 0.0,
+          "distintos": 5,
+          "bytes_texto": 3389832,
+          "categorias": {
+            "0": "Não informado",
+            "1": "Brasileiro(a)",
+            "2": "Brasileiro(a) Naturalizado(a)",
+            "3": "Estrangeiro(a)",
+            "4": "Brasileiro(a) Nato(a), nascido(a) no exterior"
+          }
+        },
+        "2022": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 0.0,
+          "distintos": 5,
+          "bytes_texto": 3476105,
+          "categorias": {
+            "0": "Não informado",
+            "1": "Brasileiro(a)",
+            "2": "Brasileiro(a) Naturalizado(a)",
+            "3": "Estrangeiro(a)",
+            "4": "Brasileiro(a) Nato(a), nascido(a) no exterior"
+          }
+        }
+      }
+    },
+    "TP_ST_CONCLUSAO": {
+      "inep": "TP_ST_CONCLUSAO",
+      "descricao_inep": "Situação de conclusão do Ensino Médio",
+      "interno": "situacao_conclusao",
+      "destino": "analytics",
+      "ausencia": "Nunca ausente nas quatro edicoes.",
+      "transformacao": "Codigo preservado. O rotulo cita o ano da prova ('concluirei em 2019' vs 'em 2022'), mas o significado e relativo a edicao e portanto estavel: 2 = conclui no ano da prova, 3 = conclui depois. Comparavel entre edicoes desde que o rotulo nao seja exibido como ano absoluto.",
+      "elegibilidade": "Nao filtra por si, mas separa egressos de concluintes nos recortes.",
+      "modulos": "a definir (Sprint 5)",
+      "nota": "",
+      "sensivel": false,
+      "por_ano": {
+        "2019": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 0.0,
+          "distintos": 4,
+          "bytes_texto": 5095171,
+          "categorias": {
+            "1": "Já concluí o Ensino Médio",
+            "2": "Estou cursando e concluirei o Ensino Médio em 2019",
+            "3": "Estou cursando e concluirei o Ensino Médio após 2019",
+            "4": "Não concluí e não estou cursando o Ensino Médio"
+          }
+        },
+        "2020": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 0.0,
+          "distintos": 4,
+          "bytes_texto": 5783109,
+          "categorias": {
+            "1": "Já concluí o Ensino Médio",
+            "2": "Estou cursando e concluirei o Ensino Médio em 2020",
+            "3": "Estou cursando e concluirei o Ensino Médio após 2020",
+            "4": "Não concluí e não estou cursando o Ensino Médio"
+          }
+        },
+        "2021": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 0.0,
+          "distintos": 4,
+          "bytes_texto": 3389832,
+          "categorias": {
+            "1": "Já concluí o Ensino Médio",
+            "2": "Estou cursando e concluirei o Ensino Médio em 2021",
+            "3": "Estou cursando e concluirei o Ensino Médio após 2021",
+            "4": "Não concluí e não estou cursando o Ensino Médio"
+          }
+        },
+        "2022": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 0.0,
+          "distintos": 4,
+          "bytes_texto": 3476105,
+          "categorias": {
+            "1": "Já concluí o Ensino Médio",
+            "2": "Estou cursando e concluirei o Ensino Médio em 2022",
+            "3": "Estou cursando e concluirei o Ensino Médio após 2022",
+            "4": "Não concluí e não estou cursando o Ensino Médio"
+          }
+        }
+      }
+    },
+    "TP_ANO_CONCLUIU": {
+      "inep": "TP_ANO_CONCLUIU",
+      "descricao_inep": "Ano de Conclusão do Ensino Médio",
+      "interno": "anos_desde_conclusao",
+      "destino": "analytics",
+      "ausencia": "Nunca ausente nas quatro edicoes.",
+      "transformacao": "O codigo e um deslocamento relativo, nao um ano: vale ano_da_prova - codigo. Preservado como `anos_desde_conclusao` (comparavel entre edicoes) e derivado `ano_conclusao = ano - codigo` para leitura absoluta. O maior codigo de cada edicao (13/14/15/16, sempre igual a ano - 2006) rotula 'Antes de 2007' e vira ano_conclusao nulo com marca propria. Codigo 0 = nao informado.",
+      "elegibilidade": "Nao participa da elegibilidade.",
+      "modulos": "a definir (Sprint 5)",
+      "nota": "",
+      "sensivel": false,
+      "por_ano": {
+        "2019": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 0.0,
+          "distintos": 14,
+          "bytes_texto": 5701701,
+          "categorias": {
+            "0": "Não informado",
+            "1": "2018",
+            "2": "2017",
+            "3": "2016",
+            "4": "2015",
+            "5": "2014",
+            "6": "2013",
+            "7": "2012",
+            "8": "2011",
+            "9": "2010",
+            "10": "2009",
+            "11": "2008",
+            "12": "2007",
+            "13": "Antes de 2007"
+          }
+        },
+        "2020": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 0.0,
+          "distintos": 15,
+          "bytes_texto": 6594495,
+          "categorias": {
+            "0": "Não informado",
+            "1": "2019",
+            "2": "2018",
+            "3": "2017",
+            "4": "2016",
+            "5": "2015",
+            "6": "2014",
+            "7": "2013",
+            "8": "2012",
+            "9": "2011",
+            "10": "2010",
+            "11": "2009",
+            "12": "2008",
+            "13": "2007",
+            "14": "Antes de 2007"
+          }
+        },
+        "2021": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 0.0,
+          "distintos": 16,
+          "bytes_texto": 3733574,
+          "categorias": {
+            "0": "Não informado",
+            "1": "2020",
+            "2": "2019",
+            "3": "2018",
+            "4": "2017",
+            "5": "2016",
+            "6": "2015",
+            "7": "2014",
+            "8": "2013",
+            "9": "2012",
+            "10": "2011",
+            "11": "2010",
+            "12": "2009",
+            "13": "2008",
+            "14": "2007",
+            "15": "Antes de 2007"
+          }
+        },
+        "2022": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 0.0,
+          "distintos": 17,
+          "bytes_texto": 3753175,
+          "categorias": {
+            "0": "Não informado",
+            "1": "2021",
+            "2": "2020",
+            "3": "2019",
+            "4": "2018",
+            "5": "2017",
+            "6": "2016",
+            "7": "2015",
+            "8": "2014",
+            "9": "2013",
+            "10": "2012",
+            "11": "2011",
+            "12": "2010",
+            "13": "2009",
+            "14": "2008",
+            "15": "2007",
+            "16": "Antes de 2007"
+          }
+        }
+      }
+    },
+    "TP_ESCOLA": {
+      "inep": "TP_ESCOLA",
+      "descricao_inep": "Tipo de escola do Ensino Médio",
+      "interno": "tipo_escola",
+      "destino": "analytics",
+      "ausencia": "Nunca ausente nas quatro edicoes.",
+      "transformacao": "Codigo preservado. O codigo 4 ('Exterior') consta no dicionario de 2019-2020 e nunca ocorre nos dados; nao vira categoria do produto.",
+      "elegibilidade": "Nao participa da elegibilidade.",
+      "modulos": "a definir (Sprint 5)",
+      "nota": "",
+      "sensivel": false,
+      "por_ano": {
+        "2019": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 0.0,
+          "distintos": 3,
+          "bytes_texto": 5095171,
+          "categorias": {
+            "1": "Não Respondeu",
+            "2": "Pública",
+            "3": "Privada",
+            "4": "Exterior"
+          }
+        },
+        "2020": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 0.0,
+          "distintos": 3,
+          "bytes_texto": 5783109,
+          "categorias": {
+            "1": "Não Respondeu",
+            "2": "Pública",
+            "3": "Privada",
+            "4": "Exterior"
+          }
+        },
+        "2021": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 0.0,
+          "distintos": 3,
+          "bytes_texto": 3389832,
+          "categorias": {
+            "1": "Não Respondeu",
+            "2": "Pública",
+            "3": "Privada"
+          }
+        },
+        "2022": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 0.0,
+          "distintos": 3,
+          "bytes_texto": 3476105,
+          "categorias": {
+            "1": "Não Respondeu",
+            "2": "Pública",
+            "3": "Privada"
+          }
+        }
+      }
+    },
+    "TP_ENSINO": {
+      "inep": "TP_ENSINO",
+      "descricao_inep": "Tipo de instituição que concluiu ou concluirá o Ensino Médio",
+      "interno": "tipo_ensino",
+      "destino": "analytics",
+      "ausencia": "64% a 77% de ausencia: preenchida apenas para quem declarou escola.",
+      "transformacao": "Codigo preservado. O codigo 3 ('Educacao de Jovens e Adultos') consta no dicionario de 2019-2020, mas nunca ocorre nos dados de nenhuma edicao: nao ha recorte por EJA.",
+      "elegibilidade": "Nao participa da elegibilidade.",
+      "modulos": "a definir (Sprint 5)",
+      "nota": "",
+      "sensivel": false,
+      "por_ano": {
+        "2019": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 43.51,
+          "distintos": 2,
+          "bytes_texto": 2878135,
+          "categorias": {
+            "1": "Ensino Regular",
+            "2": "Educação Especial - Modalidade Substitutiva",
+            "3": "Educação de Jovens e Adultos"
+          }
+        },
+        "2020": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 77.46,
+          "distintos": 2,
+          "bytes_texto": 1303446,
+          "categorias": {
+            "1": "Ensino Regular",
+            "2": "Educação Especial - Modalidade Substitutiva",
+            "3": "Educação de Jovens e Adultos"
+          }
+        },
+        "2021": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 67.64,
+          "distintos": 2,
+          "bytes_texto": 1096828,
+          "categorias": {
+            "1": "Ensino Regular",
+            "2": "Educação Especial - Modalidade Substitutiva"
+          }
+        },
+        "2022": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 63.67,
+          "distintos": 2,
+          "bytes_texto": 1262744,
+          "categorias": {
+            "1": "Ensino Regular",
+            "2": "Educação Especial - Modalidade Substitutiva"
+          }
+        }
+      }
+    },
+    "TP_DEPENDENCIA_ADM_ESC": {
+      "inep": "TP_DEPENDENCIA_ADM_ESC",
+      "descricao_inep": "Dependência administrativa (Escola)",
+      "interno": "dependencia_adm_escola",
+      "destino": "analytics",
+      "ausencia": "Preenchida apenas para quem declarou escola (73% a 84% de ausencia). Ausencia significa 'nao declarou', nao 'sem escola'.",
+      "transformacao": "Nenhuma. Codigo do INEP preservado.",
+      "elegibilidade": "Nao participa da elegibilidade.",
+      "modulos": "a definir (Sprint 5)",
+      "nota": "",
+      "sensivel": false,
+      "por_ano": {
+        "2019": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 77.48,
+          "distintos": 4,
+          "bytes_texto": 1147387,
+          "categorias": {
+            "1": "Federal",
+            "2": "Estadual",
+            "3": "Municipal",
+            "4": "Privada"
+          }
+        },
+        "2020": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 84.36,
+          "distintos": 4,
+          "bytes_texto": 904569,
+          "categorias": {
+            "1": "Federal",
+            "2": "Estadual",
+            "3": "Municipal",
+            "4": "Privada"
+          }
+        },
+        "2021": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 75.99,
+          "distintos": 4,
+          "bytes_texto": 813806,
+          "categorias": {
+            "1": "Federal",
+            "2": "Estadual",
+            "3": "Municipal",
+            "4": "Privada"
+          }
+        },
+        "2022": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 72.61,
+          "distintos": 4,
+          "bytes_texto": 951944,
+          "categorias": {
+            "1": "Federal",
+            "2": "Estadual",
+            "3": "Municipal",
+            "4": "Privada"
+          }
+        }
+      }
+    },
+    "TP_LOCALIZACAO_ESC": {
+      "inep": "TP_LOCALIZACAO_ESC",
+      "descricao_inep": "Localização (Escola)",
+      "interno": "localizacao_escola",
+      "destino": "analytics",
+      "ausencia": "Preenchida apenas para quem declarou escola (73% a 84% de ausencia). Ausencia significa 'nao declarou', nao 'sem escola'.",
+      "transformacao": "Nenhuma. Codigo do INEP preservado.",
+      "elegibilidade": "Nao participa da elegibilidade.",
+      "modulos": "a definir (Sprint 5)",
+      "nota": "",
+      "sensivel": false,
+      "por_ano": {
+        "2019": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 77.48,
+          "distintos": 2,
+          "bytes_texto": 1147387,
+          "categorias": {
+            "1": "Urbana",
+            "2": "Rural"
+          }
+        },
+        "2020": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 84.36,
+          "distintos": 2,
+          "bytes_texto": 904569,
+          "categorias": {
+            "1": "Urbana",
+            "2": "Rural"
+          }
+        },
+        "2021": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 75.99,
+          "distintos": 2,
+          "bytes_texto": 813806,
+          "categorias": {
+            "1": "Urbana",
+            "2": "Rural"
+          }
+        },
+        "2022": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 72.61,
+          "distintos": 2,
+          "bytes_texto": 951944,
+          "categorias": {
+            "1": "Urbana",
+            "2": "Rural"
+          }
+        }
+      }
+    },
+    "SG_UF_ESC": {
+      "inep": "SG_UF_ESC",
+      "descricao_inep": "Sigla da Unidade da Federação da escola",
+      "interno": "uf_escola",
+      "destino": "analytics",
+      "ausencia": "Preenchida apenas para quem declarou escola (73% a 84% de ausencia). Ausencia significa 'nao declarou', nao 'sem escola'.",
+      "transformacao": "Nenhuma. Codigo do INEP preservado.",
+      "elegibilidade": "Nao participa da elegibilidade.",
+      "modulos": "a definir (Sprint 5)",
+      "nota": "",
+      "sensivel": false,
+      "por_ano": {
+        "2019": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 77.48,
+          "distintos": 27,
+          "bytes_texto": 2294774,
+          "categorias": {}
+        },
+        "2020": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 84.36,
+          "distintos": 27,
+          "bytes_texto": 1809138,
+          "categorias": {}
+        },
+        "2021": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 75.99,
+          "distintos": 27,
+          "bytes_texto": 1627612,
+          "categorias": {}
+        },
+        "2022": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 72.61,
+          "distintos": 27,
+          "bytes_texto": 1903888,
+          "categorias": {}
+        }
+      }
+    },
+    "SG_UF_PROVA": {
+      "inep": "SG_UF_PROVA",
+      "descricao_inep": "Sigla da Unidade da Federação da aplicação da prova",
+      "interno": "uf_prova",
+      "destino": "analytics",
+      "ausencia": "Nunca ausente nas quatro edicoes.",
+      "transformacao": "Sigla preservada. 27 unidades federativas nas quatro edicoes.",
+      "elegibilidade": "Nao participa da elegibilidade.",
+      "modulos": "a definir (Sprint 5)",
+      "nota": "",
+      "sensivel": false,
+      "por_ano": {
+        "2019": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 0.0,
+          "distintos": 27,
+          "bytes_texto": 10190342,
+          "categorias": {}
+        },
+        "2020": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 0.0,
+          "distintos": 27,
+          "bytes_texto": 11566218,
+          "categorias": {}
+        },
+        "2021": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 0.0,
+          "distintos": 27,
+          "bytes_texto": 6779664,
+          "categorias": {}
+        },
+        "2022": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 0.0,
+          "distintos": 27,
+          "bytes_texto": 6952210,
+          "categorias": {}
+        }
+      }
+    },
+    "CO_MUNICIPIO_PROVA": {
+      "inep": "CO_MUNICIPIO_PROVA",
+      "descricao_inep": "Código do município da aplicação da prova",
+      "interno": "cod_municipio_prova",
+      "destino": "analytics",
+      "ausencia": "Nunca ausente nas quatro edicoes.",
+      "transformacao": "Codigo IBGE preservado; chave estavel para recorte municipal.",
+      "elegibilidade": "Nao participa da elegibilidade.",
+      "modulos": "a definir (Sprint 5)",
+      "nota": "LGPD: e o campo de maior risco de reidentificacao do contrato. Municipio cruzado com cor/raca, faixa etaria ou renda gera grupos de poucas pessoas; todo agregado municipal passa pelo piso de tamanho de grupo antes de sair da camada ANALYTICS.",
+      "sensivel": false,
+      "por_ano": {
+        "2019": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 0.0,
+          "distintos": 1833,
+          "bytes_texto": 35666197,
+          "categorias": {}
+        },
+        "2020": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 0.0,
+          "distintos": 1833,
+          "bytes_texto": 40481763,
+          "categorias": {}
+        },
+        "2021": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 0.0,
+          "distintos": 1833,
+          "bytes_texto": 23728824,
+          "categorias": {}
+        },
+        "2022": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 0.0,
+          "distintos": 1833,
+          "bytes_texto": 24332735,
+          "categorias": {}
+        }
+      }
+    },
+    "NO_MUNICIPIO_PROVA": {
+      "inep": "NO_MUNICIPIO_PROVA",
+      "descricao_inep": "Nome do município da aplicação da prova",
+      "interno": "municipio_prova",
+      "destino": "analytics",
+      "ausencia": "Nunca ausente nas quatro edicoes.",
+      "transformacao": "Nome preservado para exibicao; o codigo IBGE e a chave.",
+      "elegibilidade": "Nao participa da elegibilidade.",
+      "modulos": "a definir (Sprint 5)",
+      "nota": "",
+      "sensivel": false,
+      "por_ano": {
+        "2019": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 0.0,
+          "distintos": 1559,
+          "bytes_texto": 53122460,
+          "categorias": {}
+        },
+        "2020": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 0.0,
+          "distintos": 1559,
+          "bytes_texto": 60258993,
+          "categorias": {}
+        },
+        "2021": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 0.0,
+          "distintos": 1559,
+          "bytes_texto": 35267837,
+          "categorias": {}
+        },
+        "2022": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 0.0,
+          "distintos": 1559,
+          "bytes_texto": 36283184,
+          "categorias": {}
+        }
+      }
+    },
+    "CO_UF_PROVA": {
+      "inep": "CO_UF_PROVA",
+      "descricao_inep": "Código da Unidade da Federação da aplicação da prova",
+      "interno": "-",
+      "destino": "descartada",
+      "ausencia": "-",
+      "transformacao": "-",
+      "elegibilidade": "Nao participa da elegibilidade.",
+      "modulos": "-",
+      "nota": "Redundante com SG_UF_PROVA, que e mais legivel.",
+      "sensivel": false,
+      "por_ano": {
+        "2019": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 0.0,
+          "distintos": 21,
+          "bytes_texto": 10190342,
+          "categorias": {}
+        },
+        "2020": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 0.0,
+          "distintos": 21,
+          "bytes_texto": 11566218,
+          "categorias": {}
+        },
+        "2021": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 0.0,
+          "distintos": 21,
+          "bytes_texto": 6779664,
+          "categorias": {}
+        },
+        "2022": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 0.0,
+          "distintos": 21,
+          "bytes_texto": 6952210,
+          "categorias": {}
+        }
+      }
+    },
+    "CO_MUNICIPIO_ESC": {
+      "inep": "CO_MUNICIPIO_ESC",
+      "descricao_inep": "Código do município da escola",
+      "interno": "-",
+      "destino": "descartada",
+      "ausencia": "-",
+      "transformacao": "-",
+      "elegibilidade": "Nao participa da elegibilidade.",
+      "modulos": "-",
+      "nota": "Recorte geografico do produto usa o local de prova, que existe para todos. O municipio da escola falta em 73% a 84% dos registros.",
+      "sensivel": false,
+      "por_ano": {
+        "2019": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 77.48,
+          "distintos": 6308,
+          "bytes_texto": 8031709,
+          "categorias": {}
+        },
+        "2020": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 84.36,
+          "distintos": 6308,
+          "bytes_texto": 6331983,
+          "categorias": {}
+        },
+        "2021": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 75.99,
+          "distintos": 6308,
+          "bytes_texto": 5696642,
+          "categorias": {}
+        },
+        "2022": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 72.61,
+          "distintos": 6308,
+          "bytes_texto": 6663608,
+          "categorias": {}
+        }
+      }
+    },
+    "NO_MUNICIPIO_ESC": {
+      "inep": "NO_MUNICIPIO_ESC",
+      "descricao_inep": "Nome do município da escola",
+      "interno": "-",
+      "destino": "descartada",
+      "ausencia": "-",
+      "transformacao": "-",
+      "elegibilidade": "Nao participa da elegibilidade.",
+      "modulos": "-",
+      "nota": "Idem CO_MUNICIPIO_ESC.",
+      "sensivel": false,
+      "por_ano": {
+        "2019": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 77.48,
+          "distintos": 5869,
+          "bytes_texto": 12232440,
+          "categorias": {}
+        },
+        "2020": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 84.36,
+          "distintos": 5869,
+          "bytes_texto": 9511808,
+          "categorias": {}
+        },
+        "2021": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 75.99,
+          "distintos": 5869,
+          "bytes_texto": 8529645,
+          "categorias": {}
+        },
+        "2022": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 72.61,
+          "distintos": 5869,
+          "bytes_texto": 10072765,
+          "categorias": {}
+        }
+      }
+    },
+    "CO_UF_ESC": {
+      "inep": "CO_UF_ESC",
+      "descricao_inep": "Código da Unidade da Federação da escola",
+      "interno": "-",
+      "destino": "descartada",
+      "ausencia": "-",
+      "transformacao": "-",
+      "elegibilidade": "Nao participa da elegibilidade.",
+      "modulos": "-",
+      "nota": "Redundante com SG_UF_ESC.",
+      "sensivel": false,
+      "por_ano": {
+        "2019": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 77.48,
+          "distintos": 21,
+          "bytes_texto": 2294774,
+          "categorias": {}
+        },
+        "2020": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 84.36,
+          "distintos": 21,
+          "bytes_texto": 1809138,
+          "categorias": {}
+        },
+        "2021": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 75.99,
+          "distintos": 21,
+          "bytes_texto": 1627612,
+          "categorias": {}
+        },
+        "2022": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 72.61,
+          "distintos": 21,
+          "bytes_texto": 1903888,
+          "categorias": {}
+        }
+      }
+    },
+    "TP_SIT_FUNC_ESC": {
+      "inep": "TP_SIT_FUNC_ESC",
+      "descricao_inep": "Situação de funcionamento (Escola)",
+      "interno": "-",
+      "destino": "descartada",
+      "ausencia": "-",
+      "transformacao": "-",
+      "elegibilidade": "Nao participa da elegibilidade.",
+      "modulos": "-",
+      "nota": "Situacao de funcionamento da escola. Atributo do estabelecimento, nao do participante; fora dos recortes previstos.",
+      "sensivel": false,
+      "por_ano": {
+        "2019": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 77.48,
+          "distintos": 4,
+          "bytes_texto": 1147387,
+          "categorias": {
+            "1": "Em atividade",
+            "2": "Paralisada",
+            "3": "Extinta",
+            "4": "Escola extinta em anos anteriores."
+          }
+        },
+        "2020": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 84.36,
+          "distintos": 4,
+          "bytes_texto": 904569,
+          "categorias": {
+            "1": "Em atividade",
+            "2": "Paralisada",
+            "3": "Extinta",
+            "4": "Escola extinta em anos anteriores."
+          }
+        },
+        "2021": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 75.99,
+          "distintos": 4,
+          "bytes_texto": 813806,
+          "categorias": {
+            "1": "Em atividade",
+            "2": "Paralisada",
+            "3": "Extinta",
+            "4": "Escola extinta em anos anteriores."
+          }
+        },
+        "2022": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 72.61,
+          "distintos": 4,
+          "bytes_texto": 951944,
+          "categorias": {
+            "1": "Em atividade",
+            "2": "Paralisada",
+            "3": "Extinta",
+            "4": "Escola extinta em anos anteriores."
+          }
+        }
+      }
+    },
+    "CO_PROVA_CN": {
+      "inep": "CO_PROVA_CN",
+      "descricao_inep": "Código do tipo de prova de Ciências da Natureza",
+      "interno": "-",
+      "destino": "descartada",
+      "ausencia": "-",
+      "transformacao": "-",
+      "elegibilidade": "Nao participa da elegibilidade.",
+      "modulos": "-",
+      "nota": "Codigo do caderno, reemitido a cada aplicacao. So serve para analise item a item, fora do escopo descritivo do produto.",
+      "sensivel": false,
+      "por_ano": {
+        "2019": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 27.18,
+          "distintos": 6,
+          "bytes_texto": 11131005,
+          "categorias": {
+            "503": "Azul",
+            "504": "Amarela",
+            "505": "Cinza",
+            "506": "Rosa",
+            "519": "Laranja - Adaptada Ledor",
+            "523": "Verde - Videoprova - Libras",
+            "543": "Amarela (Reaplicação)",
+            "544": "Cinza (Reaplicação)",
+            "545": "Azul (Reaplicação)",
+            "546": "Rosa (Reaplicação)"
+          }
+        },
+        "2020": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 55.09,
+          "distintos": 13,
+          "bytes_texto": 7792320,
+          "categorias": {
+            "597": "Azul",
+            "598": "Amarela",
+            "599": "Cinza",
+            "600": "Rosa",
+            "601": "Rosa - Ampliada",
+            "602": "Rosa - Superampliada",
+            "604": "Laranja - Adaptada Ledor",
+            "605": "Verde - Videoprova - Libras",
+            "677": "Azul (Reaplicação)",
+            "678": "Amarela (Reaplicação)",
+            "679": "Cinza (Reaplicação)",
+            "680": "Rosa (Reaplicação)",
+            "684": "Laranja - Adaptada Ledor (Reaplicação)",
+            "699": "Azul (Digital)",
+            "700": "Amarela (Digital)",
+            "701": "Rosa (Digital)",
+            "702": "Cinza (Digital)"
+          }
+        },
+        "2021": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 33.75,
+          "distintos": 17,
+          "bytes_texto": 6836702,
+          "categorias": {
+            "909": "Azul",
+            "910": "Amarela",
+            "911": "Cinza",
+            "912": "Rosa",
+            "915": "Laranja - Braille",
+            "916": "Laranja - Adaptada Ledor",
+            "917": "Verde - Videoprova - Libras",
+            "989": "Azul (Reaplicação)",
+            "990": "Amarela (Reaplicação)",
+            "991": "Cinza (Reaplicação)",
+            "992": "Rosa (Reaplicação)",
+            "996": "Laranja - Adaptada Ledor (Reaplicação)",
+            "1011": "Azul (Digital)",
+            "1012": "Amarela (Digital)",
+            "1013": "Rosa (Digital)",
+            "1014": "Cinza (Digital)",
+            "1045": "Azul (Segunda oportunidade)",
+            "1046": "Amarela (Segunda oportunidade)",
+            "1047": "Cinza (Segunda oportunidade)",
+            "1048": "Rosa (Segunda oportunidade)",
+            "1052": "Laranja - Adaptada Ledor (Segunda oportunidade)"
+          }
+        },
+        "2022": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 32.24,
+          "distintos": 15,
+          "bytes_texto": 9421580,
+          "categorias": {
+            "1085": "Azul",
+            "1086": "Amarela",
+            "1087": "Cinza",
+            "1088": "Rosa",
+            "1092": "Laranja - Adaptada Ledor",
+            "1093": "Verde - Videoprova - Libras",
+            "1165": "Azul (Reaplicação)",
+            "1166": "Amarela (Reaplicação)",
+            "1167": "Cinza (Reaplicação)",
+            "1168": "Rosa (Reaplicação)",
+            "1187": "Azul (Digital)",
+            "1188": "Amarela (Digital)",
+            "1189": "Rosa (Digital)",
+            "1190": "Cinza (Digital)"
+          }
+        }
+      }
+    },
+    "TX_RESPOSTAS_CN": {
+      "inep": "TX_RESPOSTAS_CN",
+      "descricao_inep": "Vetor com as respostas da parte objetiva da prova de Ciências da Natureza4",
+      "interno": "-",
+      "destino": "descartada",
+      "ausencia": "-",
+      "transformacao": "-",
+      "elegibilidade": "Nao participa da elegibilidade.",
+      "modulos": "-",
+      "nota": "Respostas item a item (45 a 50 caracteres por registro). Fora do escopo descritivo e responsavel pela maior parte do volume do CSV.",
+      "sensivel": false,
+      "por_ano": {
+        "2019": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 27.18,
+          "distintos": 3834361,
+          "bytes_texto": 166965075,
+          "categorias": {}
+        },
+        "2020": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 55.09,
+          "distintos": 2760019,
+          "bytes_texto": 116884800,
+          "categorias": {}
+        },
+        "2021": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 33.75,
+          "distintos": 1776470,
+          "bytes_texto": 101062980,
+          "categorias": {}
+        },
+        "2022": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 32.24,
+          "distintos": 2420441,
+          "bytes_texto": 105992775,
+          "categorias": {}
+        }
+      }
+    },
+    "TX_GABARITO_CN": {
+      "inep": "TX_GABARITO_CN",
+      "descricao_inep": "Vetor com o gabarito da parte objetiva da prova de Ciências da Natureza6",
+      "interno": "-",
+      "destino": "descartada",
+      "ausencia": "-",
+      "transformacao": "-",
+      "elegibilidade": "Nao participa da elegibilidade.",
+      "modulos": "-",
+      "nota": "Gabarito item a item; so faz sentido junto de TX_RESPOSTAS.",
+      "sensivel": false,
+      "por_ano": {
+        "2019": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 27.18,
+          "distintos": 4,
+          "bytes_texto": 166965075,
+          "categorias": {}
+        },
+        "2020": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 55.09,
+          "distintos": 11,
+          "bytes_texto": 116884800,
+          "categorias": {}
+        },
+        "2021": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 33.75,
+          "distintos": 6,
+          "bytes_texto": 101062980,
+          "categorias": {}
+        },
+        "2022": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 32.24,
+          "distintos": 10,
+          "bytes_texto": 105992775,
+          "categorias": {}
+        }
+      }
+    },
+    "CO_PROVA_CH": {
+      "inep": "CO_PROVA_CH",
+      "descricao_inep": "Código do tipo de prova de Ciências Humanas",
+      "interno": "-",
+      "destino": "descartada",
+      "ausencia": "-",
+      "transformacao": "-",
+      "elegibilidade": "Nao participa da elegibilidade.",
+      "modulos": "-",
+      "nota": "Codigo do caderno, reemitido a cada aplicacao. So serve para analise item a item, fora do escopo descritivo do produto.",
+      "sensivel": false,
+      "por_ano": {
+        "2019": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 23.0,
+          "distintos": 6,
+          "bytes_texto": 11769138,
+          "categorias": {
+            "507": "Azul",
+            "508": "Amarela",
+            "509": "Branca",
+            "510": "Rosa",
+            "520": "Laranja - Adaptada Ledor",
+            "524": "Verde - Videoprova - Libras",
+            "547": "Azul (Reaplicação)",
+            "548": "Amarelo (Reaplicação)",
+            "549": "Branco (Reaplicação)",
+            "550": "Rosa (Reaplicação)",
+            "564": "Laranja - Adaptada Ledor (Reaplicação)"
+          }
+        },
+        "2020": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 52.38,
+          "distintos": 15,
+          "bytes_texto": 8262420,
+          "categorias": {
+            "567": "Azul",
+            "568": "Amarela",
+            "569": "Branca",
+            "570": "Rosa",
+            "571": "Rosa - Ampliada",
+            "572": "Rosa - Superampliada",
+            "574": "Laranja - Adaptada Ledor",
+            "575": "Verde - Videoprova - Libras",
+            "647": "Azul (Reaplicação)",
+            "648": "Amarela (Reaplicação)",
+            "649": "Branca (Reaplicação)",
+            "650": "Rosa (Reaplicação)",
+            "654": "Laranja - Adaptada Ledor (Reaplicação)",
+            "687": "Azul (Digital)",
+            "688": "Amarela (Digital)",
+            "689": "Branca (Digital)",
+            "690": "Rosa (Digital)"
+          }
+        },
+        "2021": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 29.84,
+          "distintos": 20,
+          "bytes_texto": 7238214,
+          "categorias": {
+            "879": "Azul",
+            "880": "Amarela",
+            "881": "Branca",
+            "882": "Rosa",
+            "885": "Laranja - Braille",
+            "886": "Laranja - Adaptada Ledor",
+            "887": "Verde - Videoprova - Libras",
+            "959": "Azul (Reaplicação)",
+            "960": "Amarela (Reaplicação)",
+            "961": "Branca (Reaplicação)",
+            "962": "Rosa (Reaplicação)",
+            "966": "Laranja - Adaptada Ledor (Reaplicação)",
+            "999": "Azul (Digital)",
+            "1000": "Amarela (Digital)",
+            "1001": "Branca (Digital)",
+            "1002": "Rosa (Digital)",
+            "1015": "Azul (Segunda oportunidade)",
+            "1016": "Amarela (Segunda oportunidade)",
+            "1017": "Branca (Segunda oportunidade)",
+            "1018": "Rosa (Segunda oportunidade)",
+            "1022": "Laranja - Adaptada Ledor (Segunda oportunidade)"
+          }
+        },
+        "2022": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 28.27,
+          "distintos": 12,
+          "bytes_texto": 9973768,
+          "categorias": {
+            "1055": "Azul",
+            "1056": "Amarela",
+            "1057": "Branca",
+            "1058": "Rosa",
+            "1062": "Laranja - Adaptada Ledor",
+            "1063": "Verde - Videoprova - Libras",
+            "1135": "Azul (Reaplicação)",
+            "1136": "Amarela (Reaplicação)",
+            "1137": "Branca (Reaplicação)",
+            "1138": "Rosa (Reaplicação)",
+            "1175": "Azul (Digital)",
+            "1176": "Amarela (Digital)",
+            "1177": "Branca (Digital)",
+            "1178": "Rosa (Digital)"
+          }
+        }
+      }
+    },
+    "TX_RESPOSTAS_CH": {
+      "inep": "TX_RESPOSTAS_CH",
+      "descricao_inep": "Vetor com as respostas da parte objetiva da prova de Ciências Humanas4",
+      "interno": "-",
+      "destino": "descartada",
+      "ausencia": "-",
+      "transformacao": "-",
+      "elegibilidade": "Nao participa da elegibilidade.",
+      "modulos": "-",
+      "nota": "Respostas item a item (45 a 50 caracteres por registro). Fora do escopo descritivo e responsavel pela maior parte do volume do CSV.",
+      "sensivel": false,
+      "por_ano": {
+        "2019": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 23.0,
+          "distintos": 4435453,
+          "bytes_texto": 176537070,
+          "categorias": {}
+        },
+        "2020": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 52.38,
+          "distintos": 2938041,
+          "bytes_texto": 123936300,
+          "categorias": {}
+        },
+        "2021": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 29.84,
+          "distintos": 2311578,
+          "bytes_texto": 107027055,
+          "categorias": {}
+        },
+        "2022": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 28.27,
+          "distintos": 2837106,
+          "bytes_texto": 112204890,
+          "categorias": {}
+        }
+      }
+    },
+    "TX_GABARITO_CH": {
+      "inep": "TX_GABARITO_CH",
+      "descricao_inep": "Vetor com o gabarito da parte objetiva da prova de Ciências Humanas6",
+      "interno": "-",
+      "destino": "descartada",
+      "ausencia": "-",
+      "transformacao": "-",
+      "elegibilidade": "Nao participa da elegibilidade.",
+      "modulos": "-",
+      "nota": "Gabarito item a item; so faz sentido junto de TX_RESPOSTAS.",
+      "sensivel": false,
+      "por_ano": {
+        "2019": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 23.0,
+          "distintos": 4,
+          "bytes_texto": 176537070,
+          "categorias": {}
+        },
+        "2020": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 52.38,
+          "distintos": 12,
+          "bytes_texto": 123936300,
+          "categorias": {}
+        },
+        "2021": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 29.84,
+          "distintos": 9,
+          "bytes_texto": 107027055,
+          "categorias": {}
+        },
+        "2022": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 28.27,
+          "distintos": 9,
+          "bytes_texto": 112204890,
+          "categorias": {}
+        }
+      }
+    },
+    "CO_PROVA_LC": {
+      "inep": "CO_PROVA_LC",
+      "descricao_inep": "Código do tipo de prova de Linguagens e Códigos",
+      "interno": "-",
+      "destino": "descartada",
+      "ausencia": "-",
+      "transformacao": "-",
+      "elegibilidade": "Nao participa da elegibilidade.",
+      "modulos": "-",
+      "nota": "Codigo do caderno, reemitido a cada aplicacao. So serve para analise item a item, fora do escopo descritivo do produto.",
+      "sensivel": false,
+      "por_ano": {
+        "2019": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 23.0,
+          "distintos": 6,
+          "bytes_texto": 11769138,
+          "categorias": {
+            "511": "Azul",
+            "512": "Amarela",
+            "513": "Rosa",
+            "514": "Branca",
+            "521": "Laranja - Adaptada Ledor",
+            "525": "Verde - Videoprova - Libras",
+            "551": "Azul (Reaplicação)",
+            "552": "Amarelo (Reaplicação)",
+            "553": "Branca (Reaplicação)",
+            "554": "Rosa (Reaplicação)",
+            "565": "Laranja - Adaptada Ledor (Reaplicação)"
+          }
+        },
+        "2020": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 52.38,
+          "distintos": 16,
+          "bytes_texto": 8262420,
+          "categorias": {
+            "577": "Azul",
+            "578": "Amarela",
+            "579": "Rosa",
+            "580": "Branca",
+            "581": "Rosa - Ampliada",
+            "582": "Rosa - Superampliada",
+            "584": "Laranja - Adaptada Ledor",
+            "585": "Verde - Videoprova - Libras",
+            "657": "Azul (Reaplicação)",
+            "658": "Amarela (Reaplicação)",
+            "659": "Rosa (Reaplicação)",
+            "660": "Branca (Reaplicação)",
+            "664": "Laranja - Adaptada Ledor (Reaplicação)",
+            "691": "Azul (Digital)",
+            "692": "Amarela (Digital)",
+            "693": "Branca (Digital)",
+            "694": "Rosa (Digital)"
+          }
+        },
+        "2021": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 29.84,
+          "distintos": 19,
+          "bytes_texto": 7247430,
+          "categorias": {
+            "889": "Azul",
+            "890": "Amarela",
+            "891": "Rosa",
+            "892": "Branca",
+            "895": "Laranja - Braille",
+            "896": "Laranja - Adaptada Ledor",
+            "897": "Verde - Videoprova - Libras",
+            "969": "Azul (Reaplicação)",
+            "970": "Amarela (Reaplicação)",
+            "971": "Rosa (Reaplicação)",
+            "972": "Branca (Reaplicação)",
+            "976": "Laranja - Adaptada Ledor (Reaplicação)",
+            "1003": "Azul (Digital)",
+            "1004": "Amarela (Digital)",
+            "1005": "Branca (Digital)",
+            "1006": "Rosa (Digital)",
+            "1025": "Azul (Segunda oportunidade)",
+            "1026": "Amarela (Segunda oportunidade)",
+            "1027": "Rosa (Segunda oportunidade)",
+            "1028": "Branca (Segunda oportunidade)",
+            "1032": "Laranja - Adaptada Ledor (Segunda oportunidade)"
+          }
+        },
+        "2022": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 28.27,
+          "distintos": 13,
+          "bytes_texto": 9973768,
+          "categorias": {
+            "1065": "Azul",
+            "1066": "Amarela",
+            "1067": "Rosa",
+            "1068": "Branca",
+            "1072": "Laranja - Adaptada Ledor",
+            "1073": "Verde - Videoprova - Libras",
+            "1145": "Azul (Reaplicação)",
+            "1146": "Amarela (Reaplicação)",
+            "1147": "Rosa (Reaplicação)",
+            "1148": "Branca (Reaplicação)",
+            "1179": "Azul (Digital)",
+            "1180": "Amarela (Digital)",
+            "1181": "Branca (Digital)",
+            "1182": "Rosa (Digital)"
+          }
+        }
+      }
+    },
+    "TX_RESPOSTAS_LC": {
+      "inep": "TX_RESPOSTAS_LC",
+      "descricao_inep": "Vetor com as respostas da parte objetiva da prova de Linguagens e Códigos5",
+      "interno": "-",
+      "destino": "descartada",
+      "ausencia": "-",
+      "transformacao": "-",
+      "elegibilidade": "Nao participa da elegibilidade.",
+      "modulos": "-",
+      "nota": "Respostas item a item (45 a 50 caracteres por registro). Fora do escopo descritivo e responsavel pela maior parte do volume do CSV.",
+      "sensivel": false,
+      "por_ano": {
+        "2019": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 23.0,
+          "distintos": 4155472,
+          "bytes_texto": 196152300,
+          "categorias": {}
+        },
+        "2020": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 52.38,
+          "distintos": 3595722,
+          "bytes_texto": 137707000,
+          "categorias": {}
+        },
+        "2021": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 29.84,
+          "distintos": 2545739,
+          "bytes_texto": 118918950,
+          "categorias": {}
+        },
+        "2022": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 28.27,
+          "distintos": 2243015,
+          "bytes_texto": 112204890,
+          "categorias": {}
+        }
+      }
+    },
+    "TX_GABARITO_LC": {
+      "inep": "TX_GABARITO_LC",
+      "descricao_inep": "Vetor com o gabarito da parte objetiva da prova de Linguagens e Códigos7",
+      "interno": "-",
+      "destino": "descartada",
+      "ausencia": "-",
+      "transformacao": "-",
+      "elegibilidade": "Nao participa da elegibilidade.",
+      "modulos": "-",
+      "nota": "Gabarito item a item; so faz sentido junto de TX_RESPOSTAS.",
+      "sensivel": false,
+      "por_ano": {
+        "2019": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 23.0,
+          "distintos": 4,
+          "bytes_texto": 196152300,
+          "categorias": {}
+        },
+        "2020": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 52.38,
+          "distintos": 13,
+          "bytes_texto": 137707000,
+          "categorias": {}
+        },
+        "2021": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 29.84,
+          "distintos": 10,
+          "bytes_texto": 118918950,
+          "categorias": {}
+        },
+        "2022": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 28.27,
+          "distintos": 9,
+          "bytes_texto": 124672100,
+          "categorias": {}
+        }
+      }
+    },
+    "CO_PROVA_MT": {
+      "inep": "CO_PROVA_MT",
+      "descricao_inep": "Código do tipo de prova de Matemática",
+      "interno": "-",
+      "destino": "descartada",
+      "ausencia": "-",
+      "transformacao": "-",
+      "elegibilidade": "Nao participa da elegibilidade.",
+      "modulos": "-",
+      "nota": "Codigo do caderno, reemitido a cada aplicacao. So serve para analise item a item, fora do escopo descritivo do produto.",
+      "sensivel": false,
+      "por_ano": {
+        "2019": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 27.18,
+          "distintos": 6,
+          "bytes_texto": 11131005,
+          "categorias": {
+            "515": "Azul",
+            "516": "Amarela",
+            "517": "Rosa",
+            "518": "Cinza",
+            "522": "Laranja - Adaptada Ledor",
+            "526": "Verde - Videoprova - Libras",
+            "555": "Amarela (Reaplicação)",
+            "556": "Cinza (Reaplicação)",
+            "557": "Azul (Reaplicação)",
+            "558": "Rosa (Reaplicação)"
+          }
+        },
+        "2020": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 55.09,
+          "distintos": 16,
+          "bytes_texto": 7792320,
+          "categorias": {
+            "587": "Azul",
+            "588": "Amarela",
+            "589": "Rosa",
+            "590": "Cinza",
+            "591": "Rosa - Ampliada",
+            "592": "Rosa - Superampliada",
+            "594": "Laranja - Adaptada Ledor",
+            "595": "Verde - Videoprova - Libras",
+            "667": "Azul (Reaplicação)",
+            "668": "Amarela (Reaplicação)",
+            "669": "Rosa (Reaplicação)",
+            "670": "Cinza (Reaplicação)",
+            "674": "Laranja - Adaptada Ledor (Reaplicação)",
+            "695": "Azul (Digital)",
+            "696": "Amarela (Digital)",
+            "697": "Rosa (Digital)",
+            "698": "Cinza (Digital)"
+          }
+        },
+        "2021": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 33.75,
+          "distintos": 16,
+          "bytes_texto": 6836702,
+          "categorias": {
+            "899": "Azul",
+            "900": "Amarela",
+            "901": "Rosa",
+            "902": "Cinza",
+            "905": "Laranja - Braille",
+            "906": "Laranja - Adaptada Ledor",
+            "907": "Verde - Videoprova - Libras",
+            "979": "Azul (Reaplicação)",
+            "980": "Amarela (Reaplicação)",
+            "981": "Rosa (Reaplicação)",
+            "982": "Cinza (Reaplicação)",
+            "986": "Laranja - Adaptada Ledor (Reaplicação)",
+            "1007": "Azul (Digital)",
+            "1008": "Amarela (Digital)",
+            "1009": "Rosa (Digital)",
+            "1010": "Cinza (Digital)",
+            "1035": "Azul (Segunda oportunidade)",
+            "1036": "Amarela (Segunda oportunidade)",
+            "1037": "Cinza (Segunda oportunidade)",
+            "1038": "Rosa (Segunda oportunidade)",
+            "1042": "Laranja - Adaptada Ledor (Segunda oportunidade)"
+          }
+        },
+        "2022": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 32.24,
+          "distintos": 14,
+          "bytes_texto": 9421580,
+          "categorias": {
+            "1075": "Azul",
+            "1076": "Amarela",
+            "1077": "Rosa",
+            "1078": "Cinza",
+            "1082": "Laranja - Adaptada Ledor",
+            "1083": "Verde - Videoprova - Libras",
+            "1155": "Azul (Reaplicação)",
+            "1156": "Amarela (Reaplicação)",
+            "1157": "Rosa (Reaplicação)",
+            "1158": "Cinza (Reaplicação)",
+            "1183": "Azul (Digital)",
+            "1184": "Amarela (Digital)",
+            "1185": "Rosa (Digital)",
+            "1186": "Cinza (Digital)"
+          }
+        }
+      }
+    },
+    "TX_RESPOSTAS_MT": {
+      "inep": "TX_RESPOSTAS_MT",
+      "descricao_inep": "Vetor com as respostas da parte objetiva da prova de Matemática4",
+      "interno": "-",
+      "destino": "descartada",
+      "ausencia": "-",
+      "transformacao": "-",
+      "elegibilidade": "Nao participa da elegibilidade.",
+      "modulos": "-",
+      "nota": "Respostas item a item (45 a 50 caracteres por registro). Fora do escopo descritivo e responsavel pela maior parte do volume do CSV.",
+      "sensivel": false,
+      "por_ano": {
+        "2019": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 27.18,
+          "distintos": 3958050,
+          "bytes_texto": 166965075,
+          "categorias": {}
+        },
+        "2020": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 55.09,
+          "distintos": 2047019,
+          "bytes_texto": 116884800,
+          "categorias": {}
+        },
+        "2021": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 33.75,
+          "distintos": 1992388,
+          "bytes_texto": 101062980,
+          "categorias": {}
+        },
+        "2022": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 32.24,
+          "distintos": 2848477,
+          "bytes_texto": 105992775,
+          "categorias": {}
+        }
+      }
+    },
+    "TX_GABARITO_MT": {
+      "inep": "TX_GABARITO_MT",
+      "descricao_inep": "Vetor com o gabarito da parte objetiva da prova de Matemática6",
+      "interno": "-",
+      "destino": "descartada",
+      "ausencia": "-",
+      "transformacao": "-",
+      "elegibilidade": "Nao participa da elegibilidade.",
+      "modulos": "-",
+      "nota": "Gabarito item a item; so faz sentido junto de TX_RESPOSTAS.",
+      "sensivel": false,
+      "por_ano": {
+        "2019": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 27.18,
+          "distintos": 5,
+          "bytes_texto": 166965075,
+          "categorias": {}
+        },
+        "2020": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 55.09,
+          "distintos": 12,
+          "bytes_texto": 116884800,
+          "categorias": {}
+        },
+        "2021": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 33.75,
+          "distintos": 7,
+          "bytes_texto": 101062980,
+          "categorias": {}
+        },
+        "2022": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 32.24,
+          "distintos": 9,
+          "bytes_texto": 105992775,
+          "categorias": {}
+        }
+      }
+    },
+    "Q001": {
+      "inep": "Q001",
+      "descricao_inep": "Até que série seu pai, ou o homem responsável por você, estudou?",
+      "interno": "escolaridade_pai",
+      "destino": "analytics",
+      "ausencia": "Praticamente sem ausencia, exceto 2020 (1,66%), quando o questionario nao foi respondido por parte dos inscritos.",
+      "transformacao": "Nenhuma. Codigo do INEP preservado.",
+      "elegibilidade": "Nao participa da elegibilidade.",
+      "modulos": "a definir (Sprint 5)",
+      "nota": "",
+      "sensivel": false,
+      "por_ano": {
+        "2019": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 0.0,
+          "distintos": 8,
+          "bytes_texto": 5095171,
+          "categorias": {
+            "A": "Nunca estudou.",
+            "B": "Não completou a 4ª série/5º ano do Ensino Fundamental.",
+            "C": "Completou a 4ª série/5º ano, mas não completou a 8ª série/9º ano do Ensino Fundamental.",
+            "D": "Completou a 8ª série/9º ano do Ensino Fundamental, mas não completou o Ensino Médio.",
+            "E": "Completou o Ensino Médio, mas não completou a Faculdade.",
+            "F": "Completou a Faculdade, mas não completou a Pós-graduação.",
+            "G": "Completou a Pós-graduação.",
+            "H": "Não sei."
+          }
+        },
+        "2020": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 1.66,
+          "distintos": 8,
+          "bytes_texto": 5687143,
+          "categorias": {
+            "A": "Nunca estudou.",
+            "B": "Não completou a 4ª série/5º ano do Ensino Fundamental.",
+            "C": "Completou a 4ª série/5º ano, mas não completou a 8ª série/9º ano do Ensino Fundamental.",
+            "D": "Completou a 8ª série/9º ano do Ensino Fundamental, mas não completou o Ensino Médio.",
+            "E": "Completou o Ensino Médio, mas não completou a Faculdade.",
+            "F": "Completou a Faculdade, mas não completou a Pós-graduação.",
+            "G": "Completou a Pós-graduação.",
+            "H": "Não sei."
+          }
+        },
+        "2021": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 0.0,
+          "distintos": 8,
+          "bytes_texto": 3389830,
+          "categorias": {
+            "A": "Nunca estudou.",
+            "B": "Não completou a 4ª série/5º ano do Ensino Fundamental.",
+            "C": "Completou a 4ª série/5º ano, mas não completou a 8ª série/9º ano do Ensino Fundamental.",
+            "D": "Completou a 8ª série/9º ano do Ensino Fundamental, mas não completou o Ensino Médio.",
+            "E": "Completou o Ensino Médio, mas não completou a Faculdade.",
+            "F": "Completou a Faculdade, mas não completou a Pós-graduação.",
+            "G": "Completou a Pós-graduação.",
+            "H": "Não sei."
+          }
+        },
+        "2022": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 0.0,
+          "distintos": 8,
+          "bytes_texto": 3476105,
+          "categorias": {
+            "A": "Nunca estudou.",
+            "B": "Não completou a 4ª série/5º ano do Ensino Fundamental.",
+            "C": "Completou a 4ª série/5º ano, mas não completou a 8ª série/9º ano do Ensino Fundamental.",
+            "D": "Completou a 8ª série/9º ano do Ensino Fundamental, mas não completou o Ensino Médio.",
+            "E": "Completou o Ensino Médio, mas não completou a Faculdade.",
+            "F": "Completou a Faculdade, mas não completou a Pós-graduação.",
+            "G": "Completou a Pós-graduação.",
+            "H": "Não sei."
+          }
+        }
+      }
+    },
+    "Q002": {
+      "inep": "Q002",
+      "descricao_inep": "Até que série sua mãe, ou a mulher responsável por você, estudou?",
+      "interno": "escolaridade_mae",
+      "destino": "analytics",
+      "ausencia": "Praticamente sem ausencia, exceto 2020 (1,66%), quando o questionario nao foi respondido por parte dos inscritos.",
+      "transformacao": "Nenhuma. Codigo do INEP preservado.",
+      "elegibilidade": "Nao participa da elegibilidade.",
+      "modulos": "a definir (Sprint 5)",
+      "nota": "",
+      "sensivel": false,
+      "por_ano": {
+        "2019": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 0.0,
+          "distintos": 8,
+          "bytes_texto": 5095171,
+          "categorias": {
+            "A": "Nunca estudou.",
+            "B": "Não completou a 4ª série/5º ano do Ensino Fundamental.",
+            "C": "Completou a 4ª série/5º ano, mas não completou a 8ª série/9º ano do Ensino Fundamental.",
+            "D": "Completou a 8ª série/9º ano do Ensino Fundamental, mas não completou o Ensino Médio.",
+            "E": "Completou o Ensino Médio, mas não completou a Faculdade.",
+            "F": "Completou a Faculdade, mas não completou a Pós-graduação.",
+            "G": "Completou a Pós-graduação.",
+            "H": "Não sei."
+          }
+        },
+        "2020": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 1.66,
+          "distintos": 8,
+          "bytes_texto": 5687143,
+          "categorias": {
+            "A": "Nunca estudou.",
+            "B": "Não completou a 4ª série/5º ano do Ensino Fundamental.",
+            "C": "Completou a 4ª série/5º ano, mas não completou a 8ª série/9º ano do Ensino Fundamental.",
+            "D": "Completou a 8ª série/9º ano do Ensino Fundamental, mas não completou o Ensino Médio.",
+            "E": "Completou o Ensino Médio, mas não completou a Faculdade.",
+            "F": "Completou a Faculdade, mas não completou a Pós-graduação.",
+            "G": "Completou a Pós-graduação.",
+            "H": "Não sei."
+          }
+        },
+        "2021": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 0.0,
+          "distintos": 8,
+          "bytes_texto": 3389830,
+          "categorias": {
+            "A": "Nunca estudou.",
+            "B": "Não completou a 4ª série/5º ano do Ensino Fundamental.",
+            "C": "Completou a 4ª série/5º ano, mas não completou a 8ª série/9º ano do Ensino Fundamental.",
+            "D": "Completou a 8ª série/9º ano do Ensino Fundamental, mas não completou o Ensino Médio.",
+            "E": "Completou o Ensino Médio, mas não completou a Faculdade.",
+            "F": "Completou a Faculdade, mas não completou a Pós-graduação.",
+            "G": "Completou a Pós-graduação.",
+            "H": "Não sei."
+          }
+        },
+        "2022": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 0.0,
+          "distintos": 8,
+          "bytes_texto": 3476105,
+          "categorias": {
+            "A": "Nunca estudou.",
+            "B": "Não completou a 4ª série/5º ano do Ensino Fundamental.",
+            "C": "Completou a 4ª série/5º ano, mas não completou a 8ª série/9º ano do Ensino Fundamental.",
+            "D": "Completou a 8ª série/9º ano do Ensino Fundamental, mas não completou o Ensino Médio.",
+            "E": "Completou o Ensino Médio, mas não completou a Faculdade.",
+            "F": "Completou a Faculdade, mas não completou a Pós-graduação.",
+            "G": "Completou a Pós-graduação.",
+            "H": "Não sei."
+          }
+        }
+      }
+    },
+    "Q003": {
+      "inep": "Q003",
+      "descricao_inep": "A partir da apresentação de algumas ocupações divididas em grupos ordenados, indique o grupo que contempla a ocupação mais próxima da ocupação do seu pai ou do homem responsável por você. (Se ele não estiver trabalhando, escolha uma ocupação pensando no último trabalho dele).",
+      "interno": "ocupacao_pai",
+      "destino": "analytics",
+      "ausencia": "Praticamente sem ausencia, exceto 2020 (1,66%), quando o questionario nao foi respondido por parte dos inscritos.",
+      "transformacao": "Nenhuma. Codigo do INEP preservado.",
+      "elegibilidade": "Nao participa da elegibilidade.",
+      "modulos": "a definir (Sprint 5)",
+      "nota": "",
+      "sensivel": false,
+      "por_ano": {
+        "2019": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 0.0,
+          "distintos": 6,
+          "bytes_texto": 5095171,
+          "categorias": {
+            "A": "Grupo 1: Lavrador, agricultor sem empregados, bóia fria, criador de animais (gado, porcos, galinhas, ovelhas, cavalos etc.), apicultor, pescador, lenhador, seringueiro, extrativista.",
+            "B": "Grupo 2: Diarista, empregado doméstico, cuidador de idosos, babá, cozinheiro (em casas particulares), motorista particular, jardineiro, faxineiro de empresas e prédios, vigilante, porteiro, carteiro, office-boy, vendedor, caixa, atendente de loja, auxiliar administrativo, recepcionista, servente de pedreiro, repositor de mercadoria.",
+            "C": "Grupo 3: Padeiro, cozinheiro industrial ou em restaurantes, sapateiro, costureiro, joalheiro, torneiro mecânico, operador de máquinas, soldador, operário de fábrica, trabalhador da mineração, pedreiro, pintor, eletricista, encanador, motorista, caminhoneiro, taxista.",
+            "D": "Grupo 4: Professor (de ensino fundamental ou médio, idioma, música, artes etc.), técnico (de enfermagem, contabilidade, eletrônica etc.), policial, militar de baixa patente (soldado, cabo, sargento), corretor de imóveis, supervisor, gerente, mestre de obras, pastor, microempresário (proprietário de empresa com menos de 10 empregados), pequeno comerciante, pequeno proprietário de terras, trabalhador autônomo ou por conta própria.",
+            "E": "Grupo 5: Médico, engenheiro, dentista, psicólogo, economista, advogado, juiz, promotor, defensor, delegado, tenente, capitão, coronel, professor universitário, diretor em empresas públicas ou privadas, político, proprietário de empresas com mais de 10 empregados.",
+            "F": "Não sei."
+          }
+        },
+        "2020": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 1.66,
+          "distintos": 6,
+          "bytes_texto": 5687143,
+          "categorias": {
+            "A": "Grupo 1: Lavrador, agricultor sem empregados, bóia fria, criador de animais (gado, porcos, galinhas, ovelhas, cavalos etc.), apicultor, pescador, lenhador, seringueiro, extrativista.",
+            "B": "Grupo 2: Diarista, empregado doméstico, cuidador de idosos, babá, cozinheiro (em casas particulares), motorista particular, jardineiro, faxineiro de empresas e prédios, vigilante, porteiro, carteiro, office-boy, vendedor, caixa, atendente de loja, auxiliar administrativo, recepcionista, servente de pedreiro, repositor de mercadoria.",
+            "C": "Grupo 3: Padeiro, cozinheiro industrial ou em restaurantes, sapateiro, costureiro, joalheiro, torneiro mecânico, operador de máquinas, soldador, operário de fábrica, trabalhador da mineração, pedreiro, pintor, eletricista, encanador, motorista, caminhoneiro, taxista.",
+            "D": "Grupo 4: Professor (de ensino fundamental ou médio, idioma, música, artes etc.), técnico (de enfermagem, contabilidade, eletrônica etc.), policial, militar de baixa patente (soldado, cabo, sargento), corretor de imóveis, supervisor, gerente, mestre de obras, pastor, microempresário (proprietário de empresa com menos de 10 empregados), pequeno comerciante, pequeno proprietário de terras, trabalhador autônomo ou por conta própria.",
+            "E": "Grupo 5: Médico, engenheiro, dentista, psicólogo, economista, advogado, juiz, promotor, defensor, delegado, tenente, capitão, coronel, professor universitário, diretor em empresas públicas ou privadas, político, proprietário de empresas com mais de 10 empregados.",
+            "F": "Não sei."
+          }
+        },
+        "2021": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 0.0,
+          "distintos": 6,
+          "bytes_texto": 3389830,
+          "categorias": {
+            "A": "Grupo 1: Lavrador, agricultor sem empregados, bóia fria, criador de animais (gado, porcos, galinhas, ovelhas, cavalos etc.), apicultor, pescador, lenhador, seringueiro, extrativista.",
+            "B": "Grupo 2: Diarista, empregado doméstico, cuidador de idosos, babá, cozinheiro (em casas particulares), motorista particular, jardineiro, faxineiro de empresas e prédios, vigilante, porteiro, carteiro, office-boy, vendedor, caixa, atendente de loja, auxiliar administrativo, recepcionista, servente de pedreiro, repositor de mercadoria.",
+            "C": "Grupo 3: Padeiro, cozinheiro industrial ou em restaurantes, sapateiro, costureiro, joalheiro, torneiro mecânico, operador de máquinas, soldador, operário de fábrica, trabalhador da mineração, pedreiro, pintor, eletricista, encanador, motorista, caminhoneiro, taxista.",
+            "D": "Grupo 4: Professor (de ensino fundamental ou médio, idioma, música, artes etc.), técnico (de enfermagem, contabilidade, eletrônica etc.), policial, militar de baixa patente (soldado, cabo, sargento), corretor de imóveis, supervisor, gerente, mestre de obras, pastor, microempresário (proprietário de empresa com menos de 10 empregados), pequeno comerciante, pequeno proprietário de terras, trabalhador autônomo ou por conta própria.",
+            "E": "Grupo 5: Médico, engenheiro, dentista, psicólogo, economista, advogado, juiz, promotor, defensor, delegado, tenente, capitão, coronel, professor universitário, diretor em empresas públicas ou privadas, político, proprietário de empresas com mais de 10 empregados.",
+            "F": "Não sei."
+          }
+        },
+        "2022": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 0.0,
+          "distintos": 6,
+          "bytes_texto": 3476105,
+          "categorias": {
+            "A": "Grupo 1: Lavrador, agricultor sem empregados, bóia fria, criador de animais (gado, porcos, galinhas, ovelhas, cavalos etc.), apicultor, pescador, lenhador, seringueiro, extrativista.",
+            "B": "Grupo 2: Diarista, empregado doméstico, cuidador de idosos, babá, cozinheiro (em casas particulares), motorista particular, jardineiro, faxineiro de empresas e prédios, vigilante, porteiro, carteiro, office-boy, vendedor, caixa, atendente de loja, auxiliar administrativo, recepcionista, servente de pedreiro, repositor de mercadoria.",
+            "C": "Grupo 3: Padeiro, cozinheiro industrial ou em restaurantes, sapateiro, costureiro, joalheiro, torneiro mecânico, operador de máquinas, soldador, operário de fábrica, trabalhador da mineração, pedreiro, pintor, eletricista, encanador, motorista, caminhoneiro, taxista.",
+            "D": "Grupo 4: Professor (de ensino fundamental ou médio, idioma, música, artes etc.), técnico (de enfermagem, contabilidade, eletrônica etc.), policial, militar de baixa patente (soldado, cabo, sargento), corretor de imóveis, supervisor, gerente, mestre de obras, pastor, microempresário (proprietário de empresa com menos de 10 empregados), pequeno comerciante, pequeno proprietário de terras, trabalhador autônomo ou por conta própria.",
+            "E": "Grupo 5: Médico, engenheiro, dentista, psicólogo, economista, advogado, juiz, promotor, defensor, delegado, tenente, capitão, coronel, professor universitário, diretor em empresas públicas ou privadas, político, proprietário de empresas com mais de 10 empregados.",
+            "F": "Não sei."
+          }
+        }
+      }
+    },
+    "Q004": {
+      "inep": "Q004",
+      "descricao_inep": "A partir da apresentação de algumas ocupações divididas em grupos ordenados, indique o grupo que contempla a ocupação mais próxima da ocupação da sua mãe ou da mulher responsável por você. (Se ela não estiver trabalhando, escolha uma ocupação pensando no último trabalho dela).",
+      "interno": "ocupacao_mae",
+      "destino": "analytics",
+      "ausencia": "Praticamente sem ausencia, exceto 2020 (1,66%), quando o questionario nao foi respondido por parte dos inscritos.",
+      "transformacao": "Nenhuma. Codigo do INEP preservado.",
+      "elegibilidade": "Nao participa da elegibilidade.",
+      "modulos": "a definir (Sprint 5)",
+      "nota": "",
+      "sensivel": false,
+      "por_ano": {
+        "2019": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 0.0,
+          "distintos": 6,
+          "bytes_texto": 5095171,
+          "categorias": {
+            "A": "Grupo 1: Lavradora, agricultora sem empregados, bóia fria, criadora de animais (gado, porcos, galinhas, ovelhas, cavalos etc.), apicultora, pescadora, lenhadora, seringueira, extrativista.",
+            "B": "Grupo 2: Diarista, empregada doméstica, cuidadora de idosos, babá, cozinheira (em casas particulares), motorista particular, jardineira, faxineira de empresas e prédios, vigilante, porteira, carteira, office-boy, vendedora, caixa, atendente de loja, auxiliar administrativa, recepcionista, servente de pedreiro, repositora de mercadoria.",
+            "C": "Grupo 3: Padeira, cozinheira industrial ou em restaurantes, sapateira, costureira, joalheira, torneira mecânica, operadora de máquinas, soldadora, operária de fábrica, trabalhadora da mineração, pedreira, pintora, eletricista, encanadora, motorista, caminhoneira, taxista.",
+            "D": "Grupo 4: Professora (de ensino fundamental ou médio, idioma, música, artes etc.), técnica (de enfermagem, contabilidade, eletrônica etc.), policial, militar de baixa patente (soldado, cabo, sargento), corretora de imóveis, supervisora, gerente, mestre de obras, pastora, microempresária (proprietária de empresa com menos de 10 empregados), pequena comerciante, pequena proprietária de terras, trabalhadora autônoma ou por conta própria.",
+            "E": "Grupo 5: Médica, engenheira, dentista, psicóloga, economista, advogada, juíza, promotora, defensora, delegada, tenente, capitã, coronel, professora universitária, diretora em empresas públicas ou privadas, política, proprietária de empresas com mais de 10 empregados.",
+            "F": "Não sei."
+          }
+        },
+        "2020": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 1.66,
+          "distintos": 6,
+          "bytes_texto": 5687143,
+          "categorias": {
+            "A": "Grupo 1: Lavradora, agricultora sem empregados, bóia fria, criadora de animais (gado, porcos, galinhas, ovelhas, cavalos etc.), apicultora, pescadora, lenhadora, seringueira, extrativista.",
+            "B": "Grupo 2: Diarista, empregada doméstica, cuidadora de idosos, babá, cozinheira (em casas particulares), motorista particular, jardineira, faxineira de empresas e prédios, vigilante, porteira, carteira, office-boy, vendedora, caixa, atendente de loja, auxiliar administrativa, recepcionista, servente de pedreiro, repositora de mercadoria.",
+            "C": "Grupo 3: Padeira, cozinheira industrial ou em restaurantes, sapateira, costureira, joalheira, torneira mecânica, operadora de máquinas, soldadora, operária de fábrica, trabalhadora da mineração, pedreira, pintora, eletricista, encanadora, motorista, caminhoneira, taxista.",
+            "D": "Grupo 4: Professora (de ensino fundamental ou médio, idioma, música, artes etc.), técnica (de enfermagem, contabilidade, eletrônica etc.), policial, militar de baixa patente (soldado, cabo, sargento), corretora de imóveis, supervisora, gerente, mestre de obras, pastora, microempresária (proprietária de empresa com menos de 10 empregados), pequena comerciante, pequena proprietária de terras, trabalhadora autônoma ou por conta própria.",
+            "E": "Grupo 5: Médica, engenheira, dentista, psicóloga, economista, advogada, juíza, promotora, defensora, delegada, tenente, capitã, coronel, professora universitária, diretora em empresas públicas ou privadas, política, proprietária de empresas com mais de 10 empregados.",
+            "F": "Não sei."
+          }
+        },
+        "2021": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 0.0,
+          "distintos": 6,
+          "bytes_texto": 3389830,
+          "categorias": {
+            "A": "Grupo 1: Lavradora, agricultora sem empregados, bóia fria, criadora de animais (gado, porcos, galinhas, ovelhas, cavalos etc.), apicultora, pescadora, lenhadora, seringueira, extrativista.",
+            "B": "Grupo 2: Diarista, empregada doméstica, cuidadora de idosos, babá, cozinheira (em casas particulares), motorista particular, jardineira, faxineira de empresas e prédios, vigilante, porteira, carteira, office-boy, vendedora, caixa, atendente de loja, auxiliar administrativa, recepcionista, servente de pedreiro, repositora de mercadoria.",
+            "C": "Grupo 3: Padeira, cozinheira industrial ou em restaurantes, sapateira, costureira, joalheira, torneira mecânica, operadora de máquinas, soldadora, operária de fábrica, trabalhadora da mineração, pedreira, pintora, eletricista, encanadora, motorista, caminhoneira, taxista.",
+            "D": "Grupo 4: Professora (de ensino fundamental ou médio, idioma, música, artes etc.), técnica (de enfermagem, contabilidade, eletrônica etc.), policial, militar de baixa patente (soldado, cabo, sargento), corretora de imóveis, supervisora, gerente, mestre de obras, pastora, microempresária (proprietária de empresa com menos de 10 empregados), pequena comerciante, pequena proprietária de terras, trabalhadora autônoma ou por conta própria.",
+            "E": "Grupo 5: Médica, engenheira, dentista, psicóloga, economista, advogada, juíza, promotora, defensora, delegada, tenente, capitã, coronel, professora universitária, diretora em empresas públicas ou privadas, política, proprietária de empresas com mais de 10 empregados.",
+            "F": "Não sei."
+          }
+        },
+        "2022": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 0.0,
+          "distintos": 6,
+          "bytes_texto": 3476105,
+          "categorias": {
+            "A": "Grupo 1: Lavradora, agricultora sem empregados, bóia fria, criadora de animais (gado, porcos, galinhas, ovelhas, cavalos etc.), apicultora, pescadora, lenhadora, seringueira, extrativista.",
+            "B": "Grupo 2: Diarista, empregada doméstica, cuidadora de idosos, babá, cozinheira (em casas particulares), motorista particular, jardineira, faxineira de empresas e prédios, vigilante, porteira, carteira, office-boy, vendedora, caixa, atendente de loja, auxiliar administrativa, recepcionista, servente de pedreiro, repositora de mercadoria.",
+            "C": "Grupo 3: Padeira, cozinheira industrial ou em restaurantes, sapateira, costureira, joalheira, torneira mecânica, operadora de máquinas, soldadora, operária de fábrica, trabalhadora da mineração, pedreira, pintora, eletricista, encanadora, motorista, caminhoneira, taxista.",
+            "D": "Grupo 4: Professora (de ensino fundamental ou médio, idioma, música, artes etc.), técnica (de enfermagem, contabilidade, eletrônica etc.), policial, militar de baixa patente (soldado, cabo, sargento), corretora de imóveis, supervisora, gerente, mestre de obras, pastora, microempresária (proprietária de empresa com menos de 10 empregados), pequena comerciante, pequena proprietária de terras, trabalhadora autônoma ou por conta própria.",
+            "E": "Grupo 5: Médica, engenheira, dentista, psicóloga, economista, advogada, juíza, promotora, defensora, delegada, tenente, capitã, coronel, professora universitária, diretora em empresas públicas ou privadas, política, proprietária de empresas com mais de 10 empregados.",
+            "F": "Não sei."
+          }
+        }
+      }
+    },
+    "Q005": {
+      "inep": "Q005",
+      "descricao_inep": "Incluindo você, quantas pessoas moram atualmente em sua residência?",
+      "interno": "pessoas_domicilio",
+      "destino": "analytics",
+      "ausencia": "Praticamente sem ausencia, exceto 2020 (1,66%), quando o questionario nao foi respondido por parte dos inscritos.",
+      "transformacao": "Numero de pessoas no domicilio, ja numerico.",
+      "elegibilidade": "Nao participa da elegibilidade.",
+      "modulos": "a definir (Sprint 5)",
+      "nota": "",
+      "sensivel": false,
+      "por_ano": {
+        "2019": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 0.0,
+          "distintos": 20,
+          "bytes_texto": 5121002,
+          "categorias": {
+            "1": "1, pois moro sozinho(a).",
+            "2": "2",
+            "3": "3",
+            "4": "4",
+            "5": "5",
+            "6": "6",
+            "7": "7",
+            "8": "8",
+            "9": "9",
+            "10": "10",
+            "11": "11",
+            "12": "12",
+            "13": "13",
+            "14": "14",
+            "15": "15",
+            "16": "16",
+            "17": "17",
+            "18": "18",
+            "19": "19",
+            "20": "20"
+          }
+        },
+        "2020": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 1.66,
+          "distintos": 20,
+          "bytes_texto": 5709683,
+          "categorias": {
+            "1": "1, pois moro sozinho(a).",
+            "2": "2",
+            "3": "3",
+            "4": "4",
+            "5": "5",
+            "6": "6",
+            "7": "7",
+            "8": "8",
+            "9": "9",
+            "10": "10",
+            "11": "11",
+            "12": "12",
+            "13": "13",
+            "14": "14",
+            "15": "15",
+            "16": "16",
+            "17": "17",
+            "18": "18",
+            "19": "19",
+            "20": "20"
+          }
+        },
+        "2021": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 0.0,
+          "distintos": 20,
+          "bytes_texto": 3400632,
+          "categorias": {
+            "1": "1, pois moro sozinho(a).",
+            "2": "2",
+            "3": "3",
+            "4": "4",
+            "5": "5",
+            "6": "6",
+            "7": "7",
+            "8": "8",
+            "9": "9",
+            "10": "10",
+            "11": "11",
+            "12": "12",
+            "13": "13",
+            "14": "14",
+            "15": "15",
+            "16": "16",
+            "17": "17",
+            "18": "18",
+            "19": "19",
+            "20": "20"
+          }
+        },
+        "2022": {
+          "tipo_observado": "BIGINT",
+          "pct_ausentes": 0.0,
+          "distintos": 20,
+          "bytes_texto": 3487305,
+          "categorias": {
+            "1": "1, pois moro sozinho(a).",
+            "2": "2",
+            "3": "3",
+            "4": "4",
+            "5": "5",
+            "6": "6",
+            "7": "7",
+            "8": "8",
+            "9": "9",
+            "10": "10",
+            "11": "11",
+            "12": "12",
+            "13": "13",
+            "14": "14",
+            "15": "15",
+            "16": "16",
+            "17": "17",
+            "18": "18",
+            "19": "19",
+            "20": "20"
+          }
+        }
+      }
+    },
+    "Q006": {
+      "inep": "Q006",
+      "descricao_inep": "Qual é a renda mensal de sua família? (Some a sua renda com a dos seus familiares.)",
+      "interno": "renda_familiar",
+      "destino": "analytics",
+      "ausencia": "Praticamente sem ausencia, exceto 2020 (1,66%), quando o questionario nao foi respondido por parte dos inscritos.",
+      "transformacao": "Codigo A-Q preservado e derivada `renda_sm` com o piso da faixa em multiplos do salario minimo da edicao. As 17 faixas sao definidas em multiplos do minimo, entao o codigo ja e comparavel entre edicoes nessa unidade; o que NAO e comparavel e o valor nominal em reais. Comparacao de poder de compra exige deflator, que o produto nao aplica - e uma limitacao declarada, nao um ajuste pendente.",
+      "elegibilidade": "Nao participa da elegibilidade.",
+      "modulos": "a definir (Sprint 5)",
+      "nota": "Entrada informada pelo usuario no produto.",
+      "sensivel": false,
+      "por_ano": {
+        "2019": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 0.0,
+          "distintos": 17,
+          "bytes_texto": 5095171,
+          "categorias": {
+            "A": "Nenhuma renda.",
+            "B": "Até R$ 998,00.",
+            "C": "De R$ 998,01 até R$ 1.497,00.",
+            "D": "De R$ 1.497,01 até R$ 1.996,00.",
+            "E": "De R$ 1.996,01 até R$ 2.495,00.",
+            "F": "De R$ 2.495,01 até R$ 2.994,00.",
+            "G": "De R$ 2.994,01 até R$ 3.992,00.",
+            "H": "De R$ 3.992,01 até R$ 4.990,00.",
+            "I": "De R$ 4.990,01 até R$ 5.988,00.",
+            "J": "De R$ 5.988,01 até R$ 6.986,00.",
+            "K": "De R$ 6.986,01 até R$ 7.984,00.",
+            "L": "De R$ 7.984,01 até R$ 8.982,00.",
+            "M": "De R$ 8.982,01 até R$ 9.980,00.",
+            "N": "De R$ 9.980,01 até R$ 11.976,00.",
+            "O": "De R$ 11.976,01 até R$ 14.970,00.",
+            "P": "De R$ 14.970,01 até R$ 19.960,00.",
+            "Q": "Mais de R$ 19.960,00."
+          }
+        },
+        "2020": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 1.66,
+          "distintos": 17,
+          "bytes_texto": 5687143,
+          "categorias": {
+            "A": "Nenhuma Renda",
+            "B": "Até R$ 1.045,00",
+            "C": "De R$ 1.045,01 até R$ 1.567,50",
+            "D": "De R$ 1.567,51 até R$ 2.090,00",
+            "E": "De R$ 2.090,01 até R$ 2.612,50",
+            "F": "De R$ 2.612,51 até R$ 3.135,00",
+            "G": "De R$ 3.135,01 até R$ 4.180,00",
+            "H": "De R$ 4.180,01 até R$ 5.225,00",
+            "I": "De R$ 5.225,01 até R$ 6.270,00",
+            "J": "De R$ 6.270,01 até R$ 7.315,00",
+            "K": "De R$ 7.315,01 até R$ 8.360,00",
+            "L": "De R$ 8.360,01 até R$ 9.405,00",
+            "M": "De R$ 9.405,01 até R$ 10.450,00",
+            "N": "De R$ 10.450,01 até R$ 12.540,00",
+            "O": "De R$ 12.540,01 até R$ 15.675,00",
+            "P": "De R$ 15.675,01 até R$ 20.900,00",
+            "Q": "Acima de R$ 20.900,00"
+          }
+        },
+        "2021": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 0.0,
+          "distintos": 17,
+          "bytes_texto": 3389830,
+          "categorias": {
+            "A": "Nenhuma Renda",
+            "B": "Até R$ 1.100,00",
+            "C": "De R$ 1.100,01 até R$ 1.650,00.",
+            "D": "De R$ 1.650,01 até R$ 2.200,00.",
+            "E": "De R$ 2.200,01 até R$ 2.750,00.",
+            "F": "De R$ 2.750,01 até R$ 3.300,00.",
+            "G": "De R$ 3.300,01 até R$ 4.400,00.",
+            "H": "De R$ 4.400,01 até R$ 5.500,00.",
+            "I": "De R$ 5.500,01 até R$ 6.600,00.",
+            "J": "De R$ 6.600,01 até R$ 7.700,00.",
+            "K": "De R$ 7.700,01 até R$ 8.800,00.",
+            "L": "De R$ 8.800,01 até R$ 9.900,00.",
+            "M": "De R$ 9.900,01 até R$ 11.000,00.",
+            "N": "De R$ 11.000,01 até R$ 13.200,00.",
+            "O": "De R$ 13.200,01 até R$ 16.500,00.",
+            "P": "De R$ 16.500,01 até R$ 22.000,00.",
+            "Q": "Acima de R$ 22.000,00."
+          }
+        },
+        "2022": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 0.0,
+          "distintos": 17,
+          "bytes_texto": 3476105,
+          "categorias": {
+            "A": "Nenhuma Renda",
+            "B": "Até R$ 1.212,00",
+            "C": "De R$ 1.212,01 até R$ 1.818,00.",
+            "D": "De R$ 1.818,01 até R$ 2.424,00.",
+            "E": "De R$ 2.424,01 até R$ 3.030,00.",
+            "F": "De R$ 3.030,01 até R$ 3.636,00.",
+            "G": "De R$ 3.636,01 até R$ 4.848,00.",
+            "H": "De R$ 4.848,01 até R$ 6.060,00.",
+            "I": "De R$ 6.060,01 até R$ 7.272,00.",
+            "J": "De R$ 7.272,01 até R$ 8.484,00.",
+            "K": "De R$ 8.484,01 até R$ 9.696,00.",
+            "L": "De R$ 9.696,01 até R$ 10.908,00.",
+            "M": "De R$ 10.908,01 até R$ 12.120,00.",
+            "N": "De R$ 12.120,01 até R$ 14.544,00.",
+            "O": "De R$ 14.544,01 até R$ 18.180,00.",
+            "P": "De R$ 18.180,01 até R$ 24.240,00.",
+            "Q": "Acima de R$ 24.240,00."
+          }
+        }
+      }
+    },
+    "Q007": {
+      "inep": "Q007",
+      "descricao_inep": "Em sua residência trabalha empregado(a) doméstico(a)?",
+      "interno": "empregado_domestico",
+      "destino": "analytics",
+      "ausencia": "Praticamente sem ausencia, exceto 2020 (1,66%), quando o questionario nao foi respondido por parte dos inscritos.",
+      "transformacao": "Nenhuma. Codigo do INEP preservado.",
+      "elegibilidade": "Nao participa da elegibilidade.",
+      "modulos": "a definir (Sprint 5)",
+      "nota": "",
+      "sensivel": false,
+      "por_ano": {
+        "2019": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 0.0,
+          "distintos": 4,
+          "bytes_texto": 5095171,
+          "categorias": {
+            "A": "Não.",
+            "B": "Sim, um ou dois dias por semana.",
+            "C": "Sim, três ou quatro dias por semana.",
+            "D": "Sim, pelo menos cinco dias por semana."
+          }
+        },
+        "2020": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 1.66,
+          "distintos": 4,
+          "bytes_texto": 5687143,
+          "categorias": {
+            "A": "Não.",
+            "B": "Sim, um ou dois dias por semana.",
+            "C": "Sim, três ou quatro dias por semana.",
+            "D": "Sim, pelo menos cinco dias por semana."
+          }
+        },
+        "2021": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 0.0,
+          "distintos": 4,
+          "bytes_texto": 3389830,
+          "categorias": {
+            "A": "Não.",
+            "B": "Sim, um ou dois dias por semana.",
+            "C": "Sim, três ou quatro dias por semana.",
+            "D": "Sim, pelo menos cinco dias por semana."
+          }
+        },
+        "2022": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 0.0,
+          "distintos": 4,
+          "bytes_texto": 3476105,
+          "categorias": {
+            "A": "Não.",
+            "B": "Sim, um ou dois dias por semana.",
+            "C": "Sim, três ou quatro dias por semana.",
+            "D": "Sim, pelo menos cinco dias por semana."
+          }
+        }
+      }
+    },
+    "Q008": {
+      "inep": "Q008",
+      "descricao_inep": "Na sua residência tem banheiro?",
+      "interno": "banheiros",
+      "destino": "analytics",
+      "ausencia": "Praticamente sem ausencia, exceto 2020 (1,66%), quando o questionario nao foi respondido por parte dos inscritos.",
+      "transformacao": "Nenhuma. Codigo do INEP preservado.",
+      "elegibilidade": "Nao participa da elegibilidade.",
+      "modulos": "a definir (Sprint 5)",
+      "nota": "",
+      "sensivel": false,
+      "por_ano": {
+        "2019": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 0.0,
+          "distintos": 5,
+          "bytes_texto": 5095171,
+          "categorias": {
+            "A": "Não.",
+            "B": "Sim, um.",
+            "C": "Sim, dois.",
+            "D": "Sim, três.",
+            "E": "Sim, quatro ou mais."
+          }
+        },
+        "2020": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 1.66,
+          "distintos": 5,
+          "bytes_texto": 5687143,
+          "categorias": {
+            "A": "Não.",
+            "B": "Sim, um.",
+            "C": "Sim, dois.",
+            "D": "Sim, três.",
+            "E": "Sim, quatro ou mais."
+          }
+        },
+        "2021": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 0.0,
+          "distintos": 5,
+          "bytes_texto": 3389830,
+          "categorias": {
+            "A": "Não.",
+            "B": "Sim, um.",
+            "C": "Sim, dois.",
+            "D": "Sim, três.",
+            "E": "Sim, quatro ou mais."
+          }
+        },
+        "2022": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 0.0,
+          "distintos": 5,
+          "bytes_texto": 3476105,
+          "categorias": {
+            "A": "Não.",
+            "B": "Sim, um.",
+            "C": "Sim, dois.",
+            "D": "Sim, três.",
+            "E": "Sim, quatro ou mais."
+          }
+        }
+      }
+    },
+    "Q009": {
+      "inep": "Q009",
+      "descricao_inep": "Na sua residência tem quartos para dormir?",
+      "interno": "quartos",
+      "destino": "analytics",
+      "ausencia": "Praticamente sem ausencia, exceto 2020 (1,66%), quando o questionario nao foi respondido por parte dos inscritos.",
+      "transformacao": "Nenhuma. Codigo do INEP preservado.",
+      "elegibilidade": "Nao participa da elegibilidade.",
+      "modulos": "a definir (Sprint 5)",
+      "nota": "",
+      "sensivel": false,
+      "por_ano": {
+        "2019": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 0.0,
+          "distintos": 5,
+          "bytes_texto": 5095171,
+          "categorias": {
+            "A": "Não.",
+            "B": "Sim, um.",
+            "C": "Sim, dois.",
+            "D": "Sim, três.",
+            "E": "Sim, quatro ou mais."
+          }
+        },
+        "2020": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 1.66,
+          "distintos": 5,
+          "bytes_texto": 5687143,
+          "categorias": {
+            "A": "Não.",
+            "B": "Sim, um.",
+            "C": "Sim, dois.",
+            "D": "Sim, três.",
+            "E": "Sim, quatro ou mais."
+          }
+        },
+        "2021": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 0.0,
+          "distintos": 5,
+          "bytes_texto": 3389830,
+          "categorias": {
+            "A": "Não.",
+            "B": "Sim, um.",
+            "C": "Sim, dois.",
+            "D": "Sim, três.",
+            "E": "Sim, quatro ou mais."
+          }
+        },
+        "2022": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 0.0,
+          "distintos": 5,
+          "bytes_texto": 3476105,
+          "categorias": {
+            "A": "Não.",
+            "B": "Sim, um.",
+            "C": "Sim, dois.",
+            "D": "Sim, três.",
+            "E": "Sim, quatro ou mais."
+          }
+        }
+      }
+    },
+    "Q010": {
+      "inep": "Q010",
+      "descricao_inep": "Na sua residência tem carro?",
+      "interno": "carros",
+      "destino": "analytics",
+      "ausencia": "Praticamente sem ausencia, exceto 2020 (1,66%), quando o questionario nao foi respondido por parte dos inscritos.",
+      "transformacao": "Nenhuma. Codigo do INEP preservado.",
+      "elegibilidade": "Nao participa da elegibilidade.",
+      "modulos": "a definir (Sprint 5)",
+      "nota": "",
+      "sensivel": false,
+      "por_ano": {
+        "2019": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 0.0,
+          "distintos": 5,
+          "bytes_texto": 5095171,
+          "categorias": {
+            "A": "Não.",
+            "B": "Sim, um.",
+            "C": "Sim, dois.",
+            "D": "Sim, três.",
+            "E": "Sim, quatro ou mais."
+          }
+        },
+        "2020": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 1.66,
+          "distintos": 5,
+          "bytes_texto": 5687143,
+          "categorias": {
+            "A": "Não.",
+            "B": "Sim, um.",
+            "C": "Sim, dois.",
+            "D": "Sim, três.",
+            "E": "Sim, quatro ou mais."
+          }
+        },
+        "2021": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 0.0,
+          "distintos": 5,
+          "bytes_texto": 3389830,
+          "categorias": {
+            "A": "Não.",
+            "B": "Sim, um.",
+            "C": "Sim, dois.",
+            "D": "Sim, três.",
+            "E": "Sim, quatro ou mais."
+          }
+        },
+        "2022": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 0.0,
+          "distintos": 5,
+          "bytes_texto": 3476105,
+          "categorias": {
+            "A": "Não.",
+            "B": "Sim, um.",
+            "C": "Sim, dois.",
+            "D": "Sim, três.",
+            "E": "Sim, quatro ou mais."
+          }
+        }
+      }
+    },
+    "Q011": {
+      "inep": "Q011",
+      "descricao_inep": "Na sua residência tem motocicleta?",
+      "interno": "motocicletas",
+      "destino": "analytics",
+      "ausencia": "Praticamente sem ausencia, exceto 2020 (1,66%), quando o questionario nao foi respondido por parte dos inscritos.",
+      "transformacao": "Nenhuma. Codigo do INEP preservado.",
+      "elegibilidade": "Nao participa da elegibilidade.",
+      "modulos": "a definir (Sprint 5)",
+      "nota": "",
+      "sensivel": false,
+      "por_ano": {
+        "2019": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 0.0,
+          "distintos": 5,
+          "bytes_texto": 5095171,
+          "categorias": {
+            "A": "Não.",
+            "B": "Sim, uma.",
+            "C": "Sim, duas.",
+            "D": "Sim, três.",
+            "E": "Sim, quatro ou mais."
+          }
+        },
+        "2020": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 1.66,
+          "distintos": 5,
+          "bytes_texto": 5687143,
+          "categorias": {
+            "A": "Não.",
+            "B": "Sim, uma.",
+            "C": "Sim, duas.",
+            "D": "Sim, três.",
+            "E": "Sim, quatro ou mais."
+          }
+        },
+        "2021": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 0.0,
+          "distintos": 5,
+          "bytes_texto": 3389830,
+          "categorias": {
+            "A": "Não.",
+            "B": "Sim, uma.",
+            "C": "Sim, duas.",
+            "D": "Sim, três.",
+            "E": "Sim, quatro ou mais."
+          }
+        },
+        "2022": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 0.0,
+          "distintos": 5,
+          "bytes_texto": 3476105,
+          "categorias": {
+            "A": "Não.",
+            "B": "Sim, uma.",
+            "C": "Sim, duas.",
+            "D": "Sim, três.",
+            "E": "Sim, quatro ou mais."
+          }
+        }
+      }
+    },
+    "Q012": {
+      "inep": "Q012",
+      "descricao_inep": "Na sua residência tem geladeira?",
+      "interno": "geladeiras",
+      "destino": "analytics",
+      "ausencia": "Praticamente sem ausencia, exceto 2020 (1,66%), quando o questionario nao foi respondido por parte dos inscritos.",
+      "transformacao": "Nenhuma. Codigo do INEP preservado.",
+      "elegibilidade": "Nao participa da elegibilidade.",
+      "modulos": "a definir (Sprint 5)",
+      "nota": "",
+      "sensivel": false,
+      "por_ano": {
+        "2019": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 0.0,
+          "distintos": 5,
+          "bytes_texto": 5095171,
+          "categorias": {
+            "A": "Não.",
+            "B": "Sim, uma.",
+            "C": "Sim, duas.",
+            "D": "Sim, três.",
+            "E": "Sim, quatro ou mais."
+          }
+        },
+        "2020": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 1.66,
+          "distintos": 5,
+          "bytes_texto": 5687143,
+          "categorias": {
+            "A": "Não.",
+            "B": "Sim, uma.",
+            "C": "Sim, duas.",
+            "D": "Sim, três.",
+            "E": "Sim, quatro ou mais."
+          }
+        },
+        "2021": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 0.0,
+          "distintos": 5,
+          "bytes_texto": 3389830,
+          "categorias": {
+            "A": "Não.",
+            "B": "Sim, uma.",
+            "C": "Sim, duas.",
+            "D": "Sim, três.",
+            "E": "Sim, quatro ou mais."
+          }
+        },
+        "2022": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 0.0,
+          "distintos": 5,
+          "bytes_texto": 3476105,
+          "categorias": {
+            "A": "Não.",
+            "B": "Sim, uma.",
+            "C": "Sim, duas.",
+            "D": "Sim, três.",
+            "E": "Sim, quatro ou mais."
+          }
+        }
+      }
+    },
+    "Q013": {
+      "inep": "Q013",
+      "descricao_inep": "Na sua residência tem freezer (independente ou segunda porta da geladeira)?",
+      "interno": "freezers",
+      "destino": "analytics",
+      "ausencia": "Praticamente sem ausencia, exceto 2020 (1,66%), quando o questionario nao foi respondido por parte dos inscritos.",
+      "transformacao": "Nenhuma. Codigo do INEP preservado.",
+      "elegibilidade": "Nao participa da elegibilidade.",
+      "modulos": "a definir (Sprint 5)",
+      "nota": "",
+      "sensivel": false,
+      "por_ano": {
+        "2019": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 0.0,
+          "distintos": 5,
+          "bytes_texto": 5095171,
+          "categorias": {
+            "A": "Não.",
+            "B": "Sim, um.",
+            "C": "Sim, dois.",
+            "D": "Sim, três.",
+            "E": "Sim, quatro ou mais."
+          }
+        },
+        "2020": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 1.66,
+          "distintos": 5,
+          "bytes_texto": 5687143,
+          "categorias": {
+            "A": "Não.",
+            "B": "Sim, um.",
+            "C": "Sim, dois.",
+            "D": "Sim, três.",
+            "E": "Sim, quatro ou mais."
+          }
+        },
+        "2021": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 0.0,
+          "distintos": 5,
+          "bytes_texto": 3389830,
+          "categorias": {
+            "A": "Não.",
+            "B": "Sim, um.",
+            "C": "Sim, dois.",
+            "D": "Sim, três.",
+            "E": "Sim, quatro ou mais."
+          }
+        },
+        "2022": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 0.0,
+          "distintos": 5,
+          "bytes_texto": 3476105,
+          "categorias": {
+            "A": "Não.",
+            "B": "Sim, um.",
+            "C": "Sim, dois.",
+            "D": "Sim, três.",
+            "E": "Sim, quatro ou mais."
+          }
+        }
+      }
+    },
+    "Q014": {
+      "inep": "Q014",
+      "descricao_inep": "Na sua residência tem máquina de lavar roupa? (o tanquinho NÃO deve ser considerado)",
+      "interno": "maquinas_lavar",
+      "destino": "analytics",
+      "ausencia": "Praticamente sem ausencia, exceto 2020 (1,66%), quando o questionario nao foi respondido por parte dos inscritos.",
+      "transformacao": "Nenhuma. Codigo do INEP preservado.",
+      "elegibilidade": "Nao participa da elegibilidade.",
+      "modulos": "a definir (Sprint 5)",
+      "nota": "",
+      "sensivel": false,
+      "por_ano": {
+        "2019": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 0.0,
+          "distintos": 5,
+          "bytes_texto": 5095171,
+          "categorias": {
+            "A": "Não.",
+            "B": "Sim, uma.",
+            "C": "Sim, duas.",
+            "D": "Sim, três.",
+            "E": "Sim, quatro ou mais."
+          }
+        },
+        "2020": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 1.66,
+          "distintos": 5,
+          "bytes_texto": 5687143,
+          "categorias": {
+            "A": "Não.",
+            "B": "Sim, uma.",
+            "C": "Sim, duas.",
+            "D": "Sim, três.",
+            "E": "Sim, quatro ou mais."
+          }
+        },
+        "2021": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 0.0,
+          "distintos": 5,
+          "bytes_texto": 3389830,
+          "categorias": {
+            "A": "Não.",
+            "B": "Sim, uma.",
+            "C": "Sim, duas.",
+            "D": "Sim, três.",
+            "E": "Sim, quatro ou mais."
+          }
+        },
+        "2022": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 0.0,
+          "distintos": 5,
+          "bytes_texto": 3476105,
+          "categorias": {
+            "A": "Não.",
+            "B": "Sim, uma.",
+            "C": "Sim, duas.",
+            "D": "Sim, três.",
+            "E": "Sim, quatro ou mais."
+          }
+        }
+      }
+    },
+    "Q015": {
+      "inep": "Q015",
+      "descricao_inep": "Na sua residência tem máquina de secar roupa (independente ou em conjunto com a máquina de lavar roupa)?",
+      "interno": "maquinas_secar",
+      "destino": "analytics",
+      "ausencia": "Praticamente sem ausencia, exceto 2020 (1,66%), quando o questionario nao foi respondido por parte dos inscritos.",
+      "transformacao": "Nenhuma. Codigo do INEP preservado.",
+      "elegibilidade": "Nao participa da elegibilidade.",
+      "modulos": "a definir (Sprint 5)",
+      "nota": "",
+      "sensivel": false,
+      "por_ano": {
+        "2019": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 0.0,
+          "distintos": 5,
+          "bytes_texto": 5095171,
+          "categorias": {
+            "A": "Não.",
+            "B": "Sim, uma.",
+            "C": "Sim, duas.",
+            "D": "Sim, três.",
+            "E": "Sim, quatro ou mais."
+          }
+        },
+        "2020": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 1.66,
+          "distintos": 5,
+          "bytes_texto": 5687143,
+          "categorias": {
+            "A": "Não.",
+            "B": "Sim, uma.",
+            "C": "Sim, duas.",
+            "D": "Sim, três.",
+            "E": "Sim, quatro ou mais."
+          }
+        },
+        "2021": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 0.0,
+          "distintos": 5,
+          "bytes_texto": 3389830,
+          "categorias": {
+            "A": "Não.",
+            "B": "Sim, uma.",
+            "C": "Sim, duas.",
+            "D": "Sim, três.",
+            "E": "Sim, quatro ou mais."
+          }
+        },
+        "2022": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 0.0,
+          "distintos": 5,
+          "bytes_texto": 3476105,
+          "categorias": {
+            "A": "Não.",
+            "B": "Sim, uma.",
+            "C": "Sim, duas.",
+            "D": "Sim, três.",
+            "E": "Sim, quatro ou mais."
+          }
+        }
+      }
+    },
+    "Q016": {
+      "inep": "Q016",
+      "descricao_inep": "Na sua residência tem forno micro-ondas?",
+      "interno": "micro_ondas",
+      "destino": "analytics",
+      "ausencia": "Praticamente sem ausencia, exceto 2020 (1,66%), quando o questionario nao foi respondido por parte dos inscritos.",
+      "transformacao": "Nenhuma. Codigo do INEP preservado.",
+      "elegibilidade": "Nao participa da elegibilidade.",
+      "modulos": "a definir (Sprint 5)",
+      "nota": "",
+      "sensivel": false,
+      "por_ano": {
+        "2019": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 0.0,
+          "distintos": 5,
+          "bytes_texto": 5095171,
+          "categorias": {
+            "A": "Não.",
+            "B": "Sim, um.",
+            "C": "Sim, dois.",
+            "D": "Sim, três.",
+            "E": "Sim, quatro ou mais."
+          }
+        },
+        "2020": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 1.66,
+          "distintos": 5,
+          "bytes_texto": 5687143,
+          "categorias": {
+            "A": "Não.",
+            "B": "Sim, um.",
+            "C": "Sim, dois.",
+            "D": "Sim, três.",
+            "E": "Sim, quatro ou mais."
+          }
+        },
+        "2021": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 0.0,
+          "distintos": 5,
+          "bytes_texto": 3389830,
+          "categorias": {
+            "A": "Não.",
+            "B": "Sim, um.",
+            "C": "Sim, dois.",
+            "D": "Sim, três.",
+            "E": "Sim, quatro ou mais."
+          }
+        },
+        "2022": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 0.0,
+          "distintos": 5,
+          "bytes_texto": 3476105,
+          "categorias": {
+            "A": "Não.",
+            "B": "Sim, um.",
+            "C": "Sim, dois.",
+            "D": "Sim, três.",
+            "E": "Sim, quatro ou mais."
+          }
+        }
+      }
+    },
+    "Q017": {
+      "inep": "Q017",
+      "descricao_inep": "Na sua residência tem máquina de lavar louça?",
+      "interno": "lava_loucas",
+      "destino": "analytics",
+      "ausencia": "Praticamente sem ausencia, exceto 2020 (1,66%), quando o questionario nao foi respondido por parte dos inscritos.",
+      "transformacao": "Nenhuma. Codigo do INEP preservado.",
+      "elegibilidade": "Nao participa da elegibilidade.",
+      "modulos": "a definir (Sprint 5)",
+      "nota": "",
+      "sensivel": false,
+      "por_ano": {
+        "2019": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 0.0,
+          "distintos": 5,
+          "bytes_texto": 5095171,
+          "categorias": {
+            "A": "Não.",
+            "B": "Sim, uma.",
+            "C": "Sim, duas.",
+            "D": "Sim, três.",
+            "E": "Sim, quatro ou mais."
+          }
+        },
+        "2020": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 1.66,
+          "distintos": 5,
+          "bytes_texto": 5687143,
+          "categorias": {
+            "A": "Não.",
+            "B": "Sim, uma.",
+            "C": "Sim, duas.",
+            "D": "Sim, três.",
+            "E": "Sim, quatro ou mais."
+          }
+        },
+        "2021": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 0.0,
+          "distintos": 5,
+          "bytes_texto": 3389830,
+          "categorias": {
+            "A": "Não.",
+            "B": "Sim, uma.",
+            "C": "Sim, duas.",
+            "D": "Sim, três.",
+            "E": "Sim, quatro ou mais."
+          }
+        },
+        "2022": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 0.0,
+          "distintos": 5,
+          "bytes_texto": 3476105,
+          "categorias": {
+            "A": "Não.",
+            "B": "Sim, uma.",
+            "C": "Sim, duas.",
+            "D": "Sim, três.",
+            "E": "Sim, quatro ou mais."
+          }
+        }
+      }
+    },
+    "Q018": {
+      "inep": "Q018",
+      "descricao_inep": "Na sua residência tem aspirador de pó?",
+      "interno": "aspirador",
+      "destino": "analytics",
+      "ausencia": "Praticamente sem ausencia, exceto 2020 (1,66%), quando o questionario nao foi respondido por parte dos inscritos.",
+      "transformacao": "Nenhuma. Codigo do INEP preservado.",
+      "elegibilidade": "Nao participa da elegibilidade.",
+      "modulos": "a definir (Sprint 5)",
+      "nota": "",
+      "sensivel": false,
+      "por_ano": {
+        "2019": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 0.0,
+          "distintos": 2,
+          "bytes_texto": 5095171,
+          "categorias": {
+            "A": "Não.",
+            "B": "Sim."
+          }
+        },
+        "2020": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 1.66,
+          "distintos": 2,
+          "bytes_texto": 5687143,
+          "categorias": {
+            "A": "Não.",
+            "B": "Sim."
+          }
+        },
+        "2021": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 0.0,
+          "distintos": 2,
+          "bytes_texto": 3389830,
+          "categorias": {
+            "A": "Não.",
+            "B": "Sim."
+          }
+        },
+        "2022": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 0.0,
+          "distintos": 2,
+          "bytes_texto": 3476105,
+          "categorias": {
+            "A": "Não.",
+            "B": "Sim."
+          }
+        }
+      }
+    },
+    "Q019": {
+      "inep": "Q019",
+      "descricao_inep": "Na sua residência tem televisão em cores?",
+      "interno": "televisores",
+      "destino": "analytics",
+      "ausencia": "Praticamente sem ausencia, exceto 2020 (1,66%), quando o questionario nao foi respondido por parte dos inscritos.",
+      "transformacao": "Nenhuma. Codigo do INEP preservado.",
+      "elegibilidade": "Nao participa da elegibilidade.",
+      "modulos": "a definir (Sprint 5)",
+      "nota": "",
+      "sensivel": false,
+      "por_ano": {
+        "2019": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 0.0,
+          "distintos": 5,
+          "bytes_texto": 5095171,
+          "categorias": {
+            "A": "Não.",
+            "B": "Sim, uma.",
+            "C": "Sim, duas.",
+            "D": "Sim, três.",
+            "E": "Sim, quatro ou mais."
+          }
+        },
+        "2020": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 1.66,
+          "distintos": 5,
+          "bytes_texto": 5687143,
+          "categorias": {
+            "A": "Não.",
+            "B": "Sim, uma.",
+            "C": "Sim, duas.",
+            "D": "Sim, três.",
+            "E": "Sim, quatro ou mais."
+          }
+        },
+        "2021": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 0.0,
+          "distintos": 5,
+          "bytes_texto": 3389830,
+          "categorias": {
+            "A": "Não.",
+            "B": "Sim, uma.",
+            "C": "Sim, duas.",
+            "D": "Sim, três.",
+            "E": "Sim, quatro ou mais."
+          }
+        },
+        "2022": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 0.0,
+          "distintos": 5,
+          "bytes_texto": 3476105,
+          "categorias": {
+            "A": "Não.",
+            "B": "Sim, uma.",
+            "C": "Sim, duas.",
+            "D": "Sim, três.",
+            "E": "Sim, quatro ou mais."
+          }
+        }
+      }
+    },
+    "Q020": {
+      "inep": "Q020",
+      "descricao_inep": "Na sua residência tem aparelho de DVD?",
+      "interno": "dvd",
+      "destino": "analytics",
+      "ausencia": "Praticamente sem ausencia, exceto 2020 (1,66%), quando o questionario nao foi respondido por parte dos inscritos.",
+      "transformacao": "Nenhuma. Codigo do INEP preservado.",
+      "elegibilidade": "Nao participa da elegibilidade.",
+      "modulos": "a definir (Sprint 5)",
+      "nota": "",
+      "sensivel": false,
+      "por_ano": {
+        "2019": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 0.0,
+          "distintos": 2,
+          "bytes_texto": 5095171,
+          "categorias": {
+            "A": "Não.",
+            "B": "Sim."
+          }
+        },
+        "2020": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 1.66,
+          "distintos": 2,
+          "bytes_texto": 5687143,
+          "categorias": {
+            "A": "Não.",
+            "B": "Sim."
+          }
+        },
+        "2021": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 0.0,
+          "distintos": 2,
+          "bytes_texto": 3389830,
+          "categorias": {
+            "A": "Não.",
+            "B": "Sim."
+          }
+        },
+        "2022": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 0.0,
+          "distintos": 2,
+          "bytes_texto": 3476105,
+          "categorias": {
+            "A": "Não.",
+            "B": "Sim."
+          }
+        }
+      }
+    },
+    "Q021": {
+      "inep": "Q021",
+      "descricao_inep": "Na sua residência tem TV por assinatura?",
+      "interno": "tv_assinatura",
+      "destino": "analytics",
+      "ausencia": "Praticamente sem ausencia, exceto 2020 (1,66%), quando o questionario nao foi respondido por parte dos inscritos.",
+      "transformacao": "Nenhuma. Codigo do INEP preservado.",
+      "elegibilidade": "Nao participa da elegibilidade.",
+      "modulos": "a definir (Sprint 5)",
+      "nota": "",
+      "sensivel": false,
+      "por_ano": {
+        "2019": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 0.0,
+          "distintos": 2,
+          "bytes_texto": 5095171,
+          "categorias": {
+            "A": "Não.",
+            "B": "Sim."
+          }
+        },
+        "2020": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 1.66,
+          "distintos": 2,
+          "bytes_texto": 5687143,
+          "categorias": {
+            "A": "Não.",
+            "B": "Sim."
+          }
+        },
+        "2021": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 0.0,
+          "distintos": 2,
+          "bytes_texto": 3389830,
+          "categorias": {
+            "A": "Não.",
+            "B": "Sim."
+          }
+        },
+        "2022": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 0.0,
+          "distintos": 2,
+          "bytes_texto": 3476105,
+          "categorias": {
+            "A": "Não.",
+            "B": "Sim."
+          }
+        }
+      }
+    },
+    "Q022": {
+      "inep": "Q022",
+      "descricao_inep": "Na sua residência tem telefone celular?",
+      "interno": "celulares",
+      "destino": "analytics",
+      "ausencia": "Praticamente sem ausencia, exceto 2020 (1,66%), quando o questionario nao foi respondido por parte dos inscritos.",
+      "transformacao": "Nenhuma. Codigo do INEP preservado.",
+      "elegibilidade": "Nao participa da elegibilidade.",
+      "modulos": "a definir (Sprint 5)",
+      "nota": "",
+      "sensivel": false,
+      "por_ano": {
+        "2019": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 0.0,
+          "distintos": 5,
+          "bytes_texto": 5095171,
+          "categorias": {
+            "A": "Não.",
+            "B": "Sim, um.",
+            "C": "Sim, dois.",
+            "D": "Sim, três.",
+            "E": "Sim, quatro ou mais."
+          }
+        },
+        "2020": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 1.66,
+          "distintos": 5,
+          "bytes_texto": 5687143,
+          "categorias": {
+            "A": "Não.",
+            "B": "Sim, um.",
+            "C": "Sim, dois.",
+            "D": "Sim, três.",
+            "E": "Sim, quatro ou mais."
+          }
+        },
+        "2021": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 0.0,
+          "distintos": 5,
+          "bytes_texto": 3389830,
+          "categorias": {
+            "A": "Não.",
+            "B": "Sim, um.",
+            "C": "Sim, dois.",
+            "D": "Sim, três.",
+            "E": "Sim, quatro ou mais."
+          }
+        },
+        "2022": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 0.0,
+          "distintos": 5,
+          "bytes_texto": 3476105,
+          "categorias": {
+            "A": "Não.",
+            "B": "Sim, um.",
+            "C": "Sim, dois.",
+            "D": "Sim, três.",
+            "E": "Sim, quatro ou mais."
+          }
+        }
+      }
+    },
+    "Q023": {
+      "inep": "Q023",
+      "descricao_inep": "Na sua residência tem telefone fixo?",
+      "interno": "telefone_fixo",
+      "destino": "analytics",
+      "ausencia": "Praticamente sem ausencia, exceto 2020 (1,66%), quando o questionario nao foi respondido por parte dos inscritos.",
+      "transformacao": "Nenhuma. Codigo do INEP preservado.",
+      "elegibilidade": "Nao participa da elegibilidade.",
+      "modulos": "a definir (Sprint 5)",
+      "nota": "",
+      "sensivel": false,
+      "por_ano": {
+        "2019": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 0.0,
+          "distintos": 2,
+          "bytes_texto": 5095171,
+          "categorias": {
+            "A": "Não.",
+            "B": "Sim."
+          }
+        },
+        "2020": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 1.66,
+          "distintos": 2,
+          "bytes_texto": 5687143,
+          "categorias": {
+            "A": "Não.",
+            "B": "Sim."
+          }
+        },
+        "2021": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 0.0,
+          "distintos": 2,
+          "bytes_texto": 3389830,
+          "categorias": {
+            "A": "Não.",
+            "B": "Sim."
+          }
+        },
+        "2022": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 0.0,
+          "distintos": 2,
+          "bytes_texto": 3476105,
+          "categorias": {
+            "A": "Não.",
+            "B": "Sim."
+          }
+        }
+      }
+    },
+    "Q024": {
+      "inep": "Q024",
+      "descricao_inep": "Na sua residência tem computador?",
+      "interno": "computadores",
+      "destino": "analytics",
+      "ausencia": "Praticamente sem ausencia, exceto 2020 (1,66%), quando o questionario nao foi respondido por parte dos inscritos.",
+      "transformacao": "Nenhuma. Codigo do INEP preservado.",
+      "elegibilidade": "Nao participa da elegibilidade.",
+      "modulos": "a definir (Sprint 5)",
+      "nota": "",
+      "sensivel": false,
+      "por_ano": {
+        "2019": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 0.0,
+          "distintos": 5,
+          "bytes_texto": 5095171,
+          "categorias": {
+            "A": "Não.",
+            "B": "Sim, um.",
+            "C": "Sim, dois.",
+            "D": "Sim, três.",
+            "E": "Sim, quatro ou mais."
+          }
+        },
+        "2020": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 1.66,
+          "distintos": 5,
+          "bytes_texto": 5687143,
+          "categorias": {
+            "A": "Não.",
+            "B": "Sim, um.",
+            "C": "Sim, dois.",
+            "D": "Sim, três.",
+            "E": "Sim, quatro ou mais."
+          }
+        },
+        "2021": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 0.0,
+          "distintos": 5,
+          "bytes_texto": 3389830,
+          "categorias": {
+            "A": "Não.",
+            "B": "Sim, um.",
+            "C": "Sim, dois.",
+            "D": "Sim, três.",
+            "E": "Sim, quatro ou mais."
+          }
+        },
+        "2022": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 0.0,
+          "distintos": 5,
+          "bytes_texto": 3476105,
+          "categorias": {
+            "A": "Não.",
+            "B": "Sim, um.",
+            "C": "Sim, dois.",
+            "D": "Sim, três.",
+            "E": "Sim, quatro ou mais."
+          }
+        }
+      }
+    },
+    "Q025": {
+      "inep": "Q025",
+      "descricao_inep": "Na sua residência tem acesso à Internet?",
+      "interno": "acesso_internet",
+      "destino": "analytics",
+      "ausencia": "Praticamente sem ausencia, exceto 2020 (1,66%), quando o questionario nao foi respondido por parte dos inscritos.",
+      "transformacao": "Nenhuma. Codigo do INEP preservado.",
+      "elegibilidade": "Nao participa da elegibilidade.",
+      "modulos": "a definir (Sprint 5)",
+      "nota": "",
+      "sensivel": false,
+      "por_ano": {
+        "2019": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 0.0,
+          "distintos": 2,
+          "bytes_texto": 5095171,
+          "categorias": {
+            "A": "Não.",
+            "B": "Sim."
+          }
+        },
+        "2020": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 1.66,
+          "distintos": 2,
+          "bytes_texto": 5687143,
+          "categorias": {
+            "A": "Não.",
+            "B": "Sim."
+          }
+        },
+        "2021": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 0.0,
+          "distintos": 2,
+          "bytes_texto": 3389830,
+          "categorias": {
+            "A": "Não.",
+            "B": "Sim."
+          }
+        },
+        "2022": {
+          "tipo_observado": "VARCHAR",
+          "pct_ausentes": 0.0,
+          "distintos": 2,
+          "bytes_texto": 3476105,
+          "categorias": {
+            "A": "Não.",
+            "B": "Sim."
+          }
+        }
+      }
+    }
+  }
+}
