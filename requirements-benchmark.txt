@@ -1,0 +1,13 @@
+# Dependencias so do benchmark de stack (scripts/benchmark_stack.py).
+# O pipeline usa apenas requirements.txt. Spark exige Java 17+ no sistema.
+-r requirements.txt
+pandas==3.0.6
+pyarrow==25.0.1
+polars==1.44.2
+pyspark==4.2.0
+streamlit==1.64.0
+dash==4.4.1
+shiny==1.8.0
+fastapi==0.141.1
+uvicorn==0.54.0
+plotly==7.1.0
