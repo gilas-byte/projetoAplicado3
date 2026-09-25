@@ -59,7 +59,7 @@ microdados. A regra vale:
 
 Onde: `PISO_GRUPO` em `scripts/colunas.py`; supressao em
 `scripts/profiling.py` (`perfil_recorte`); verificacao em
-`scripts/verificar_piso.py`. Na ANALYTICS, `scripts/etl.py` (`faixas`):
+`scripts/verificar_piso.py`. Na ANALYTICS, `scripts/estatistica.py` (`faixas`, usado pelo ETL):
 a distribuicao de notas junta notas vizinhas ate cada faixa ter ao menos
 100 participantes, com erro de percentil medido a cada execucao. Na
 interface: Sprint de modulos.
@@ -105,8 +105,10 @@ pessoais no momento em que chegam ao produto (RNF04). Eles:
 - nao trafegam na URL (usar corpo de requisicao, nunca query string);
 - nao sao enviados a ferramentas de analytics ou monitoramento de terceiros.
 
-Onde: backend e frontend (Sprint de interface). Revisao obrigatoria no
-checklist de privacidade do PR.
+Onde: `app/app.py` (notas so no estado da sessao, sem `st.query_params`)
+e `.streamlit/config.toml` (sem estatisticas de uso para o Streamlit; erros
+mostram so o tipo da excecao). Teste em `tests/test_app.py`. Revisao
+obrigatoria no checklist de privacidade do PR.
 
 ### R7. Sem reidentificacao nem enriquecimento
 

@@ -16,6 +16,7 @@ import duckdb
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 
+import estatistica  # noqa: E402
 import etl  # noqa: E402
 from colunas import CONTRATO, tipo  # noqa: E402
 
@@ -125,29 +126,29 @@ class TestFaixas(unittest.TestCase):
         return (abaixo + igual / 2) / len(self.notas) * 100
 
     def test_toda_faixa_respeita_o_piso(self):
-        f = etl.faixas(self.contagens, piso=100)
+        f = estatistica.faixas(self.contagens, piso=100)
         self.assertTrue(all(n >= 100 for *_, n in f))
         self.assertEqual(sum(n for *_, n in f), len(self.notas))
         # Faixas contiguas e sem sobreposicao.
         self.assertTrue(all(a[1] < b[0] for a, b in zip(f, f[1:])))
 
     def test_total_abaixo_do_piso_nao_publica(self):
-        self.assertEqual(etl.faixas([(500.0, 40), (600.0, 59)], piso=100), [])
+        self.assertEqual(estatistica.faixas([(500.0, 40), (600.0, 59)], piso=100), [])
 
     def test_sobra_final_entra_na_ultima_faixa(self):
-        f = etl.faixas([(1.0, 100), (2.0, 60), (3.0, 30)], piso=100)
+        f = estatistica.faixas([(1.0, 100), (2.0, 60), (3.0, 30)], piso=100)
         self.assertEqual(f, [(1.0, 3.0, 190)])
 
     def test_piso_um_e_exato(self):
-        f = etl.faixas(self.contagens, piso=1)
+        f = estatistica.faixas(self.contagens, piso=1)
         for nota in [0.0, 312.4, 520.0, self.contagens[500][0], 999.9]:
-            self.assertAlmostEqual(etl.percentil_faixas(f, nota), self.exato(nota), places=9)
+            self.assertAlmostEqual(estatistica.percentil_faixas(f, nota), self.exato(nota), places=9)
 
     def test_erro_limitado_ao_peso_da_faixa(self):
-        f = etl.faixas(self.contagens, piso=100)
+        f = estatistica.faixas(self.contagens, piso=100)
         limite = max(n for *_, n in f) / len(self.notas) * 100
         for nota in [f[0][0], 250.0, 433.3, 520.0, 610.7, 790.0, f[-1][1]]:
-            self.assertLessEqual(abs(etl.percentil_faixas(f, nota) - self.exato(nota)), limite)
+            self.assertLessEqual(abs(estatistica.percentil_faixas(f, nota) - self.exato(nota)), limite)
 
 
 if __name__ == "__main__":

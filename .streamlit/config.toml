@@ -1,0 +1,14 @@
+# Configuracao do app (app/app.py). Ver docs/privacidade.md, R6.
+
+[browser]
+# Nao envia estatisticas de uso ao Streamlit (terceiro).
+gatherUsageStats = false
+
+[client]
+# Erros mostram so o tipo da excecao, nunca a mensagem nem valores
+# digitados pelo usuario.
+showErrorDetails = "type"
+toolbarMode = "viewer"
+
+[server]
+headless = true
