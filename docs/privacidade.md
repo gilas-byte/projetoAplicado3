@@ -42,7 +42,8 @@ Onde: `.gitignore`, `data/raw/hashes.sha256`.
 
 `NU_INSCRICAO` sai na passagem RAW -> TRUSTED. O produto so publica
 agregados e o identificador nao tem uso analitico.
-Onde: `scripts/colunas.py` (`CONTRATO["NU_INSCRICAO"]`).
+Onde: `scripts/colunas.py` (`CONTRATO["NU_INSCRICAO"]`); aplicado em
+`scripts/etl.py`, que so leva para a TRUSTED as colunas mantidas.
 
 ### R3. Piso de tamanho de grupo
 
@@ -58,8 +59,10 @@ microdados. A regra vale:
 
 Onde: `PISO_GRUPO` em `scripts/colunas.py`; supressao em
 `scripts/profiling.py` (`perfil_recorte`); verificacao em
-`scripts/verificar_piso.py`. Na ANALYTICS e na interface: Sprint de
-motor estatistico e modulos.
+`scripts/verificar_piso.py`. Na ANALYTICS, `scripts/etl.py` (`faixas`):
+a distribuicao de notas junta notas vizinhas ate cada faixa ter ao menos
+100 participantes, com erro de percentil medido a cada execucao. Na
+interface: Sprint de modulos.
 
 O valor 100 e proposta tecnica pendente de aceite do PO. Tambem atende ao
 item "Grupos pequenos" do plano, com folga sobre o minimo estatistico usual

@@ -33,6 +33,23 @@ toque dados:
 
 ---
 
+## ⚙️ Pipeline de dados
+
+Stack decidida por benchmark em [`docs/stack/`](docs/stack/README.md).
+Com os zips do INEP extraidos em `data/raw/`:
+
+```
+./scripts/verify_raw.sh                        # confere os hashes da fonte
+./.venv/bin/python scripts/etl.py              # RAW -> TRUSTED -> ANALYTICS (~1 min)
+./.venv/bin/python -m unittest discover tests  # testes com dados sinteticos
+```
+
+Saidas locais (fora do git): `data/trusted/enem/ano=<ano>/` com as colunas
+do contrato e a flag `elegivel`, o manifesto com hash e funil de cada
+edicao, e `data/analytics/dist_notas.parquet` para o percentil.
+
+---
+
 ## ​🖥️​ Crie branches para seus pull requests
 
 Para cada feature, fix, docs, etc. repita os seguintes passos

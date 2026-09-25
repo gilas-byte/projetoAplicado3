@@ -58,6 +58,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from colunas import ANOS, PISO_GRUPO, mantidas  # noqa: E402
+from colunas import tipo as tipo_logico  # noqa: E402
 
 RAIZ = Path(__file__).resolve().parent.parent
 RAW = RAIZ / "data" / "raw"
@@ -86,20 +87,6 @@ AMOSTRAGEM_S = 0.02
 # hipotetico; a edicao e a mais recente do recorte.
 ANO_CONSULTA = 2022
 NOTA_USUARIO = 650.0
-
-TEXTO = {"TP_SEXO", "SG_UF_ESC", "SG_UF_PROVA", "NO_MUNICIPIO_PROVA"} | {
-    f"Q{i:03d}" for i in range(1, 26) if i != 5
-}
-
-
-def tipo_logico(coluna: str) -> str:
-    """Tipo de cada coluna mantida, igual nas quatro edicoes (ver profiling)."""
-    if coluna in TEXTO:
-        return "texto"
-    if coluna.startswith("NU_NOTA_"):
-        return "real"
-    return "inteiro"
-
 
 COLUNAS = mantidas()
 
