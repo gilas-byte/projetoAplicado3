@@ -13,10 +13,9 @@
 
 | Nome | Cargo |
 | --- | -- |
-|**Samuel Silva de Rezende**|`a decidir`|
-|**Guilherme Zamboni**|`a decidir`|
-|**Vinicius**|`a decidir`|
-|**Guilherme Anselmo**|`Engenheiro de Dados`|
+|**Samuel Silva de Rezende**|`Líder / Product Owner`|
+|**Vinícius Joacir dos Anjos**|`Líder de Desenvolvimento e IA`|
+|**Guilherme da Silva Anselmo**|`QA, Validações, Integridade e Segurança · Design e Frontend`|
 
 ---
 
