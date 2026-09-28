@@ -393,6 +393,22 @@ CONTRATO["Q024"] = _campo("computadores", "analytics", AUS_QUEST)
 CONTRATO["Q025"] = _campo("acesso_internet", "analytics", AUS_QUEST)
 
 
+# Tipo fisico de cada coluna mantida, igual nas quatro edicoes (ver
+# docs/profiling). O questionario e categorico (letras), exceto Q005.
+TEXTO = {"TP_SEXO", "SG_UF_ESC", "SG_UF_PROVA", "NO_MUNICIPIO_PROVA"} | {
+    q for q in QUESTIONARIO if q != "Q005"
+}
+
+
+def tipo(coluna: str) -> str:
+    """'texto', 'real' ou 'inteiro'."""
+    if coluna in TEXTO:
+        return "texto"
+    if coluna.startswith("NU_NOTA_"):
+        return "real"
+    return "inteiro"
+
+
 def mantidas() -> list[str]:
     return [c for c, d in CONTRATO.items() if d["destino"] != "descartada"]
 

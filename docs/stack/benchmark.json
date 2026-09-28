@@ -1,0 +1,539 @@
+{
+  "ambiente": {
+    "data": "2026-09-25",
+    "cpu": "Intel(R) Core(TM) i5-9300H CPU @ 2.40GHz",
+    "nucleos": 8,
+    "ram_gb": 15.4,
+    "so": "Linux 7.0.0-34-generic",
+    "python": "3.12.3",
+    "java": "openjdk version \"17.0.20.1\" 2026-08-18",
+    "versoes": {
+      "pandas": "3.0.6",
+      "pyarrow": "25.0.1",
+      "polars": "1.44.2",
+      "duckdb": "1.5.5",
+      "pyspark": "4.2.0",
+      "streamlit": "1.64.0",
+      "dash": "4.4.1",
+      "shiny": "1.8.0",
+      "fastapi": "0.141.1",
+      "uvicorn": "0.54.0",
+      "plotly": "7.1.0"
+    }
+  },
+  "etl": {
+    "2019": {
+      "pandas": {
+        "duracao_s": 75.44,
+        "duracao_processo_s": 75.73,
+        "pico_mb": 4394.6,
+        "parquet_bytes": 105526715,
+        "csv_bytes": 2407957577,
+        "linhas": 5095171,
+        "colunas": 58,
+        "tipos": [
+          "BIGINT",
+          "DOUBLE",
+          "VARCHAR"
+        ],
+        "linhas_conferem": true
+      },
+      "pandas_pyarrow": {
+        "duracao_s": 16.73,
+        "duracao_processo_s": 16.99,
+        "pico_mb": 7207.7,
+        "parquet_bytes": 105526715,
+        "csv_bytes": 2407957577,
+        "linhas": 5095171,
+        "colunas": 58,
+        "tipos": [
+          "BIGINT",
+          "DOUBLE",
+          "VARCHAR"
+        ],
+        "linhas_conferem": true
+      },
+      "polars": {
+        "duracao_s": 14.35,
+        "duracao_processo_s": 14.49,
+        "pico_mb": 2769.4,
+        "parquet_bytes": 132014761,
+        "csv_bytes": 2407957577,
+        "linhas": 5095171,
+        "colunas": 58,
+        "tipos": [
+          "BIGINT",
+          "DOUBLE",
+          "VARCHAR"
+        ],
+        "linhas_conferem": true
+      },
+      "duckdb": {
+        "duracao_s": 8.5,
+        "duracao_processo_s": 8.62,
+        "pico_mb": 2250.3,
+        "parquet_bytes": 106259743,
+        "csv_bytes": 2407957577,
+        "linhas": 5095171,
+        "colunas": 58,
+        "tipos": [
+          "BIGINT",
+          "DOUBLE",
+          "VARCHAR"
+        ],
+        "linhas_conferem": true
+      },
+      "spark": {
+        "duracao_s": 39.36,
+        "duracao_processo_s": 39.53,
+        "pico_mb": 1639.5,
+        "parquet_bytes": 106312810,
+        "csv_bytes": 2407957577,
+        "linhas": 5095171,
+        "colunas": 58,
+        "tipos": [
+          "BIGINT",
+          "DOUBLE",
+          "VARCHAR"
+        ],
+        "linhas_conferem": true
+      }
+    },
+    "2020": {
+      "pandas": {
+        "duracao_s": 73.18,
+        "duracao_processo_s": 73.44,
+        "pico_mb": 4993.1,
+        "parquet_bytes": 107065667,
+        "csv_bytes": 2024556838,
+        "linhas": 5783109,
+        "colunas": 58,
+        "tipos": [
+          "BIGINT",
+          "DOUBLE",
+          "VARCHAR"
+        ],
+        "linhas_conferem": true
+      },
+      "pandas_pyarrow": {
+        "duracao_s": 15.7,
+        "duracao_processo_s": 15.9,
+        "pico_mb": 7090.4,
+        "parquet_bytes": 107065667,
+        "csv_bytes": 2024556838,
+        "linhas": 5783109,
+        "colunas": 58,
+        "tipos": [
+          "BIGINT",
+          "DOUBLE",
+          "VARCHAR"
+        ],
+        "linhas_conferem": true
+      },
+      "polars": {
+        "duracao_s": 12.36,
+        "duracao_processo_s": 12.5,
+        "pico_mb": 2379.1,
+        "parquet_bytes": 125950204,
+        "csv_bytes": 2024556838,
+        "linhas": 5783109,
+        "colunas": 58,
+        "tipos": [
+          "BIGINT",
+          "DOUBLE",
+          "VARCHAR"
+        ],
+        "linhas_conferem": true
+      },
+      "duckdb": {
+        "duracao_s": 8.87,
+        "duracao_processo_s": 8.97,
+        "pico_mb": 2446.2,
+        "parquet_bytes": 108167668,
+        "csv_bytes": 2024556838,
+        "linhas": 5783109,
+        "colunas": 58,
+        "tipos": [
+          "BIGINT",
+          "DOUBLE",
+          "VARCHAR"
+        ],
+        "linhas_conferem": true
+      },
+      "spark": {
+        "duracao_s": 39.43,
+        "duracao_processo_s": 39.6,
+        "pico_mb": 1643.2,
+        "parquet_bytes": 107881892,
+        "csv_bytes": 2024556838,
+        "linhas": 5783109,
+        "colunas": 58,
+        "tipos": [
+          "BIGINT",
+          "DOUBLE",
+          "VARCHAR"
+        ],
+        "linhas_conferem": true
+      }
+    },
+    "2021": {
+      "pandas": {
+        "duracao_s": 44.56,
+        "duracao_processo_s": 44.77,
+        "pico_mb": 2997.8,
+        "parquet_bytes": 68459659,
+        "csv_bytes": 1507939871,
+        "linhas": 3389832,
+        "colunas": 58,
+        "tipos": [
+          "BIGINT",
+          "DOUBLE",
+          "VARCHAR"
+        ],
+        "linhas_conferem": true
+      },
+      "pandas_pyarrow": {
+        "duracao_s": 9.23,
+        "duracao_processo_s": 9.42,
+        "pico_mb": 4921.5,
+        "parquet_bytes": 68459659,
+        "csv_bytes": 1507939871,
+        "linhas": 3389832,
+        "colunas": 58,
+        "tipos": [
+          "BIGINT",
+          "DOUBLE",
+          "VARCHAR"
+        ],
+        "linhas_conferem": true
+      },
+      "polars": {
+        "duracao_s": 8.3,
+        "duracao_processo_s": 8.45,
+        "pico_mb": 1916.8,
+        "parquet_bytes": 84255807,
+        "csv_bytes": 1507939871,
+        "linhas": 3389832,
+        "colunas": 58,
+        "tipos": [
+          "BIGINT",
+          "DOUBLE",
+          "VARCHAR"
+        ],
+        "linhas_conferem": true
+      },
+      "duckdb": {
+        "duracao_s": 5.77,
+        "duracao_processo_s": 5.86,
+        "pico_mb": 2280.5,
+        "parquet_bytes": 69677125,
+        "csv_bytes": 1507939871,
+        "linhas": 3389832,
+        "colunas": 58,
+        "tipos": [
+          "BIGINT",
+          "DOUBLE",
+          "VARCHAR"
+        ],
+        "linhas_conferem": true
+      },
+      "spark": {
+        "duracao_s": 29.42,
+        "duracao_processo_s": 29.58,
+        "pico_mb": 1626.9,
+        "parquet_bytes": 69090455,
+        "csv_bytes": 1507939871,
+        "linhas": 3389832,
+        "colunas": 58,
+        "tipos": [
+          "BIGINT",
+          "DOUBLE",
+          "VARCHAR"
+        ],
+        "linhas_conferem": true
+      }
+    },
+    "2022": {
+      "pandas": {
+        "duracao_s": 45.82,
+        "duracao_processo_s": 46.03,
+        "pico_mb": 3068.3,
+        "parquet_bytes": 71720662,
+        "csv_bytes": 1568153861,
+        "linhas": 3476105,
+        "colunas": 58,
+        "tipos": [
+          "BIGINT",
+          "DOUBLE",
+          "VARCHAR"
+        ],
+        "linhas_conferem": true
+      },
+      "pandas_pyarrow": {
+        "duracao_s": 10.2,
+        "duracao_processo_s": 10.38,
+        "pico_mb": 5189.2,
+        "parquet_bytes": 71720662,
+        "csv_bytes": 1568153861,
+        "linhas": 3476105,
+        "colunas": 58,
+        "tipos": [
+          "BIGINT",
+          "DOUBLE",
+          "VARCHAR"
+        ],
+        "linhas_conferem": true
+      },
+      "polars": {
+        "duracao_s": 8.59,
+        "duracao_processo_s": 8.73,
+        "pico_mb": 1946.2,
+        "parquet_bytes": 88341649,
+        "csv_bytes": 1568153861,
+        "linhas": 3476105,
+        "colunas": 58,
+        "tipos": [
+          "BIGINT",
+          "DOUBLE",
+          "VARCHAR"
+        ],
+        "linhas_conferem": true
+      },
+      "duckdb": {
+        "duracao_s": 6.07,
+        "duracao_processo_s": 6.17,
+        "pico_mb": 2298.7,
+        "parquet_bytes": 72443734,
+        "csv_bytes": 1568153861,
+        "linhas": 3476105,
+        "colunas": 58,
+        "tipos": [
+          "BIGINT",
+          "DOUBLE",
+          "VARCHAR"
+        ],
+        "linhas_conferem": true
+      },
+      "spark": {
+        "duracao_s": 29.03,
+        "duracao_processo_s": 29.21,
+        "pico_mb": 1600.6,
+        "parquet_bytes": 71901275,
+        "csv_bytes": 1568153861,
+        "linhas": 3476105,
+        "colunas": 58,
+        "tipos": [
+          "BIGINT",
+          "DOUBLE",
+          "VARCHAR"
+        ],
+        "linhas_conferem": true
+      }
+    }
+  },
+  "codecs": {
+    "ano": 2019,
+    "csv_bytes": 2407957577,
+    "codecs": {
+      "uncompressed": {
+        "bytes": 148930577,
+        "escrita_s": 2.32,
+        "leitura_ms": 23.2
+      },
+      "snappy": {
+        "bytes": 131213912,
+        "escrita_s": 2.21,
+        "leitura_ms": 24.9
+      },
+      "gzip": {
+        "bytes": 107385123,
+        "escrita_s": 4.34,
+        "leitura_ms": 32.2
+      },
+      "zstd": {
+        "bytes": 106342588,
+        "escrita_s": 2.39,
+        "leitura_ms": 36.3
+      }
+    }
+  },
+  "consultas": {
+    "anos": [
+      2019,
+      2020,
+      2021,
+      2022
+    ],
+    "nucleos": 2,
+    "orcamento_mb": 1024,
+    "repeticoes": 5,
+    "trusted_bytes": 356631356,
+    "analytics_bytes": 217837,
+    "consultas": {
+      "q1_percentil": {
+        "descricao": "Percentil de uma nota de MT entre os elegiveis de 2022 (dado individual)",
+        "motores": {
+          "pandas": {
+            "primeira_ms": 183.0,
+            "mediana_ms": 148.8,
+            "base_mb": 102.5,
+            "duracao_processo_s": 1.32,
+            "pico_mb": 386.2,
+            "resultado_confere": true
+          },
+          "polars": {
+            "primeira_ms": 75.6,
+            "mediana_ms": 44.2,
+            "base_mb": 49.3,
+            "duracao_processo_s": 0.5,
+            "pico_mb": 224.4,
+            "resultado_confere": true
+          },
+          "duckdb": {
+            "primeira_ms": 90.3,
+            "mediana_ms": 71.2,
+            "base_mb": 61.6,
+            "duracao_processo_s": 0.63,
+            "pico_mb": 78.9,
+            "resultado_confere": true
+          }
+        }
+      },
+      "q2_uf": {
+        "descricao": "Media e mediana de MT por UF de prova, 2022, com piso de grupo",
+        "motores": {
+          "pandas": {
+            "primeira_ms": 308.9,
+            "mediana_ms": 274.0,
+            "base_mb": 102.4,
+            "duracao_processo_s": 2.08,
+            "pico_mb": 514.3,
+            "resultado_confere": true
+          },
+          "polars": {
+            "primeira_ms": 161.3,
+            "mediana_ms": 81.2,
+            "base_mb": 49.2,
+            "duracao_processo_s": 0.78,
+            "pico_mb": 349.8,
+            "resultado_confere": true
+          },
+          "duckdb": {
+            "primeira_ms": 113.0,
+            "mediana_ms": 97.5,
+            "base_mb": 61.7,
+            "duracao_processo_s": 0.75,
+            "pico_mb": 110.9,
+            "resultado_confere": true
+          }
+        }
+      },
+      "q3_recorte": {
+        "descricao": "Renda x dependencia da escola nas 4 edicoes: n, medias e quartis",
+        "motores": {
+          "pandas": {
+            "primeira_ms": 2834.1,
+            "mediana_ms": 2350.6,
+            "base_mb": 102.5,
+            "duracao_processo_s": 15.08,
+            "pico_mb": 2044.3,
+            "resultado_confere": true
+          },
+          "polars": {
+            "primeira_ms": 1130.7,
+            "mediana_ms": 966.9,
+            "base_mb": 49.1,
+            "duracao_processo_s": 6.32,
+            "pico_mb": 2110.8,
+            "resultado_confere": true
+          },
+          "duckdb": {
+            "primeira_ms": 1075.9,
+            "mediana_ms": 1036.7,
+            "base_mb": 61.7,
+            "duracao_processo_s": 6.37,
+            "pico_mb": 497.1,
+            "resultado_confere": true
+          }
+        }
+      },
+      "q4_histograma": {
+        "descricao": "Histograma de MT (faixas de 20 pontos) em um recorte filtrado",
+        "motores": {
+          "pandas": {
+            "primeira_ms": 248.2,
+            "mediana_ms": 206.1,
+            "base_mb": 102.5,
+            "duracao_processo_s": 1.71,
+            "pico_mb": 435.9,
+            "resultado_confere": true
+          },
+          "polars": {
+            "primeira_ms": 125.1,
+            "mediana_ms": 83.8,
+            "base_mb": 49.2,
+            "duracao_processo_s": 0.77,
+            "pico_mb": 191.0,
+            "resultado_confere": true
+          },
+          "duckdb": {
+            "primeira_ms": 113.8,
+            "mediana_ms": 92.0,
+            "base_mb": 61.5,
+            "duracao_processo_s": 0.72,
+            "pico_mb": 88.7,
+            "resultado_confere": true
+          }
+        }
+      },
+      "q5_percentil_agregado": {
+        "descricao": "Mesmo percentil da q1, lido do artefato ANALYTICS agregado",
+        "motores": {
+          "pandas": {
+            "primeira_ms": 28.6,
+            "mediana_ms": 4.8,
+            "base_mb": 102.6,
+            "duracao_processo_s": 0.46,
+            "pico_mb": 160.3,
+            "resultado_confere": true
+          },
+          "polars": {
+            "primeira_ms": 10.6,
+            "mediana_ms": 1.6,
+            "base_mb": 49.2,
+            "duracao_processo_s": 0.25,
+            "pico_mb": 68.8,
+            "resultado_confere": true
+          },
+          "duckdb": {
+            "primeira_ms": 9.3,
+            "mediana_ms": 1.6,
+            "base_mb": 61.4,
+            "duracao_processo_s": 0.17,
+            "pico_mb": 65.1,
+            "resultado_confere": true
+          }
+        }
+      }
+    },
+    "agregado_confere_com_individual": true
+  },
+  "frontend": {
+    "streamlit": {
+      "subida_s": 1.3,
+      "ocioso_mb": 72.6
+    },
+    "dash": {
+      "subida_s": 0.51,
+      "ocioso_mb": 92.0
+    },
+    "shiny": {
+      "subida_s": 0.61,
+      "ocioso_mb": 99.6
+    },
+    "fastapi": {
+      "subida_s": 0.36,
+      "ocioso_mb": 76.5
+    }
+  }
+}
