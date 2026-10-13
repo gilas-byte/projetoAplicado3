@@ -15,9 +15,10 @@ TRUSTED  data/trusted/enem/ano=<ano>/data_0.parquet (particionado por edicao)
 
 ANALYTICS data/analytics/dist_notas.parquet
          Distribuicao das notas dos elegiveis por edicao e area, em faixas
-         de nota com pelo menos PISO_GRUPO participantes cada (R3). Responde
-         "qual o meu percentil" sem tocar no dado individual. O erro da
-         faixa e medido contra o percentil exato a cada execucao.
+         de pelo menos PISO_GRUPO participantes: SOMENTE para histogramas.
+         dist_exata.parquet guarda contagens por nota e acumulados internos
+         para percentis empiricos exatos: nao e um arquivo publico.
+         _manifesto_analytics.json documenta tamanhos e hashes gerados.
 
 Tudo fica em data/, fora do git (R1).
 
@@ -33,6 +34,9 @@ import argparse
 import json
 import sys
 import time
+import hashlib
+import subprocess
+from datetime import datetime, timezone
 from pathlib import Path
 
 import duckdb
@@ -40,13 +44,15 @@ import duckdb
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from colunas import ANOS, CONTRATO, mantidas, tipo  # noqa: E402
-from estatistica import faixas, percentil_faixas  # noqa: E402
+from estatistica import construir_acumulada, faixas, percentil_faixas  # noqa: E402
 
 RAIZ = Path(__file__).resolve().parent.parent
 RAW = RAIZ / "data" / "raw"
 TRUSTED = RAIZ / "data" / "trusted" / "enem"
 ANALYTICS = RAIZ / "data" / "analytics"
 DIST_NOTAS = ANALYTICS / "dist_notas.parquet"
+DIST_EXATA = ANALYTICS / "dist_exata.parquet"
+MANIFESTO_ANALYTICS = ANALYTICS / "_manifesto_analytics.json"
 MANIFESTO = TRUSTED / "_manifesto.json"
 
 AREAS = ["cn", "ch", "lc", "mt", "redacao"]
@@ -73,6 +79,7 @@ def caminho_csv(ano: int) -> Path:
 def conectar() -> duckdb.DuckDBPyConnection:
     con = duckdb.connect()
     tmp = RAIZ / "data" / "tmp_duckdb"
+    tmp.mkdir(parents=True, exist_ok=True)
     con.execute(f"SET temp_directory='{tmp}'")
     return con
 
@@ -224,49 +231,119 @@ def percentil_exato(con: duckdb.DuckDBPyConnection, fonte: str, ano: int, area: 
     return (abaixo + igual / 2) / total * 100
 
 
+def _hash_arquivo(arquivo: Path) -> str:
+    sha = hashlib.sha256()
+    with arquivo.open('rb') as f:
+        for bloco in iter(lambda: f.read(1024 * 1024), b''):
+            sha.update(bloco)
+    return sha.hexdigest()
+
+
+def _commit_local() -> str | None:
+    """Identifica commit de origem apenas se houver metadados Git locais."""
+    try:
+        res = subprocess.run(
+            ['git', 'rev-parse', 'HEAD'], cwd=RAIZ, check=True,
+            capture_output=True, text=True, timeout=5,
+        )
+        return res.stdout.strip()
+    except (OSError, subprocess.SubprocessError):
+        return None
+
+
 def etapa_analytics() -> None:
+    """Gera histograma protegido E distribuição exata separada.
+
+    Não exporta os microdados individuais. O arquivo exato contém
+    frequências finas e deve ser usado SOMENTE no backend; o piso de
+    privacidade aplica-se a grupos exibidos, não a linhas internas da CDF.
+    """
     fonte = f"read_parquet('{TRUSTED}/*/*.parquet', hive_partitioning=true)"
     con = conectar()
-    anos = [r[0] for r in con.execute(f"SELECT DISTINCT ano FROM {fonte} ORDER BY 1").fetchall()]
+    try:
+        anos = [r[0] for r in con.execute(f'SELECT DISTINCT ano FROM {fonte} ORDER BY 1').fetchall()]
+        linhas_hist = []
+        linhas_exatas = []
+        distribuicoes: dict[tuple[int, str], list] = {}
+        totais = {}
+        inicio = time.perf_counter()
+        for ano in anos:
+            for area in AREAS:
+                contagens = con.execute(
+                    f"""SELECT nota_{area}, count(*) FROM {fonte}
+                        WHERE ano = {ano} AND elegivel AND nota_{area} IS NOT NULL
+                        GROUP BY 1 ORDER BY 1"""
+                ).fetchall()
+                contagens = [(float(nota), int(n)) for nota, n in contagens]
+                acumulada = construir_acumulada(contagens)
+                f = faixas(contagens)
+                total = sum(n for _, n in contagens)
+                if total < 100:
+                    # A ausência de grupo suficiente não publica nem CDF nem histograma.
+                    if f:
+                        raise AssertionError('inconsistencia em grupo pequeno')
+                    continue
+                if sum(n for *_, n in f) != total:
+                    raise AssertionError(f'{ano}/{area}: histograma nao conserva contagens')
+                if acumulada[-1][2] + acumulada[-1][1] != total:
+                    raise AssertionError(f'{ano}/{area}: CDF nao conserva contagens')
+                distribuicoes[(ano, area)] = f
+                totais[f'{ano}/{area}'] = {'participantes': total, 'notas_distintas': len(acumulada), 'faixas': len(f)}
+                linhas_hist.extend((ano, area, a, b, n) for a, b, n in f)
+                linhas_exatas.extend((ano, area, nota, n, abaixo, total) for nota, n, abaixo in acumulada)
 
-    linhas = []
-    distribuicao: dict[tuple[int, str], list] = {}
-    for ano in anos:
-        for area in AREAS:
-            contagens = con.execute(
-                f"""
-                SELECT nota_{area}, count(*) FROM {fonte}
-                WHERE ano = {ano} AND elegivel AND nota_{area} IS NOT NULL
-                GROUP BY 1 ORDER BY 1
-                """
-            ).fetchall()
-            f = faixas(contagens)
-            distribuicao[(ano, area)] = f
-            linhas += [(ano, area, a, b, n) for a, b, n in f]
+        if not linhas_exatas:
+            raise ValueError('nenhuma distribuicao elegivel com piso minimo; publicacao abortada')
 
-    ANALYTICS.mkdir(parents=True, exist_ok=True)
-    temporario = DIST_NOTAS.with_suffix(".tmp.parquet")
-    con.execute(
-        "CREATE TABLE dist (ano BIGINT, area VARCHAR, nota_min DOUBLE, nota_max DOUBLE, n BIGINT)"
-    )
-    con.executemany("INSERT INTO dist VALUES (?, ?, ?, ?, ?)", linhas)
-    con.execute(f"COPY dist TO '{temporario}' (FORMAT parquet, COMPRESSION zstd)")
-    temporario.replace(DIST_NOTAS)
-    print(f"[analytics] dist_notas: {len(linhas)} faixas, edicoes {anos}", flush=True)
+        # Preparar os dois artefatos sem publicar versões parciais antes das verificações.
+        ANALYTICS.mkdir(parents=True, exist_ok=True)
+        tmp_hist = ANALYTICS / '.dist_notas.tmp.parquet'
+        tmp_exato = ANALYTICS / '.dist_exata.tmp.parquet'
+        try:
+            con.execute('CREATE TEMP TABLE dist (ano BIGINT, area VARCHAR, nota_min DOUBLE, nota_max DOUBLE, n BIGINT)')
+            con.executemany('INSERT INTO dist VALUES (?, ?, ?, ?, ?)', linhas_hist)
+            con.execute(f"COPY dist TO '{tmp_hist}' (FORMAT parquet, COMPRESSION zstd)")
+            con.execute('CREATE TEMP TABLE exata (ano BIGINT, area VARCHAR, nota DOUBLE, n BIGINT, abaixo BIGINT, total BIGINT)')
+            con.executemany('INSERT INTO exata VALUES (?, ?, ?, ?, ?, ?)', linhas_exatas)
+            con.execute(f"COPY exata TO '{tmp_exato}' (FORMAT parquet, COMPRESSION zstd)")
 
-    # Conferencia contra o dado individual: o erro de cada percentil tem de
-    # caber no peso da maior faixa da area.
-    pior = 0.0
-    for (ano, area), f in distribuicao.items():
-        total = sum(n for *_, n in f)
-        limite = max(n for *_, n in f) / total * 100
-        for nota in [f[0][0], 400.0, 500.0, 612.3, 650.0, 800.0, f[-1][1]]:
-            erro = abs(percentil_faixas(f, nota) - percentil_exato(con, fonte, ano, area, nota))
-            if erro > limite + 1e-9:
-                raise AssertionError(f"{ano} {area} nota {nota}: erro {erro:.4f} > {limite:.4f}")
-            pior = max(pior, erro)
-    print(f"[analytics] percentil por faixa x exato: maior erro {pior:.4f} pontos percentuais", flush=True)
-    con.close()
+            # Validação independente por ano/área antes da publicação.
+            linhas_verificadas = con.execute(f"SELECT count(*) FROM read_parquet('{tmp_exato}')").fetchone()[0]
+            if linhas_verificadas != len(linhas_exatas):
+                raise AssertionError('divergencia em quantidade de notas exatas')
+            for (ano, area), f in distribuicoes.items():
+                total = sum(n for *_, n in f)
+                limite = max(n for *_, n in f) / total * 100
+                for nota in [f[0][0], 400.0, 500.0, 612.3, 650.0, 800.0, f[-1][1]]:
+                    erro = abs(percentil_faixas(f, nota) - percentil_exato(con, fonte, ano, area, nota))
+                    if erro > limite + 1e-9:
+                        raise AssertionError(f'{ano} {area} nota {nota}: erro {erro:.4f} > {limite:.4f}')
+            tmp_hist.replace(DIST_NOTAS)
+            tmp_exato.replace(DIST_EXATA)
+        finally:
+            tmp_hist.unlink(missing_ok=True)
+            tmp_exato.unlink(missing_ok=True)
+
+        manifesto = {
+            'gerado_em_utc': datetime.now(timezone.utc).isoformat(),
+            'versao_codigo_git': _commit_local(),
+            'anos': anos, 'piso_exibicao': 100,
+            'metodo_percentil': 'posto medio, CDF empirica exata, sem interpolacao',
+            'tempo_segundos': round(time.perf_counter() - inicio, 3),
+            'fontes_trusted': str(TRUSTED.relative_to(RAIZ)),
+            'distribuicoes': totais,
+            'arquivos': {
+                'dist_notas.parquet': {'bytes': DIST_NOTAS.stat().st_size, 'sha256': _hash_arquivo(DIST_NOTAS), 'linhas': len(linhas_hist)},
+                'dist_exata.parquet': {'bytes': DIST_EXATA.stat().st_size, 'sha256': _hash_arquivo(DIST_EXATA), 'linhas': len(linhas_exatas)},
+            },
+        }
+        temp_manifesto = MANIFESTO_ANALYTICS.with_suffix('.tmp.json')
+        temp_manifesto.write_text(json.dumps(manifesto, indent=2, ensure_ascii=False), encoding='utf-8')
+        temp_manifesto.replace(MANIFESTO_ANALYTICS)
+        print(f'[analytics] {len(linhas_hist)} faixas, {len(linhas_exatas)} notas distintas, edicoes {anos}', flush=True)
+        print(f'[analytics] manifesto: {MANIFESTO_ANALYTICS}', flush=True)
+    finally:
+        con.close()
 
 
 def main() -> int:
