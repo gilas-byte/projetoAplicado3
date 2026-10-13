@@ -59,7 +59,7 @@ Nenhum registro individual ou identificador de inscricao e carregado online.
 
 ---
 
-## 📋 Trilha técnica AV3 (revisão assistida)
+## 📋 Trilha técnica AV3
 
 - [`docs/av3/README.md`](docs/av3/README.md): arquitetura, criterios da AV3,
   limites de testes, plano de verificacao de volumetria e responsabilidades.

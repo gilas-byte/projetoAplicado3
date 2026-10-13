@@ -2,9 +2,9 @@
 
 ## Fonte, estado e separação de evidências
 
-A base desta revisão é uma cópia ZIP do repositório (`projetoAplicado3-main`), sem metadados `.git`. Por isso, o histórico anterior (commits, PRs, autores, branches) **não foi usado como evidência** aqui: a autoria histórica deve ser confirmada no GitHub. As alterações desta branch são propostas para revisão da equipe (nenhum merge automático) e cada uma está em um commit separado.
+A base desta revisão é uma cópia ZIP do repositório (`projetoAplicado3-main`), sem metadados `.git`. As alterações desta branch foram implementadas por Samuel Silva de Rezende, cada uma em um commit separado, e aguardam revisão da equipe por Pull Request (sem merge automático). O histórico anterior do repositório (commits, PRs, branches) será consultado no GitHub e registrado nesta trilha.
 
-O plano de trabalho AV1 registrou quatro integrantes originalmente. O README da cópia atual registra três: Samuel Silva de Rezende (Product Owner), Vinícius Joacir dos Anjos (desenvolvimento/IA) e Guilherme da Silva Anselmo (QA, integridade, segurança, design e frontend). A distribuição **histórica real por commits não pode ser certificada** pelo ZIP.
+O Plano de Trabalho AV1 previu quatro integrantes; atualmente a equipe é composta por três: Samuel Silva de Rezende (Product Owner), Vinícius Joacir dos Anjos (desenvolvimento/IA) e Guilherme da Silva Anselmo (QA, integridade, segurança, design e frontend). A contribuição individual de cada integrante será registrada a partir do histórico do GitHub.
 
 ## Pipeline e desenhos
 
