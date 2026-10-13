@@ -44,7 +44,12 @@ import duckdb
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from colunas import ANOS, CONTRATO, mantidas, tipo  # noqa: E402
-from estatistica import construir_acumulada, faixas, percentil_faixas  # noqa: E402
+from estatistica import (  # noqa: E402
+    construir_acumulada,
+    faixas,
+    percentil_exato_acumulado,
+    percentil_faixas,
+)
 
 RAIZ = Path(__file__).resolve().parent.parent
 RAW = RAIZ / "data" / "raw"
@@ -239,6 +244,14 @@ def _hash_arquivo(arquivo: Path) -> str:
     return sha.hexdigest()
 
 
+def _caminho_relativo(caminho: Path) -> str:
+    """Caminho relativo a raiz do projeto; absoluto se estiver fora dela."""
+    try:
+        return str(caminho.relative_to(RAIZ))
+    except ValueError:
+        return str(caminho)
+
+
 def _commit_local() -> str | None:
     """Identifica commit de origem apenas se houver metadados Git locais."""
     try:
@@ -265,6 +278,7 @@ def etapa_analytics() -> None:
         linhas_hist = []
         linhas_exatas = []
         distribuicoes: dict[tuple[int, str], list] = {}
+        cdfs: dict[tuple[int, str], list] = {}
         totais = {}
         inicio = time.perf_counter()
         for ano in anos:
@@ -288,6 +302,7 @@ def etapa_analytics() -> None:
                 if acumulada[-1][2] + acumulada[-1][1] != total:
                     raise AssertionError(f'{ano}/{area}: CDF nao conserva contagens')
                 distribuicoes[(ano, area)] = f
+                cdfs[(ano, area)] = acumulada
                 totais[f'{ano}/{area}'] = {'participantes': total, 'notas_distintas': len(acumulada), 'faixas': len(f)}
                 linhas_hist.extend((ano, area, a, b, n) for a, b, n in f)
                 linhas_exatas.extend((ano, area, nota, n, abaixo, total) for nota, n, abaixo in acumulada)
@@ -318,6 +333,27 @@ def etapa_analytics() -> None:
                     erro = abs(percentil_faixas(f, nota) - percentil_exato(con, fonte, ano, area, nota))
                     if erro > limite + 1e-9:
                         raise AssertionError(f'{ano} {area} nota {nota}: erro {erro:.4f} > {limite:.4f}')
+
+            # A CDF exata publicada ao app tem de coincidir com a contagem direta
+            # sobre a TRUSTED (nota observada, nota nao observada e extremos).
+            maior_divergencia = 0.0
+            for (ano, area), cdf in cdfs.items():
+                observadas = [item[0] for item in cdf]
+                amostra = {
+                    observadas[0], observadas[-1], observadas[len(observadas) // 2],
+                    observadas[0] - 1.0, observadas[-1] + 1.0,
+                    (observadas[0] + observadas[-1]) / 2 + 0.05,
+                    400.0, 500.0, 612.3, 650.0, 800.0,
+                }
+                for nota in sorted(amostra):
+                    esperado = percentil_exato(con, fonte, ano, area, nota)
+                    obtido = percentil_exato_acumulado(cdf, nota)
+                    divergencia = abs(obtido - esperado)
+                    if divergencia > 1e-9:
+                        raise AssertionError(
+                            f'{ano} {area} nota {nota}: CDF exata {obtido:.10f} != contagem direta {esperado:.10f}'
+                        )
+                    maior_divergencia = max(maior_divergencia, divergencia)
             tmp_hist.replace(DIST_NOTAS)
             tmp_exato.replace(DIST_EXATA)
         finally:
@@ -330,7 +366,11 @@ def etapa_analytics() -> None:
             'anos': anos, 'piso_exibicao': 100,
             'metodo_percentil': 'posto medio, CDF empirica exata, sem interpolacao',
             'tempo_segundos': round(time.perf_counter() - inicio, 3),
-            'fontes_trusted': str(TRUSTED.relative_to(RAIZ)),
+            'fontes_trusted': _caminho_relativo(TRUSTED),
+            'verificacao_cdf_exata': {
+                'metodo': 'comparacao com contagem direta (DuckDB) sobre a TRUSTED',
+                'maior_divergencia_pontos_percentuais': maior_divergencia,
+            },
             'distribuicoes': totais,
             'arquivos': {
                 'dist_notas.parquet': {'bytes': DIST_NOTAS.stat().st_size, 'sha256': _hash_arquivo(DIST_NOTAS), 'linhas': len(linhas_hist)},
