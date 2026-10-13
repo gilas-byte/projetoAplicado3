@@ -69,6 +69,8 @@ Nenhum registro individual ou identificador de inscricao e carregado online.
 - `scripts/etl.py`: gera CDF exata, histograma protegido e manifesto de ANALYTICS.
 - `tests/test_percentil_exato.py`: exemplos controlados de empate e fronteiras.
 - `tests/test_analytics.py`: teste de ponta a ponta (RAW sintetico -> TRUSTED -> ANALYTICS) com calculo independente.
+- [`docs/av3/EVOLUCAO-FUTURA-NUVEM.md`](docs/av3/EVOLUCAO-FUTURA-NUVEM.md): possivel evolucao futura (planejamento previo;
+  metodo de hospedagem AINDA NAO DEFINIDO): estrutura hipotetica em nuvem, com o Azure apenas como exemplo.
 - `.github/workflows/qualidade.yml`: proposta de CI para checagem sintatica,
   testes sinteticos e validacao de piso de divulgacao.
 

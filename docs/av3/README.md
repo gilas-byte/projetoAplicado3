@@ -44,6 +44,7 @@ TRUSTED: data/trusted/enem/ano=AAAA/data_0.parquet (ZSTD)
 - [ ] Repetir essa verificação sobre os microdados reais do INEP (as quatro edições).
 - [ ] Validar que nenhum artefato interno fica disponível via URL pública.
 - [ ] Consolidar o diagrama e copiar volumetria real para o relatório.
+- [ ] Hospedagem em nuvem (possível evolução futura): método **ainda não definido**; planejamento prévio em [`EVOLUCAO-FUTURA-NUVEM.md`](EVOLUCAO-FUTURA-NUVEM.md), com o Azure só como exemplo. Nada executado (Dockerfile validado, medições com `docker stats`, ambiente de teste).
 - [ ] Confirmar rubrica somando 120% e formato final da entrega com docente.
 
 ## Testes e limites
