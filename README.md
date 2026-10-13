@@ -68,6 +68,7 @@ Nenhum registro individual ou identificador de inscricao e carregado online.
 - `scripts/estatistica.py`: funcao pura de percentil empirico exato por posto medio.
 - `scripts/etl.py`: gera CDF exata, histograma protegido e manifesto de ANALYTICS.
 - `tests/test_percentil_exato.py`: exemplos controlados de empate e fronteiras.
+- `tests/test_analytics.py`: teste de ponta a ponta (RAW sintetico -> TRUSTED -> ANALYTICS) com calculo independente.
 - `.github/workflows/qualidade.yml`: proposta de CI para checagem sintatica,
   testes sinteticos e validacao de piso de divulgacao.
 
@@ -77,17 +78,17 @@ Nenhum registro individual ou identificador de inscricao e carregado online.
 python -m compileall -q scripts app tests
 python -m unittest discover -s tests -p 'test_percentil_exato.py' -v
 python scripts/verificar_piso.py
-# Requer duckdb e streamlit instalados:
+# Requer duckdb e streamlit instalados (25 testes):
 python -m unittest discover -s tests -v
 # Requer os CSVs INEP em data/raw/:
 python scripts/etl.py
 cat data/analytics/_manifesto_analytics.json
 ```
 
-**Status:** melhorias preparadas na copia ZIP, **nao** publicadas no GitHub
-original por falta de autorizacao de acesso no conector. Os resultados de
-execucao integral do ETL e os numeros finais da camada ANALYTICS permanecem
-pendentes ate acesso aos microdados. Nao confundir benchmark com ETL final.
+**Status:** testes sinteticos de ponta a ponta aprovados (25 testes). A execucao
+integral do ETL sobre os microdados reais e os numeros finais da camada
+ANALYTICS permanecem pendentes (exigem os CSVs do INEP em `data/raw/`). Nao
+confundir benchmark com ETL final.
 
 ---
 

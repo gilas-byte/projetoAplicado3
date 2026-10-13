@@ -2,7 +2,7 @@
 
 ## Fonte, estado e separação de evidências
 
-O pacote de origem é uma cópia ZIP do repositório `gilas-byte/projetoAplicado3`, sem metadados `.git`. Assim, não é possível comprovar commits, PRs, autores ou branches remotos usando somente estes arquivos. A conta autenticada no conector é `kiraabin`, sem acesso ao repositório da equipe no momento da análise. Essas melhorias constituem **proposta local não publicada**.
+A base desta revisão é uma cópia ZIP do repositório (`projetoAplicado3-main`), sem metadados `.git`. Por isso, o histórico anterior (commits, PRs, autores, branches) **não foi usado como evidência** aqui: a autoria histórica deve ser confirmada no GitHub. As alterações desta branch são propostas para revisão da equipe (nenhum merge automático) e cada uma está em um commit separado.
 
 O plano de trabalho AV1 registrou quatro integrantes originalmente. O README da cópia atual registra três: Samuel Silva de Rezende (Product Owner), Vinícius Joacir dos Anjos (desenvolvimento/IA) e Guilherme da Silva Anselmo (QA, integridade, segurança, design e frontend). A distribuição **histórica real por commits não pode ser certificada** pelo ZIP.
 
@@ -38,9 +38,10 @@ TRUSTED: data/trusted/enem/ano=AAAA/data_0.parquet (ZSTD)
 
 - [ ] Confirmar os três integrantes ativos com a equipe e autorias por commit.
 - [ ] Obter acesso GitHub e criar PR rastreável, sem dar merge automático.
-- [ ] Executar todos os testes com dependências do projeto.
+- [x] Executar todos os testes com dependências do projeto (25 testes OK em 13/10/2026; ver *Evidências de execução*).
 - [ ] Executar ETL sobre todas as edições oficiais e arquivar hashes/manifests e logs.
-- [ ] Verificar exatidão contra contagem direta em DuckDB com notas e filtros controlados.
+- [x] Verificar exatidão contra contagem direta em DuckDB com notas controladas (sintético; o ETL também compara a CDF com o DuckDB a cada execução).
+- [ ] Repetir essa verificação sobre os microdados reais do INEP (as quatro edições).
 - [ ] Validar que nenhum artefato interno fica disponível via URL pública.
 - [ ] Consolidar o diagrama e copiar volumetria real para o relatório.
 - [ ] Confirmar rubrica somando 120% e formato final da entrega com docente.
@@ -48,3 +49,18 @@ TRUSTED: data/trusted/enem/ano=AAAA/data_0.parquet (ZSTD)
 ## Testes e limites
 
 O teste puro `tests/test_percentil_exato.py` não necessita DuckDB. Os testes legados exigem `duckdb` e alguns exigem `streamlit`. As verificações integrais e o deploy não podem ser marcados como aprovados apenas pela compilação dos módulos Python.
+
+## Evidências de execução (13/10/2026)
+
+Ambiente: Python 3.13, `duckdb==1.5.5`, `streamlit==1.64.0`, `plotly==7.1.0` (as versões de `requirements.txt`), venv limpo.
+
+| Verificação | Resultado |
+|---|---|
+| `python -m compileall -q scripts app tests` | OK |
+| `python -m unittest discover -s tests` | **25 testes OK** (13 do projeto original, 4 de `test_percentil_exato.py`, 8 de `test_analytics.py`) |
+| `python scripts/verificar_piso.py` | OK: nenhuma contagem abaixo do piso de 100 em `docs/` |
+| Verificação por mutação (empate contado inteiro; nota não observada tratada como empate) | Os testes novos **falham** quando o cálculo é quebrado, e o próprio ETL aborta a publicação |
+
+`tests/test_analytics.py` executa RAW sintético → TRUSTED → ANALYTICS com as funções reais do ETL e compara a CDF publicada com um cálculo independente em Python puro.
+
+**O que continua não comprovado:** nenhuma execução sobre os microdados reais do INEP. Os números de volumetria dos artefatos novos (`dist_exata.parquet`, `_manifesto_analytics.json`) só existirão após rodar `scripts/etl.py` com os CSVs em `data/raw/`. Os 17.744.217 registros / 7,51 GB / 356,55 MB / 95,25% citados no relatório vêm de `docs/profiling/` e `docs/stack/benchmark.json` (benchmark), não deste ETL.
