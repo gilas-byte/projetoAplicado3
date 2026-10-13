@@ -47,9 +47,15 @@ Onde: `scripts/colunas.py` (`CONTRATO["NU_INSCRICAO"]`); aplicado em
 
 ### R3. Piso de tamanho de grupo
 
-Nenhuma contagem ou estatistica calculada sobre **menos de 100
-participantes** (`PISO_GRUPO`) sai da maquina de quem processa os
-microdados. A regra vale:
+Nenhum **grupo de comparação, célula de tabela exposta ou barra de histograma**
+com menos de 100 participantes (`PISO_GRUPO`) deve ser publicado. A regra
+aplica-se à **exibição pública**, inclusive quando filtros forem adicionados.
+A CDF exata criada para resolver o requisito de percentil precisa conservar
+frequências internas por nota (inclusive valores abaixo de 100). Essas
+frequências NÃO devem ser publicadas, exportadas como arquivo estático,
+consultadas diretamente por API ou incluídas no GitHub. O risco residual de
+inferência por consultas repetidas precisa ser reavaliado antes do deploy.
+A regra vale:
 
 - para cada **celula** de um cruzamento, nao so para o total do recorte;
 - para artefatos versionados em `docs/` (o profiling ja sai suprimido:
@@ -62,7 +68,8 @@ Onde: `PISO_GRUPO` em `scripts/colunas.py`; supressao em
 `scripts/verificar_piso.py`. Na ANALYTICS, `scripts/estatistica.py` (`faixas`, usado pelo ETL):
 a distribuicao de notas junta notas vizinhas ate cada faixa ter ao menos
 100 participantes, com erro de percentil medido a cada execucao. Na
-interface: Sprint de modulos.
+interface: `app/app.py` para histograma; a CDF interna consta de
+`data/analytics/dist_exata.parquet`, protegida pelo deploy privado do backend.
 
 O valor 100 e proposta tecnica pendente de aceite do PO. Tambem atende ao
 item "Grupos pequenos" do plano, com folga sobre o minimo estatistico usual
@@ -125,3 +132,24 @@ Antes de aprovar um PR que toque dados ou interface:
 - [ ] Todo agregado novo aplica `PISO_GRUPO` por celula (R3, R5).
 - [ ] Nenhuma entrada do usuario vai para log, URL, storage ou terceiros (R6).
 - [ ] Textos sobre recortes sensiveis usam linguagem observacional (R4).
+
+
+## 4. Revisão de privacidade para percentis exatos (AV3)
+
+Para eliminar a aproximação do percentil por interpolação de faixas,
+o backend utiliza frequências discretas agregadas por nota e área/edição.
+Essa arquitetura **não** expõe registros individuais; todavia, uma
+frequência de nota específica pode ser menor que 100. Não se deve alegar
+que todo agregado armazenado respeita o piso. O piso permanece obrigatório
+para grupos e gráficos públicos; uma CDF detalhada permanece confinada no
+servidor, não versionada ou acessível para download.
+
+**Ações antes da implantação:** restringir acesso ao artefato, impedir
+endpoints de frequência/contagem detalhada, validar que os gráficos vêm da
+estrutura de faixas, verificar logs e política de retenção, executar testes
+com recortes pequenos e avaliar consultas reiteradas e diferença entre grupos.
+A indicação de percentil com uma casa decimal é arredondamento do resultado
+exato, não um método de aproximação da distribuição.
+
+**Pendente:** aceite formal de risco e de política de piso pelo Product Owner
+na branch revisada; teste em ambiente de nuvem efetivo.
