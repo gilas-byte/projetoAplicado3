@@ -1,7 +1,8 @@
 """Radar ENEM: MVP do fluxo nota -> percentil -> visualizacao.
 
-Le so o artefato ANALYTICS (dist_notas.parquet, faixas de ao menos 100
-participantes); nenhum dado individual e carregado.
+Le apenas artefatos ANALYTICS: histograma protegido (dist_notas.parquet)
+e CDF exata de frequencias agregadas (dist_exata.parquet). Nenhuma linha
+individual dos microdados e carregada.
 
 Privacidade das notas digitadas (docs/privacidade.md, R6): ficam so no
 estado da sessao do Streamlit, que some quando a aba fecha. O app nao grava
@@ -25,9 +26,10 @@ RAIZ = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(RAIZ / "scripts"))
 
 from colunas import PISO_GRUPO  # noqa: E402
-from estatistica import histograma, percentil_faixas  # noqa: E402
+from estatistica import histograma, percentil_exato_acumulado  # noqa: E402
 
 DIST_NOTAS = Path(os.environ.get("RADAR_DIST_NOTAS", RAIZ / "data" / "analytics" / "dist_notas.parquet"))
+DIST_EXATA = Path(os.environ.get("RADAR_DIST_EXATA", RAIZ / "data" / "analytics" / "dist_exata.parquet"))
 
 AREAS = {
     "cn": "Ciências da Natureza",
@@ -49,6 +51,23 @@ def carregar() -> dict[tuple[int, str], list[tuple[float, float, int]]]:
     for ano, area, nota_min, nota_max, n in linhas:
         faixas.setdefault((ano, area), []).append((nota_min, nota_max, n))
     return faixas
+
+
+@st.cache_data
+def carregar_exatas() -> dict[tuple[int, str], list[tuple[float, int, int]]]:
+    """CDF de notas exatas, exclusivamente em memoria do backend.
+
+    Não expor a tabela ou suas contagens por endpoint público: algumas
+    notas específicas possuem menos de PISO_GRUPO participantes.
+    """
+    linhas = duckdb.sql(
+        f"SELECT ano, area, nota, n, abaixo FROM read_parquet('{DIST_EXATA}') "
+        "ORDER BY ano, area, nota"
+    ).fetchall()
+    saida = {}
+    for ano, area, nota, n, abaixo in linhas:
+        saida.setdefault((ano, area), []).append((float(nota), int(n), int(abaixo)))
+    return saida
 
 
 def grafico(faixas_area, nota: float, titulo: str) -> go.Figure:
@@ -79,10 +98,11 @@ def main() -> None:
         "participantes de uma edição do ENEM."
     )
 
-    if not DIST_NOTAS.exists():
-        st.error("Artefato de notas não encontrado. Rode `scripts/etl.py` antes de abrir o app.")
+    if not DIST_NOTAS.exists() or not DIST_EXATA.exists():
+        st.error("Artefatos estatísticos incompletos. Rode `scripts/etl.py` para gerar faixas e distribuição exata.")
         st.stop()
     faixas = carregar()
+    exatas = carregar_exatas()
     anos = sorted({ano for ano, _ in faixas}, reverse=True)
 
     with st.form("notas"):
@@ -107,10 +127,10 @@ def main() -> None:
     st.subheader(f"Sua posição no ENEM {ano}")
     for area, nota in informadas.items():
         faixas_area = faixas.get((ano, area))
-        if not faixas_area:
+        if not faixas_area or not exatas.get((ano, area)):
             st.info(f"{AREAS[area]}: grupo insuficiente para comparação.")
             continue
-        p = percentil_faixas(faixas_area, nota)
+        p = percentil_exato_acumulado(exatas[(ano, area)], nota)
         total = sum(n for *_, n in faixas_area)
         st.metric(AREAS[area], f"{nota:.1f}", f"acima de {p:.1f}% dos participantes", delta_color="off")
         st.plotly_chart(grafico(faixas_area, nota, f"{AREAS[area]}: distribuição das notas"),
@@ -125,10 +145,10 @@ def main() -> None:
   eliminado ou era treineiro não disputa vaga e distorceria a distribuição.
 - **Percentil:** porcentagem dos participantes com nota abaixo da sua; notas
   iguais contam pela metade.
-- **Privacidade:** o app não usa dados individuais. As notas são agrupadas em
-  faixas de pelo menos {PISO_GRUPO} pessoas, o que muda o percentil em no
-  máximo cerca de 0,005 ponto percentual. As notas que você digita não são
-  gravadas.
+- **Privacidade:** o app não carrega registros individuais. O gráfico utiliza
+  faixas de pelo menos {PISO_GRUPO} pessoas, enquanto o cálculo exato usa uma
+  distribuição acumulada agregada restrita ao backend. As notas digitadas
+  não são persistidas pelo aplicativo.
 - **Leitura:** o resultado descreve a posição da nota na edição escolhida; não
   prevê aprovação, que depende do curso, da instituição e das regras de cada
   processo seletivo.

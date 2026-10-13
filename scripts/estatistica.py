@@ -9,6 +9,8 @@ usuario sem tocar no dado individual.
 from __future__ import annotations
 
 import sys
+from bisect import bisect_left
+from math import isfinite
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -73,3 +75,53 @@ def histograma(faixas_area: list[Faixa], largura: float = 20) -> list[tuple[floa
         inicio = (nota_min + nota_max) / 2 // largura * largura
         classes[inicio] = classes.get(inicio, 0) + n
     return [(inicio, n / total * 100) for inicio, n in sorted(classes.items())]
+
+
+# ===================================================== CDF EMPIRICA EXATA
+
+def percentil_exato_acumulado(
+    distribuicao: list[tuple[float, int, int]], nota: float
+) -> float:
+    """Percentil empírico exato de uma nota com empates por posto médio.
+
+    `distribuicao`: (nota_observada, frequencia, quantidade_abaixo),
+    em ordem estritamente crescente; frequência positiva. Não faz
+    interpolação, mesmo quando a nota consultada está entre duas notas.
+    Pré-condições de integridade são validadas na geração do ETL e por testes.
+
+    O resultado cobre TODA a população elegível desse (ano, área), não
+    autoriza recortes socioeconômicos arbitrários nem inferência causal.
+    """
+    if not distribuicao:
+        raise ValueError('distribuicao vazia: grupo insuficiente')
+    if not isfinite(nota):
+        raise ValueError('nota consultada precisa ser finita')
+    notas = [item[0] for item in distribuicao]
+    pos = bisect_left(notas, nota)
+    ultima = distribuicao[-1]
+    total = ultima[2] + ultima[1]
+    if total <= 0:
+        raise ValueError('distribuicao sem participantes validos')
+    if pos >= len(distribuicao):
+        return 100.0
+    valor, n, abaixo = distribuicao[pos]
+    iguais = n if valor == nota else 0
+    return (abaixo + iguais / 2) / total * 100
+
+
+def construir_acumulada(contagens: list[tuple[float, int]]) -> list[tuple[float, int, int]]:
+    """Converte distribuição de frequências ordenadas em CDF exata.
+
+    Evita ambiguidades com duplicação de nota, pesos negativos e não finitos.
+    Pode ser utilizada diretamente em fixtures independentes de DuckDB.
+    """
+    resultado = []
+    abaixo = 0
+    anterior = float('-inf')
+    for nota, n in contagens:
+        if not isfinite(nota) or nota <= anterior or not isinstance(n, int) or n <= 0:
+            raise ValueError('frequencias precisam ter notas finitas crescentes e n positivo')
+        resultado.append((float(nota), n, abaixo))
+        abaixo += n
+        anterior = nota
+    return resultado
