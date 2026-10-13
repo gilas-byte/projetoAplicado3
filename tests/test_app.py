@@ -16,7 +16,7 @@ import duckdb
 RAIZ = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(RAIZ / "scripts"))
 
-from estatistica import faixas  # noqa: E402
+from estatistica import faixas, construir_acumulada  # noqa: E402
 
 try:
     from streamlit.testing.v1 import AppTest
@@ -39,12 +39,22 @@ class TestApp(unittest.TestCase):
         con.execute("CREATE TABLE d (ano BIGINT, area VARCHAR, nota_min DOUBLE, nota_max DOUBLE, n BIGINT)")
         con.executemany("INSERT INTO d VALUES (?, ?, ?, ?, ?)", linhas)
         con.execute(f"COPY d TO '{arquivo}' (FORMAT parquet)")
+        exatas = []
+        for area in ["cn", "ch", "lc", "mt"]:
+            exatas += [(2022, area, nota, n, abaixo) for nota, n, abaixo in
+                       construir_acumulada([(float(n), 1000) for n in range(300, 800)])]
+        con.execute("CREATE TABLE e (ano BIGINT, area VARCHAR, nota DOUBLE, n BIGINT, abaixo BIGINT)")
+        con.executemany("INSERT INTO e VALUES (?, ?, ?, ?, ?)", exatas)
+        arquivo_exato = Path(cls.tmp.name) / "dist_exata.parquet"
+        con.execute(f"COPY e TO '{arquivo_exato}' (FORMAT parquet)")
         con.close()
         os.environ["RADAR_DIST_NOTAS"] = str(arquivo)
+        os.environ["RADAR_DIST_EXATA"] = str(arquivo_exato)
 
     @classmethod
     def tearDownClass(cls):
         os.environ.pop("RADAR_DIST_NOTAS", None)
+        os.environ.pop("RADAR_DIST_EXATA", None)
         cls.tmp.cleanup()
 
     def abrir(self) -> AppTest:
