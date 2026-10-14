@@ -1,0 +1,139 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2360" height="1280" viewBox="0 0 1180 640" font-family="Liberation Sans, Arial, Helvetica, sans-serif">
+  <defs>
+    <marker id="seta" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 z" fill="#1f2937"/>
+    </marker>
+  </defs>
+  <rect width="1180" height="640" fill="#ffffff"/>
+
+  <text x="590" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#111827">Radar ENEM: arquitetura de dados (ingestão offline e compactação)</text>
+
+  <!-- Zonas -->
+  <rect x="12" y="50" width="906" height="345" rx="8" fill="#f8fafc" stroke="#94a3b8" stroke-dasharray="6 4"/>
+  <text x="26" y="72" font-size="13" font-weight="bold" fill="#334155">OFFLINE · lote na máquina da equipe · 112 s para as quatro edições · pico de 2,6 GB de RAM</text>
+  <rect x="930" y="50" width="238" height="345" rx="8" fill="#fff7ed" stroke="#fb923c" stroke-dasharray="6 4"/>
+  <text x="944" y="72" font-size="13" font-weight="bold" fill="#9a3412">ONLINE · cerca de 1 GB de RAM</text>
+
+  <!-- Camadas -->
+  <g font-size="13" fill="#111827">
+    <rect x="28" y="95" width="190" height="150" rx="6" fill="#e5e7eb" stroke="#4b5563"/>
+    <text x="123" y="118" text-anchor="middle" font-size="15" font-weight="bold">Fonte: INEP</text>
+    <text x="123" y="142" text-anchor="middle">4 arquivos .zip</text>
+    <text x="123" y="162" text-anchor="middle">edições 2019 a 2022</text>
+    <text x="123" y="182" text-anchor="middle">2,40 GB</text>
+    <text x="123" y="216" text-anchor="middle" font-size="12" fill="#374151">dados públicos e</text>
+    <text x="123" y="232" text-anchor="middle" font-size="12" fill="#374151">anonimizados na origem</text>
+
+    <rect x="258" y="95" width="190" height="150" rx="6" fill="#fee2e2" stroke="#b91c1c"/>
+    <text x="353" y="118" text-anchor="middle" font-size="15" font-weight="bold">RAW</text>
+    <text x="353" y="142" text-anchor="middle">CSV em latin-1, separador ;</text>
+    <text x="353" y="162" text-anchor="middle">76 colunas</text>
+    <text x="353" y="182" text-anchor="middle">17.744.217 linhas</text>
+    <text x="353" y="202" text-anchor="middle" font-weight="bold">7,51 GB</text>
+    <text x="353" y="232" text-anchor="middle" font-size="12" fill="#374151">data/raw/ · hashes.sha256</text>
+
+    <rect x="488" y="95" width="190" height="150" rx="6" fill="#dbeafe" stroke="#1d4ed8"/>
+    <text x="583" y="118" text-anchor="middle" font-size="15" font-weight="bold">TRUSTED</text>
+    <text x="583" y="142" text-anchor="middle">Parquet ZSTD, por edição</text>
+    <text x="583" y="162" text-anchor="middle">58 colunas + 4 derivadas</text>
+    <text x="583" y="182" text-anchor="middle">17.744.217 linhas</text>
+    <text x="583" y="202" text-anchor="middle" font-weight="bold">374 MB (20× menor)</text>
+    <text x="583" y="232" text-anchor="middle" font-size="12" fill="#374151">ano=&lt;ano&gt;/ · _manifesto.json</text>
+
+    <rect x="718" y="95" width="190" height="150" rx="6" fill="#dcfce7" stroke="#15803d"/>
+    <text x="813" y="118" text-anchor="middle" font-size="15" font-weight="bold">ANALYTICS</text>
+    <text x="813" y="140" text-anchor="middle">dist_notas: 63.657 faixas</text>
+    <text x="813" y="157" text-anchor="middle" font-size="12" fill="#374151">n ≥ 100 · histograma · 258 kB</text>
+    <text x="813" y="181" text-anchor="middle">dist_exata: 81.525 notas</text>
+    <text x="813" y="198" text-anchor="middle" font-size="12" fill="#374151">CDF exata · só backend · 396 kB</text>
+    <text x="813" y="232" text-anchor="middle" font-size="12" fill="#374151">_manifesto_analytics.json</text>
+
+    <rect x="954" y="95" width="190" height="150" rx="6" fill="#ffedd5" stroke="#c2410c"/>
+    <text x="1049" y="118" text-anchor="middle" font-size="15" font-weight="bold">App web</text>
+    <text x="1049" y="142" text-anchor="middle">Streamlit + Plotly</text>
+    <text x="1049" y="162" text-anchor="middle">nota → percentil → gráfico</text>
+    <text x="1049" y="182" text-anchor="middle">lê só a ANALYTICS</text>
+    <text x="1049" y="216" text-anchor="middle" font-size="12" fill="#374151">notas digitadas ficam</text>
+    <text x="1049" y="232" text-anchor="middle" font-size="12" fill="#374151">só na sessão</text>
+  </g>
+
+  <!-- Fluxo -->
+  <g stroke="#1f2937" stroke-width="2" marker-end="url(#seta)">
+    <line x1="218" y1="170" x2="256" y2="170"/>
+    <line x1="448" y1="170" x2="486" y2="170"/>
+    <line x1="678" y1="170" x2="716" y2="170"/>
+    <line x1="908" y1="170" x2="952" y2="170"/>
+  </g>
+
+  <!-- Processos -->
+  <g font-size="12" fill="#111827">
+    <rect x="138" y="275" width="200" height="100" rx="14" fill="#ffffff" stroke="#6b7280"/>
+    <text x="238" y="296" text-anchor="middle" font-weight="bold">1. Ingestão</text>
+    <text x="238" y="316" text-anchor="middle">download manual do INEP</text>
+    <text x="238" y="334" text-anchor="middle">verify_raw.sh confere SHA-256</text>
+    <text x="238" y="352" text-anchor="middle">extração do .zip</text>
+
+    <rect x="368" y="275" width="200" height="100" rx="14" fill="#ffffff" stroke="#6b7280"/>
+    <text x="468" y="296" text-anchor="middle" font-weight="bold">2. etl.py · etapa_trusted</text>
+    <text x="468" y="316" text-anchor="middle">seleção e tipagem (contrato)</text>
+    <text x="468" y="334" text-anchor="middle">descarta NU_INSCRICAO</text>
+    <text x="468" y="352" text-anchor="middle">derivadas, elegível, funil</text>
+    <text x="468" y="368" text-anchor="middle">DuckDB · COPY … zstd</text>
+
+    <rect x="598" y="275" width="200" height="100" rx="14" fill="#ffffff" stroke="#6b7280"/>
+    <text x="698" y="296" text-anchor="middle" font-weight="bold">3. etl.py · etapa_analytics</text>
+    <text x="698" y="316" text-anchor="middle">só elegíveis, por edição e área</text>
+    <text x="698" y="334" text-anchor="middle">faixas ≥ 100 e CDF por nota</text>
+    <text x="698" y="352" text-anchor="middle">confere com contagem direta</text>
+    <text x="698" y="368" text-anchor="middle">(divergência da CDF: 0,0)</text>
+
+    <rect x="949" y="275" width="200" height="100" rx="14" fill="#ffffff" stroke="#6b7280"/>
+    <text x="1049" y="296" text-anchor="middle" font-weight="bold">4. app.py · consulta</text>
+    <text x="1049" y="316" text-anchor="middle">carga única em cache</text>
+    <text x="1049" y="334" text-anchor="middle">percentil exato pela CDF</text>
+    <text x="1049" y="352" text-anchor="middle">histograma pelas faixas</text>
+  </g>
+  <g stroke="#6b7280" stroke-width="1.2" stroke-dasharray="3 3">
+    <line x1="238" y1="172" x2="238" y2="275"/>
+    <line x1="468" y1="172" x2="468" y2="275"/>
+    <line x1="698" y1="172" x2="698" y2="275"/>
+    <line x1="1049" y1="245" x2="1049" y2="275"/>
+  </g>
+
+  <!-- Governanca -->
+  <rect x="12" y="415" width="1156" height="210" rx="8" fill="#f9fafb" stroke="#9ca3af"/>
+  <text x="26" y="438" font-size="13" font-weight="bold" fill="#334155">GOVERNANÇA E RASTREABILIDADE · o que controla cada passagem</text>
+  <g font-size="12" fill="#111827">
+    <rect x="28" y="455" width="268" height="150" rx="6" fill="#ffffff" stroke="#6b7280"/>
+    <text x="162" y="477" text-anchor="middle" font-size="13" font-weight="bold">Contrato de dados</text>
+    <text x="162" y="499" text-anchor="middle">scripts/colunas.py → docs/contrato/</text>
+    <text x="162" y="519" text-anchor="middle">58 colunas mantidas, 18 descartadas</text>
+    <text x="162" y="539" text-anchor="middle">nome interno, tipo, regra de ausência</text>
+    <text x="162" y="559" text-anchor="middle">PISO_GRUPO = 100 (LGPD)</text>
+    <text x="162" y="587" text-anchor="middle" fill="#374151">fonte única das regras do ETL</text>
+
+    <rect x="312" y="455" width="268" height="150" rx="6" fill="#ffffff" stroke="#6b7280"/>
+    <text x="446" y="477" text-anchor="middle" font-size="13" font-weight="bold">Profiling e manifestos</text>
+    <text x="446" y="499" text-anchor="middle">docs/profiling/ fixa linhas esperadas</text>
+    <text x="446" y="519" text-anchor="middle">o ETL falha se a contagem divergir</text>
+    <text x="446" y="539" text-anchor="middle">manifestos: hash da fonte e dos</text>
+    <text x="446" y="559" text-anchor="middle">artefatos, funil, commit, duração</text>
+    <text x="446" y="587" text-anchor="middle" fill="#374151">nenhuma exclusão silenciosa</text>
+
+    <rect x="596" y="455" width="268" height="150" rx="6" fill="#ffffff" stroke="#6b7280"/>
+    <text x="730" y="477" text-anchor="middle" font-size="13" font-weight="bold">Testes e barreiras</text>
+    <text x="730" y="499" text-anchor="middle">25 testes com dados sintéticos</text>
+    <text x="730" y="519" text-anchor="middle">escrita atômica (arquivo temporário)</text>
+    <text x="730" y="539" text-anchor="middle">conferência de NU_ANO linha a linha</text>
+    <text x="730" y="559" text-anchor="middle">verificar_piso.py e CI a cada PR</text>
+    <text x="730" y="587" text-anchor="middle" fill="#374151">rodam sem os microdados</text>
+
+    <rect x="880" y="455" width="272" height="150" rx="6" fill="#ffffff" stroke="#6b7280"/>
+    <text x="1016" y="477" text-anchor="middle" font-size="13" font-weight="bold">GitHub</text>
+    <text x="1016" y="499" text-anchor="middle">versiona código, docs e hashes.sha256</text>
+    <text x="1016" y="519" text-anchor="middle">data/ fora do git (.gitignore)</text>
+    <text x="1016" y="539" text-anchor="middle">GitHub Actions: testes, piso e</text>
+    <text x="1016" y="559" text-anchor="middle">bloqueio de dados; PR para a main</text>
+    <text x="1016" y="587" text-anchor="middle" fill="#374151">microdados nunca são publicados</text>
+  </g>
+</svg>
