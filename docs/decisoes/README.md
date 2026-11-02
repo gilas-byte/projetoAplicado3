@@ -119,7 +119,7 @@ apagada: quando muda, a entrada antiga recebe "substituída por DL-xx".
      por edição); e passa pelo mesmo piso de 100 participantes por edição e área.
      Nenhum outro cruzamento é aberto por esta decisão.
   5. **Ausências e valores inválidos:**
-     - `Q006` vazia (1,66% em 2020; 0% nas outras edições): o participante fica
+     - `Q006` vazia (1,66% dos inscritos em 2020; residual, abaixo do piso, em 2021; nenhuma em 2019 e 2022): o participante fica
        fora das faixas de renda e do contraste, mas continua na comparação
        nacional.
      - `Q006` fora de A–Q: tratado como inválido, excluído das faixas e contado
