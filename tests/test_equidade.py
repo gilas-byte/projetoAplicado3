@@ -253,6 +253,17 @@ class TestComparacao(unittest.TestCase):
         r = eq.comparar(self.cdfs, self.entrada(alternativa="P"))
         self.assertTrue(any("mesma do grupo de contraste" in a for a in r.avisos))
 
+    def test_histograma_protegido_soma_100_e_respeita_o_piso(self):
+        # 1000 notas de 300 a 799 com 1 pessoa cada: nenhuma barra pode ter
+        # menos de 100 pessoas, logo nenhuma tem menos de 10% do grupo.
+        distribuicao = cdf(*[(n, 1) for n in range(300, 800)], *[(n, 1) for n in range(800, 1300)])
+        blocos = eq.densidade_protegida(distribuicao)
+        areas = [(b - a) * d / 10 for a, b, d in blocos]
+        self.assertAlmostEqual(sum(areas), 100.0)
+        self.assertTrue(all(area >= 10.0 - 1e-9 for area in areas))
+        self.assertTrue(all(b > a for a, b, _ in blocos))
+        self.assertEqual(eq.densidade_protegida(cdf((500, 99))), [])
+
     def test_formatacao_da_exibicao(self):
         self.assertEqual(eq.formatar_percentil(12.5), "12,5%")
         self.assertEqual(eq.formatar_percentil(99.96), "100,0%")

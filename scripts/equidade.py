@@ -44,6 +44,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from colunas import PISO_GRUPO  # noqa: E402
 from estatistica import (  # noqa: E402
     construir_acumulada,
+    faixas,
     percentil_exato_acumulado,
     prob_superioridade,
     resumo,
@@ -448,6 +449,26 @@ def comparar(cdfs, entrada: Entrada) -> Comparacao:
 
 
 # ======================================================= EXIBIÇÃO (DL-01)
+
+
+def densidade_protegida(cdf: list[tuple[float, int, int]], piso: int = PISO_GRUPO) -> list[tuple[float, float, float]]:
+    """Histograma de largura variável do grupo: [(início, fim, % do grupo por 10 pontos)].
+
+    Usa as faixas do motor (cada uma com pelo menos `piso` pessoas), então o
+    gráfico não revela frequência de nenhuma nota isolada. A faixa vai do seu
+    início até o início da seguinte; a altura é a densidade, para que faixas
+    largas (grupos pequenos) não apareçam como picos. A área total é 100%.
+    """
+    blocos = faixas([(nota, n) for nota, n, _ in cdf], piso)
+    total = sum(n for *_, n in blocos)
+    saida = []
+    for i, (inicio, fim, n) in enumerate(blocos):
+        if i + 1 < len(blocos):
+            fim = blocos[i + 1][0]
+        largura = max(fim - inicio, 1.0)
+        saida.append((inicio, inicio + largura, n / total * 100 / largura * 10))
+    return saida
+
 
 
 def formatar_percentil(p: float) -> str:

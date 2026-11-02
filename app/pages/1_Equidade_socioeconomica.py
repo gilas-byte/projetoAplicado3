@@ -32,6 +32,7 @@ from equidade import (  # noqa: E402
     FAIXA_POR_CODIGO,
     EntradaInvalida,
     carregar,
+    densidade_protegida,
     faixa_de_q006,
     comparar,
     formatar_nota,
@@ -40,7 +41,6 @@ from equidade import (  # noqa: E402
     opcoes_q006,
     validar_entrada,
 )
-from estatistica import faixas, histograma  # noqa: E402
 
 DIST_EQUIDADE = Path(os.environ.get("RADAR_DIST_EQUIDADE", RAIZ / "data" / "analytics" / "dist_equidade.parquet"))
 COR_FAIXA, COR_CONTRASTE, COR_NOTA = "#2563eb", "#f59e0b", "#dc2626"
@@ -56,11 +56,6 @@ def _opcoes(ano: int):
     return opcoes_q006(ano)
 
 
-def _classes(cdf):
-    """Histograma protegido do grupo: só faixas com >= PISO_GRUPO pessoas."""
-    return histograma(faixas([(nota, n) for nota, n, _ in cdf]))
-
-
 def grafico(cdfs, ano: int, area: str, faixa: str, nota: float) -> go.Figure:
     fig = go.Figure()
     for grupo, nome, cor in ((faixa, "Sua faixa de renda", COR_FAIXA),
@@ -68,16 +63,16 @@ def grafico(cdfs, ano: int, area: str, faixa: str, nota: float) -> go.Figure:
         cdf = cdfs.get((ano, area, grupo))
         if not cdf:
             continue
-        classes = _classes(cdf)
+        blocos = densidade_protegida(cdf)
         fig.add_trace(go.Bar(
-            x=[inicio + 10 for inicio, _ in classes], y=[pct for _, pct in classes], width=20,
-            name=nome, marker_color=cor, opacity=0.55,
-            hovertemplate=nome + ": %{y:.1f}% do grupo entre %{x:.0f} ± 10<extra></extra>",
+            x=[(a + b) / 2 for a, b, _ in blocos], y=[d for *_, d in blocos],
+            width=[b - a for a, b, _ in blocos], name=nome, marker_color=cor, opacity=0.5,
+            marker_line_width=0, hovertemplate=nome + ": %{y:.2f}% do grupo a cada 10 pontos<extra></extra>",
         ))
     fig.add_vline(x=nota, line_width=2, line_dash="dash", line_color=COR_NOTA,
                   annotation_text="sua nota", annotation_position="top")
     fig.update_layout(barmode="overlay", bargap=0.05, height=320, margin=dict(l=10, r=10, t=30, b=10),
-                      xaxis_title="Nota", yaxis_title="% do grupo",
+                      xaxis_title="Nota", yaxis_title="% do grupo a cada 10 pontos",
                       legend=dict(orientation="h", y=-0.25))
     return fig
 
@@ -90,9 +85,9 @@ def mostrar(cdfs, resultado) -> None:
                                     (col2, simulado, "2. Entre escola privada de alta renda")):
         with coluna:
             if cenario.disponivel:
-                st.metric(titulo, formatar_percentil(cenario.percentil),
-                          f"acima de {formatar_percentil(cenario.percentil)} do grupo", delta_color="off")
-                st.caption(f"{cenario.rotulo} · {cenario.n:,} participantes".replace(",", "."))
+                st.metric(titulo, formatar_percentil(cenario.percentil))
+                st.caption(f"Sua nota fica acima dessa porcentagem dos {cenario.n:,} participantes do grupo "
+                           f"({cenario.rotulo.lower()}).".replace(",", "."))
             else:
                 st.metric(titulo, "—")
                 st.info(f"{cenario.rotulo}: {cenario.motivo}.")
@@ -114,12 +109,12 @@ def mostrar(cdfs, resultado) -> None:
     if disponiveis:
         st.dataframe(
             {
-                "Grupo": [c.rotulo for c in disponiveis],
+                "Grupo": ["Sua faixa" if c.grupo != CONTRASTE else "Contraste" for c in disponiveis],
                 "Participantes": [f"{c.n:,}".replace(",", ".") for c in disponiveis],
                 "Média": [formatar_nota(c.media) for c in disponiveis],
                 "Mediana": [formatar_nota(c.mediana) for c in disponiveis],
                 "Desvio-padrão": [formatar_nota(c.desvio) for c in disponiveis],
-                "Z-Score da sua nota": [formatar_z(c.z) for c in disponiveis],
+                "Z da sua nota": [formatar_z(c.z) for c in disponiveis],
             },
             hide_index=True,
         )
