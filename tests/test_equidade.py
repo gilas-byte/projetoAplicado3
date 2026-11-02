@@ -19,6 +19,7 @@ import sys
 import tempfile
 import unittest
 from pathlib import Path
+from unittest import mock
 
 import duckdb
 
@@ -385,6 +386,17 @@ class TestAgregacao(unittest.TestCase):
     def test_sem_identificador_no_artefato(self):
         colunas = [c[0] for c in duckdb.sql(f"DESCRIBE SELECT * FROM read_parquet('{self.destino}')").fetchall()]
         self.assertEqual(colunas, ["ano", "area", "recorte", "grupo", "nota", "n", "abaixo", "total"])
+
+    def test_divergencia_entre_sql_e_python_bloqueia_a_publicacao(self):
+        # Simula um defeito no SQL do artefato (um participante a mais em
+        # cada nota): a conferência contra o cálculo em Python tem de barrar.
+        destino = self.tmp / "defeito" / "dist_equidade.parquet"
+        original = eq.sql_artefato
+        defeituoso = lambda fonte, piso: original(fonte, piso).replace(  # noqa: E731
+            "CAST(n AS BIGINT) AS n", "CAST(n + 1 AS BIGINT) AS n")
+        with mock.patch.object(eq, "sql_artefato", defeituoso), self.assertRaises(AssertionError):
+            eq.etapa_equidade(self.tmp / "trusted", destino, self.tmp / "defeito" / "m.json")
+        self.assertFalse(destino.exists())
 
     def test_piso_inalcancavel_nao_publica_nada(self):
         destino = self.tmp / "vazio" / "dist_equidade.parquet"
