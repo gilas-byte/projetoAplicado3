@@ -40,6 +40,7 @@ Com os zips do INEP extraidos em `data/raw/`:
 ```
 ./scripts/verify_raw.sh                        # confere os hashes da fonte
 ./.venv/bin/python scripts/etl.py              # RAW -> TRUSTED -> ANALYTICS (~1 min)
+./.venv/bin/python scripts/equidade.py         # modulo Equidade socioeconomica (dist_equidade.parquet)
 ./.venv/bin/python -m unittest discover tests  # testes com dados sinteticos
 ./.venv/bin/streamlit run app/app.py            # app (MVP)
 ```
@@ -56,6 +57,16 @@ frequencias que podem ser inferiores a 100 por nota e deve ficar restrito ao
 backend, nunca disponibilizado como download, arquivo estatico ou API.
 O publico recebe somente percentis arredondados e histogramas com piso de grupo.
 Nenhum registro individual ou identificador de inscricao e carregado online.
+
+---
+
+## 🧩 Modulos comparativos (AV4)
+
+| Modulo | Autor | Codigo | Testes | Regras |
+| --- | --- | --- | --- | --- |
+| Equidade socioeconomica | Samuel Silva de Rezende | `scripts/equidade.py`, `app/pages/1_Equidade_socioeconomica.py` | `tests/test_equidade.py` | [DL-03](docs/decisoes/README.md#dl-03--regras-do-módulo-equidade-socioeconômica) |
+
+Decisoes de produto e metodologia: [`docs/decisoes/README.md`](docs/decisoes/README.md).
 
 ---
 
