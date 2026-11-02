@@ -15,7 +15,8 @@ O arquivo tem três partes:
 
   - Regras de negócio: faixas de Q006, grupo de contraste, validação da entrada.
   - Agregação offline: lê a TRUSTED e grava data/analytics/dist_equidade.parquet
-    (CDF exata por edição, área e grupo, com piso de PISO_GRUPO participantes).
+    (CDF exata por edição, área e grupo, com piso de PISO_GRUPO participantes),
+    conferido por dois caminhos de cálculo antes de publicar.
   - Comparação: aplica o motor estatístico v1 (scripts/estatistica.py) aos
     dois cenários.
 
@@ -230,30 +231,48 @@ def sql_contagens(fonte: str, area: str) -> str:
     """
 
 
-def gerar_linhas(con, fonte: str, piso: int = PISO_GRUPO) -> tuple[list[tuple], dict]:
-    """Linhas do artefato e funil do módulo, aplicando o piso por grupo.
+def sql_artefato(fonte: str, piso: int = PISO_GRUPO) -> str:
+    """SELECT do artefato: CDF exata por (ano, área, grupo), já com o piso.
 
-    Devolve (linhas, funil). Cada linha é (ano, area, recorte, grupo, nota,
-    n, abaixo, total). Grupos com total < piso não geram linha nenhuma; o
-    funil só registra que foram suprimidos, sem a contagem.
+    A acumulada sai de funções de janela no próprio DuckDB, sem trazer as
+    linhas para o Python: com os microdados reais são cerca de dois milhões
+    de linhas, e inserir uma a uma levaria dezenas de minutos.
+    """
+    partes = []
+    for area in AREAS:
+        partes.append(f"""
+            SELECT ano, '{area}' AS area, '{RECORTE}' AS recorte, grupo, nota, n,
+                   CAST(sum(n) OVER (PARTITION BY ano, grupo ORDER BY nota) - n AS BIGINT) AS abaixo,
+                   CAST(sum(n) OVER (PARTITION BY ano, grupo) AS BIGINT) AS total
+            FROM ({sql_contagens(fonte, area)})""")
+    return f"""SELECT ano, area, recorte, grupo, CAST(nota AS DOUBLE) AS nota, CAST(n AS BIGINT) AS n,
+                      abaixo, total
+               FROM ({" UNION ALL ".join(partes)})
+               WHERE total >= {piso}
+               ORDER BY ano, area, grupo, nota"""
+
+
+def calcular_cdfs(con, fonte: str, piso: int = PISO_GRUPO) -> tuple[dict, dict]:
+    """Mesmas CDFs do artefato, montadas em Python com construir_acumulada.
+
+    É o segundo caminho de cálculo: o artefato gerado em SQL só é publicado
+    se coincidir com este, linha a linha. Devolve (cdfs, funil); o funil só
+    registra os grupos suprimidos pelo piso, sem a contagem.
     """
     por_grupo: dict[tuple[int, str, str], list[tuple[float, int]]] = {}
     for area in AREAS:
         for ano, grupo, nota, n in con.execute(sql_contagens(fonte, area)).fetchall():
             por_grupo.setdefault((int(ano), area, grupo), []).append((float(nota), int(n)))
 
-    linhas, suprimidos, publicados = [], [], {}
+    cdfs, suprimidos, publicados = {}, [], {}
     for (ano, area, grupo), contagens in sorted(por_grupo.items()):
         total = sum(n for _, n in contagens)
         if total < piso:
             suprimidos.append(f"{ano}/{area}/{grupo}")
             continue
-        acumulada = construir_acumulada(contagens)
-        if acumulada[-1][1] + acumulada[-1][2] != total:
-            raise AssertionError(f"{ano}/{area}/{grupo}: CDF não conserva contagens")
+        cdfs[(ano, area, grupo)] = construir_acumulada(contagens)
         publicados[f"{ano}/{area}/{grupo}"] = total
-        linhas.extend((ano, area, RECORTE, grupo, nota, n, abaixo, total) for nota, n, abaixo in acumulada)
-    return linhas, {"publicados": publicados, "suprimidos_abaixo_do_piso": suprimidos}
+    return cdfs, {"publicados": publicados, "suprimidos_abaixo_do_piso": suprimidos}
 
 
 def auditar_q006(con, fonte: str) -> dict:
@@ -294,21 +313,33 @@ def etapa_equidade(trusted: Path = TRUSTED, destino: Path = DIST_EQUIDADE,
     """
     import duckdb
 
-    fonte = f"read_parquet('{trusted}/*/*.parquet', hive_partitioning=true)"
     con = duckdb.connect()
     inicio = time.perf_counter()
     try:
-        linhas, funil = gerar_linhas(con, fonte, piso)
-        if not linhas:
+        # Só as colunas do módulo, lidas uma vez: as conferências abaixo fazem
+        # centenas de contagens e não podem reler o Parquet a cada uma.
+        notas = ", ".join(f"nota_{a}" for a in AREAS)
+        con.execute(
+            f"""CREATE TEMP TABLE base_equidade AS
+                SELECT ano, elegivel, renda_familiar, tipo_escola, {notas}
+                FROM read_parquet('{trusted}/*/*.parquet', hive_partitioning=true)
+                WHERE elegivel"""
+        )
+        fonte = "base_equidade"
+        esperadas, funil = calcular_cdfs(con, fonte, piso)
+        if not esperadas:
             raise ValueError("nenhum grupo de renda atingiu o piso; publicação abortada")
         destino.parent.mkdir(parents=True, exist_ok=True)
         temporario = destino.with_name(f".{destino.name}.tmp")
         try:
-            con.execute("CREATE TEMP TABLE eq (ano BIGINT, area VARCHAR, recorte VARCHAR, grupo VARCHAR,"
-                        " nota DOUBLE, n BIGINT, abaixo BIGINT, total BIGINT)")
-            con.executemany("INSERT INTO eq VALUES (?, ?, ?, ?, ?, ?, ?, ?)", linhas)
-            con.execute(f"COPY eq TO '{temporario}' (FORMAT parquet, COMPRESSION zstd)")
+            con.execute(f"COPY ({sql_artefato(fonte, piso)}) TO '{temporario}' (FORMAT parquet, COMPRESSION zstd)")
             cdfs = carregar(temporario)
+            # Conferência 1: SQL (janela) e Python (construir_acumulada) iguais.
+            if cdfs != esperadas:
+                diferentes = sorted(set(cdfs) ^ set(esperadas)) or [
+                    k for k in cdfs if cdfs[k] != esperadas[k]]
+                raise AssertionError(f"artefato SQL difere do cálculo em Python: {diferentes[:5]}")
+            # Conferência 2: percentil da CDF igual à contagem direta.
             maior = 0.0
             for (ano, area, grupo), cdf in cdfs.items():
                 notas = [item[0] for item in cdf]
@@ -328,9 +359,9 @@ def etapa_equidade(trusted: Path = TRUSTED, destino: Path = DIST_EQUIDADE,
             "piso": piso,
             "grupos": funil,
             "q006": auditar_q006(con, fonte),
-            "verificacao": {"metodo": "percentil da CDF x contagem direta na TRUSTED",
+            "verificacao": {"metodo": "CDF em SQL = CDF em Python; percentil da CDF x contagem direta",
                             "maior_divergencia_pp": maior},
-            "linhas": len(linhas),
+            "linhas": sum(len(c) for c in cdfs.values()),
             "bytes": destino.stat().st_size,
             "tempo_segundos": round(time.perf_counter() - inicio, 3),
         }
