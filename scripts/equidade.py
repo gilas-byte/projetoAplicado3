@@ -451,24 +451,34 @@ def comparar(cdfs, entrada: Entrada) -> Comparacao:
 # ======================================================= EXIBIÇÃO (DL-01)
 
 
-def densidade_protegida(cdf: list[tuple[float, int, int]], piso: int = PISO_GRUPO) -> list[tuple[float, float, float]]:
+def densidade_protegida(cdf: list[tuple[float, int, int]], piso: int = PISO_GRUPO,
+                        largura_min: float = 10.0) -> list[tuple[float, float, float]]:
     """Histograma de largura variável do grupo: [(início, fim, % do grupo por 10 pontos)].
 
-    Usa as faixas do motor (cada uma com pelo menos `piso` pessoas), então o
-    gráfico não revela frequência de nenhuma nota isolada. A faixa vai do seu
-    início até o início da seguinte; a altura é a densidade, para que faixas
-    largas (grupos pequenos) não apareçam como picos. A área total é 100%.
+    Parte das faixas do motor (cada uma com pelo menos `piso` pessoas), então
+    o gráfico não revela a frequência de nenhuma nota isolada. Faixas
+    vizinhas são somadas até a barra cobrir `largura_min` pontos: em grupos
+    grandes uma faixa pode ter só 0,1 ponto de largura. Cada barra vai do
+    início da sua primeira faixa ao início da faixa seguinte, e a altura é a
+    densidade, para que barras largas (grupos pequenos) não virem picos. A
+    área total é 100%.
     """
     blocos = faixas([(nota, n) for nota, n, _ in cdf], piso)
+    if not blocos:
+        return []
     total = sum(n for *_, n in blocos)
-    saida = []
-    for i, (inicio, fim, n) in enumerate(blocos):
-        if i + 1 < len(blocos):
-            fim = blocos[i + 1][0]
-        largura = max(fim - inicio, 1.0)
-        saida.append((inicio, inicio + largura, n / total * 100 / largura * 10))
+    fins = [b[0] for b in blocos[1:]] + [blocos[-1][1]]
+    saida, inicio, acumulado = [], None, 0
+    for i, (comeco, _, n) in enumerate(blocos):
+        if inicio is None:
+            inicio = comeco
+        acumulado += n
+        ultimo = i == len(blocos) - 1
+        if fins[i] - inicio >= largura_min or ultimo:
+            fim = max(fins[i], inicio + 1.0) if ultimo else fins[i]
+            saida.append((inicio, fim, acumulado / total * 100 / (fim - inicio) * 10))
+            inicio, acumulado = None, 0
     return saida
-
 
 
 def formatar_percentil(p: float) -> str:

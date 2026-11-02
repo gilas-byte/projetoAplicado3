@@ -264,6 +264,17 @@ class TestComparacao(unittest.TestCase):
         self.assertTrue(all(b > a for a, b, _ in blocos))
         self.assertEqual(eq.densidade_protegida(cdf((500, 99))), [])
 
+    def test_histograma_de_grupo_grande_tem_a_densidade_certa(self):
+        # 1000 pessoas em cada nota de 400,0 a 599,9 (passo 0,1): cada faixa
+        # protegida tem 0,1 ponto. A densidade real é 5% do grupo a cada 10
+        # pontos (100 notas x 1000 pessoas / 2 milhões).
+        distribuicao = cdf(*[(400 + i / 10, 1000) for i in range(2000)])
+        blocos = eq.densidade_protegida(distribuicao)
+        for inicio, fim, densidade in blocos[:-1]:
+            self.assertGreaterEqual(fim - inicio, 10.0 - 1e-9)
+            self.assertAlmostEqual(densidade, 5.0, places=6)
+        self.assertAlmostEqual(sum((b - a) * d / 10 for a, b, d in blocos), 100.0)
+
     def test_formatacao_da_exibicao(self):
         self.assertEqual(eq.formatar_percentil(12.5), "12,5%")
         self.assertEqual(eq.formatar_percentil(99.96), "100,0%")
