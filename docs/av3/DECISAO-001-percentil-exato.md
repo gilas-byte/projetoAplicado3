@@ -1,6 +1,6 @@
 # ADR-001 — Percentil empírico exato sem divulgar frequências finas
 
-- **Situação:** proposto; requer revisão do time e validação nos dados completos.
+- **Situação:** aceito em 03/11/2026 por Samuel Silva de Rezende (Product Owner). Validação nos dados completos: execução de 13/10/2026 (AV3) e de 02/11/2026 (módulo de Equidade), com divergência de 0,0 ponto percentual entre a CDF exata e a contagem direta nas quatro edições.
 - **Contexto:** o plano de ensino do Projeto Aplicado III solicita percentis populacionais exatos. O MVP calcula a posição interpolando intervalos que contêm no mínimo 100 participantes, logo apresenta aproximações.
 - **Decisão:** manter `dist_notas.parquet` para histogramas protegidos e adicionar `dist_exata.parquet` com (ano, área, nota, n, abaixo, total), armazenamento **exclusivamente interno** ao backend. A aplicação carrega a CDF e aplica `(abaixo + 0,5 * iguais) / total * 100`. Para nota não observada, utilizar a contagem acumulada estritamente inferior, sem interpolação.
 - **Trade-off:** preserva exatidão para área/ano nacionais, aumenta o volume do artefato agregado e o risco de inferência de frequências pequenas quando mal exposto. **Não** autoriza disponibilizar CSV/Parquet internos ao usuário final.
@@ -9,3 +9,4 @@
 - **Alternativa descartada:** declarar percentil aproximado como exato; imprecisão metodológica contrária à rubrica.
 - **Riscos residuais:** inferência por diferenças entre percentis após numerosas consultas; possível vazamento se arquivos internos forem publicados; divergência entre dois artefatos após falha durante troca de arquivos. Necessário deploy protegido e melhoria futura de publicação transacional/versionada.
 - **Revisores requeridos:** responsável técnico, QA, Product Owner.
+- **Atualização (03/11/2026):** os módulos de renda (DL-03) e de território (DL-04) foram implementados com artefatos próprios por grupo, piso de 100 participantes e auditoria de privacidade; nos grupos de UF, região e renda, as pontas da distribuição usam limites de exibição (DL-04, item 8; DL-03, item 10). O percentil nacional segue exato, como decidido aqui.
