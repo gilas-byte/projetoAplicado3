@@ -177,14 +177,16 @@ class TestValidacaoEntrada(unittest.TestCase):
 class TestComparacao(unittest.TestCase):
     """Valores esperados calculados à mão.
 
-    Faixa R2: 50 notas 400, 50 notas 500, 50 notas 600 (N = 150).
-    Contraste: 50 de cada em 500, 600, 700, 800 (N = 200).
+    Faixa R2: 500 notas 400, 500 notas 500, 500 notas 600 (N = 1.500).
+    Contraste: 500 de cada em 500, 600, 700, 800 (N = 2.000).
+    Grupos com pelo menos 200 pessoas, para a posição do meio sair exata
+    (limites de exibição, DL-03 item 10).
     """
 
     def setUp(self):
         self.cdfs = {
-            (2022, "mt", "R2"): cdf((400, 50), (500, 50), (600, 50)),
-            (2022, "mt", eq.CONTRASTE): cdf((500, 50), (600, 50), (700, 50), (800, 50)),
+            (2022, "mt", "R2"): cdf((400, 500), (500, 500), (600, 500)),
+            (2022, "mt", eq.CONTRASTE): cdf((500, 500), (600, 500), (700, 500), (800, 500)),
         }
 
     def entrada(self, nota=500.0, alternativa="C", area="mt"):
@@ -192,30 +194,32 @@ class TestComparacao(unittest.TestCase):
 
     def test_dois_cenarios(self):
         r = eq.comparar(self.cdfs, self.entrada())
-        # Real: (50 abaixo + 50/2 iguais) / 150 = 50%.
+        # Real: (500 abaixo + 500/2 iguais) / 1500 = 50%.
         self.assertAlmostEqual(r.real.percentil, 50.0)
-        # Simulado: (0 + 50/2) / 200 = 12,5%.
+        # Simulado: (0 + 500/2) / 2000 = 12,5%.
         self.assertAlmostEqual(r.simulado.percentil, 12.5)
         self.assertAlmostEqual(r.diferenca_pp, 37.5)
-        self.assertEqual((r.real.n, r.simulado.n), (150, 200))
+        self.assertEqual((r.real.n, r.simulado.n), (1500, 2000))
+        self.assertEqual((r.real.texto, r.simulado.texto), ("50,0%", "12,5%"))
+        self.assertFalse(r.real.em_limite or r.simulado.em_limite)
 
     def test_medidas_do_motor(self):
         r = eq.comparar(self.cdfs, self.entrada())
         self.assertAlmostEqual(r.real.media, 500.0)
-        self.assertAlmostEqual(r.real.desvio, math.sqrt(2 * 50 * 100**2 / 150))
+        self.assertAlmostEqual(r.real.desvio, math.sqrt(2 * 500 * 100**2 / 1500))
         self.assertEqual(r.real.mediana, 500.0)
         self.assertAlmostEqual(r.real.z, 0.0)
         self.assertAlmostEqual(r.simulado.media, 650.0)
-        # Mediana inferior (DL-01): N = 200, 100 notas <= 600; a média das
+        # Mediana inferior (DL-01): N = 2000, 1000 notas <= 600; a média das
         # centrais daria 650.
         self.assertEqual(r.simulado.mediana, 600.0)
         self.assertAlmostEqual(r.simulado.z, (500 - 650) / math.sqrt(12500))
 
     def test_probabilidade_de_superioridade(self):
         r = eq.comparar(self.cdfs, self.entrada())
-        # 500 x 500: 50*50 empates (meio ponto); 600 x 500: 50*50 vitórias;
-        # 600 x 600: 50*50 empates. (1250 + 2500 + 1250) / (150 * 200).
-        self.assertAlmostEqual(r.prob_superioridade, 5000 / 30000)
+        # 500 x 500: 500*500 empates (meio ponto); 600 x 500: 500*500 vitórias;
+        # 600 x 600: 500*500 empates. (125000 + 250000 + 125000) / (1500 * 2000).
+        self.assertAlmostEqual(r.prob_superioridade, 500000 / 3000000)
 
     def test_faixa_ausente_nao_quebra(self):
         r = eq.comparar(self.cdfs, self.entrada(alternativa="I"))  # R5 não existe no artefato
@@ -243,7 +247,7 @@ class TestComparacao(unittest.TestCase):
         self.assertEqual((r.real.percentil, r.simulado.percentil), (0.0, 0.0))
 
     def test_desvio_zero_vira_aviso(self):
-        self.cdfs[(2022, "mt", "R2")] = cdf((500, 150))
+        self.cdfs[(2022, "mt", "R2")] = cdf((500, 1500))
         r = eq.comparar(self.cdfs, self.entrada())
         self.assertIsNone(r.real.z)
         self.assertTrue(any("indefinido" in a for a in r.avisos))
@@ -280,6 +284,61 @@ class TestComparacao(unittest.TestCase):
         self.assertEqual(eq.formatar_percentil(99.96), "100,0%")
         self.assertEqual(eq.formatar_z(-1.3416), "-1,34")
         self.assertEqual(eq.formatar_z(None), "indefinido")
+
+
+class TestLimitesDeExibicao(unittest.TestCase):
+    """Limites de exibição da DL-04, item 8, aplicados à Equidade (DL-03, item 10).
+
+    Grupo de 1.000 pessoas com notas 1 a 1000 (uma por nota): limites de 10,0%
+    e 90,0%, isto é, as 100 pessoas mais extremas de cada lado.
+    """
+
+    def setUp(self):
+        grande = cdf((500, 1000), (600, 1000))
+        self.cdfs = {
+            (2022, "mt", "R2"): cdf(*[(n, 1) for n in range(1, 1001)]),
+            (2022, "mt", eq.CONTRASTE): grande,
+        }
+
+    def comparar(self, nota):
+        return eq.comparar(self.cdfs, eq.validar_entrada(2022, "mt", nota, "C", [2022]))
+
+    def test_topo_vira_acima_de(self):
+        r = self.comparar(950.0)  # posição exata 94,95%
+        self.assertAlmostEqual(r.real.percentil, 94.95)  # o backend continua exato
+        self.assertEqual(r.real.texto, "acima de 90,0%")
+        self.assertTrue(r.real.em_limite)
+
+    def test_base_vira_abaixo_de(self):
+        r = self.comparar(50.0)  # posição exata 4,95%
+        self.assertEqual(r.real.texto, "abaixo de 10,0%")
+        self.assertTrue(r.real.em_limite)
+
+    def test_meio_fica_exato(self):
+        r = self.comparar(500.0)  # (499 + 0,5) / 1000 = 49,95%, dentro dos limites
+        self.assertFalse(r.real.em_limite)
+        self.assertEqual(r.real.texto, eq.formatar_percentil(r.real.percentil))
+
+    def test_em_limite_esconde_a_diferenca(self):
+        # Somar a diferença ao percentil exato do contraste devolveria o valor escondido.
+        r = self.comparar(950.0)
+        self.assertIsNone(r.diferenca_pp)
+        self.assertIsNotNone(r.prob_superioridade)  # medida do grupo inteiro, não da nota
+        self.assertTrue(any("pontas da distribuição" in a for a in r.avisos))
+
+    def test_mesma_regra_do_modulo_territorial(self):
+        import territorial
+        for nota in (1.0, 50.0, 100.0, 101.0, 500.0, 899.0, 900.0, 950.0, 1000.0):
+            with self.subTest(nota=nota):
+                r = self.comparar(nota)
+                esperado = territorial.exibir_percentil(self.cdfs[(2022, "mt", "R2")], nota)
+                self.assertEqual((r.real.texto, r.real.em_limite), esperado)
+
+    def test_grupo_abaixo_de_200_nunca_mostra_posicao_exata(self):
+        self.cdfs[(2022, "mt", "R2")] = cdf((400, 50), (500, 50), (600, 50))
+        r = self.comparar(500.0)
+        self.assertTrue(r.real.em_limite)
+        self.assertIsNone(r.diferenca_pp)
 
 
 # ============================================ AGREGAÇÃO DE PONTA A PONTA
@@ -437,8 +496,8 @@ class TestPagina(unittest.TestCase):
         cls.tmp = tempfile.TemporaryDirectory()
         arquivo = Path(cls.tmp.name) / "dist_equidade.parquet"
         grupos = {
-            "R2": cdf((400, 50), (500, 50), (600, 50)),
-            eq.CONTRASTE: cdf((500, 50), (600, 50), (700, 50), (800, 50)),
+            "R2": cdf((400, 500), (500, 500), (600, 500)),
+            eq.CONTRASTE: cdf((500, 500), (600, 500), (700, 500), (800, 500)),
         }
         linhas = [(2022, "mt", "renda", g, nota, n, abaixo, sum(m for _, m, _ in d))
                   for g, d in grupos.items() for nota, n, abaixo in d]
@@ -476,6 +535,16 @@ class TestPagina(unittest.TestCase):
         self.assertFalse(at.exception)
         self.assertEqual([m.value for m in at.metric], ["50,0%", "12,5%"])
         self.assertTrue(any("37,5 pontos percentuais abaixo" in m.value for m in at.markdown))
+
+    def test_nota_extrema_mostra_limite_e_esconde_a_diferenca(self):
+        at = self.abrir()
+        self.renda(at, "C")
+        self.campo(at, "Matemática").set_value(1000.0)
+        at.button[0].click().run()
+        self.assertFalse(at.exception)
+        # Limites: 100 x (1500 - 100) / 1500 = 93,3% e 100 x (2000 - 100) / 2000 = 95,0%.
+        self.assertEqual([m.value for m in at.metric], ["acima de 93,3%", "acima de 95,0%"])
+        self.assertFalse(any("pontos percentuais" in m.value for m in at.markdown))
 
     def test_sem_renda_pede_a_renda(self):
         at = self.abrir()

@@ -50,6 +50,7 @@ from estatistica import (  # noqa: E402
     resumo,
     z_score,
 )
+from territorial import exibir_percentil  # noqa: E402  (limites de exibição, DL-04 item 8)
 
 RAIZ = Path(__file__).resolve().parent.parent
 TRUSTED = RAIZ / "data" / "trusted" / "enem"
@@ -400,6 +401,8 @@ class Cenario:
     mediana: float = 0.0
     desvio: float = 0.0
     z: float | None = None
+    texto: str = ""  # posição para a interface: exata ou "acima/abaixo de X%" (DL-03, item 10)
+    em_limite: bool = False
 
 
 @dataclass(frozen=True)
@@ -422,8 +425,10 @@ def _cenario(cdfs, ano: int, area: str, grupo: str, rotulo: str, nota: float) ->
         z = z_score(cdf, nota)
     except ValueError:  # desvio zero: todas as notas iguais
         z = None
+    texto, em_limite = exibir_percentil(cdf, nota)
     return Cenario(grupo, rotulo, True, n=medidas["N"], percentil=percentil_exato_acumulado(cdf, nota),
-                   media=medidas["media"], mediana=medidas["mediana"], desvio=medidas["desvio"], z=z)
+                   media=medidas["media"], mediana=medidas["mediana"], desvio=medidas["desvio"], z=z,
+                   texto=texto, em_limite=em_limite)
 
 
 def comparar(cdfs, entrada: Entrada) -> Comparacao:
@@ -431,6 +436,12 @@ def comparar(cdfs, entrada: Entrada) -> Comparacao:
 
     Nunca levanta exceção por falta de grupo: o cenário sem dados volta com
     disponivel=False e o motivo, e as medidas entre grupos ficam None.
+
+    O percentil exato fica no backend; a interface usa `texto`, que esconde a
+    posição exata nas pontas da distribuição (DL-03, item 10, com a regra da
+    DL-04, item 8). Se um dos cenários estiver em limite, a diferença de
+    posição não é calculada: somada ao percentil exato do outro cenário, ela
+    devolveria o valor escondido.
     """
     ano, area, nota = entrada.ano, entrada.area, entrada.nota
     real = _cenario(cdfs, ano, area, entrada.faixa, FAIXA_POR_CODIGO[entrada.faixa].rotulo, nota)
@@ -441,9 +452,13 @@ def comparar(cdfs, entrada: Entrada) -> Comparacao:
                       "restringe a comparação a quem declarou escola privada.")
     if real.z is None and real.disponivel or simulado.z is None and simulado.disponivel:
         avisos.append("Z-Score indefinido em grupo com todas as notas iguais.")
+    if real.em_limite or simulado.em_limite:
+        avisos.append("Nas pontas da distribuição a posição exata não é exibida, para proteger "
+                      "participantes com notas muito altas ou muito baixas.")
     diferenca = superioridade = None
     if real.disponivel and simulado.disponivel:
-        diferenca = real.percentil - simulado.percentil
+        if not (real.em_limite or simulado.em_limite):
+            diferenca = real.percentil - simulado.percentil
         superioridade = prob_superioridade(cdfs[(ano, area, entrada.faixa)], cdfs[(ano, area, CONTRASTE)])
     return Comparacao(entrada, real, simulado, diferenca, superioridade, avisos)
 
