@@ -327,3 +327,70 @@ apagada: quando muda, a entrada antiga recebe "substituída por DL-xx".
      extremo perde a posição exata.
 
   Consequência: a mesma regra passa a valer na Equidade (DL-03, item 10).
+
+## DL-05 — Regras do módulo Capital escolar familiar
+
+- **Data:** 03/11/2026
+- **Responsável:** Guilherme da Silva Anselmo (autor do módulo)
+- **Situação:** proposta (aguarda aceite do Product Owner)
+- **Contexto:** o Plano de Trabalho (módulos autorais) pede que o módulo compare
+  o usuário por escolaridade dos responsáveis, com forte controle de categorias,
+  ausências, integridade e tamanho de grupo. As variáveis são `Q001` (pai) e
+  `Q002` (mãe), com as mesmas alternativas A a H nas quatro edições
+  (conferido em `docs/dicionario/`). H significa "Não sei" e é uma resposta
+  válida, diferente de campo vazio.
+- **Decisão:**
+  1. **Variáveis:** o usuário informa `Q001` e `Q002` (A a H).
+  2. **Grupo do participante:** o maior nível de escolaridade informado entre
+     pai e mãe (A a G). Se um deles for H ou vazio, vale o outro.
+     **Limitação conhecida:** com pai = H e mãe = A, o participante entra no
+     nível A, embora o pai possa ter escolaridade maior. Isso é dito na
+     interface. Grupos por par (pai × mãe) geram 64 combinações por edição e
+     área, com risco de células pequenas (R3), e por isso não são usados.
+  3. **Sem informação nos dois:** pai e mãe H ou vazios deixam o participante
+     fora dos grupos de escolaridade, mas ele continua na comparação nacional.
+     Não existe nível a atribuir, e um grupo "Não sei" misturaria todos os
+     níveis, sem significado para o módulo.
+  4. **Seis níveis:** A; B e C (Fundamental incompleto); D; E; F; G. B e C são
+     juntados porque ambos significam "não terminou o Fundamental". Os demais
+     ficam separados porque cada um marca uma etapa concluída diferente. Não há
+     junção por tamanho do grupo; o ETL confere os tamanhos reais e registra no
+     manifesto.
+  5. **Cenários:** por padrão a interface mostra um cenário, a posição entre
+     participantes do mesmo nível. A comparação com outro nível é **opcional**
+     (caixa de seleção). Motivo: a comparação pode causar desconforto em quem a
+     lê como ranking de pessoas. A linguagem é neutra e descritiva ("a mesma
+     nota fica em posições diferentes conforme o grupo"), sem juízo sobre
+     capacidade.
+  6. **Nível de comparação:** o nível imediatamente acima do usuário. A
+     comparação com o vizinho é mais informativa do que com o extremo.
+  7. **Nível mais alto (G):** compara com o nível imediatamente abaixo (F). O
+     texto da interface diz "abaixo" nesse caso.
+  8. **Valores inválidos:** `Q001` ou `Q002` fora de A a H tira o participante
+     dos grupos de escolaridade, mantém na comparação nacional e é contado no
+     manifesto local do ETL. Não vira "H": um código inexistente é erro de dado,
+     não resposta "Não sei".
+  9. **Um campo inválido contamina o registro:** com um dos dois campos
+     inválido, o registro inteiro fica fora dos grupos, mesmo que o outro seja
+     válido. Um campo corrompido reduz a confiança no registro todo.
+  10. **População:** a mesma do resto do produto: participantes elegíveis
+      (presentes nos dois dias e não treineiros) com nota na área.
+  11. **Piso:** grupo (edição × área × nível) com menos de 100 participantes não
+      é gerado. A interface informa "grupo insuficiente".
+  12. **Medidas:** percentil exato (posto médio), mediana, média, desvio-padrão,
+      Z-Score e tamanho do grupo. Na comparação, a diferença de posição entre os
+      dois níveis.
+  13. **Limites de exibição do percentil:** aplica a regra da DL-04, item 8,
+      **importando** `exibir_percentil` de `scripts/territorial.py`, sem copiar.
+      Se um dos cenários estiver em limite, a diferença de posição entre eles
+      não é exibida. Motivo: coerência entre os módulos e fonte única da regra.
+  14. **Artefato:** `data/analytics/dist_capital.parquet` com as colunas
+      `ano, area, recorte, grupo, nota, n, abaixo, total`, mesmo esquema dos
+      demais módulos. Uso restrito ao backend (ADR-001).
+- **Fora do escopo:** cruzamento da escolaridade com renda, UF ou município,
+  cor/raça e rede de escola (os três primeiros por risco de células pequenas e
+  dado sensível, R3 a R5; o último por ser o módulo Rede de ensino); ocupação
+  dos pais (outro tema, sem ganho para a pergunta do módulo); e leitura causal
+  ("a escolaridade dos pais causa a nota").
+- **Evidência:** `scripts/capital_escolar.py`,
+  `app/pages/3_Capital_escolar_familiar.py`, `tests/test_capital_escolar.py`.
