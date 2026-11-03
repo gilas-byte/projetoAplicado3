@@ -14,7 +14,7 @@ apagada: quando muda, a entrada antiga recebe "substituída por DL-xx".
 | [DL-01](#dl-01--convenções-estatísticas-do-motor-v1) | 02/11/2026 | Convenções estatísticas do motor v1 | Samuel (PO) | Aceita |
 | [DL-02](#dl-02--saída-de-guilherme-zamboni-e-redistribuição-dos-módulos) | 02/11/2026 | Saída de Guilherme Zamboni e redistribuição dos módulos | Samuel (PO) | Aceita |
 | [DL-03](#dl-03--regras-do-módulo-equidade-socioeconômica) | 02/11/2026 | Regras do módulo Equidade socioeconômica | Samuel (autor do módulo) | Aceita |
-| [DL-04](#dl-04--regras-do-módulo-recorte-territorial) | 02/11/2026 | Regras do módulo Recorte territorial | Vinícius (autor do módulo) | Proposta (aceite do PO) |
+| [DL-04](#dl-04--regras-do-módulo-recorte-territorial) | 02/11/2026 | Regras do módulo Recorte territorial | Vinícius (autor do módulo); aceite de Samuel (PO) em 03/11/2026 | Aceita |
 
 ---
 
@@ -146,6 +146,19 @@ apagada: quando muda, a entrada antiga recebe "substituída por DL-xx".
      o ETL por grupo do motor estiver pronto, o módulo passa a ler de lá sem
      mudar as regras. Uso restrito ao backend, como o `dist_exata.parquet`
      (ADR-001).
+  10. **Limites de exibição do percentil** (acrescentado em 03/11/2026). A
+      Equidade aplica a mesma regra da DL-04, item 8, com a mesma função
+      (`exibir_percentil` de `scripts/territorial.py`): se a posição passar de
+      100 × (N − 100) / N, a interface mostra "acima de X%"; se ficar abaixo de
+      100 × 100 / N, "abaixo de X%"; nos demais casos, a posição exata. O
+      percentil exato continua no backend. Quando um dos dois cenários está em
+      limite, a diferença de posição entre eles não é exibida, porque somada à
+      posição exata do outro cenário devolveria o valor escondido. A
+      probabilidade de superioridade continua exibida: ela compara os dois
+      grupos inteiros e não depende da nota digitada. Com os grupos reais (o
+      menor tem 36.443 participantes), o limite cobre no máximo cerca de 0,3%
+      de cada ponta. Motivo: coerência entre os módulos; a DL-04, item 8.10,
+      registra que a diferença de tamanho dos grupos não elimina o risco.
 - **Fora do escopo:** renda per capita (Q006 ÷ Q005), cruzamento de renda com UF
   ou cor/raça, e qualquer leitura causal ("a renda causa a nota").
 - **Evidência:** `scripts/equidade.py`, `app/pages/1_Equidade_socioeconomica.py`,
@@ -154,8 +167,8 @@ apagada: quando muda, a entrada antiga recebe "substituída por DL-xx".
 ## DL-04 — Regras do módulo Recorte territorial
 
 - **Data:** 02/11/2026
-- **Responsável:** Vinícius Joacir dos Anjos (autor do módulo); aceite pendente do PO
-- **Situação:** proposta
+- **Responsável:** Vinícius Joacir dos Anjos (autor do módulo); aceite do PO: Samuel Silva de Rezende, em 03/11/2026
+- **Situação:** aceita
 - **Contexto:** o Plano de Trabalho (item 6, "Recorte territorial") pede comparar o
   desempenho com a UF, a região e a referência nacional da edição, com análise das
   diferenças de distribuição e do tamanho dos grupos. A privacidade (R5) trata o
@@ -260,11 +273,14 @@ apagada: quando muda, a entrada antiga recebe "substituída por DL-xx".
         | Com o limite | 2.812 | 116 |
 
         O limite elimina cerca de 10% das ocorrências. Aceitar esse risco é
-        decisão do PO; o aceite de Samuel continua pendente.
+        decisão do PO; aceito por Samuel em 03/11/2026 (ver "Aceite do PO", no
+        fim desta entrada).
      10. **Por que a Equidade (DL-03) não tem esse limite.** O menor grupo da
          Equidade, o de contraste, tem cerca de 36 mil participantes, contra 3.984
          em Roraima: pela regra do item 8.2, o limite lá cobriria 0,3% do grupo,
          contra 2,6% aqui. É uma diferença de tamanho, não ausência de risco.
+         *Atualização (03/11/2026):* por coerência entre os módulos, a Equidade
+         passou a aplicar a mesma regra (DL-03, item 10).
      11. **Origem dos números.** Os itens 8.3, 8.4, 8.5 e 8.9 são reproduzidos por
          `scripts/auditoria_limites.py` sobre `dist_territorial.parquet` (saída em
          `data/analytics/_auditoria_limites.json`, fora do git; execução de
@@ -297,3 +313,17 @@ apagada: quando muda, a entrada antiga recebe "substituída por DL-xx".
   diferem em renda, rede e perfil de quem faz a prova; a interface diz isso.
 - **Evidência:** `scripts/territorial.py`, `scripts/auditoria_limites.py`,
   `app/pages/2_Recorte_territorial.py`, `tests/test_territorial.py`.
+- **Aceite do PO (Samuel Silva de Rezende, 03/11/2026):** aceita integralmente,
+  inclusive o risco residual do item 8.9, revisado no PR #12. Motivos:
+  1. **A fonte já é pública.** O INEP publica os microdados com a nota de cada
+     participante e a UF de prova; a nota de um participante anônimo pode ser
+     obtida no próprio arquivo oficial. O app não revela informação que não
+     esteja na fonte e não carrega identificador (`NU_INSCRICAO` é descartado na
+     TRUSTED).
+  2. **Os limites acrescentam proteção sem distorcer o resultado:** 0 rótulos
+     falsos e 0 inversões nos 640 grupos auditados, e o item 8.7 impede recuperar
+     a posição escondida pela diferença UF − Brasil.
+  3. **O custo para o usuário é pequeno:** nos grupos grandes, só o 0,1% mais
+     extremo perde a posição exata.
+
+  Consequência: a mesma regra passa a valer na Equidade (DL-03, item 10).
