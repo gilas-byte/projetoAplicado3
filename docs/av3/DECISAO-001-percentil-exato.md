@@ -1,6 +1,6 @@
 # ADR-001 — Percentil empírico exato sem divulgar frequências finas
 
-- **Situação:** aceito em 03/11/2026 por Samuel Silva de Rezende (Product Owner). Validação nos dados completos: execução de 13/10/2026 (AV3) e de 02/11/2026 (módulo de Equidade), com divergência de 0,0 ponto percentual entre a CDF exata e a contagem direta nas quatro edições.
+- **Situação:** aceito em 03/11/2026 por Samuel Silva de Rezende (Product Owner). Validação nos dados completos: execução de 13/10/2026 (AV3) e de 02/11/2026 (módulo de Equidade), com divergência de 0,0 ponto percentual entre a CDF exata e a contagem direta nas quatro edições. Revisão técnica: Vinícius Joacir dos Anjos (PR #14). Revisão de QA: pendente (Guilherme da Silva Anselmo).
 - **Contexto:** o plano de ensino do Projeto Aplicado III solicita percentis populacionais exatos. O MVP calcula a posição interpolando intervalos que contêm no mínimo 100 participantes, logo apresenta aproximações.
 - **Decisão:** manter `dist_notas.parquet` para histogramas protegidos e adicionar `dist_exata.parquet` com (ano, área, nota, n, abaixo, total), armazenamento **exclusivamente interno** ao backend. A aplicação carrega a CDF e aplica `(abaixo + 0,5 * iguais) / total * 100`. Para nota não observada, utilizar a contagem acumulada estritamente inferior, sem interpolação.
 - **Trade-off:** preserva exatidão para área/ano nacionais, aumenta o volume do artefato agregado e o risco de inferência de frequências pequenas quando mal exposto. **Não** autoriza disponibilizar CSV/Parquet internos ao usuário final.

@@ -105,7 +105,8 @@ quatro edicoes (17.744.217 registros), com divergencia nula entre a
 distribuicao exata e a contagem direta (`docs/relatorio/AV3.md` e
 `docs/modulos/equidade-resultados.md`). 149 testes com dados sinteticos passam
 no CI. Modulos na `main`: Equidade socioeconomica e Recorte territorial;
-Capital escolar familiar e Rede de ensino de origem em desenvolvimento.
+Capital escolar familiar e Rede de ensino de origem ainda nao iniciados; corte
+de escopo do quarto modulo a decidir ate 07/11 (DL-02).
 Hospedagem em nuvem ainda nao definida.
 
 ---
