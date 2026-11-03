@@ -14,6 +14,7 @@ apagada: quando muda, a entrada antiga recebe "substituída por DL-xx".
 | [DL-01](#dl-01--convenções-estatísticas-do-motor-v1) | 02/11/2026 | Convenções estatísticas do motor v1 | Samuel (PO) | Aceita |
 | [DL-02](#dl-02--saída-de-guilherme-zamboni-e-redistribuição-dos-módulos) | 02/11/2026 | Saída de Guilherme Zamboni e redistribuição dos módulos | Samuel (PO) | Aceita |
 | [DL-03](#dl-03--regras-do-módulo-equidade-socioeconômica) | 02/11/2026 | Regras do módulo Equidade socioeconômica | Samuel (autor do módulo) | Aceita |
+| [DL-04](#dl-04--regras-do-módulo-recorte-territorial) | 02/11/2026 | Regras do módulo Recorte territorial | Vinícius (autor do módulo) | Proposta (aceite do PO) |
 
 ---
 
@@ -149,3 +150,150 @@ apagada: quando muda, a entrada antiga recebe "substituída por DL-xx".
   ou cor/raça, e qualquer leitura causal ("a renda causa a nota").
 - **Evidência:** `scripts/equidade.py`, `app/pages/1_Equidade_socioeconomica.py`,
   `tests/test_equidade.py`.
+
+## DL-04 — Regras do módulo Recorte territorial
+
+- **Data:** 02/11/2026
+- **Responsável:** Vinícius Joacir dos Anjos (autor do módulo); aceite pendente do PO
+- **Situação:** proposta
+- **Contexto:** o Plano de Trabalho (item 6, "Recorte territorial") pede comparar o
+  desempenho com a UF, a região e a referência nacional da edição, com análise das
+  diferenças de distribuição e do tamanho dos grupos. A privacidade (R5) trata o
+  município como o campo de maior risco do contrato.
+- **Decisão:**
+  1. **Variável territorial:** `SG_UF_PROVA`, mantida na TRUSTED como `uf_prova`.
+     É a UF do local de prova, preenchida para todos os inscritos nas quatro
+     edições. `SG_UF_ESC` (UF da escola) fica de fora: falta para 64% a 76%
+     dos elegíveis (64,1% em 2022, 76,0% em 2020), porque só quem conclui o
+     ensino médio no ano informa a escola, e usá-la deixaria o módulo restrito
+     a concluintes. A interface pergunta "Em qual UF você fez a prova?", não
+     "onde você mora".
+  2. **Três níveis**, sem cruzamento com outra variável:
+     - **UF:** as 27 unidades federativas.
+     - **Região:** as cinco regiões do IBGE (Norte, Nordeste, Sudeste, Sul,
+       Centro-Oeste), derivadas da UF por tabela fixa em `scripts/territorial.py`.
+     - **Brasil:** todos os elegíveis com UF válida.
+  3. **Sem recorte municipal.** `CO_MUNICIPIO_PROVA` não é usado. Municípios
+     pequenos ficariam abaixo do piso ou perto dele, e a diferença entre a UF e a
+     soma dos municípios publicados permitiria deduzir os suprimidos (R3, "limite
+     conhecido"). Fica para uma versão futura, se houver supressão complementar.
+  4. **Códigos de grupo com prefixo** (`BR`, `RG-<região>`, `UF-<sigla>`): "SE" é
+     a sigla de Sergipe e também a abreviação do Sudeste; sigla solta seria ambígua
+     no artefato.
+  5. **Ausências e valores inválidos:** `uf_prova` vazia ou fora das 27 siglas tira
+     o participante de **todos** os grupos, inclusive do Brasil, para que UFs somem
+     a região e regiões somem o Brasil sem resto. A contagem fica no manifesto
+     local. Nas quatro edições reais não há nenhum caso.
+  6. **População:** a mesma do resto do produto: participantes elegíveis (presentes
+     nos dois dias e não treineiros) com nota na área. Por isso o "Brasil" do módulo
+     é igual à CDF de `dist_exata.parquet`.
+  7. **Piso:** grupo (edição × área × nível) com menos de 100 participantes não é
+     gerado; a interface informa "grupo insuficiente". A menor UF (Roraima) tem
+     cerca de 4 mil elegíveis em 2022, então nenhum grupo é suprimido hoje; a regra
+     existe para edições futuras e para os testes.
+  8. **Limites de exibição do percentil (UF e região).** Cumpre a pendência do R3
+     de `docs/privacidade.md`: "o risco residual de inferência por consultas
+     repetidas precisa ser reavaliado antes do deploy".
+     1. **Problema.** Média, mediana, desvio e Z-Score são fixos por grupo; o
+        percentil muda com a nota digitada. Quem testa notas seguidas mapeia as
+        caudas de uma UF pequena: em Roraima, Matemática 2022 (3.984 elegíveis),
+        nos extremos a mudança de posição entre duas notas vizinhas revela a nota
+        de uma única pessoa (por exemplo, 885,4).
+     2. **Limites por grupo**, com uma casa decimal:
+        - superior: 100 × (N − `PISO_GRUPO`) / N, arredondado para baixo;
+        - inferior: 100 × `PISO_GRUPO` / N, arredondado para cima.
+     3. **Exibição.** Se o percentil p passar do limite superior, a interface
+        mostra "acima de X%"; se ficar abaixo do inferior, "abaixo de X%"; nos
+        demais casos, o percentil normal. Em Roraima, Matemática 2022, os limites
+        são 97,4% e 2,6%. **Custo para o usuário:** o limite cobre no mínimo as
+        cerca de 100 pessoas mais extremas, mas, como é arredondado para uma
+        casa, nos grupos grandes cobre o 0,1% mais extremo: até cerca de 1,1 mil
+        pessoas (Nordeste, 2019) perdem a posição exata. Em Matemática 2019, o
+        ponto mais distante do topo ainda em limite fica a 106 pessoas em Roraima
+        (7.654 participantes), 500 em São Paulo (501.136) e 1.116 na região
+        Nordeste (1.116.723). Em 196 dos 640 grupos o limite alcança mais de 150
+        pessoas.
+     4. **Por que testar o percentil e não contar pessoas.** Com empates, contar
+        pessoas gera rótulo falso. Exemplo: Minas Gerais, Redação 2020, N = 221.954,
+        1.820 pessoas empatadas em 980 e 1 acima. A posição real é 99,59%, abaixo
+        do limite superior de 99,9%, e a interface mostra 99,6%. A regra por
+        contagem, com só 1 pessoa acima, diria "acima de 99,9%": um rótulo falso.
+     5. **Por que comparar com o limite já arredondado.** Assim a ordem das
+        posições exibidas nunca se inverte. Comparar com o limite sem arredondar
+        não gera rótulo falso, mas em 281 dos 640 grupos uma nota maior aparece
+        com posição menor que uma nota mais baixa (por exemplo, "100,0%" seguido
+        de "acima de 99,9%"). Com o limite arredondado, os 640 grupos deram 0
+        rótulos falsos e 0 inversões.
+     6. **Alcance.** Vale para UF e região. O Brasil segue com percentil exato,
+        conforme o ADR-001.
+     7. **Dependência.** Quando a posição na UF estiver em limite, a diferença
+        UF − Brasil não é exibida: somada ao percentil exato do Brasil, ela
+        devolveria o valor escondido.
+     8. **Grupo com menos de 200 participantes.** Os limites se cruzam e nunca há
+        posição exata. Hoje não ocorre: o menor grupo real tem 3.984 participantes.
+     9. **Risco residual.** Toda posição exata exibida tem pelo menos 100 pessoas
+        de cada lado **contando os empatados pela metade** (abaixo + metade dos
+        empatados ≥ 100, e o simétrico acima). Não vale contando só quem está
+        estritamente abaixo: em Redação 2019, região Centro-Oeste, a nota 0
+        aparece como 1,3% exato (1,25%) com zero pessoas abaixo, porque 6.241
+        pessoas estão empatadas nela. Quando há menos de 100 pessoas estritamente
+        de um lado, a nota é compartilhada por empatados, e são eles que
+        completam a metade que falta. A auditoria registra 198 posições exatas
+        com menos de 100 pessoas estritamente de um lado, todas por causa de
+        empates. O menor empate tem só 3 pessoas: Sergipe, Linguagens 2019, nota
+        331,7, com 99 pessoas abaixo, 3 empatadas e posição exibida de 0,2%.
+
+        O meio da distribuição continua revelando notas: a posição exibida muda
+        exatamente na nota de alguém, e quando essa nota é de uma só pessoa a
+        mudança a revela. Isso é frequente em grupos pequenos, onde cada 0,1
+        ponto percentual corresponde a poucas pessoas (cerca de 4 em Roraima):
+        das 2.812 ocorrências com o limite, 2.714 estão em grupos com menos de
+        100 mil participantes.
+
+        Mudanças da posição exibida em nota de uma só pessoa. Varredura: grupos
+        de UF e região, edição 2022, as quatro áreas objetivas (32 grupos × 4
+        áreas = 128 combinações), notas de 0 a 1000 de 0,1 em 0,1:
+
+        | Situação | Ocorrências | Combinações com ocorrência (de 128) |
+        | --- | --- | --- |
+        | Sem limite | 3.116 | 117 |
+        | Com o limite | 2.812 | 116 |
+
+        O limite elimina cerca de 10% das ocorrências. Aceitar esse risco é
+        decisão do PO; o aceite de Samuel continua pendente.
+     10. **Por que a Equidade (DL-03) não tem esse limite.** O menor grupo da
+         Equidade, o de contraste, tem cerca de 36 mil participantes, contra 3.984
+         em Roraima: pela regra do item 8.2, o limite lá cobriria 0,3% do grupo,
+         contra 2,6% aqui. É uma diferença de tamanho, não ausência de risco.
+     11. **Origem dos números.** Os itens 8.3, 8.4, 8.5 e 8.9 são reproduzidos por
+         `scripts/auditoria_limites.py` sobre `dist_territorial.parquet` (saída em
+         `data/analytics/_auditoria_limites.json`, fora do git; execução de
+         03/11/2026, 40 s). A regra é testada em `tests/test_territorial.py`
+         (`TestLimitesExibicao`, `TestAuditoria`).
+  9. **Medidas:** em cada nível, percentil exato (posto médio), média, mediana,
+     desvio-padrão, Z-Score e tamanho do grupo. Entre níveis:
+     - diferença de posição UF − Brasil, em pontos percentuais, só quando a posição
+       na UF não estiver em limite (item 8.7);
+     - probabilidade de superioridade **UF contra o restante do Brasil** (Brasil
+       sem a própria UF), P(UF > resto) + 0,5 · P(empate). Comparar com o Brasil
+       inteiro incluiria a UF dos dois lados e puxaria o valor para 50%,
+       principalmente em SP (cerca de 16% dos inscritos);
+     - probabilidade de superioridade **região contra o restante do Brasil**
+       (Brasil sem a própria região), mesma fórmula;
+     - posição da mediana da UF entre as 27 (1 = maior). UFs com a mesma mediana
+       dividem a posição (1 + número de UFs com mediana estritamente maior) e a
+       interface diz com quantas está empatada. A sigla não desempata. Há
+       empates em 9 das 20 combinações de edição e área, entre elas as 4 da
+       Redação, onde a mediana é múltipla de 20.
+  10. **Conferências antes de publicar:** (a) CDF em SQL igual à montada em Python;
+      (b) UFs somam a região e regiões somam o Brasil, nota a nota, antes do piso;
+      (c) percentil da CDF igual à contagem direta na TRUSTED. Qualquer falha aborta
+      e não deixa artefato parcial.
+  11. **Artefato:** `data/analytics/dist_territorial.parquet` com as colunas
+      `ano, area, recorte, grupo, nota, n, abaixo, total`, mesmo esquema do
+      `dist_equidade.parquet`. Uso restrito ao backend (ADR-001).
+- **Fora do escopo:** município, UF da escola, cruzamento de território com renda,
+  cor/raça ou rede de ensino, e leitura causal ("o estado causa a nota"). As UFs
+  diferem em renda, rede e perfil de quem faz a prova; a interface diz isso.
+- **Evidência:** `scripts/territorial.py`, `scripts/auditoria_limites.py`,
+  `app/pages/2_Recorte_territorial.py`, `tests/test_territorial.py`.
