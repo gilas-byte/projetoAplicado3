@@ -85,9 +85,14 @@ def mostrar(cdfs, resultado) -> None:
                                     (col2, simulado, "2. Entre escola privada de alta renda")):
         with coluna:
             if cenario.disponivel:
-                st.metric(titulo, formatar_percentil(cenario.percentil))
-                st.caption(f"Sua nota fica acima dessa porcentagem dos {cenario.n:,} participantes do grupo "
-                           f"({cenario.rotulo.lower()}).".replace(",", "."))
+                st.metric(titulo, cenario.texto)
+                if cenario.em_limite:
+                    st.caption(f"Posição na ponta da distribuição dos {cenario.n:,} participantes do grupo "
+                               f"({cenario.rotulo.lower()}); o valor exato não é exibido.".replace(",", "."))
+                else:
+                    st.caption(f"Percentil: parcela dos {cenario.n:,} participantes do grupo "
+                               f"({cenario.rotulo.lower()}) com nota menor que a sua, contando metade "
+                               f"de quem tirou a mesma nota.".replace(",", "."))
             else:
                 st.metric(titulo, "—")
                 st.info(f"{cenario.rotulo}: {cenario.motivo}.")
@@ -191,9 +196,15 @@ def main() -> None:
   a maioria dos inscritos (quem já tinha concluído o ensino médio) não declara.
 - **Quem entra:** participantes presentes nos dois dias e que não eram treineiros, com nota
   na área. Quem não respondeu à pergunta de renda fica fora deste módulo.
-- **Posição:** porcentagem do grupo com nota abaixo da sua; notas iguais contam pela metade.
+- **Posição (percentil):** porcentagem do grupo com nota abaixo da sua; notas iguais contam
+  pela metade. Na Redação as notas andam de 20 em 20 e muitas pessoas empatam, então o
+  percentil pode passar da parcela com nota estritamente menor: quem tirou 0, por exemplo,
+  não tem ninguém abaixo, mas recebe metade dos empatados. As redações com nota 0 (anuladas
+  ou em branco) entram na comparação, como no resultado oficial.
 - **Privacidade:** grupos com menos de {PISO_GRUPO} participantes não são mostrados, o gráfico
-  usa faixas de pelo menos {PISO_GRUPO} pessoas e o que você digita não é gravado.
+  usa faixas de pelo menos {PISO_GRUPO} pessoas e o que você digita não é gravado. Nas pontas
+  da distribuição (as {PISO_GRUPO} pessoas mais extremas de cada lado, no mínimo) a posição
+  aparece como "acima de" ou "abaixo de", sem o valor exato.
 - **Leitura:** o módulo descreve diferenças observadas entre grupos. Não indica que a renda
   causa a nota nem prevê aprovação.
 - **Fonte:** Microdados do ENEM, INEP.
