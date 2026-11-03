@@ -534,6 +534,8 @@ class TestPagina(unittest.TestCase):
         at.button[0].click().run()
         self.assertFalse(at.exception)
         self.assertEqual([m.value for m in at.metric], ["50,0%", "12,5%"])
+        # O texto descreve o percentil de posto médio, não "acima de X%" (empates contam metade).
+        self.assertTrue(any("contando metade de quem tirou a mesma nota" in c.value for c in at.caption))
         self.assertTrue(any("37,5 pontos percentuais abaixo" in m.value for m in at.markdown))
 
     def test_nota_extrema_mostra_limite_e_esconde_a_diferenca(self):
