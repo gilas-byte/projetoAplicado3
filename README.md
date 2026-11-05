@@ -93,17 +93,21 @@ Decisoes de produto e metodologia: [`docs/decisoes/README.md`](docs/decisoes/REA
 python -m compileall -q scripts app tests
 python -m unittest discover -s tests -p 'test_percentil_exato.py' -v
 python scripts/verificar_piso.py
-# Requer duckdb e streamlit instalados (25 testes):
+# Requer duckdb e streamlit instalados (149 testes):
 python -m unittest discover -s tests -v
 # Requer os CSVs INEP em data/raw/:
 python scripts/etl.py
 cat data/analytics/_manifesto_analytics.json
 ```
 
-**Status:** testes sinteticos de ponta a ponta aprovados (25 testes). A execucao
-integral do ETL sobre os microdados reais e os numeros finais da camada
-ANALYTICS permanecem pendentes (exigem os CSVs do INEP em `data/raw/`). Nao
-confundir benchmark com ETL final.
+**Status (03/11/2026):** pipeline executado sobre os microdados oficiais das
+quatro edicoes (17.744.217 registros), com divergencia nula entre a
+distribuicao exata e a contagem direta (`docs/relatorio/AV3.md` e
+`docs/modulos/equidade-resultados.md`). 149 testes com dados sinteticos passam
+no CI. Modulos na `main`: Equidade socioeconomica e Recorte territorial;
+Capital escolar familiar e Rede de ensino de origem ainda nao iniciados; corte
+de escopo do quarto modulo a decidir ate 07/11 (DL-02).
+Hospedagem em nuvem ainda nao definida.
 
 ---
 
