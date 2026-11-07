@@ -353,7 +353,9 @@ apagada: quando muda, a entrada antiga recebe "substituída por DL-xx".
   3. **Sem informação nos dois:** pai e mãe H ou vazios deixam o participante
      fora dos grupos de escolaridade, mas ele continua na comparação nacional.
      Não existe nível a atribuir, e um grupo "Não sei" misturaria todos os
-     níveis, sem significado para o módulo.
+     níveis, sem significado para o módulo. O mesmo vale para a entrada do
+     usuário: se ele responder H nos dois campos, o módulo informa que não há
+     nível para comparar e mostra só a posição nacional.
   4. **Seis níveis:** A; B e C (Fundamental incompleto); D; E; F; G. B e C são
      juntados porque ambos significam "não terminou o Fundamental". Os demais
      ficam separados porque cada um marca uma etapa concluída diferente. Não há
@@ -365,13 +367,13 @@ apagada: quando muda, a entrada antiga recebe "substituída por DL-xx".
      | Edição | Campo | A | B e C | D | E | F | G | H |
      | --- | --- | --- | --- | --- | --- | --- | --- | --- |
      | 2019 | `Q001` (pai) | 5,7 | 36,5 | 11,5 | 25,7 | 7,4 | 4,5 | 8,7 |
-     | 2019 | `Q002` (mãe) | 3,8 | 30,3 | 13,1 | 32,1 | 10,1 | 7,8 | 2,9 |
-     | 2020 | `Q001` (pai) | 5,8 | 37,4 | 10,6 | 25,0 | 6,6 | 4,2 | 8,7 |
+     | 2019 | `Q002` (mãe) | 3,8 | 30,2 | 13,1 | 32,1 | 10,1 | 7,8 | 2,9 |
+     | 2020 | `Q001` (pai) | 5,8 | 37,4 | 10,6 | 25,0 | 6,6 | 4,1 | 8,7 |
      | 2020 | `Q002` (mãe) | 4,1 | 31,7 | 12,1 | 31,1 | 9,2 | 7,5 | 2,7 |
      | 2021 | `Q001` (pai) | 4,4 | 32,2 | 11,0 | 28,2 | 9,1 | 6,5 | 8,7 |
      | 2021 | `Q002` (mãe) | 2,9 | 25,4 | 11,8 | 33,9 | 12,1 | 11,2 | 2,7 |
      | 2022 | `Q001` (pai) | 4,0 | 30,4 | 11,2 | 28,8 | 9,1 | 6,8 | 9,6 |
-     | 2022 | `Q002` (mãe) | 2,6 | 23,5 | 12,0 | 35,0 | 12,2 | 11,6 | 3,2 |
+     | 2022 | `Q002` (mãe) | 2,6 | 23,5 | 11,9 | 35,0 | 12,2 | 11,6 | 3,2 |
 
      Em 2020, 1,66% dos inscritos não responderam aos dois campos; em 2021 o
      vazio é residual, abaixo do piso; em 2019 e 2022 não há. O profiling
@@ -391,8 +393,11 @@ apagada: quando muda, a entrada antiga recebe "substituída por DL-xx".
      nível vizinho estiver abaixo do piso naquela edição e área, a comparação
      não é exibida e a interface informa "grupo insuficiente". O módulo não
      pula para o nível seguinte: isso mudaria a comparação sem o usuário
-     escolher. Hoje não ocorre; a regra existe para edições futuras e para os
-     testes.
+     escolher. Não é esperado, mas ainda não foi medido: o menor campo
+     isolado tem cerca de 89 mil inscritos (`Q002` = A, 2022), e o tamanho
+     real de cada nível entre os elegíveis, por edição e área, sai do ETL, que
+     confere e registra no manifesto. A regra existe para edições futuras e
+     para os testes.
   7. **Nível mais alto (G):** compara com o nível imediatamente abaixo (F). O
      texto da interface diz "abaixo" nesse caso.
   8. **Valores inválidos:** `Q001` ou `Q002` fora de A a H tira o participante
@@ -412,7 +417,8 @@ apagada: quando muda, a entrada antiga recebe "substituída por DL-xx".
       P(nível do usuário > nível de comparação) + 0,5 · P(empate), a mesma
       fórmula da DL-03 e da DL-04.
   13. **Limites de exibição do percentil:** aplica a regra da DL-04, item 8,
-      **importando** `exibir_percentil` de `scripts/territorial.py`, sem copiar.
+      **importando** `exibir_percentil` de `scripts/estatistica.py` (função
+      compartilhada), sem copiar.
       Se um dos cenários estiver em limite, a diferença de posição entre eles
       não é exibida. A probabilidade de superioridade continua exibida, como
       na DL-03, item 10: ela compara os dois níveis inteiros e não depende da
