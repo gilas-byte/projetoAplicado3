@@ -1,0 +1,18 @@
+# Configuracao do Replit (hospedagem em teste, DL-06 em docs/decisoes/README.md).
+# Passo a passo em docs/deploy/replit.md.
+#
+# Os artefatos de data/analytics/ NAO estao no git (.gitignore, docs/privacidade.md R1):
+# sao enviados direto ao projeto do Replit, que precisa ser PRIVADO.
+
+modules = ["python-3.12"]
+
+# Botao "Run" no editor do Replit (teste antes de publicar).
+run = ["sh", "-c", "pip install -q -r requirements.txt && streamlit run app/app.py --server.address 0.0.0.0 --server.port 8501 --server.headless true"]
+
+[deployment]
+build = ["sh", "-c", "pip install -r requirements.txt"]
+run = ["sh", "-c", "streamlit run app/app.py --server.address 0.0.0.0 --server.port 8501 --server.headless true"]
+
+[[ports]]
+localPort = 8501
+externalPort = 80

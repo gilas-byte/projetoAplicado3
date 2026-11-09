@@ -15,7 +15,9 @@ apagada: quando muda, a entrada antiga recebe "substituída por DL-xx".
 | [DL-02](#dl-02--saída-de-guilherme-zamboni-e-redistribuição-dos-módulos) | 02/11/2026 | Saída de Guilherme Zamboni e redistribuição dos módulos | Samuel (PO) | Aceita |
 | [DL-03](#dl-03--regras-do-módulo-equidade-socioeconômica) | 02/11/2026 | Regras do módulo Equidade socioeconômica | Samuel (autor do módulo) | Aceita |
 | [DL-04](#dl-04--regras-do-módulo-recorte-territorial) | 02/11/2026 | Regras do módulo Recorte territorial | Vinícius (autor do módulo); aceite de Samuel (PO) em 03/11/2026 | Aceita |
-| [DL-05](#dl-05--regras-do-módulo-capital-escolar-familiar) | 03/11/2026 | Regras do módulo Capital escolar familiar | Guilherme Anselmo (autor do módulo) | Proposta |
+| [DL-05](#dl-05--regras-do-módulo-capital-escolar-familiar) | 03/11/2026 | Regras do módulo Capital escolar familiar | Guilherme Anselmo (autor do módulo); aceite de Samuel (PO) em 08/11/2026 | Aceita |
+| [DL-06](#dl-06--hospedagem-em-teste-no-replit) | 03/11/2026 | Hospedagem em teste no Replit | Samuel (PO) | Decidida; publicação até 13/11 |
+| [DL-07](#dl-07--corte-do-módulo-rede-de-ensino-e-prazo-do-relatório-final-em-1911) | 08/11/2026 | Corte do módulo Rede de ensino e prazo do relatório final em 19/11 | Samuel (PO) | Aceita |
 
 ---
 
@@ -67,6 +69,8 @@ apagada: quando muda, a entrada antiga recebe "substituída por DL-xx".
     escopo adicional. Se a Sprint 6 não comportar a versão v2 de Rede de
     ensino, o corte de escopo é registrado aqui até 07/11/2026, sem afetar o
     mínimo exigido.
+  - *Atualização (08/11/2026):* o corte do Rede de ensino de origem foi decidido e
+    está registrado na DL-07.
 - **Evidência:** `docs/apresentacao/AV2.md` (slide 11), `README.md` (integrantes).
 
 ## DL-03 — Regras do módulo Equidade socioeconômica
@@ -333,7 +337,7 @@ apagada: quando muda, a entrada antiga recebe "substituída por DL-xx".
 
 - **Data:** 03/11/2026
 - **Responsável:** Guilherme da Silva Anselmo (autor do módulo)
-- **Situação:** proposta (aguarda aceite do Product Owner)
+- **Situação:** aceita pelo PO (Samuel Silva de Rezende) em 08/11/2026, na revisão do PR #15
 - **Contexto:** o Plano de Trabalho (módulos autorais) pede que o módulo compare
   o usuário por escolaridade dos responsáveis, com forte controle de categorias,
   ausências, integridade e tamanho de grupo. As variáveis são `Q001` (pai) e
@@ -435,3 +439,104 @@ apagada: quando muda, a entrada antiga recebe "substituída por DL-xx".
   `scripts/capital_escolar.py`, `app/pages/3_Capital_escolar_familiar.py`,
   `tests/test_capital_escolar.py`. A lista é atualizada quando o módulo for
   implementado.
+
+## DL-06 — Hospedagem em teste no Replit
+
+- **Data:** decisão em 03/11/2026; registro em 08/11/2026
+- **Responsável:** Samuel Silva de Rezende (Product Owner). A hospedagem estava com
+  Vinícius no plano da Sprint 6; o PO assume a tentativa no Replit para cumprir o
+  prazo do relatório final, que exige o link público. O prazo passou a ser
+  19/11/2026 (DL-07).
+- **Situação:** decidida, primeira publicação ainda não feita (prevista até 13/11/2026, DL-07). Pode ser revista antes ou depois dessa publicação.
+- **Contexto:** `docs/av3/EVOLUCAO-FUTURA-NUVEM.md` deixou a hospedagem em aberto, com
+  o Azure apenas como exemplo. O app precisa de quatro artefatos agregados que não
+  vão para o GitHub (`docs/privacidade.md`, R1) e não podem ser baixados pelo público
+  (ADR-001).
+- **Decisão:** primeira tentativa no Replit, na conta do PO (plano Core), com o código
+  importado do GitHub e os artefatos enviados direto ao projeto privado. Configuração
+  em `.replit`; procedimento em `docs/deploy/replit.md`.
+- **Critérios:**
+  1. **Privacidade dos artefatos.** O Replit aceita arquivos fora do git no projeto;
+     com o projeto privado, eles ficam só no backend. Em plataformas que publicam a
+     partir do repositório, os artefatos teriam de ir para o git ou ser buscados de
+     outro armazenamento, o que o R1 não permite sem trabalho adicional.
+  2. **Custo.** Os créditos mensais do plano Core cobrem a máquina compartilhada sempre
+     ligada (0,5 vCPU, 2 GB). Os créditos também pagam o agente de IA do Replit; o uso
+     do agente fica fora deste projeto para não consumir a hospedagem.
+  3. **Memória e tempo de resposta.** Teste local com os artefatos reais (03/11/2026,
+     2 vCPU): cerca de 600 MB com as três páginas abertas e respostas entre 0,4 e 1,4 s,
+     dentro do limite de 3 s. A primeira abertura do Recorte territorial levou 10,4 s
+     (2,2 milhões de linhas em memória); as seguintes, 2,2 s.
+- **Alternativas consideradas:** Streamlit Community Cloud e Hugging Face Spaces,
+  citados na AV2 (gratuitos, mas publicam a partir de um repositório, o que expõe os
+  artefatos ou exige armazenamento à parte), e Azure, citado na AV3 como exemplo
+  (mais configuração e custo fora do plano já pago).
+- **Riscos:** dependência de uma conta pessoal; primeiro acesso lento depois de
+  reiniciar (mitigado com a máquina sempre ligada e abertura das páginas após cada
+  publicação); a máquina compartilhada pode ser mais lenta que o teste local, então as
+  medições no Replit precisam ser registradas em `docs/deploy/replit.md`.
+- **O que está sendo testado:**
+  1. se o `.replit` do repositório funciona na importação (o formato foi montado a
+     partir de exemplos, não da documentação oficial, e só se confirma no Replit);
+  2. se o projeto fica privado com os artefatos fora do git, sem nenhum caminho de
+     download para o público;
+  3. memória e tempo de resposta na máquina compartilhada do Replit, mais lenta que o
+     teste local, sobretudo a primeira abertura do Recorte territorial;
+  4. se os créditos mensais do plano Core bastam para manter a máquina sempre ligada
+     até a banca (01/12/2026).
+- **O que o PO está aguardando:**
+  - o módulo Capital escolar completo do Anselmo (código, documentação e capítulo
+    autoral) até 10/11/2026 (DL-07), antes de publicar a versão com os três módulos;
+  - a definição do front, que pode ser construído no próprio Replit, mantendo o GitHub
+    como fonte oficial e cada integrante commitando com a própria conta (rastreabilidade
+    da AV4). Os papéis de front, QA e otimização são fechados depois de 10/11, conforme o
+    que estiver pronto; se preciso, o PO assume o que faltar.
+- **Quando a decisão é revista:** se alguma consulta passar de 3 s com a máquina
+  sempre ligada, se não for possível garantir o projeto privado, ou se os créditos não
+  cobrirem a hospedagem até a banca. Nesses casos, a equipe volta às alternativas acima,
+  e a escolha nova entra como DL substituta desta.
+- **Prioridade que orienta a decisão:** entregar o projeto nas datas dos professores
+  (relatório final com link público em 19/11/2026, DL-07; banca em 01/12/2026), mesmo que
+  o PO assuma responsabilidades originalmente de outro integrante.
+- **Evidência:** `.replit`, `docs/deploy/replit.md`.
+
+## DL-07 — Corte do módulo Rede de ensino e prazo do relatório final em 19/11
+
+- **Data:** 08/11/2026
+- **Responsável:** Samuel Silva de Rezende (Product Owner)
+- **Situação:** aceita
+- **Contexto:**
+  - O professor Hugo, de Engenharia de Dados, que tem entrega compartilhada com o
+    Projeto Aplicado, exigiu o relatório final de tudo até **19/11/2026**. A data do AVA
+    (24/11/2026) deixa de ser a referência da equipe.
+  - A DL-02 previa decidir até 07/11/2026 o corte do quarto módulo (Rede de ensino de
+    origem) se a Sprint 6 não o comportasse. Em 08/11/2026 o módulo não tem regra,
+    branch nem código; o Capital escolar familiar, do mesmo integrante, tem as regras
+    aceitas (DL-05, PR #15) e o código ainda por fazer.
+- **Decisão:**
+  1. **Novo prazo final:** relatório final consolidado e app publicado na nuvem até
+     19/11/2026.
+  2. **Corte de escopo:** o módulo Rede de ensino de origem sai do escopo. O Plano de
+     Trabalho exige um módulo por integrante; os três módulos (Equidade, Recorte
+     territorial e Capital escolar familiar) atendem ao mínimo. O tema fica registrado
+     como evolução futura, sem regra aprovada.
+  3. **Prazo do Capital escolar familiar:** 10/11/2026, incluindo código, página e
+     testes em PR com CI verde, documentação atualizada e o capítulo autoral da AV4.
+     Se algum item não couber, o PO redistribui o trabalho.
+  4. **Cronograma até a entrega:**
+
+     | Até | Marco |
+     | --- | --- |
+     | 10/11/2026 | Módulos e capítulos autorais da AV4 fechados |
+     | 13/11/2026 | App publicado no Replit (DL-06) e front ajustado |
+     | 15/11/2026 | QA e otimização |
+     | 17/11/2026 | Relatório final em rascunho, revisado pelos três |
+     | 19/11/2026 | Entrega do relatório final |
+
+  5. **Papéis de front, QA e otimização:** definidos pelo PO depois de 10/11/2026,
+     conforme o que estiver pronto. Se necessário, o PO assume responsabilidades
+     originalmente de outro integrante para cumprir as datas.
+- **Substitui:** o prazo de 24/11/2026 usado como referência nas DL-05 e DL-06 e no
+  plano da Sprint 6; completa a DL-02 (corte do quarto módulo).
+- **Evidência:** revisão do PO no PR #15 (08/11/2026) e mensagem ao grupo da equipe
+  na mesma data.
