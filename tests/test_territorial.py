@@ -31,6 +31,7 @@ sys.path.insert(0, str(RAIZ / "tests"))
 import etl  # noqa: E402
 import territorial as tr  # noqa: E402
 from colunas import PISO_GRUPO  # noqa: E402
+import estatistica as est  # noqa: E402
 from estatistica import construir_acumulada  # noqa: E402
 from test_etl import ANO, escrever_csv, linha_base  # noqa: E402
 
@@ -280,7 +281,7 @@ class TestComparacao(unittest.TestCase):
         self.assertTrue(any("restante do país" in a for a in r.avisos))
 
     def test_formatacao(self):
-        self.assertEqual(tr.formatar_percentil(73.333), "73,3%")
+        self.assertEqual(est.formatar_percentil(73.333), "73,3%")
         self.assertEqual(tr.formatar_z(-1.0), "-1,00")
         self.assertEqual(tr.formatar_inteiro(1927753), "1.927.753")
 
@@ -303,12 +304,12 @@ def chave_ordem(texto: str) -> tuple:
 def conferir_exibicao(caso: unittest.TestCase, distribuicao) -> None:
     """Varre todas as notas do grupo e vizinhas: sem rótulo falso e sem inversão."""
     total = distribuicao[-1][1] + distribuicao[-1][2]
-    inferior, superior = tr.limites_exibicao(total)
+    inferior, superior = est.limites_exibicao(total)
     notas = sorted({x for nota, _, _ in distribuicao for x in (nota - 0.05, nota, nota + 0.05)})
     anterior = None
     for nota in notas:
         p = tr.percentil_exato_acumulado(distribuicao, nota)
-        texto, em_limite = tr.exibir_percentil(distribuicao, nota)
+        texto, em_limite = est.exibir_percentil(distribuicao, nota)
         if texto.startswith("acima de"):
             caso.assertGreater(p, superior / 10, (nota, texto))
         elif texto.startswith("abaixo de"):
@@ -325,29 +326,29 @@ def conferir_exibicao(caso: unittest.TestCase, distribuicao) -> None:
 class TestLimitesExibicao(unittest.TestCase):
     def test_formula_roraima_matematica_2022(self):
         # N = 3.984: 100 · 3.884 / 3.984 = 97,49 -> 97,4; 100 · 100 / 3.984 = 2,51 -> 2,6.
-        self.assertEqual(tr.limites_exibicao(3984), (26, 974))
+        self.assertEqual(est.limites_exibicao(3984), (26, 974))
 
     def test_arredondamento_dos_limites(self):
-        self.assertEqual(tr.limites_exibicao(1000), (100, 900))  # exatos, sem arredondar
-        self.assertEqual(tr.limites_exibicao(200), (500, 500))  # se encontram
-        self.assertEqual(tr.limites_exibicao(221954), (1, 999))  # 0,045% -> 0,1%; 99,95% -> 99,9%
+        self.assertEqual(est.limites_exibicao(1000), (100, 900))  # exatos, sem arredondar
+        self.assertEqual(est.limites_exibicao(200), (500, 500))  # se encontram
+        self.assertEqual(est.limites_exibicao(221954), (1, 999))  # 0,045% -> 0,1%; 99,95% -> 99,9%
 
     def test_grupo_menor_que_200_nunca_tem_posicao_exata(self):
-        inferior, superior = tr.limites_exibicao(150)
+        inferior, superior = est.limites_exibicao(150)
         self.assertGreater(inferior, superior)
         distribuicao = cdf(*[(n, 1) for n in range(300, 450)])
         for nota in [299.0, 300.0, 374.0, 375.0, 449.0, 500.0]:
             with self.subTest(nota=nota):
-                self.assertTrue(tr.exibir_percentil(distribuicao, nota)[1])
+                self.assertTrue(est.exibir_percentil(distribuicao, nota)[1])
 
     def test_borda_exata_nao_vira_limite(self):
         # N = 1.000 (notas 0 a 999, uma pessoa cada) e limites 10,0% / 90,0%.
         # p = 90,0% em cheio sai exato; 90,05% já vira "acima de 90,0%".
         distribuicao = cdf(*[(n, 1) for n in range(1000)])
-        self.assertEqual(tr.exibir_percentil(distribuicao, 899.5), ("90,0%", False))  # 900 / 1000
-        self.assertEqual(tr.exibir_percentil(distribuicao, 900.0), ("acima de 90,0%", True))  # 900,5 / 1000
-        self.assertEqual(tr.exibir_percentil(distribuicao, 99.5), ("10,0%", False))  # 100 / 1000
-        self.assertEqual(tr.exibir_percentil(distribuicao, 99.0), ("abaixo de 10,0%", True))  # 99,5 / 1000
+        self.assertEqual(est.exibir_percentil(distribuicao, 899.5), ("90,0%", False))  # 900 / 1000
+        self.assertEqual(est.exibir_percentil(distribuicao, 900.0), ("acima de 90,0%", True))  # 900,5 / 1000
+        self.assertEqual(est.exibir_percentil(distribuicao, 99.5), ("10,0%", False))  # 100 / 1000
+        self.assertEqual(est.exibir_percentil(distribuicao, 99.0), ("abaixo de 10,0%", True))  # 99,5 / 1000
 
     def test_empates_nao_geram_rotulo_falso(self):
         # Caso tipo Redação: muitas pessoas empatadas na nota consultada. O
@@ -355,11 +356,11 @@ class TestLimitesExibicao(unittest.TestCase):
         # está acima: "acima de X%" só aparece se a posição real passa de X.
         distribuicao = cdf((500, 1850), (980, 150))  # N = 2.000, limites 5,0% e 95,0%
         self.assertAlmostEqual(tr.percentil_exato_acumulado(distribuicao, 980.0), 96.25)
-        self.assertEqual(tr.exibir_percentil(distribuicao, 980.0), ("acima de 95,0%", True))
+        self.assertEqual(est.exibir_percentil(distribuicao, 980.0), ("acima de 95,0%", True))
         # Empate grande no meio: 1.000 pessoas em 500 de N = 2.000 -> p = 50% exato,
         # mesmo sem ninguém com nota exatamente 500 dos dois lados.
         distribuicao = cdf((400, 500), (500, 1000), (600, 500))
-        self.assertEqual(tr.exibir_percentil(distribuicao, 500.0), ("50,0%", False))
+        self.assertEqual(est.exibir_percentil(distribuicao, 500.0), ("50,0%", False))
         conferir_exibicao(self, distribuicao)
 
     def test_varredura_sem_rotulo_falso_nem_inversao(self):
@@ -379,17 +380,17 @@ class TestLimitesExibicao(unittest.TestCase):
 
     def test_alcance_do_limite(self):
         # Roraima, Matemática 2022 (N = 3.984): limites 2,6% e 97,4%.
-        self.assertAlmostEqual(tr.alcance_do_limite(3984, "acima"), 3984 * 26 / 1000)  # 103,6
-        self.assertAlmostEqual(tr.alcance_do_limite(3984, "abaixo"), 3984 * 26 / 1000)
+        self.assertAlmostEqual(est.alcance_do_limite(3984, "acima"), 3984 * 26 / 1000)  # 103,6
+        self.assertAlmostEqual(est.alcance_do_limite(3984, "abaixo"), 3984 * 26 / 1000)
         # Grupos grandes: cerca de 0,1% de N (São Paulo e Nordeste, 2022).
-        self.assertEqual(round(tr.alcance_do_limite(304615, "acima")), 305)
-        self.assertEqual(round(tr.alcance_do_limite(692087, "acima")), 692)
+        self.assertEqual(round(est.alcance_do_limite(304615, "acima")), 305)
+        self.assertEqual(round(est.alcance_do_limite(692087, "acima")), 692)
         for n in (200, 201, 999, 3984, 50020, 1116723):
             with self.subTest(n=n):
-                self.assertGreaterEqual(tr.alcance_do_limite(n, "acima"), PISO_GRUPO)
-                self.assertGreaterEqual(tr.alcance_do_limite(n, "abaixo"), PISO_GRUPO)
+                self.assertGreaterEqual(est.alcance_do_limite(n, "acima"), PISO_GRUPO)
+                self.assertGreaterEqual(est.alcance_do_limite(n, "abaixo"), PISO_GRUPO)
         with self.assertRaises(ValueError):
-            tr.alcance_do_limite(3984, "meio")
+            est.alcance_do_limite(3984, "meio")
 
     def test_alcance_e_a_borda_real_do_limite(self):
         # Varre uma nota por pessoa: toda posição em limite fica a menos do
@@ -397,19 +398,19 @@ class TestLimitesExibicao(unittest.TestCase):
         for n in (250, 1000, 3984):
             distribuicao = cdf(*[(i / 10, 1) for i in range(n)])
             for nota, cont, abaixo in distribuicao:
-                texto, em_limite = tr.exibir_percentil(distribuicao, nota)
+                texto, em_limite = est.exibir_percentil(distribuicao, nota)
                 acima_meio, abaixo_meio = n - abaixo - cont / 2, abaixo + cont / 2
                 with self.subTest(n=n, nota=nota):
                     if texto.startswith("acima"):
-                        self.assertLess(acima_meio, tr.alcance_do_limite(n, "acima"))
+                        self.assertLess(acima_meio, est.alcance_do_limite(n, "acima"))
                     elif texto.startswith("abaixo"):
-                        self.assertLess(abaixo_meio, tr.alcance_do_limite(n, "abaixo"))
+                        self.assertLess(abaixo_meio, est.alcance_do_limite(n, "abaixo"))
                     else:
-                        self.assertGreaterEqual(acima_meio, tr.alcance_do_limite(n, "acima"))
-                        self.assertGreaterEqual(abaixo_meio, tr.alcance_do_limite(n, "abaixo"))
+                        self.assertGreaterEqual(acima_meio, est.alcance_do_limite(n, "acima"))
+                        self.assertGreaterEqual(abaixo_meio, est.alcance_do_limite(n, "abaixo"))
 
     def test_posicao_unica_igual_ao_motor(self):
-        # _dobro_posicao é a fonte única da posição no módulo. O percentil que
+        # dobro_posicao é a fonte única da posição na exibição. O percentil que
         # sai dele é a fração exata 100·(2·abaixo + iguais)/(2N) com um só
         # arredondamento; o do motor arredonda duas vezes e pode diferir no
         # último dígito (1 ulp), nunca mais que isso.
@@ -420,19 +421,19 @@ class TestLimitesExibicao(unittest.TestCase):
         notas = [n for n, _, _ in distribuicao]
         total = distribuicao[-1][1] + distribuicao[-1][2]
         for nota in notas + [n + 0.05 for n in notas] + [-1.0, 0.0, 1000.0, 1001.0]:
-            dobro, n_total = tr._dobro_posicao(distribuicao, nota)
+            dobro, n_total = est.dobro_posicao(distribuicao, nota)
             abaixo = sum(n for x, n, _ in distribuicao if x < nota)
             iguais = sum(n for x, n, _ in distribuicao if x == nota)
             self.assertEqual((dobro, n_total), (2 * abaixo + iguais, total))
             percentil = tr._cenario({(2022, "mt", "UF-SC"): distribuicao}, 2022, "mt", "UF-SC", nota).percentil
             self.assertEqual(percentil, float(Fraction(100 * dobro, 2 * total)))
             self.assertAlmostEqual(percentil, tr.percentil_exato_acumulado(distribuicao, nota), places=12)
-            self.assertEqual(tr.exibir_percentil(distribuicao, nota), tr.texto_da_posicao(dobro, total))
+            self.assertEqual(est.exibir_percentil(distribuicao, nota), est.texto_da_posicao(dobro, total))
         for invalida in (float("nan"), float("inf")):
             with self.assertRaises(ValueError):
-                tr._dobro_posicao(distribuicao, invalida)
+                est.dobro_posicao(distribuicao, invalida)
         with self.assertRaises(ValueError):
-            tr._dobro_posicao([], 500.0)
+            est.dobro_posicao([], 500.0)
 
     def test_brasil_segue_exato(self):
         cdfs = {(2022, "mt", "BR"): cdf((500, 100), (600, 100)),
@@ -446,8 +447,8 @@ class TestLimitesExibicao(unittest.TestCase):
         # 249.253, ninguém estritamente abaixo, e a posição sai exata (1,3%):
         # abaixo + metade dos empatados = 3.120,5 >= 100. Reproduzido em escala.
         distribuicao = cdf((0, 6241), (500, 243012))
-        self.assertEqual(tr.limites_exibicao(249253), (1, 999))  # 0,04% -> 0,1%; 99,96% -> 99,9%
-        self.assertEqual(tr.exibir_percentil(distribuicao, 0.0), ("1,3%", False))
+        self.assertEqual(est.limites_exibicao(249253), (1, 999))  # 0,04% -> 0,1%; 99,96% -> 99,9%
+        self.assertEqual(est.exibir_percentil(distribuicao, 0.0), ("1,3%", False))
 
 
 class TestAuditoria(unittest.TestCase):

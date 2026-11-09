@@ -31,14 +31,12 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from colunas import PISO_GRUPO  # noqa: E402
+from estatistica import formatar_percentil, limites_exibicao, texto_da_posicao  # noqa: E402
 from territorial import (  # noqa: E402
     ANALYTICS,
     BRASIL,
     DIST_TERRITORIAL,
     carregar,
-    formatar_percentil,
-    limites_exibicao,
-    texto_da_posicao,
 )
 
 SAIDA = ANALYTICS / "_auditoria_limites.json"

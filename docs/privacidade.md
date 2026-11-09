@@ -72,8 +72,9 @@ interface: `app/app.py` para histograma; a CDF interna consta de
 `data/analytics/dist_exata.parquet`, protegida pelo deploy privado do backend.
 No modulo Recorte territorial, o risco de inferencia por consultas repetidas
 foi reavaliado na DL-04, item 8 (`docs/decisoes/README.md`): limites de
-exibicao do percentil em UF e regiao, em `scripts/territorial.py`
-(`exibir_percentil`), auditados por `scripts/auditoria_limites.py`.
+exibicao do percentil em UF e regiao, em `scripts/estatistica.py`
+(`exibir_percentil`, compartilhada pelos modulos), auditados por
+`scripts/auditoria_limites.py`.
 
 O valor 100 e proposta tecnica pendente de aceite do PO. Tambem atende ao
 item "Grupos pequenos" do plano, com folga sobre o minimo estatistico usual

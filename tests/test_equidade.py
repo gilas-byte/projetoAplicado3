@@ -30,6 +30,7 @@ sys.path.insert(0, str(RAIZ / "tests"))
 import equidade as eq  # noqa: E402
 import etl  # noqa: E402
 from colunas import ANOS, PISO_GRUPO  # noqa: E402
+import estatistica as est  # noqa: E402
 from estatistica import construir_acumulada  # noqa: E402
 from test_etl import ANO, escrever_csv, linha_base  # noqa: E402
 
@@ -261,27 +262,27 @@ class TestComparacao(unittest.TestCase):
         # 1000 notas de 300 a 799 com 1 pessoa cada: nenhuma barra pode ter
         # menos de 100 pessoas, logo nenhuma tem menos de 10% do grupo.
         distribuicao = cdf(*[(n, 1) for n in range(300, 800)], *[(n, 1) for n in range(800, 1300)])
-        blocos = eq.densidade_protegida(distribuicao)
+        blocos = est.densidade_protegida(distribuicao)
         areas = [(b - a) * d / 10 for a, b, d in blocos]
         self.assertAlmostEqual(sum(areas), 100.0)
         self.assertTrue(all(area >= 10.0 - 1e-9 for area in areas))
         self.assertTrue(all(b > a for a, b, _ in blocos))
-        self.assertEqual(eq.densidade_protegida(cdf((500, 99))), [])
+        self.assertEqual(est.densidade_protegida(cdf((500, 99))), [])
 
     def test_histograma_de_grupo_grande_tem_a_densidade_certa(self):
         # 1000 pessoas em cada nota de 400,0 a 599,9 (passo 0,1): cada faixa
         # protegida tem 0,1 ponto. A densidade real é 5% do grupo a cada 10
         # pontos (100 notas x 1000 pessoas / 2 milhões).
         distribuicao = cdf(*[(400 + i / 10, 1000) for i in range(2000)])
-        blocos = eq.densidade_protegida(distribuicao)
+        blocos = est.densidade_protegida(distribuicao)
         for inicio, fim, densidade in blocos[:-1]:
             self.assertGreaterEqual(fim - inicio, 10.0 - 1e-9)
             self.assertAlmostEqual(densidade, 5.0, places=6)
         self.assertAlmostEqual(sum((b - a) * d / 10 for a, b, d in blocos), 100.0)
 
     def test_formatacao_da_exibicao(self):
-        self.assertEqual(eq.formatar_percentil(12.5), "12,5%")
-        self.assertEqual(eq.formatar_percentil(99.96), "100,0%")
+        self.assertEqual(est.formatar_percentil(12.5), "12,5%")
+        self.assertEqual(est.formatar_percentil(99.96), "100,0%")
         self.assertEqual(eq.formatar_z(-1.3416), "-1,34")
         self.assertEqual(eq.formatar_z(None), "indefinido")
 
@@ -317,7 +318,7 @@ class TestLimitesDeExibicao(unittest.TestCase):
     def test_meio_fica_exato(self):
         r = self.comparar(500.0)  # (499 + 0,5) / 1000 = 49,95%, dentro dos limites
         self.assertFalse(r.real.em_limite)
-        self.assertEqual(r.real.texto, eq.formatar_percentil(r.real.percentil))
+        self.assertEqual(r.real.texto, est.formatar_percentil(r.real.percentil))
 
     def test_em_limite_esconde_a_diferenca(self):
         # Somar a diferença ao percentil exato do contraste devolveria o valor escondido.
@@ -326,12 +327,12 @@ class TestLimitesDeExibicao(unittest.TestCase):
         self.assertIsNotNone(r.prob_superioridade)  # medida do grupo inteiro, não da nota
         self.assertTrue(any("pontas da distribuição" in a for a in r.avisos))
 
-    def test_mesma_regra_do_modulo_territorial(self):
-        import territorial
+    def test_mesma_regra_compartilhada_de_exibicao(self):
+        # Regra da DL-04, item 8, em scripts/estatistica.py (a mesma do Recorte territorial).
         for nota in (1.0, 50.0, 100.0, 101.0, 500.0, 899.0, 900.0, 950.0, 1000.0):
             with self.subTest(nota=nota):
                 r = self.comparar(nota)
-                esperado = territorial.exibir_percentil(self.cdfs[(2022, "mt", "R2")], nota)
+                esperado = est.exibir_percentil(self.cdfs[(2022, "mt", "R2")], nota)
                 self.assertEqual((r.real.texto, r.real.em_limite), esperado)
 
     def test_grupo_abaixo_de_200_nunca_mostra_posicao_exata(self):

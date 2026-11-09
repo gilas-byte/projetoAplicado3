@@ -25,7 +25,7 @@ RAIZ = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(RAIZ / "scripts"))
 
 from colunas import PISO_GRUPO  # noqa: E402
-from equidade import densidade_protegida  # noqa: E402
+from estatistica import alcance_do_limite, densidade_protegida, formatar_percentil  # noqa: E402
 from territorial import (  # noqa: E402
     AREAS,
     BRASIL,
@@ -33,12 +33,10 @@ from territorial import (  # noqa: E402
     REGIOES,
     UFS,
     EntradaInvalida,
-    alcance_do_limite,
     carregar,
     comparar,
     formatar_inteiro,
     formatar_nota,
-    formatar_percentil,
     formatar_z,
     grupo_regiao,
     grupo_uf,
