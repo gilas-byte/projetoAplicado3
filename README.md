@@ -82,8 +82,8 @@ Decisoes de produto e metodologia: [`docs/decisoes/README.md`](docs/decisoes/REA
 - `scripts/etl.py`: gera CDF exata, histograma protegido e manifesto de ANALYTICS.
 - `tests/test_percentil_exato.py`: exemplos controlados de empate e fronteiras.
 - `tests/test_analytics.py`: teste de ponta a ponta (RAW sintetico -> TRUSTED -> ANALYTICS) com calculo independente.
-- [`docs/av3/EVOLUCAO-FUTURA-NUVEM.md`](docs/av3/EVOLUCAO-FUTURA-NUVEM.md): possivel evolucao futura (planejamento previo;
-  metodo de hospedagem AINDA NAO DEFINIDO): estrutura hipotetica em nuvem, com o Azure apenas como exemplo.
+- [`docs/av3/EVOLUCAO-FUTURA-NUVEM.md`](docs/av3/EVOLUCAO-FUTURA-NUVEM.md): possivel evolucao futura (planejamento
+  anterior a DL-06, que colocou a hospedagem em teste no Replit): estrutura hipotetica em nuvem, com o Azure apenas como exemplo.
 - `.github/workflows/qualidade.yml`: proposta de CI para checagem sintatica,
   testes sinteticos e validacao de piso de divulgacao.
 
@@ -93,7 +93,7 @@ Decisoes de produto e metodologia: [`docs/decisoes/README.md`](docs/decisoes/REA
 python -m compileall -q scripts app tests
 python -m unittest discover -s tests -p 'test_percentil_exato.py' -v
 python scripts/verificar_piso.py
-# Requer duckdb e streamlit instalados (149 testes):
+# Requer as dependencias de requirements.txt (inclui duckdb, streamlit e plotly):
 python -m unittest discover -s tests -v
 # Requer os CSVs INEP em data/raw/:
 python scripts/etl.py
