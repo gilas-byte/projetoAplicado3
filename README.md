@@ -42,6 +42,7 @@ Com os zips do INEP extraidos em `data/raw/`:
 ./.venv/bin/python scripts/etl.py              # RAW -> TRUSTED -> ANALYTICS (~1 min)
 ./.venv/bin/python scripts/equidade.py         # modulo Equidade socioeconomica (dist_equidade.parquet)
 ./.venv/bin/python scripts/territorial.py      # modulo Recorte territorial (dist_territorial.parquet, ~5 min)
+./.venv/bin/python scripts/capital_escolar.py   # modulo Capital escolar familiar (dist_capital.parquet)
 ./.venv/bin/python -m unittest discover tests  # testes com dados sinteticos
 ./.venv/bin/streamlit run app/app.py            # app (MVP)
 ```
@@ -67,6 +68,7 @@ Nenhum registro individual ou identificador de inscricao e carregado online.
 | --- | --- | --- | --- | --- |
 | Equidade socioeconomica | Samuel Silva de Rezende | `scripts/equidade.py`, `app/pages/1_Equidade_socioeconomica.py` | `tests/test_equidade.py` | [DL-03](docs/decisoes/README.md#dl-03--regras-do-módulo-equidade-socioeconômica) |
 | Recorte territorial | Vinícius Joacir dos Anjos | `scripts/territorial.py`, `app/pages/2_Recorte_territorial.py` | `tests/test_territorial.py` | [DL-04](docs/decisoes/README.md#dl-04--regras-do-módulo-recorte-territorial) |
+| Capital escolar familiar | Guilherme da Silva Anselmo | `scripts/capital_escolar.py`, `app/pages/3_Capital_escolar_familiar.py` | `tests/test_capital_escolar.py` | [DL-05](docs/decisoes/README.md#dl-05--regras-do-módulo-capital-escolar-familiar) |
 
 Decisoes de produto e metodologia: [`docs/decisoes/README.md`](docs/decisoes/README.md).
 
