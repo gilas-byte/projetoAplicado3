@@ -442,7 +442,8 @@ apagada: quando muda, a entrada antiga recebe "substituída por DL-xx".
   artefato `data/analytics/dist_capital.parquet` é gerado por
   `scripts/capital_escolar.py` e fica fora do git (ADR-001). O módulo importa
   `exibir_percentil` de `scripts/estatistica.py`, sem copiar (item 13), e não
-  importa os outros módulos autorais (`tests/test_modulos_independentes.py`).
+  importa os outros módulos autorais (`tests/test_modulos_independentes.py`). A execução com os microdados
+  reais de 2019 a 2022 (10/11/2026) está em `docs/modulos/capital-escolar-resultados.md`.
 
 ## DL-06 — Hospedagem em teste no Replit
 
