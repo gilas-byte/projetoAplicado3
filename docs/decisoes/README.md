@@ -436,10 +436,14 @@ apagada: quando muda, a entrada antiga recebe "substituída por DL-xx".
   dado sensível, R3 a R5; o último por ser o módulo Rede de ensino); ocupação
   dos pais (outro tema, sem ganho para a pergunta do módulo); e leitura causal
   ("a escolaridade dos pais causa a nota").
-- **Evidência:** ainda não há código no repositório. Arquivos planejados:
-  `scripts/capital_escolar.py`, `app/pages/3_Capital_escolar_familiar.py`,
-  `tests/test_capital_escolar.py`. A lista é atualizada quando o módulo for
-  implementado.
+- **Evidência:** `scripts/capital_escolar.py` (regras, agregação offline e
+  comparação), `app/pages/3_Capital_escolar_familiar.py` (página) e
+  `tests/test_capital_escolar.py` (testes com microdados sintéticos). O
+  artefato `data/analytics/dist_capital.parquet` é gerado por
+  `scripts/capital_escolar.py` e fica fora do git (ADR-001). O módulo importa
+  `exibir_percentil` de `scripts/estatistica.py`, sem copiar (item 13), e não
+  importa os outros módulos autorais (`tests/test_modulos_independentes.py`). A execução com os microdados
+  reais de 2019 a 2022 (10/11/2026) está em `docs/modulos/capital-escolar-resultados.md`.
 
 ## DL-06 — Hospedagem em teste no Replit
 
