@@ -58,6 +58,58 @@ Entre 2019 e 2022, o nível A cai de 2,3% para 1,4% e o grupo B e C de 25,3% par
 
 Observação sobre a Redação em 2019: o grupo do Brasil tem 3.174.211 participantes (um a menos que nas outras áreas) e o nível E tem 1.149.019 (também um a menos), o que indica um participante elegível sem nota de Redação nessa edição. Nas demais edições os tamanhos coincidem em todas as áreas.
 
-## Ainda não incluído neste documento
+## Mediana por nível
 
-Medianas por nível, probabilidade de superioridade entre níveis vizinhos e um exemplo da interface dependem do `dist_capital.parquet`, que não está no repositório. Entram aqui quando a execução de referência for registrada com esses valores.
+Medidas calculadas por Samuel Silva de Rezende em 10/11/2026 sobre o `dist_capital.parquet` da execução de referência, com `carregar` e `resumo` deste módulo; o tamanho de cada grupo bate com o manifesto. Matemática:
+
+| Edição | A | B e C | D | E | F | G | Brasil |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 2019 | 436,7 | 462,0 | 479,5 | 502,0 | 572,8 | 611,4 | 497,4 |
+| 2020 | 425,4 | 454,7 | 476,6 | 503,7 | 577,5 | 609,8 | 502,7 |
+| 2021 | 442,4 | 466,5 | 483,6 | 508,4 | 576,5 | 607,3 | 513,1 |
+| 2022 | 446,9 | 477,3 | 495,2 | 523,7 | 588,6 | 615,0 | 529,0 |
+
+Redação (as notas andam de 20 em 20):
+
+| Edição | A | B e C | D | E | F | G | Brasil |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 2019 | 500 | 540 | 560 | 580 | 640 | 680 | 580 |
+| 2020 | 480 | 520 | 560 | 580 | 640 | 700 | 580 |
+| 2021 | 520 | 560 | 580 | 600 | 680 | 720 | 620 |
+| 2022 | 520 | 560 | 600 | 620 | 700 | 760 | 620 |
+
+Nas 20 combinações de edição e área, a mediana cresce a cada nível, sem exceção. Em Matemática 2022, vai de 446,9 (nível A) a 615,0 (nível G); a mediana do Brasil é 529,0. Isso descreve diferenças entre grupos de participantes e não indica que a escolaridade dos responsáveis causa a nota.
+
+## Probabilidade de superioridade entre níveis
+
+P(nível de cima > nível de baixo) + 0,5 · P(empate), em %, mesma fórmula da DL-05 (item 12). Matemática:
+
+| Edição | B e C contra A | D contra B e C | E contra D | F contra E | G contra F | G contra A |
+| --- | --- | --- | --- | --- | --- | --- |
+| 2019 | 59,6 | 55,4 | 56,0 | 63,7 | 56,7 | 84,3 |
+| 2020 | 59,6 | 55,7 | 56,1 | 64,1 | 56,4 | 84,7 |
+| 2021 | 59,3 | 55,4 | 56,4 | 63,2 | 55,4 | 83,4 |
+| 2022 | 59,4 | 54,6 | 56,5 | 63,0 | 55,4 | 82,9 |
+
+Nas 20 combinações de edição e área:
+- **F contra E** (Médio completo para Superior completo) é o maior salto entre vizinhos: de 60,7% a 64,1%.
+- Nos demais pares vizinhos (B e C contra A, D contra B e C, E contra D e G contra F), vai de 52,7% a 61,0%.
+- **G contra A**, os extremos: de 77,5% a 84,8%. Mesmo aí os grupos se sobrepõem bastante: o complemento (o par em que o nível A fica à frente ou empata, empates pela metade) é de 15,2% a 22,5%.
+
+Conferência: para Matemática 2022, a contagem, a mediana e a média dos 7 grupos foram conferidas direto na TRUSTED, e a probabilidade de superioridade G contra F por contagem de pares deu 0,55426, igual à da função do módulo.
+
+## Exemplo da interface
+
+Edição 2022, Matemática, nota 650,0. Posição (percentil) da mesma nota, por grupo:
+
+| Grupo | Percentil |
+| --- | --- |
+| Nível A | 96,9% |
+| Nível B e C | 93,5% |
+| Nível D | 90,7% |
+| Nível E | 85,2% |
+| Nível F | 68,8% |
+| Nível G | 60,8% |
+| Brasil | 81,4% |
+
+A mesma nota fica em posições diferentes conforme o grupo de comparação: de 60,8% entre participantes do nível G a 96,9% entre os do nível A, com 81,4% na referência nacional. Todos os grupos têm mais de 26 mil participantes, então nenhuma dessas posições fica em limite de exibição (DL-05, item 13).
