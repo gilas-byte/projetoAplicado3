@@ -82,8 +82,8 @@ Decisoes de produto e metodologia: [`docs/decisoes/README.md`](docs/decisoes/REA
 - `scripts/etl.py`: gera CDF exata, histograma protegido e manifesto de ANALYTICS.
 - `tests/test_percentil_exato.py`: exemplos controlados de empate e fronteiras.
 - `tests/test_analytics.py`: teste de ponta a ponta (RAW sintetico -> TRUSTED -> ANALYTICS) com calculo independente.
-- [`docs/av3/EVOLUCAO-FUTURA-NUVEM.md`](docs/av3/EVOLUCAO-FUTURA-NUVEM.md): possivel evolucao futura (planejamento previo;
-  metodo de hospedagem AINDA NAO DEFINIDO): estrutura hipotetica em nuvem, com o Azure apenas como exemplo.
+- [`docs/av3/EVOLUCAO-FUTURA-NUVEM.md`](docs/av3/EVOLUCAO-FUTURA-NUVEM.md): possivel evolucao futura (planejamento
+  anterior a DL-06, que colocou a hospedagem em teste no Replit): estrutura hipotetica em nuvem, com o Azure apenas como exemplo.
 - `.github/workflows/qualidade.yml`: proposta de CI para checagem sintatica,
   testes sinteticos e validacao de piso de divulgacao.
 
@@ -93,21 +93,22 @@ Decisoes de produto e metodologia: [`docs/decisoes/README.md`](docs/decisoes/REA
 python -m compileall -q scripts app tests
 python -m unittest discover -s tests -p 'test_percentil_exato.py' -v
 python scripts/verificar_piso.py
-# Requer duckdb e streamlit instalados (149 testes):
+# Requer as dependencias de requirements.txt (inclui duckdb, streamlit e plotly):
 python -m unittest discover -s tests -v
 # Requer os CSVs INEP em data/raw/:
 python scripts/etl.py
 cat data/analytics/_manifesto_analytics.json
 ```
 
-**Status (03/11/2026):** pipeline executado sobre os microdados oficiais das
+**Status (10/11/2026):** pipeline executado sobre os microdados oficiais das
 quatro edicoes (17.744.217 registros), com divergencia nula entre a
 distribuicao exata e a contagem direta (`docs/relatorio/AV3.md` e
-`docs/modulos/equidade-resultados.md`). 149 testes com dados sinteticos passam
-no CI. Modulos na `main`: Equidade socioeconomica e Recorte territorial;
-Capital escolar familiar e Rede de ensino de origem ainda nao iniciados; corte
-de escopo do quarto modulo a decidir ate 07/11 (DL-02).
-Hospedagem em nuvem ainda nao definida.
+`docs/modulos/equidade-resultados.md`). Os testes automatizados, com dados
+sinteticos, passam no CI. Modulos: Equidade socioeconomica e Recorte
+territorial na `main`; Capital escolar familiar com regras aceitas (DL-05) e
+codigo em desenvolvimento (prazo 10/11, DL-07); Rede de ensino de origem fora
+do escopo (DL-07). Hospedagem: primeira publicacao no Replit prevista ate
+13/11 (DL-06, em teste). Entrega do relatorio final: 19/11/2026 (DL-07).
 
 ---
 
