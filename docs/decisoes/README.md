@@ -153,7 +153,8 @@ apagada: quando muda, a entrada antiga recebe "substituída por DL-xx".
      (ADR-001).
   10. **Limites de exibição do percentil** (acrescentado em 03/11/2026). A
       Equidade aplica a mesma regra da DL-04, item 8, com a mesma função
-      (`exibir_percentil` de `scripts/territorial.py`): se a posição passar de
+      (`exibir_percentil`, hoje em `scripts/estatistica.py`, movida de
+      `scripts/territorial.py` em 08/11/2026): se a posição passar de
       100 × (N − 100) / N, a interface mostra "acima de X%"; se ficar abaixo de
       100 × 100 / N, "abaixo de X%"; nos demais casos, a posição exata. O
       percentil exato continua no backend. Quando um dos dois cenários está em

@@ -25,6 +25,7 @@ RAIZ = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(RAIZ / "scripts"))
 
 from colunas import PISO_GRUPO  # noqa: E402
+from estatistica import densidade_protegida, formatar_percentil  # noqa: E402
 from equidade import (  # noqa: E402
     AREAS,
     CONTRASTE,
@@ -32,11 +33,9 @@ from equidade import (  # noqa: E402
     FAIXA_POR_CODIGO,
     EntradaInvalida,
     carregar,
-    densidade_protegida,
     faixa_de_q006,
     comparar,
     formatar_nota,
-    formatar_percentil,
     formatar_z,
     opcoes_q006,
     validar_entrada,

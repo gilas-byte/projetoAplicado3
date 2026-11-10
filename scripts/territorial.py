@@ -37,7 +37,6 @@ import json
 import math
 import sys
 import time
-from bisect import bisect_left
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from numbers import Real
@@ -48,10 +47,13 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from colunas import PISO_GRUPO  # noqa: E402
 from estatistica import (  # noqa: E402
     construir_acumulada,
+    dobro_posicao,
+    formatar_percentil,
     percentil_exato_acumulado,
     prob_superioridade,
     quantil,
     resumo,
+    texto_da_posicao,
     z_score,
 )
 
@@ -413,89 +415,6 @@ def restante(dist_total: list[tuple[float, int, int]],
     return construir_acumulada(contagens)
 
 
-# ============================================ LIMITES DE EXIBIÇÃO (DL-04, item 8)
-
-
-def limites_exibicao(total: int, piso: int = PISO_GRUPO) -> tuple[int, int]:
-    """(inferior, superior) do percentil exibível, em décimos de ponto percentual.
-
-    superior = 100 · (N − piso) / N arredondado para baixo; inferior =
-    100 · piso / N arredondado para cima, ambos com uma casa decimal. Conta em
-    inteiros: nenhum erro de ponto flutuante desloca a borda. Com N < 2 · piso
-    os limites se cruzam (inferior > superior) e nenhuma posição sai exata.
-    """
-    if total <= 0:
-        raise ValueError("grupo vazio")
-    superior = 1000 * (total - piso) // total
-    inferior = -(-1000 * piso // total)
-    return inferior, superior
-
-
-def alcance_do_limite(total: int, lado: str, piso: int = PISO_GRUPO) -> float:
-    """Até quantas pessoas da ponta (empatados pela metade) a posição fica em limite.
-
-    Pela regra do item 8.2: em "acima de X%", p > X equivale a
-    acima + metade dos empatados < N · (1000 − superior) / 1000; em "abaixo de",
-    abaixo + metade < N · inferior / 1000. Nunca menos que `piso`; nos grupos
-    grandes, cerca de 0,1% de N por causa do arredondamento.
-    """
-    inferior, superior = limites_exibicao(total, piso)
-    if lado == "acima":
-        return total * (1000 - superior) / 1000
-    if lado == "abaixo":
-        return total * inferior / 1000
-    raise ValueError(f"lado inválido: {lado!r}")
-
-
-def _dobro_posicao(cdf: list[tuple[float, int, int]], nota: float) -> tuple[int, int]:
-    """(2 · abaixo + iguais, N): o percentil exato é 100 · a / (2N), sem arredondar.
-
-    Fonte única da posição no módulo (percentil, texto e limite). Mesmas
-    regras de percentil_exato_acumulado, conferidas em teste.
-    """
-    if not cdf:
-        raise ValueError("distribuicao vazia: grupo insuficiente")
-    if not math.isfinite(nota):
-        raise ValueError("nota consultada precisa ser finita")
-    total = cdf[-1][1] + cdf[-1][2]
-    pos = bisect_left([item[0] for item in cdf], nota)
-    if pos == len(cdf):
-        return 2 * total, total
-    valor, n, abaixo = cdf[pos]
-    return 2 * abaixo + (n if valor == nota else 0), total
-
-
-def exibir_percentil(cdf: list[tuple[float, int, int]], nota: float,
-                     piso: int = PISO_GRUPO) -> tuple[str, bool]:
-    """Texto do percentil para a interface e se ele está em limite.
-
-    Compara o percentil exato com o limite já arredondado (DL-04, 8.5): assim
-    "acima de X%" só aparece quando p > X de fato e a ordem das posições
-    exibidas nunca se inverte. Em limite: "acima de X%" ou "abaixo de X%".
-    """
-    dobro, total = _dobro_posicao(cdf, nota)
-    return texto_da_posicao(dobro, total, piso)
-
-
-def texto_da_posicao(dobro: int, total: int, piso: int = PISO_GRUPO) -> tuple[str, bool]:
-    """Mesma regra de exibir_percentil a partir de (2 · abaixo + iguais, N).
-
-    Separada para a auditoria (scripts/auditoria_limites.py) varrer milhões de
-    notas sem refazer a busca na CDF.
-    """
-    inferior, superior = limites_exibicao(total, piso)
-    # p em décimos = 1000 · dobro / (2N); compara multiplicando em inteiros.
-    if 1000 * dobro > superior * 2 * total:
-        return f"acima de {formatar_decimos(superior)}", True
-    if 1000 * dobro < inferior * 2 * total:
-        return f"abaixo de {formatar_decimos(inferior)}", True
-    return formatar_percentil(dobro * 100 / (2 * total)), False
-
-
-def formatar_decimos(decimos: int) -> str:
-    return f"{decimos // 10},{decimos % 10}%"
-
-
 @dataclass(frozen=True)
 class Cenario:
     grupo: str
@@ -541,7 +460,7 @@ def _cenario(cdfs, ano: int, area: str, grupo: str, nota: float) -> Cenario:
     # Uma busca só: percentil exato, texto e em_limite saem do mesmo
     # (2 · abaixo + iguais, N), e a diferença UF − Brasil usa a mesma posição
     # que decidiu o limite.
-    dobro, total = _dobro_posicao(cdf, nota)
+    dobro, total = dobro_posicao(cdf, nota)
     percentil = dobro * 100 / (2 * total)
     if grupo == BRASIL:  # Brasil segue exato (ADR-001; DL-04, 8.6)
         texto, em_limite = formatar_percentil(percentil), False
@@ -618,10 +537,6 @@ def comparar(cdfs, entrada: Entrada) -> Comparacao:
 
 
 # ======================================================= EXIBIÇÃO (DL-01)
-
-
-def formatar_percentil(p: float) -> str:
-    return f"{p:.1f}".replace(".", ",") + "%"
 
 
 def formatar_nota(nota: float) -> str:
