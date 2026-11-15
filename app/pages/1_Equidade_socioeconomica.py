@@ -85,13 +85,16 @@ def mostrar(cdfs, resultado) -> None:
         with coluna:
             if cenario.disponivel:
                 st.metric(titulo, cenario.texto)
+                # Só o número leva ponto de milhar: um replace na frase inteira
+                # trocaria também a vírgula do texto ("sua, contando").
+                participantes = f"{cenario.n:,}".replace(",", ".")
                 if cenario.em_limite:
-                    st.caption(f"Posição na ponta da distribuição dos {cenario.n:,} participantes do grupo "
-                               f"({cenario.rotulo.lower()}); o valor exato não é exibido.".replace(",", "."))
+                    st.caption(f"Posição na ponta da distribuição dos {participantes} participantes do grupo "
+                               f"({cenario.rotulo.lower()}); o valor exato não é exibido.")
                 else:
-                    st.caption(f"Percentil: parcela dos {cenario.n:,} participantes do grupo "
+                    st.caption(f"Percentil: parcela dos {participantes} participantes do grupo "
                                f"({cenario.rotulo.lower()}) com nota menor que a sua, contando metade "
-                               f"de quem tirou a mesma nota.".replace(",", "."))
+                               f"de quem tirou a mesma nota.")
             else:
                 st.metric(titulo, "—")
                 st.info(f"{cenario.rotulo}: {cenario.motivo}.")
