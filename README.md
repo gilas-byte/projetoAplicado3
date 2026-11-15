@@ -100,15 +100,15 @@ python scripts/etl.py
 cat data/analytics/_manifesto_analytics.json
 ```
 
-**Status (10/11/2026):** pipeline executado sobre os microdados oficiais das
+**Status (15/11/2026):** pipeline executado sobre os microdados oficiais das
 quatro edicoes (17.744.217 registros), com divergencia nula entre a
 distribuicao exata e a contagem direta (`docs/relatorio/AV3.md` e
 `docs/modulos/equidade-resultados.md`). Os testes automatizados, com dados
-sinteticos, passam no CI. Modulos: Equidade socioeconomica e Recorte
-territorial na `main`; Capital escolar familiar com regras aceitas (DL-05) e
-codigo em desenvolvimento (prazo 10/11, DL-07); Rede de ensino de origem fora
-do escopo (DL-07). Hospedagem: primeira publicacao no Replit prevista ate
-13/11 (DL-06, em teste). Entrega do relatorio final: 19/11/2026 (DL-07).
+sinteticos, passam no CI. Modulos na `main`: Equidade socioeconomica, Recorte
+territorial e Capital escolar familiar (PR #20); Rede de ensino de origem fora
+do escopo (DL-07). Hospedagem: a primeira publicacao no Replit (DL-06, em teste)
+foi remarcada para a etapa final, antes da entrega do relatorio final em
+19/11/2026 (DL-07).
 
 ---
 
