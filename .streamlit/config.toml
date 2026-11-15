@@ -12,3 +12,23 @@ toolbarMode = "viewer"
 
 [server]
 headless = true
+
+[theme]
+# Tema escuro do Radar ENEM (front, branch front-tema-dark). Cor chapada,
+# linha fina, raio pequeno. Papeis das cores nos graficos ficam em app/ui.py.
+base = "dark"
+primaryColor = "#4c8dff"
+backgroundColor = "#0d1016"
+secondaryBackgroundColor = "#131820"
+textColor = "#e6e9ee"
+borderColor = "#252c38"
+dataframeBorderColor = "#252c38"
+dataframeHeaderBackgroundColor = "#131820"
+linkColor = "#4c8dff"
+baseRadius = "3px"
+buttonRadius = "3px"
+showWidgetBorder = true
+font = "IBM Plex Sans, sans-serif"
+headingFont = "IBM Plex Mono, monospace"
+codeFont = "IBM Plex Mono, monospace"
+chartCategoricalColors = ["#4c8dff", "#e0a63a", "#8b95a5", "#ef5a5a"]
