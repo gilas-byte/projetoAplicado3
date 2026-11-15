@@ -18,7 +18,7 @@ enableStaticServing = true
 
 [theme]
 # Tema escuro do Radar ENEM (front, branch front-tema-dark). Cor chapada,
-# linha fina, cantos arredondados (10px). Papeis das cores nos graficos ficam em app/ui.py.
+# linha fina, cantos arredondados (16px). Papeis das cores nos graficos ficam em app/ui.py.
 base = "dark"
 primaryColor = "#4c8dff"
 backgroundColor = "#0d1016"
@@ -28,8 +28,8 @@ borderColor = "#252c38"
 dataframeBorderColor = "#252c38"
 dataframeHeaderBackgroundColor = "#131820"
 linkColor = "#4c8dff"
-baseRadius = "10px"
-buttonRadius = "10px"
+baseRadius = "16px"
+buttonRadius = "16px"
 showWidgetBorder = true
 font = "IBM Plex Sans, sans-serif"
 headingFont = "IBM Plex Mono, monospace"

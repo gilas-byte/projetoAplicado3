@@ -27,7 +27,7 @@ COR_NOTA = "#ef5a5a"  # a nota digitada
 
 _CSS = """
 <style>
-:root{--r-bg:#0d1016;--r-surf:#131820;--r-line:#252c38;--r-line2:#323b4a;--r-tx:#e6e9ee;--r-mu:#8b95a5;
+:root{--r-raio:16px;--r-bg:#0d1016;--r-surf:#131820;--r-line:#252c38;--r-line2:#323b4a;--r-tx:#e6e9ee;--r-mu:#8b95a5;
  --r-azul:#4c8dff;--r-mono:'IBM Plex Mono',ui-monospace,monospace}
 header[data-testid="stHeader"]{background:transparent}
 .stMainBlockContainer{padding-top:2.2rem;padding-bottom:4rem;max-width:640px}
@@ -38,21 +38,21 @@ h3{font-size:1rem!important;font-weight:600!important}
 [data-testid="stNumberInputStepUp"],[data-testid="stNumberInputStepDown"]{display:none}
 [data-testid="stColumn"] [data-testid="stWidgetLabel"]{min-height:2.5em;align-items:flex-end}
 [data-testid="stWidgetLabel"] p{font-family:var(--r-mono);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--r-mu)}
-[data-testid="stForm"]{border:1px solid var(--r-line);background:var(--r-surf);border-radius:10px;padding:1.1rem}
+[data-testid="stForm"]{border:1px solid var(--r-line);background:var(--r-surf);border-radius:var(--r-raio);padding:1.1rem}
 [data-testid="stBaseButton-primaryFormSubmit"],[data-testid="stBaseButton-primary"]{width:100%;font-family:var(--r-mono);font-weight:600;text-transform:uppercase;letter-spacing:.05em;border:0;background:var(--r-azul);color:#fff;padding:.7rem 1rem;transition:background .15s}
 [data-testid="stBaseButton-primaryFormSubmit"]:hover,[data-testid="stBaseButton-primary"]:hover{background:#6aa0ff;color:#fff}
 [data-testid="stElementContainer"]:has([data-testid="stFormSubmitButton"]),div:has(>[data-testid="stFormSubmitButton"]),[data-testid="stFormSubmitButton"],[data-testid="stFormSubmitButton"]>button{width:100%!important}
 [data-testid="stForm"] [data-testid="stHorizontalBlock"]{flex-wrap:nowrap;gap:.8rem}
 [data-testid="stForm"] [data-testid="stColumn"]{min-width:0!important;flex:1 1 0!important;width:auto!important}
-[data-testid="stMetric"]{background:var(--r-surf);border:1px solid var(--r-line);border-radius:10px;padding:.8rem 1rem;transition:border-color .15s}
+[data-testid="stMetric"]{background:var(--r-surf);border:1px solid var(--r-line);border-radius:var(--r-raio);padding:.8rem 1rem;transition:border-color .15s}
 [data-testid="stMetric"]:hover{border-color:var(--r-line2)}
 [data-testid="stMetricLabel"] p{white-space:normal!important;font-family:var(--r-mono);font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;color:var(--r-mu)}
 [data-testid="stMetricValue"],[data-testid="stMetricValue"] *{font-family:var(--r-mono)!important;font-weight:600;font-variant-numeric:tabular-nums}
 [data-testid="stMetricValue"]{font-size:1.5rem}
-[data-testid="stExpander"]{border:1px solid var(--r-line);border-radius:10px;background:transparent}
+[data-testid="stExpander"]{border:1px solid var(--r-line);border-radius:var(--r-raio);background:transparent}
 [data-testid="stExpander"] summary:hover{color:var(--r-azul)}
-[data-testid="stAlert"]{border-radius:10px}
-[data-testid="stDataFrame"]{border-radius:10px;overflow:hidden}
+[data-testid="stAlert"]{border-radius:var(--r-raio)}
+[data-testid="stDataFrame"]{border-radius:var(--r-raio);overflow:hidden}
 [data-baseweb="tab-highlight"]{background:var(--r-azul)!important;height:2px!important}
 [data-baseweb="tab"]{font-family:var(--r-mono)}
 
