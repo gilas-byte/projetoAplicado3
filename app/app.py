@@ -94,7 +94,7 @@ def grafico(faixas_area, nota: float, titulo: str) -> go.Figure:
 
 def main() -> None:
     st.set_page_config(page_title="Radar ENEM", layout="centered")
-    aplicar_tema()
+    aplicar_tema("inicio")
     st.title("Radar ENEM")
     abertura(
         "Informe suas notas e veja em que posição você ficaria entre os "

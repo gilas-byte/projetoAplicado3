@@ -144,7 +144,7 @@ def mostrar(cdfs, resultado) -> None:
 
 def main() -> None:
     st.set_page_config(page_title="Radar ENEM · Equidade socioeconômica", layout="centered")
-    aplicar_tema()
+    aplicar_tema("equidade")
     st.title("Equidade socioeconômica")
     abertura(
         "A mesma nota pode significar posições diferentes conforme o grupo de comparação. "

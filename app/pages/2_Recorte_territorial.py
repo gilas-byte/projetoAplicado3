@@ -172,7 +172,7 @@ def mostrar(cdfs, r) -> None:
 
 def main() -> None:
     st.set_page_config(page_title="Radar ENEM · Recorte territorial", layout="centered")
-    aplicar_tema()
+    aplicar_tema("territorial")
     st.title("Recorte territorial")
     abertura(
         "A mesma nota pode ocupar posições diferentes no seu estado, na sua região e no Brasil. "

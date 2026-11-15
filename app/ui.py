@@ -20,7 +20,7 @@ import streamlit as st
 from streamlit import iframe as _iframe  # substitui st.components.v1.html (removido apos 06/2026)
 
 # Papel de cada cor, igual nas quatro telas.
-COR_PROPRIO = "#4c8dff"  # seu nivel / sua faixa / sua UF
+COR_PROPRIO = "#3b8cff"  # seu nivel / sua faixa / sua UF
 COR_VIZINHO = "#e0a63a"  # nivel acima / contraste / regiao
 COR_BRASIL = "#8b95a5"  # referencia nacional
 COR_NOTA = "#ef5a5a"  # a nota digitada
@@ -28,7 +28,7 @@ COR_NOTA = "#ef5a5a"  # a nota digitada
 _CSS = """
 <style>
 :root{--r-raio:16px;--r-bg:#0d1016;--r-surf:#131820;--r-line:#252c38;--r-line2:#323b4a;--r-tx:#e6e9ee;--r-mu:#8b95a5;
- --r-azul:#4c8dff;--r-mono:'IBM Plex Mono',ui-monospace,monospace}
+ --r-azul:#3b8cff;--r-glow:rgba(59,140,255,.55);--r-mono:'IBM Plex Mono',ui-monospace,monospace}
 header[data-testid="stHeader"]{background:transparent}
 .stMainBlockContainer{padding-top:2.2rem;padding-bottom:4rem;max-width:640px}
 h1,h2,h3{font-family:var(--r-mono)!important;letter-spacing:-.01em}
@@ -38,14 +38,19 @@ h3{font-size:1rem!important;font-weight:600!important}
 [data-testid="stNumberInputStepUp"],[data-testid="stNumberInputStepDown"]{display:none}
 [data-testid="stColumn"] [data-testid="stWidgetLabel"]{min-height:2.5em;align-items:flex-end}
 [data-testid="stWidgetLabel"] p{font-family:var(--r-mono);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--r-mu)}
+[data-testid="stCheckbox"] [data-testid="stWidgetLabel"] p{font-family:inherit;text-transform:none;letter-spacing:0;font-size:.9rem;color:var(--r-tx)}
 [data-testid="stForm"]{border:1px solid var(--r-line);background:var(--r-surf);border-radius:var(--r-raio);padding:1.1rem}
-[data-testid="stBaseButton-primaryFormSubmit"],[data-testid="stBaseButton-primary"]{width:100%;font-family:var(--r-mono);font-weight:600;text-transform:uppercase;letter-spacing:.05em;border:0;background:var(--r-azul);color:#fff;padding:.7rem 1rem;transition:background .15s}
-[data-testid="stBaseButton-primaryFormSubmit"]:hover,[data-testid="stBaseButton-primary"]:hover{background:#6aa0ff;color:#fff}
+[data-testid="stBaseButton-primaryFormSubmit"],[data-testid="stBaseButton-primary"]{width:100%;font-family:var(--r-mono);font-weight:600;text-transform:uppercase;letter-spacing:.05em;border:0;background:var(--r-azul);color:#fff;padding:.7rem 1rem;box-shadow:0 0 14px var(--r-glow);transition:background .15s,box-shadow .2s,transform .15s}
+[data-testid="stBaseButton-primaryFormSubmit"]:hover,[data-testid="stBaseButton-primary"]:hover{background:#5a9fff;color:#fff;box-shadow:0 0 24px var(--r-glow),0 0 48px rgba(59,140,255,.28);transform:translateY(-2px)}
+[data-testid="stBaseButton-primaryFormSubmit"]:active,[data-testid="stBaseButton-primary"]:active{transform:scale(.98)}
 [data-testid="stElementContainer"]:has([data-testid="stFormSubmitButton"]),div:has(>[data-testid="stFormSubmitButton"]),[data-testid="stFormSubmitButton"],[data-testid="stFormSubmitButton"]>button{width:100%!important}
 [data-testid="stForm"] [data-testid="stHorizontalBlock"]{flex-wrap:nowrap;gap:.8rem}
 [data-testid="stForm"] [data-testid="stColumn"]{min-width:0!important;flex:1 1 0!important;width:auto!important}
 [data-testid="stMetric"]{background:var(--r-surf);border:1px solid var(--r-line);border-radius:var(--r-raio);padding:.8rem 1rem;transition:border-color .15s}
-[data-testid="stMetric"]:hover{border-color:var(--r-line2)}
+[data-testid="stMetric"]:hover{border-color:#3d4a5e;transform:translateY(-3px)}
+[data-testid="stMetric"]{transition:border-color .2s,transform .2s}
+[data-testid="stForm"]{transition:border-color .2s}[data-testid="stForm"]:focus-within{border-color:#3d4a5e}
+[data-testid="stExpander"]{transition:border-color .2s}[data-testid="stExpander"]:hover{border-color:#3d4a5e}
 [data-testid="stMetricLabel"] p{white-space:normal!important;font-family:var(--r-mono);font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;color:var(--r-mu)}
 [data-testid="stMetricValue"],[data-testid="stMetricValue"] *{font-family:var(--r-mono)!important;font-weight:600;font-variant-numeric:tabular-nums}
 [data-testid="stMetricValue"]{font-size:1.5rem}
@@ -56,6 +61,20 @@ h3{font-size:1rem!important;font-weight:600!important}
 [data-baseweb="tab-highlight"]{background:var(--r-azul)!important;height:2px!important}
 [data-baseweb="tab"]{font-family:var(--r-mono)}
 
+[data-testid="stSidebar"]{background:#0a0d13;border-right:1px solid var(--r-line)}
+[data-testid="stSidebarContent"]{padding:1.2rem .9rem}
+[data-testid="stSidebarHeader"]{display:none}
+.r-logo{display:flex;align-items:center;gap:.7rem;font:600 1.05rem var(--r-mono);letter-spacing:-.01em;padding:.2rem .4rem 1.3rem;border-bottom:1px solid var(--r-line);margin-bottom:1rem}
+.r-logo b{color:var(--r-azul)}
+.r-logo svg{flex:none;filter:drop-shadow(0 0 5px var(--r-glow))}
+.r-menu{font:600 .68rem var(--r-mono);text-transform:uppercase;letter-spacing:.12em;color:var(--r-mu);padding:0 .5rem .5rem}
+[data-testid="stSidebar"] [data-testid="stPageLink-NavLink"]{position:relative;border-radius:12px;padding:.62rem .8rem;gap:.75rem;color:var(--r-mu);border:1px solid transparent;transition:background .2s,color .2s,transform .2s,border-color .2s}
+[data-testid="stSidebar"] [data-testid="stPageLink-NavLink"] p{font-size:.92rem}
+[data-testid="stSidebar"] [data-testid="stPageLink-NavLink"]:hover{background:var(--r-surf);color:var(--r-tx);transform:translateX(4px);border-color:var(--r-line)}
+@keyframes r-barra{from{transform:scaleY(0);opacity:0}}
+[data-testid="stSidebarCollapseButton"] button,[data-testid="stExpandSidebarButton"]{color:var(--r-mu);transition:color .2s}
+[data-testid="stSidebarCollapseButton"] button:hover,[data-testid="stExpandSidebarButton"]:hover{color:var(--r-azul)}
+
 .r-lead{color:var(--r-mu);max-width:52ch;margin:0 0 1.4rem}
 .r-sec{border-top:1px solid var(--r-line);padding:1.1rem 0 .4rem}
 .r-tit{font:600 .72rem var(--r-mono);text-transform:uppercase;letter-spacing:.08em;color:var(--r-mu);margin:0 0 .5rem}
@@ -65,26 +84,78 @@ h3{font-size:1rem!important;font-weight:600!important}
 .r-nome{font-size:.92rem;line-height:1.25}.r-nome small{display:block;color:var(--r-mu);font-size:.78rem}
 .r-val{font:600 1rem var(--r-mono);text-align:right}
 .r-bar{grid-column:2/4;height:3px;background:var(--r-line);position:relative}
-.r-bar i{position:absolute;left:0;top:0;bottom:0;width:var(--w);background:var(--c);animation:r-bar .9s cubic-bezier(.2,.7,.2,1) both}
+.r-bar i{position:absolute;left:0;top:0;bottom:0;width:var(--w);background:var(--c);animation:r-bar 1.3s .2s cubic-bezier(.2,.7,.2,1) both}
 @keyframes r-bar{from{width:0}}
 
-.st-key-resultado>div>[data-testid="stElementContainer"],.st-key-resultado>div>[data-testid="stVerticalBlock"]{animation:r-in .35s ease-out both}
-.st-key-resultado>div>:nth-child(2){animation-delay:.06s}.st-key-resultado>div>:nth-child(3){animation-delay:.12s}
-.st-key-resultado>div>:nth-child(4){animation-delay:.18s}.st-key-resultado>div>:nth-child(5){animation-delay:.24s}
-.st-key-resultado>div>:nth-child(n+6){animation-delay:.3s}
-@keyframes r-in{from{opacity:0;transform:translateY(6px)}}
-.st-key-resultado .js-plotly-plot .scatterlayer .js-line{stroke-dasharray:4000;stroke-dashoffset:4000;animation:r-draw 1.2s .15s ease-out forwards}
+.st-key-resultado>div>[data-testid="stElementContainer"],.st-key-resultado>div>[data-testid="stVerticalBlock"]{animation:r-in .55s cubic-bezier(.2,.7,.2,1) both}
+.st-key-resultado>div>:nth-child(2){animation-delay:.1s}.st-key-resultado>div>:nth-child(3){animation-delay:.2s}
+.st-key-resultado>div>:nth-child(4){animation-delay:.3s}.st-key-resultado>div>:nth-child(5){animation-delay:.4s}
+.st-key-resultado>div>:nth-child(6){animation-delay:.5s}.st-key-resultado>div>:nth-child(n+7){animation-delay:.6s}
+@keyframes r-in{from{opacity:0;transform:translateY(16px)}}
+.st-key-resultado [data-testid="stMetricValue"]{animation:r-val .7s .35s cubic-bezier(.2,.7,.2,1) both}
+@keyframes r-val{from{opacity:0;transform:translateX(-12px)}}
+.st-key-resultado .js-plotly-plot .scatterlayer .js-line{stroke-dasharray:4000;stroke-dashoffset:4000;animation:r-draw 1.8s .25s cubic-bezier(.3,.6,.2,1) forwards}
 @keyframes r-draw{to{stroke-dashoffset:0}}
-.st-key-resultado .js-plotly-plot .barlayer .point path{transform-box:fill-box;transform-origin:50% 100%;animation:r-grow .8s cubic-bezier(.2,.7,.2,1) both}
+.st-key-resultado .js-plotly-plot .barlayer .point path{transform-box:fill-box;transform-origin:50% 100%;animation:r-grow .9s cubic-bezier(.2,.7,.2,1) both}
 @keyframes r-grow{from{transform:scaleY(0)}}
+.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(1) path{animation-delay:16ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(2) path{animation-delay:32ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(3) path{animation-delay:48ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(4) path{animation-delay:64ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(5) path{animation-delay:80ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(6) path{animation-delay:96ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(7) path{animation-delay:112ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(8) path{animation-delay:128ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(9) path{animation-delay:144ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(10) path{animation-delay:160ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(11) path{animation-delay:176ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(12) path{animation-delay:192ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(13) path{animation-delay:208ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(14) path{animation-delay:224ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(15) path{animation-delay:240ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(16) path{animation-delay:256ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(17) path{animation-delay:272ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(18) path{animation-delay:288ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(19) path{animation-delay:304ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(20) path{animation-delay:320ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(21) path{animation-delay:336ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(22) path{animation-delay:352ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(23) path{animation-delay:368ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(24) path{animation-delay:384ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(25) path{animation-delay:400ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(26) path{animation-delay:416ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(27) path{animation-delay:432ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(28) path{animation-delay:448ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(29) path{animation-delay:464ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(30) path{animation-delay:480ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(31) path{animation-delay:496ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(32) path{animation-delay:512ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(33) path{animation-delay:528ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(34) path{animation-delay:544ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(35) path{animation-delay:560ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(36) path{animation-delay:576ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(37) path{animation-delay:592ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(38) path{animation-delay:608ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(39) path{animation-delay:624ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(40) path{animation-delay:640ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(41) path{animation-delay:656ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(42) path{animation-delay:672ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(43) path{animation-delay:688ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(44) path{animation-delay:704ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(45) path{animation-delay:720ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(46) path{animation-delay:736ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(47) path{animation-delay:752ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(48) path{animation-delay:768ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(49) path{animation-delay:784ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(50) path{animation-delay:800ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(51) path{animation-delay:816ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(52) path{animation-delay:832ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(53) path{animation-delay:848ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(54) path{animation-delay:864ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(55) path{animation-delay:880ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(56) path{animation-delay:896ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(57) path{animation-delay:912ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(58) path{animation-delay:928ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(59) path{animation-delay:944ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(60) path{animation-delay:960ms}
+.js-plotly-plot .shapelayer path{filter:drop-shadow(0 0 4px #ef5a5a)}
+.js-plotly-plot .infolayer .annotation text{filter:drop-shadow(0 0 4px rgba(239,90,90,.8))}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 """
 
 
-def aplicar_tema() -> None:
-    """Injeta o CSS do app. Chamar uma vez por pagina, logo apos set_page_config."""
+# (chave, arquivo, rotulo, icone, href que o Streamlit gera para a pagina)
+_PAGINAS = (
+    ("inicio", "app.py", "Início", ":material/home:", ""),
+    ("equidade", "pages/1_Equidade_socioeconomica.py", "Equidade socioeconômica", ":material/balance:", "Equidade_socioeconomica"),
+    ("territorial", "pages/2_Recorte_territorial.py", "Recorte territorial", ":material/map:", "Recorte_territorial"),
+    ("capital", "pages/3_Capital_escolar_familiar.py", "Capital escolar familiar", ":material/school:", "Capital_escolar_familiar"),
+)
+
+# O Streamlit nao marca o link da pagina atual de forma estavel (as classes mudam a
+# cada versao), entao a pagina diz quem esta ativa e o CSS do item sai daqui.
+_CSS_ATIVO = (
+    '<style>[data-testid="stSidebar"] a[data-testid="stPageLink-NavLink"][href="{h}"]{{background:var(--r-surf);'
+    'color:var(--r-tx);border-color:var(--r-line)}}'
+    '[data-testid="stSidebar"] a[data-testid="stPageLink-NavLink"][href="{h}"]::before{{content:"";position:absolute;'
+    'left:-.9rem;top:18%;bottom:18%;width:4px;border-radius:0 4px 4px 0;background:var(--r-azul);'
+    'box-shadow:0 0 10px var(--r-azul),0 0 22px var(--r-glow);animation:r-barra .45s cubic-bezier(.2,.7,.2,1) both}}'
+    '[data-testid="stSidebar"] a[data-testid="stPageLink-NavLink"][href="{h}"] [data-testid="stIconMaterial"]{{'
+    'color:var(--r-azul);filter:drop-shadow(0 0 5px var(--r-glow))}}</style>'
+)
+
+_LOGO = (
+    '<div class="r-logo"><svg width="26" height="26" viewBox="0 0 26 26" fill="none">'
+    '<circle cx="13" cy="13" r="10.5" stroke="#252c38" stroke-width="2.4"/>'
+    '<path d="M13 2.5a10.5 10.5 0 0 1 10.5 10.5" stroke="#3b8cff" stroke-width="2.4" stroke-linecap="round"/>'
+    '<circle cx="13" cy="13" r="2.6" fill="#3b8cff"/></svg>'
+    '<span>radar<b>.</b>enem</span></div><p class="r-menu">Módulos</p>'
+)
+
+
+def _sidebar(ativa: str) -> None:
+    """Navegacao propria (a nativa chama a pagina principal de "app")."""
+    with st.sidebar:
+        st.html(_LOGO)
+        href = next((h for chave, _, _, _, h in _PAGINAS if chave == ativa), None)
+        if href is not None:
+            st.html(_CSS_ATIVO.format(h=href))
+        for _, arquivo, rotulo, icone, _ in _PAGINAS:
+            try:
+                st.page_link(arquivo, label=rotulo, icon=icone)
+            except Exception:  # pagina fora do contexto multipagina (ex.: teste isolado)
+                pass
+
+
+def aplicar_tema(pagina: str) -> None:
+    """Injeta o CSS e a sidebar do app. Chamar uma vez por pagina, logo apos set_page_config.
+
+    `pagina` e a chave da pagina atual: "inicio", "equidade", "territorial" ou "capital".
+    """
     st.html(_CSS)
+    _sidebar(pagina)
 
 
 def abertura(texto: str) -> None:
@@ -124,12 +195,15 @@ body{background:transparent;color:#e6e9ee;font:400 15px/1.5 'IBM Plex Sans',syst
 .ring{position:relative;width:128px;height:128px;flex:none}
 .ring svg{display:block;transform:rotate(-90deg)}
 .n{position:absolute;inset:0;display:grid;place-content:center;text-align:center;font:600 26px 'IBM Plex Mono',ui-monospace,monospace;font-variant-numeric:tabular-nums}
+.n>span>span{text-shadow:0 0 14px __COR__}
+@keyframes pulso{50%{filter:drop-shadow(0 0 14px __COR__) drop-shadow(0 0 4px __COR__)}}
+#arc.fim{animation:pulso .9s ease-in-out 1}
 .n small{display:block;font:600 10px 'IBM Plex Mono',ui-monospace,monospace;color:#8b95a5;text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px}
 h2{font:600 11px 'IBM Plex Mono',ui-monospace,monospace;text-transform:uppercase;letter-spacing:.08em;color:#8b95a5;margin-bottom:6px}
 p{font-size:14px;color:#e6e9ee}
 </style></head><body>
 <div class="ring"><svg width="128" height="128" viewBox="0 0 128 128"><circle cx="64" cy="64" r="56" fill="none" stroke="#252c38" stroke-width="6"/>
-<circle id="arc" cx="64" cy="64" r="56" fill="none" stroke="__COR__" stroke-width="6" stroke-dasharray="351.86" stroke-dashoffset="351.86"/></svg>
+<circle id="arc" cx="64" cy="64" r="56" fill="none" stroke="__COR__" stroke-width="6" stroke-linecap="round" stroke-dasharray="351.86" stroke-dashoffset="351.86" style="filter:drop-shadow(0 0 5px __COR__)"/></svg>
 <div class="n" style="font-size:__TAM__px"><span><small>__ROTULO__</small><span id="v">__FINAL__</span></span></div></div>
 <div><h2>__TITULO__</h2><p>__DESCRICAO__</p></div>
 <script>
@@ -138,10 +212,10 @@ const arc=document.getElementById('arc'),v=document.getElementById('v'),C=351.86
 const quieto=matchMedia('(prefers-reduced-motion: reduce)').matches||!ANIMA;
 function pos(x){arc.style.strokeDashoffset=C*(1-x/100)}
 if(quieto){pos(ALVO);v.textContent=FINAL}
-else{v.textContent='0,0%';arc.style.transition='stroke-dashoffset 1.1s cubic-bezier(.2,.7,.2,1)';
+else{v.textContent='0,0%';arc.style.transition='stroke-dashoffset 1.7s cubic-bezier(.2,.7,.2,1)';
  requestAnimationFrame(()=>requestAnimationFrame(()=>pos(ALVO)));
- const t0=performance.now();(function tick(t){const k=Math.min(1,(t-t0)/1100),e=1-Math.pow(1-k,3);
-  v.textContent=k<1?(ALVO*e).toFixed(1).replace('.',',')+'%':FINAL;if(k<1)requestAnimationFrame(tick)})(t0)}
+ const t0=performance.now();(function tick(t){const k=Math.min(1,(t-t0)/1700),e=1-Math.pow(1-k,3);
+  v.textContent=k<1?(ALVO*e).toFixed(1).replace('.',',')+'%':FINAL;if(k<1)requestAnimationFrame(tick);else arc.classList.add('fim')})(t0)}
 </script></body></html>"""
 
 _TEXTO_PERCENTIL = re.compile(r"(acima de |abaixo de )?(\d{1,3}),(\d)%")

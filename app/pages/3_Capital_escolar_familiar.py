@@ -144,7 +144,7 @@ def mostrar(cdfs, r) -> None:
 
 def main() -> None:
     st.set_page_config(page_title="Radar ENEM · Capital escolar familiar", layout="centered")
-    aplicar_tema()
+    aplicar_tema("capital")
     st.title("Capital escolar familiar")
     abertura(
         "A mesma nota pode ocupar posições diferentes conforme o grupo de comparação. "

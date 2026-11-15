@@ -5,6 +5,8 @@
 gatherUsageStats = false
 
 [client]
+# Navegacao propria em app/ui.py (a nativa chama a pagina principal de "app").
+showSidebarNavigation = false
 # Erros mostram so o tipo da excecao, nunca a mensagem nem valores
 # digitados pelo usuario.
 showErrorDetails = "type"
@@ -20,21 +22,21 @@ enableStaticServing = true
 # Tema escuro do Radar ENEM (front, branch front-tema-dark). Cor chapada,
 # linha fina, cantos arredondados (16px). Papeis das cores nos graficos ficam em app/ui.py.
 base = "dark"
-primaryColor = "#4c8dff"
+primaryColor = "#3b8cff"
 backgroundColor = "#0d1016"
 secondaryBackgroundColor = "#131820"
 textColor = "#e6e9ee"
 borderColor = "#252c38"
 dataframeBorderColor = "#252c38"
 dataframeHeaderBackgroundColor = "#131820"
-linkColor = "#4c8dff"
+linkColor = "#3b8cff"
 baseRadius = "16px"
 buttonRadius = "16px"
 showWidgetBorder = true
 font = "IBM Plex Sans, sans-serif"
 headingFont = "IBM Plex Mono, monospace"
 codeFont = "IBM Plex Mono, monospace"
-chartCategoricalColors = ["#4c8dff", "#e0a63a", "#8b95a5", "#ef5a5a"]
+chartCategoricalColors = ["#3b8cff", "#e0a63a", "#8b95a5", "#ef5a5a"]
 
 [[theme.fontFaces]]
 family = "IBM Plex Sans"
