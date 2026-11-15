@@ -58,7 +58,8 @@ Mesmas seções, com o número do seu capítulo (2.1, 2.2… ou 3.1, 3.2…):
 ## Entrega
 
 1. Branch própria a partir da `main`, com o .docx nesta pasta e o nome indicado na tabela.
-2. Pull request com revisão de outro integrante, como nos demais PRs.
+2. Pull request com o PO (Samuel Silva de Rezende, `kiraabin`) como revisor. Como os capítulos
+   vão para o documento consolidado, a revisão de cada um é feita por quem faz a junção.
 3. Prazo: definido na issue de aviso da AV4.
 
 Depois que os três capítulos estiverem na `main`, o PO monta o documento consolidado e o envia
