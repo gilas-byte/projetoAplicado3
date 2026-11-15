@@ -17,7 +17,7 @@ from html import escape
 
 import plotly.graph_objects as go
 import streamlit as st
-from streamlit.components.v1 import html as _iframe
+from streamlit import iframe as _iframe  # substitui st.components.v1.html (removido apos 06/2026)
 
 # Papel de cada cor, igual nas quatro telas.
 COR_PROPRIO = "#4c8dff"  # seu nivel / sua faixa / sua UF

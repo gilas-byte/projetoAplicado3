@@ -23,9 +23,20 @@ import streamlit as st
 
 RAIZ = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(RAIZ / "scripts"))
+sys.path.insert(0, str(RAIZ / "app"))
 
 from colunas import PISO_GRUPO  # noqa: E402
 from estatistica import alcance_do_limite, densidade_protegida, formatar_percentil  # noqa: E402
+from ui import (  # noqa: E402
+    COR_BRASIL,
+    COR_NOTA,
+    COR_PROPRIO,
+    COR_VIZINHO,
+    abertura,
+    anel,
+    aplicar_tema,
+    estilo_grafico,
+)
 from territorial import (  # noqa: E402
     AREAS,
     BRASIL,
@@ -46,7 +57,7 @@ from territorial import (  # noqa: E402
 
 DIST_TERRITORIAL = Path(os.environ.get("RADAR_DIST_TERRITORIAL",
                                        RAIZ / "data" / "analytics" / "dist_territorial.parquet"))
-COR_UF, COR_REGIAO, COR_BRASIL, COR_NOTA = "#2563eb", "#16a34a", "#6b7280", "#dc2626"
+COR_UF, COR_REGIAO = COR_PROPRIO, COR_VIZINHO
 
 
 @st.cache_data
@@ -70,14 +81,14 @@ def grafico_distribuicoes(cdfs, e) -> go.Figure:
         ))
     fig.add_vline(x=e.nota, line_width=2, line_dash="dash", line_color=COR_NOTA,
                   annotation_text="sua nota", annotation_position="top")
-    fig.update_layout(height=320, margin=dict(l=10, r=10, t=30, b=10), xaxis_title="Nota",
+    fig.update_layout(margin=dict(l=10, r=10, t=30, b=10), xaxis_title="Nota",
                       yaxis_title="% do grupo a cada 10 pontos", legend=dict(orientation="h", y=-0.25))
-    return fig
+    return estilo_grafico(fig)
 
 
 def grafico_medianas(cdfs, e) -> go.Figure:
     ranking = medianas_ufs(cdfs, e.ano, e.area)[::-1]  # maior mediana no topo
-    cores = [COR_UF if uf == e.uf else ("#93c5fd" if uf in REGIOES[e.regiao][1] else "#d1d5db")
+    cores = [COR_UF if uf == e.uf else ("#2b4a80" if uf in REGIOES[e.regiao][1] else "#323b4a")
              for uf, *_ in ranking]
     fig = go.Figure(go.Bar(
         x=[m for _, m, _ in ranking], y=[uf for uf, *_ in ranking], orientation="h", marker_color=cores,
@@ -86,16 +97,22 @@ def grafico_medianas(cdfs, e) -> go.Figure:
     ))
     fig.add_vline(x=e.nota, line_width=2, line_dash="dash", line_color=COR_NOTA)
     minimo = min((m for _, m, _ in ranking), default=0)
-    fig.update_layout(height=max(300, 18 * len(ranking) + 60), margin=dict(l=10, r=10, t=10, b=10),
+    fig.update_layout(margin=dict(l=10, r=10, t=10, b=10),
                       xaxis=dict(title="Mediana da UF", range=[max(0, min(minimo, e.nota) - 40), None]),
                       yaxis=dict(tickfont=dict(size=11)))
-    return fig
+    return estilo_grafico(fig, altura=max(300, 18 * len(ranking) + 60))
 
 
 def mostrar(cdfs, r) -> None:
     e = r.entrada
-    st.subheader(f"{AREAS[e.area]}: nota {formatar_nota(e.nota)}")
     cenarios = (r.uf, r.regiao, r.brasil)
+    destaque = next((c for c in cenarios if c.disponivel), None)
+    if destaque is not None:
+        anel(destaque.texto_percentil, f"{AREAS[e.area]} | nota {formatar_nota(e.nota)}",
+             f"{destaque.rotulo}: {formatar_inteiro(destaque.n)} participantes.",
+             cor={r.uf: COR_UF, r.regiao: COR_REGIAO}.get(destaque, COR_BRASIL))
+    else:
+        st.subheader(f"{AREAS[e.area]}: nota {formatar_nota(e.nota)}")
     for coluna, cenario in zip(st.columns(3), cenarios):
         with coluna:
             if cenario.disponivel:
@@ -155,8 +172,9 @@ def mostrar(cdfs, r) -> None:
 
 def main() -> None:
     st.set_page_config(page_title="Radar ENEM · Recorte territorial", layout="centered")
+    aplicar_tema()
     st.title("Recorte territorial")
-    st.write(
+    abertura(
         "A mesma nota pode ocupar posições diferentes no seu estado, na sua região e no Brasil. "
         "Informe a UF onde fez a prova e suas notas para ver as três posições lado a lado."
     )
@@ -194,13 +212,14 @@ def main() -> None:
         st.warning("Informe ao menos uma nota.")
         return
 
-    for area, nota in informadas.items():
-        try:
-            entrada = validar_entrada(ano, area, nota, uf, anos)
-        except EntradaInvalida as erro:
-            st.error(str(erro))
-            continue
-        mostrar(cdfs, comparar(cdfs, entrada))
+    with st.container(key="resultado"):
+        for area, nota in informadas.items():
+            try:
+                entrada = validar_entrada(ano, area, nota, uf, anos)
+            except EntradaInvalida as erro:
+                st.error(str(erro))
+                continue
+            mostrar(cdfs, comparar(cdfs, entrada))
 
     with st.expander("Como a comparação é feita"):
         st.markdown(
