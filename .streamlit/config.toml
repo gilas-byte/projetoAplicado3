@@ -12,6 +12,9 @@ toolbarMode = "viewer"
 
 [server]
 headless = true
+# Serve so app/static/ (fontes IBM Plex, licenca OFL). Dados ficam em data/,
+# fora dessa pasta. Fontes proprias evitam pedir a fonte ao Google (IP do visitante).
+enableStaticServing = true
 
 [theme]
 # Tema escuro do Radar ENEM (front, branch front-tema-dark). Cor chapada,
@@ -32,3 +35,33 @@ font = "IBM Plex Sans, sans-serif"
 headingFont = "IBM Plex Mono, monospace"
 codeFont = "IBM Plex Mono, monospace"
 chartCategoricalColors = ["#4c8dff", "#e0a63a", "#8b95a5", "#ef5a5a"]
+
+[[theme.fontFaces]]
+family = "IBM Plex Sans"
+url = "app/static/fonts/ibm-plex-sans-400.woff2"
+weight = "400"
+style = "normal"
+
+[[theme.fontFaces]]
+family = "IBM Plex Sans"
+url = "app/static/fonts/ibm-plex-sans-500.woff2"
+weight = "500"
+style = "normal"
+
+[[theme.fontFaces]]
+family = "IBM Plex Sans"
+url = "app/static/fonts/ibm-plex-sans-600.woff2"
+weight = "600"
+style = "normal"
+
+[[theme.fontFaces]]
+family = "IBM Plex Mono"
+url = "app/static/fonts/ibm-plex-mono-500.woff2"
+weight = "500"
+style = "normal"
+
+[[theme.fontFaces]]
+family = "IBM Plex Mono"
+url = "app/static/fonts/ibm-plex-mono-600.woff2"
+weight = "600"
+style = "normal"

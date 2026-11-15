@@ -57,6 +57,8 @@ seguintes em 2,2 s. As medições no Replit entram aqui depois da primeira publi
 
 - [ ] Projeto do Replit privado.
 - [ ] `git status` no Replit não lista nenhum `.parquet` ou `.csv`.
-- [ ] O app não oferece download de artefato (o Streamlit não serve arquivos estáticos
-      por padrão, e `showErrorDetails = "type"` esconde valores digitados nos erros).
+- [ ] O app não oferece download de artefato. O servidor de estáticos está ligado
+      (`enableStaticServing`) só para `app/static/` (fontes IBM Plex, licença OFL); `data/`
+      fica fora dessa pasta, e caminho com `..` volta 400 (conferido em 15/11/2026).
+      `showErrorDetails = "type"` esconde valores digitados nos erros.
 - [ ] `python scripts/verificar_piso.py` passa.
