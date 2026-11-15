@@ -27,6 +27,7 @@ sys.path.insert(0, str(RAIZ / "scripts"))
 
 from colunas import PISO_GRUPO  # noqa: E402
 from estatistica import histograma, percentil_exato_acumulado  # noqa: E402
+from ui import COR_NOTA, COR_PROPRIO, abertura, aplicar_tema  # noqa: E402
 
 DIST_NOTAS = Path(os.environ.get("RADAR_DIST_NOTAS", RAIZ / "data" / "analytics" / "dist_notas.parquet"))
 DIST_EXATA = Path(os.environ.get("RADAR_DIST_EXATA", RAIZ / "data" / "analytics" / "dist_exata.parquet"))
@@ -77,11 +78,11 @@ def grafico(faixas_area, nota: float, titulo: str) -> go.Figure:
             x=[inicio + 10 for inicio, _ in classes],
             y=[pct for _, pct in classes],
             width=20,
-            marker_color=["#2563eb" if inicio <= nota else "#93c5fd" for inicio, _ in classes],
+            marker_color=[COR_PROPRIO if inicio <= nota else "#2b4a80" for inicio, _ in classes],
             hovertemplate="%{x:.0f} ± 10 pontos: %{y:.1f}% dos participantes<extra></extra>",
         )
     )
-    fig.add_vline(x=nota, line_width=2, line_dash="dash", line_color="#dc2626",
+    fig.add_vline(x=nota, line_width=2, line_dash="dash", line_color=COR_NOTA,
                   annotation_text="sua nota", annotation_position="top")
     fig.update_layout(
         title=titulo, bargap=0.05, height=320, margin=dict(l=10, r=10, t=50, b=10),
@@ -92,8 +93,9 @@ def grafico(faixas_area, nota: float, titulo: str) -> go.Figure:
 
 def main() -> None:
     st.set_page_config(page_title="Radar ENEM", layout="centered")
+    aplicar_tema()
     st.title("Radar ENEM")
-    st.write(
+    abertura(
         "Informe suas notas e veja em que posição você ficaria entre os "
         "participantes de uma edição do ENEM."
     )
@@ -124,18 +126,19 @@ def main() -> None:
         st.warning("Informe ao menos uma nota.")
         return
 
-    st.subheader(f"Sua posição no ENEM {ano}")
-    for area, nota in informadas.items():
-        faixas_area = faixas.get((ano, area))
-        if not faixas_area or not exatas.get((ano, area)):
-            st.info(f"{AREAS[area]}: grupo insuficiente para comparação.")
-            continue
-        p = percentil_exato_acumulado(exatas[(ano, area)], nota)
-        total = sum(n for *_, n in faixas_area)
-        st.metric(AREAS[area], f"{nota:.1f}", f"acima de {p:.1f}% dos participantes", delta_color="off")
-        st.plotly_chart(grafico(faixas_area, nota, f"{AREAS[area]}: distribuição das notas"),
-                        config={"displayModeBar": False})
-        st.caption(f"Comparação com {total:,} participantes elegíveis de {ano}.".replace(",", "."))
+    with st.container(key="resultado"):
+        st.subheader(f"Sua posição no ENEM {ano}")
+        for area, nota in informadas.items():
+            faixas_area = faixas.get((ano, area))
+            if not faixas_area or not exatas.get((ano, area)):
+                st.info(f"{AREAS[area]}: grupo insuficiente para comparação.")
+                continue
+            p = percentil_exato_acumulado(exatas[(ano, area)], nota)
+            total = sum(n for *_, n in faixas_area)
+            st.metric(AREAS[area], f"{nota:.1f}", f"acima de {p:.1f}% dos participantes", delta_color="off")
+            st.plotly_chart(grafico(faixas_area, nota, f"{AREAS[area]}: distribuição das notas"),
+                            config={"displayModeBar": False})
+            st.caption(f"Comparação com {total:,} participantes elegíveis de {ano}.".replace(",", "."))
 
     with st.expander("Como a posição é calculada"):
         st.markdown(
