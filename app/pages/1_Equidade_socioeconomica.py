@@ -23,9 +23,20 @@ import streamlit as st
 
 RAIZ = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(RAIZ / "scripts"))
+sys.path.insert(0, str(RAIZ / "app"))
 
 from colunas import PISO_GRUPO  # noqa: E402
 from estatistica import densidade_protegida, formatar_percentil  # noqa: E402
+from ui import (  # noqa: E402
+    COR_BRASIL,
+    COR_NOTA,
+    COR_PROPRIO,
+    COR_VIZINHO,
+    abertura,
+    anel,
+    aplicar_tema,
+    estilo_grafico,
+)
 from equidade import (  # noqa: E402
     AREAS,
     CONTRASTE,
@@ -42,7 +53,7 @@ from equidade import (  # noqa: E402
 )
 
 DIST_EQUIDADE = Path(os.environ.get("RADAR_DIST_EQUIDADE", RAIZ / "data" / "analytics" / "dist_equidade.parquet"))
-COR_FAIXA, COR_CONTRASTE, COR_NOTA = "#2563eb", "#f59e0b", "#dc2626"
+COR_FAIXA, COR_CONTRASTE = COR_PROPRIO, COR_VIZINHO
 
 
 @st.cache_data
@@ -70,15 +81,21 @@ def grafico(cdfs, ano: int, area: str, faixa: str, nota: float) -> go.Figure:
         ))
     fig.add_vline(x=nota, line_width=2, line_dash="dash", line_color=COR_NOTA,
                   annotation_text="sua nota", annotation_position="top")
-    fig.update_layout(barmode="overlay", bargap=0.05, height=320, margin=dict(l=10, r=10, t=30, b=10),
+    fig.update_layout(barmode="overlay", bargap=0.05, margin=dict(l=10, r=10, t=30, b=10),
                       xaxis_title="Nota", yaxis_title="% do grupo a cada 10 pontos",
                       legend=dict(orientation="h", y=-0.25))
-    return fig
+    return estilo_grafico(fig)
 
 
 def mostrar(cdfs, resultado) -> None:
     e, real, simulado = resultado.entrada, resultado.real, resultado.simulado
-    st.subheader(f"{AREAS[e.area]}: nota {formatar_nota(e.nota)}")
+    destaque = real if real.disponivel else (simulado if simulado.disponivel else None)
+    if destaque is not None:
+        anel(destaque.texto, f"{AREAS[e.area]} | nota {formatar_nota(e.nota)}",
+             f"{destaque.rotulo}: {destaque.n:,} participantes.".replace(",", "."),
+             cor=COR_FAIXA if destaque is real else COR_CONTRASTE)
+    else:
+        st.subheader(f"{AREAS[e.area]}: nota {formatar_nota(e.nota)}")
     col1, col2 = st.columns(2)
     for coluna, cenario, titulo in ((col1, real, "1. Entre a sua faixa de renda"),
                                     (col2, simulado, "2. Entre escola privada de alta renda")):
@@ -130,8 +147,9 @@ def mostrar(cdfs, resultado) -> None:
 
 def main() -> None:
     st.set_page_config(page_title="Radar ENEM · Equidade socioeconômica", layout="centered")
+    aplicar_tema("equidade")
     st.title("Equidade socioeconômica")
-    st.write(
+    abertura(
         "A mesma nota pode significar posições diferentes conforme o grupo de comparação. "
         "Informe sua nota e a renda da sua família e veja sua posição em dois cenários: "
         "entre participantes da sua faixa de renda e entre participantes de escola privada "
@@ -180,13 +198,14 @@ def main() -> None:
         return
 
     st.caption(f"Sua faixa: {FAIXA_POR_CODIGO[faixa_de_q006(alternativa)].rotulo}.")
-    for area, nota in informadas.items():
-        try:
-            entrada = validar_entrada(ano, area, nota, alternativa, anos)
-        except EntradaInvalida as erro:
-            st.error(str(erro))
-            continue
-        mostrar(cdfs, comparar(cdfs, entrada))
+    with st.container(key="resultado"):
+        for area, nota in informadas.items():
+            try:
+                entrada = validar_entrada(ano, area, nota, alternativa, anos)
+            except EntradaInvalida as erro:
+                st.error(str(erro))
+                continue
+            mostrar(cdfs, comparar(cdfs, entrada))
 
     with st.expander("Como a comparação é feita"):
         st.markdown(
