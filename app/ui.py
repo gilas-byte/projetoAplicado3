@@ -369,6 +369,100 @@ def rodape() -> None:
     st.html(f'<p class="r-rodape">{escape(texto)}</p>')
 
 
+# --------------------------------------------------------- VISAO SIMPLES
+#
+# Cada resultado tem duas leituras: a visao simples, para quem nao e da area (barras de
+# 0 a 100 e uma frase em linguagem comum), e a visao tecnica (tabela de medidas e curvas
+# de distribuicao). As duas mostram a mesma coisa, a posicao da nota no grupo
+# (BI e Data Visualization: o publico define a representacao; barras com base zero sao
+# a forma mais facil de comparar grandezas). A visao simples usa so o texto que a
+# logica ja devolveu (`texto_percentil`), entao nunca mostra mais do que a tela ja
+# mostra, inclusive nos limites de exibicao das pontas (DL-04, item 8).
+
+ABAS_RESULTADO = ("Visão simples", "Visão técnica")
+
+
+def _valor_do_texto(texto: str) -> tuple[float, str] | None:
+    """(valor exibido, prefixo "acima de"/"abaixo de"/"") de um texto de percentil."""
+    m = _TEXTO_PERCENTIL.fullmatch(texto.strip())
+    if not m:
+        return None
+    return float(f"{m.group(2)}.{m.group(3)}"), (m.group(1) or "").strip()
+
+
+def frase_posicao(texto: str) -> str | None:
+    """A posição em linguagem comum, a partir do texto exibido.
+
+    "73,0%" vira "Sua nota foi maior que a de 73,0% dos participantes: cerca de 73 em
+    cada 100." Nas pontas, "acima de 99,9%" vira "Sua nota está no topo do grupo, entre os
+    0,1% de notas mais altas." Perto de 0 e de 100 o "cerca de N em cada 100" é omitido, porque o
+    arredondamento diria "100 em cada 100" ou "0 em cada 100".
+    """
+    lido = _valor_do_texto(texto)
+    if lido is None:
+        return None
+    valor, prefixo = lido
+    if prefixo == "acima de":
+        return f"Sua nota está no topo do grupo, entre os {formatar_porcento(100 - valor)} de notas mais altas."
+    if prefixo == "abaixo de":
+        return f"Sua nota está na base do grupo, entre os {formatar_porcento(valor)} de notas mais baixas."
+    frase = f"Sua nota foi maior que a de {formatar_porcento(valor)} dos participantes"
+    if 1 <= valor <= 99:
+        frase += f": cerca de {round(valor)} em cada 100"
+    return frase + "."
+
+
+def formatar_porcento(valor: float) -> str:
+    return f"{valor:.1f}".replace(".", ",") + "%"
+
+
+def posicao_simples(itens: list[tuple[str, str, str]]) -> go.Figure | None:
+    """Barras de 0 a 100 com a posição em cada grupo. `itens`: (grupo, texto exibido, cor).
+
+    A barra colorida é a parcela do grupo com nota menor; o trilho cinza atrás dela vai até 100%.
+    Itens com texto fora do formato (grupo insuficiente) ficam de fora; sem nenhum, None.
+    """
+    linhas = [(rotulo, *_valor_do_texto(texto), texto.strip(), cor)
+              for rotulo, texto, cor in itens if _valor_do_texto(texto) is not None]
+    if not linhas:
+        return None
+    rotulos = [rotulo for rotulo, *_ in linhas]
+    valores = [valor for _, valor, *_ in linhas]
+    fig = go.Figure()
+    # Trilho de 0 a 100 atrás de cada barra (sobreposição, não empilhamento), para o rótulo
+    # ficar fora da barra colorida, em texto escuro sobre o trilho claro.
+    fig.add_trace(go.Bar(
+        x=[100] * len(linhas), y=rotulos, orientation="h", marker_color=paleta()["line"],
+        hoverinfo="skip", name="Grupo inteiro",
+    ))
+    fig.add_trace(go.Bar(
+        x=valores, y=rotulos, orientation="h", marker_color=[cor for *_, cor in linhas],
+        text=[texto for *_, texto, _ in linhas], textposition="outside", cliponaxis=False,
+        textfont=dict(family="IBM Plex Mono, monospace", size=13, color=paleta()["tx"]),
+        hoverinfo="skip", name="Nota menor que a sua",
+    ))
+    fig.update_layout(
+        barmode="overlay", bargap=0.35, showlegend=False, margin=dict(l=10, r=120, t=10, b=10),
+        xaxis=dict(range=[0, 100], tickvals=[0, 25, 50, 75, 100], ticksuffix="%",
+                   title="Participantes do grupo com nota menor que a sua"),
+        yaxis=dict(autorange="reversed"),
+    )
+    return estilo_grafico(fig, altura=90 + 52 * len(linhas))
+
+
+def visao_simples(itens: list[tuple[str, str, str]]) -> None:
+    """Desenha a visão simples: uma frase por grupo e o gráfico de barras."""
+    for rotulo, texto, _ in itens:
+        frase = frase_posicao(texto)
+        if frase is not None:
+            st.markdown(f"**{rotulo}.** {frase}")
+    fig = posicao_simples(itens)
+    if fig is not None:
+        st.plotly_chart(fig, config={"displayModeBar": False, "staticPlot": True})
+        st.caption("A barra colorida é a parte do grupo que tirou nota menor que a sua; "
+                   "quem tirou a mesma nota conta pela metade.")
+
+
 # --------------------------------------------------------------- GRAFICOS
 
 

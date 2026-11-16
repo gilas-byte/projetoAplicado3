@@ -34,7 +34,7 @@ o autor do módulo que o exibe.
 | Unidade e direção | %, maior significa mais participantes com nota abaixo |
 | Arredondamento | 1 casa decimal, só na exibição (DL-01) |
 | Exibição protegida | Em UF, região, faixa de renda e nível de escolaridade: "acima de X%" ou "abaixo de X%" perto das pontas, com X = 100 · (N − 100) / N ou 100 · 100 / N (DL-04, item 8). Nacional: exato (ADR-001) |
-| Gráfico | Anel com o valor e métrica em texto; histograma com faixas de pelo menos 100 pessoas |
+| Gráfico | Anel com o valor e métrica em texto; visão simples com frase e barra de 0 a 100% por grupo; visão técnica com histograma ou curva de faixas de pelo menos 100 pessoas |
 | Código | `percentil_exato_acumulado`, `exibir_percentil` em `scripts/estatistica.py` |
 | Dono | Motor estatístico (Samuel, ADR-001; Vinícius, motor v1) |
 
@@ -114,6 +114,7 @@ o autor do módulo que o exibe.
 | Item | Situação |
 | --- | --- |
 | Pergunta de negócio por visual | Atendido: cada página abre com a pergunta do módulo |
+| Representação adequada ao público | Atendido (AV6): todo resultado tem duas abas. "Visão simples", para o público geral: uma frase em linguagem comum ("cerca de 73 em cada 100") e barras de 0 a 100% por grupo. "Visão técnica", para quem quer o detalhe: tabela de medidas, curvas de distribuição, quartis e medianas das UFs. As duas mostram o mesmo resultado (IND-01), e a simples usa só o texto já protegido pelos limites de exibição |
 | Fórmula, universo, período e N por indicador | Atendido neste documento e na tela (N sempre visível) |
 | Barras começam em zero | Atendido. O gráfico de medianas era de barras com eixo truncado e virou dot plot (AV6) |
 | Fonte e data de atualização visíveis | Atendido: rodapé em todas as páginas (AV6) |

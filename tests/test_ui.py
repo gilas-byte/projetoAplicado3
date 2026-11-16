@@ -165,5 +165,35 @@ class TestRodape(unittest.TestCase):
         self.assertIn("conferidos em 16/11/2026 (código abcdef1).", html.call_args[0][0])
 
 
+@unittest.skipIf(ui is None, "streamlit/plotly nao instalados")
+class TestVisaoSimples(unittest.TestCase):
+    def test_frase_no_meio_da_distribuicao(self):
+        self.assertEqual(ui.frase_posicao("73,0%"),
+                         "Sua nota foi maior que a de 73,0% dos participantes: cerca de 73 em cada 100.")
+
+    def test_frase_perto_das_pontas_nao_arredonda_para_100(self):
+        self.assertEqual(ui.frase_posicao("99,6%"), "Sua nota foi maior que a de 99,6% dos participantes.")
+        self.assertEqual(ui.frase_posicao("0,4%"), "Sua nota foi maior que a de 0,4% dos participantes.")
+
+    def test_frase_em_limite_usa_so_o_texto_exibido(self):
+        self.assertEqual(ui.frase_posicao("acima de 99,9%"),
+                         "Sua nota está no topo do grupo, entre os 0,1% de notas mais altas.")
+        self.assertEqual(ui.frase_posicao("abaixo de 0,3%"),
+                         "Sua nota está na base do grupo, entre os 0,3% de notas mais baixas.")
+
+    def test_texto_fora_do_formato_nao_vira_frase_nem_barra(self):
+        self.assertIsNone(ui.frase_posicao("—"))
+        self.assertIsNone(ui.posicao_simples([("A", "—", "#000000")]))
+
+    def test_barras_vao_de_0_a_100_e_mostram_o_texto_exibido(self):
+        fig = ui.posicao_simples([("UF", "73,0%", ui.COR_PROPRIO), ("Brasil", "acima de 99,9%", ui.COR_BRASIL)])
+        trilho, menor = fig.data
+        self.assertEqual(list(trilho.x), [100, 100])
+        self.assertEqual(list(menor.x), [73.0, 99.9])
+        self.assertEqual(list(menor.text), ["73,0%", "acima de 99,9%"])
+        self.assertEqual(fig.layout.barmode, "overlay")
+        self.assertEqual(fig.layout.xaxis.range, (0, 100))
+
+
 if __name__ == "__main__":
     unittest.main()

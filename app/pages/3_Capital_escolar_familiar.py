@@ -49,6 +49,8 @@ from ui import (  # noqa: E402
     aplicar_tema,
     estilo_grafico,
     rodape,
+    ABAS_RESULTADO,
+    visao_simples,
 )
 
 DIST_CAPITAL = Path(os.environ.get("RADAR_DIST_CAPITAL", RAIZ / "data" / "analytics" / "dist_capital.parquet"))
@@ -128,7 +130,13 @@ def mostrar(cdfs, r) -> None:
     for aviso in r.avisos:
         st.caption(aviso)
     disponiveis = [c for c in cenarios if c.disponivel]
-    if disponiveis:
+    if not disponiveis:
+        return
+    cores = {id(r.proprio): COR_PROPRIO, id(r.vizinho): COR_VIZINHO}
+    simples, tecnica = st.tabs(ABAS_RESULTADO)
+    with simples:
+        visao_simples([(c.rotulo, c.texto_percentil, cores.get(id(c), COR_BRASIL)) for c in disponiveis])
+    with tecnica:
         st.dataframe(
             {
                 "Grupo": [c.rotulo for c in disponiveis],

@@ -19,7 +19,8 @@ sozinha, o tempo aproximado, onde travou e o que perguntou.
 
 | # | Tarefa | Sucesso quando a pessoa... |
 | --- | --- | --- |
-| 1 | "Descubra em que posição a sua nota de Matemática ficaria no ENEM 2022." | lê o percentil e explica com as próprias palavras ("fiquei acima de X% dos participantes") |
+| 1 | "Descubra em que posição a sua nota de Matemática ficaria no ENEM 2022." | lê o resultado na visão simples e explica com as próprias palavras ("fiquei na frente de cerca de X em cada 100") |
+| 1b | "Agora abra a visão técnica. Ela mostra a mesma coisa que a simples?" | reconhece o mesmo percentil nas duas abas; anotar qual a pessoa preferiu e por quê |
 | 2 | "De onde vêm esses dados e de quando são?" | encontra a fonte e a data no rodapé ou no "Como a posição é calculada" |
 | 3 | "Compare a sua posição no seu estado e no Brasil." | abre o Recorte territorial, escolhe a UF e lê as duas posições |
 | 4 | "Por que aparece 'acima de 99,9%' e não o número exato?" (só se o caso aparecer) ou "O que quer dizer a caixa do gráfico?" | encontra a explicação na página ou na legenda |

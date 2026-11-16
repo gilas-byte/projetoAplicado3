@@ -38,6 +38,8 @@ from ui import (  # noqa: E402
     estilo_grafico,
     paleta,
     rodape,
+    ABAS_RESULTADO,
+    visao_simples,
 )
 from territorial import (  # noqa: E402
     AREAS,
@@ -183,7 +185,13 @@ def mostrar(cdfs, r) -> None:
     for aviso in r.avisos:
         st.caption(aviso)
     disponiveis = [c for c in cenarios if c.disponivel]
-    if disponiveis:
+    if not disponiveis:
+        return
+    cores = {id(r.uf): COR_UF, id(r.regiao): COR_REGIAO}
+    simples, tecnica = st.tabs(ABAS_RESULTADO)
+    with simples:
+        visao_simples([(c.rotulo, c.texto_percentil, cores.get(id(c), COR_BRASIL)) for c in disponiveis])
+    with tecnica:
         st.dataframe(
             {
                 "Grupo": [c.rotulo for c in disponiveis],
@@ -196,11 +204,11 @@ def mostrar(cdfs, r) -> None:
             hide_index=True,
         )
         st.plotly_chart(grafico_distribuicoes(cdfs, e), config={"displayModeBar": False})
-    if r.ufs_comparadas:
-        with st.expander("Mediana de cada UF"):
-            st.plotly_chart(grafico_medianas(cdfs, e), config={"displayModeBar": False})
-            st.caption("Cada ponto é a mediana de uma UF; o número ao lado da sigla é o total de "
-                       "participantes da UF nesta edição e área.")
+        if r.ufs_comparadas:
+            with st.expander("Mediana de cada UF"):
+                st.plotly_chart(grafico_medianas(cdfs, e), config={"displayModeBar": False})
+                st.caption("Cada ponto é a mediana de uma UF; o número ao lado da sigla é o total de "
+                           "participantes da UF nesta edição e área.")
 
 
 def main() -> None:

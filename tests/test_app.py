@@ -87,6 +87,15 @@ class TestApp(unittest.TestCase):
         at.button[0].click().run()
         self.assertIn("ao menos uma nota", at.warning[0].value)
 
+    def test_visao_simples_ao_lado_da_tecnica(self):
+        at = self.abrir()
+        self.campo(at, "Matemática").set_value(550.0)
+        at.button[0].click().run()
+        self.assertFalse(at.exception)
+        self.assertEqual([aba.label for aba in at.tabs], ["Visão simples", "Visão técnica"])
+        texto = " ".join(m.value for m in at.tabs[0].markdown)
+        self.assertIn("Sua nota foi maior que a de 50,1% dos participantes: cerca de 50 em cada 100.", texto)
+
     def test_quartis_e_caixa_protegida(self):
         at = self.abrir()
         self.campo(at, "Matemática").set_value(550.0)

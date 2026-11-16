@@ -37,6 +37,8 @@ from ui import (  # noqa: E402
     aplicar_tema,
     estilo_grafico,
     rodape,
+    ABAS_RESULTADO,
+    visao_simples,
 )
 from equidade import (  # noqa: E402
     AREAS,
@@ -131,7 +133,13 @@ def mostrar(cdfs, resultado) -> None:
     for aviso in resultado.avisos:
         st.caption(aviso)
     disponiveis = [c for c in (real, simulado) if c.disponivel]
-    if disponiveis:
+    if not disponiveis:
+        return
+    simples, tecnica = st.tabs(ABAS_RESULTADO)
+    with simples:
+        visao_simples([("Entre a sua faixa de renda" if c is real else "Entre escola privada de alta renda",
+                        c.texto, COR_FAIXA if c is real else COR_CONTRASTE) for c in disponiveis])
+    with tecnica:
         st.dataframe(
             {
                 "Grupo": ["Sua faixa" if c.grupo != CONTRASTE else "Contraste" for c in disponiveis],

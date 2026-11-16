@@ -26,8 +26,18 @@ RAIZ = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(RAIZ / "scripts"))
 
 from colunas import PISO_GRUPO  # noqa: E402
-from estatistica import caixa_protegida, histograma, percentil_exato_acumulado  # noqa: E402
-from ui import COR_NOTA, COR_PROPRIO, abertura, aplicar_tema, estilo_grafico, paleta, rodape  # noqa: E402
+from estatistica import caixa_protegida, formatar_percentil, histograma, percentil_exato_acumulado  # noqa: E402
+from ui import (  # noqa: E402
+    ABAS_RESULTADO,
+    COR_NOTA,
+    COR_PROPRIO,
+    abertura,
+    aplicar_tema,
+    estilo_grafico,
+    paleta,
+    rodape,
+    visao_simples,
+)
 
 DIST_NOTAS = Path(os.environ.get("RADAR_DIST_NOTAS", RAIZ / "data" / "analytics" / "dist_notas.parquet"))
 DIST_EXATA = Path(os.environ.get("RADAR_DIST_EXATA", RAIZ / "data" / "analytics" / "dist_exata.parquet"))
@@ -171,28 +181,36 @@ def main() -> None:
 
     with st.container(key="resultado"):
         st.subheader(f"Sua posição no ENEM {ano}")
-        caixas = []
-        for area, nota in informadas.items():
-            faixas_area = faixas.get((ano, area))
-            if not faixas_area or not exatas.get((ano, area)):
-                st.info(f"{AREAS[area]}: grupo insuficiente para comparação.")
-                continue
-            p = percentil_exato_acumulado(exatas[(ano, area)], nota)
-            total = sum(n for *_, n in faixas_area)
-            st.metric(AREAS[area], f"{nota:.1f}", f"acima de {p:.1f}% dos participantes", delta_color="off")
-            st.plotly_chart(grafico(faixas_area, nota, f"{AREAS[area]}: distribuição das notas"),
-                            config={"displayModeBar": False})
-            st.caption(f"Comparação com {total:,} participantes elegíveis de {ano}.".replace(",", "."))
-            caixa = caixa_protegida(exatas[(ano, area)])
-            if caixa is not None:
-                st.caption(texto_quartis(caixa))
-                caixas.append((AREAS[area], caixa, nota))
-        if caixas:
-            st.markdown("**Sua nota diante dos quartis de cada área**")
-            st.plotly_chart(grafico_caixas(caixas), config={"displayModeBar": False})
-            st.caption("A caixa vai do 1º ao 3º quartil, a linha interna é a mediana e os bigodes "
-                       "vão dos percentis 5 a 95. O mínimo, o máximo e os pontos isolados não são "
-                       "desenhados, porque cada um seria a nota de uma única pessoa.")
+        simples, tecnica = st.tabs(ABAS_RESULTADO)
+        itens, caixas = [], []
+        with tecnica:
+            for area, nota in informadas.items():
+                faixas_area = faixas.get((ano, area))
+                if not faixas_area or not exatas.get((ano, area)):
+                    st.info(f"{AREAS[area]}: grupo insuficiente para comparação.")
+                    continue
+                p = percentil_exato_acumulado(exatas[(ano, area)], nota)
+                itens.append((AREAS[area], formatar_percentil(p), COR_PROPRIO))
+                total = sum(n for *_, n in faixas_area)
+                st.metric(AREAS[area], f"{nota:.1f}", f"acima de {p:.1f}% dos participantes", delta_color="off")
+                st.plotly_chart(grafico(faixas_area, nota, f"{AREAS[area]}: distribuição das notas"),
+                                config={"displayModeBar": False})
+                st.caption(f"Comparação com {total:,} participantes elegíveis de {ano}.".replace(",", "."))
+                caixa = caixa_protegida(exatas[(ano, area)])
+                if caixa is not None:
+                    st.caption(texto_quartis(caixa))
+                    caixas.append((AREAS[area], caixa, nota))
+            if caixas:
+                st.markdown("**Sua nota diante dos quartis de cada área**")
+                st.plotly_chart(grafico_caixas(caixas), config={"displayModeBar": False})
+                st.caption("A caixa vai do 1º ao 3º quartil, a linha interna é a mediana e os bigodes "
+                           "vão dos percentis 5 a 95. O mínimo, o máximo e os pontos isolados não são "
+                           "desenhados, porque cada um seria a nota de uma única pessoa.")
+        with simples:
+            visao_simples(itens)
+            for area in informadas:
+                if not any(rotulo == AREAS[area] for rotulo, *_ in itens):
+                    st.info(f"{AREAS[area]}: grupo insuficiente para comparação.")
 
     with st.expander("Como a posição é calculada"):
         st.markdown(
