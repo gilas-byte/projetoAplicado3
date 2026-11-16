@@ -89,5 +89,81 @@ class TestUi(unittest.TestCase):
         self.assertNotIn("_r_troca", ui.st.session_state)
 
 
+
+def _luminancia(cor: str) -> float:
+    r, g, b = (int(cor.lstrip("#")[i:i + 2], 16) / 255 for i in (0, 2, 4))
+    linear = [c / 12.92 if c <= 0.03928 else ((c + 0.055) / 1.055) ** 2.4 for c in (r, g, b)]
+    return 0.2126 * linear[0] + 0.7152 * linear[1] + 0.0722 * linear[2]
+
+
+def contraste(a: str, b: str) -> float:
+    """Razão de contraste da WCAG 2.1 entre duas cores hexadecimais."""
+    claro, escuro = sorted((_luminancia(a), _luminancia(b)), reverse=True)
+    return (claro + 0.05) / (escuro + 0.05)
+
+
+@unittest.skipIf(ui is None, "streamlit/plotly nao instalados")
+class TestContraste(unittest.TestCase):
+    """Acessibilidade das cores nos dois temas (WCAG 2.1, criterios 1.4.3 e 1.4.11)."""
+
+    def test_cores_de_papel_passam_de_3_para_1_nos_dois_temas(self):
+        for nome in ("COR_PROPRIO", "COR_VIZINHO", "COR_BRASIL", "COR_NOTA"):
+            for tema, paleta in ui._PALETAS.items():
+                for fundo in ("bg", "surf"):
+                    with self.subTest(cor=nome, tema=tema, fundo=fundo):
+                        self.assertGreaterEqual(contraste(getattr(ui, nome), paleta[fundo]), 3.0)
+
+    def test_cores_de_contexto_passam_de_3_para_1_no_proprio_tema(self):
+        for tema, paleta in ui._PALETAS.items():
+            for cor in ("fraco1", "fraco2"):
+                with self.subTest(tema=tema, cor=cor):
+                    self.assertGreaterEqual(contraste(paleta[cor], paleta["bg"]), 3.0)
+
+    def test_textos_passam_de_4_e_meio_para_1(self):
+        for tema, paleta in ui._PALETAS.items():
+            for cor in ("tx", "mu", "ciano"):
+                for fundo in ("bg", "surf"):
+                    with self.subTest(tema=tema, cor=cor, fundo=fundo):
+                        self.assertGreaterEqual(contraste(paleta[cor], paleta[fundo]), 4.5)
+
+    def test_texto_branco_do_botao(self):
+        for tema, paleta in ui._PALETAS.items():
+            for fundo in ("azul", "btn_hover"):
+                with self.subTest(tema=tema, fundo=fundo):
+                    self.assertGreaterEqual(contraste("#ffffff", paleta[fundo]), 4.5)
+
+
+@unittest.skipIf(ui is None, "streamlit/plotly nao instalados")
+class TestRodape(unittest.TestCase):
+    def setUp(self):
+        ui._versao_dos_dados.cache_clear()
+
+    def tearDown(self):
+        ui._versao_dos_dados.cache_clear()
+
+    def test_le_data_e_commit_do_manifesto(self):
+        import json
+        import tempfile
+        with tempfile.TemporaryDirectory() as pasta:
+            caminho = Path(pasta) / "_manifesto_publicacao.json"
+            caminho.write_text(json.dumps({"auditado_em_utc": "2026-11-16T17:30:00+00:00",
+                                           "versao_codigo_git": "abcdef1234567"}), encoding="utf-8")
+            self.assertEqual(ui._versao_dos_dados(caminho), ("16/11/2026", "abcdef1"))
+
+    def test_sem_manifesto_mostra_so_a_fonte(self):
+        with mock.patch.object(ui, "_versao_dos_dados", return_value=None), \
+                mock.patch.object(ui.st, "html") as html:
+            ui.rodape()
+        texto = html.call_args[0][0]
+        self.assertIn("Fonte: Microdados do ENEM 2019 a 2022, INEP", texto)
+        self.assertNotIn("conferidos em", texto)
+
+    def test_com_manifesto_mostra_data_e_commit(self):
+        with mock.patch.object(ui, "_versao_dos_dados", return_value=("16/11/2026", "abcdef1")), \
+                mock.patch.object(ui.st, "html") as html:
+            ui.rodape()
+        self.assertIn("conferidos em 16/11/2026 (código abcdef1).", html.call_args[0][0])
+
+
 if __name__ == "__main__":
     unittest.main()

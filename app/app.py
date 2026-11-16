@@ -27,7 +27,7 @@ sys.path.insert(0, str(RAIZ / "scripts"))
 
 from colunas import PISO_GRUPO  # noqa: E402
 from estatistica import caixa_protegida, histograma, percentil_exato_acumulado  # noqa: E402
-from ui import COR_NOTA, COR_PROPRIO, abertura, aplicar_tema, estilo_grafico, paleta  # noqa: E402
+from ui import COR_NOTA, COR_PROPRIO, abertura, aplicar_tema, estilo_grafico, paleta, rodape  # noqa: E402
 
 DIST_NOTAS = Path(os.environ.get("RADAR_DIST_NOTAS", RAIZ / "data" / "analytics" / "dist_notas.parquet"))
 DIST_EXATA = Path(os.environ.get("RADAR_DIST_EXATA", RAIZ / "data" / "analytics" / "dist_exata.parquet"))
@@ -218,3 +218,5 @@ def main() -> None:
 
 
 main()
+# Fora de main(): aparece mesmo quando a pagina retorna antes do resultado.
+rodape()

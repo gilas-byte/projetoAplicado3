@@ -13,29 +13,44 @@ from __future__ import annotations
 
 import json
 import re
+from datetime import datetime
+from functools import lru_cache
 from html import escape
+from pathlib import Path
 
 import plotly.graph_objects as go
 import streamlit as st
 from streamlit import iframe as _iframe  # substitui st.components.v1.html (removido apos 06/2026)
 
-# Papel de cada cor, igual nas quatro telas.
-COR_PROPRIO = "#3b8cff"  # seu nivel / sua faixa / sua UF
-COR_VIZINHO = "#e0a63a"  # nivel acima / contraste / regiao
-COR_BRASIL = "#8b95a5"  # referencia nacional
-COR_NOTA = "#ef5a5a"  # a nota digitada
+# Papel de cada cor, igual nas quatro telas e nos dois temas. Cada uma tem
+# contraste de pelo menos 3:1 (WCAG 2.1, criterio 1.4.11, elementos graficos) com o
+# fundo e com os cartoes do tema claro e do escuro: luminancia relativa perto de 0,2,
+# o meio-termo entre os dois fundos. Conferido em tests/test_ui.py (TestContraste).
+# As versoes anteriores (#3b8cff, #e0a63a, #8b95a5, #ef5a5a) foram pensadas para o
+# tema escuro e ficavam entre 2,0:1 e 3,1:1 no claro, que virou o padrao em 15/11/2026.
+COR_PROPRIO = "#1375ff"  # seu nivel / sua faixa / sua UF
+COR_VIZINHO = "#a3731a"  # nivel acima / contraste / regiao
+COR_BRASIL = "#707d90"  # referencia nacional
+COR_NOTA = "#eb3030"  # a nota digitada
 
 # Cores de superficie por tema. As cores de papel (COR_*) servem nos dois temas.
 _PALETAS = {
     "dark": dict(bg="#0d1016", surf="#131820", line="#252c38", line2="#323b4a", tx="#e6e9ee", mu="#8b95a5",
-                 azul="#3b8cff", glow="rgba(59,140,255,.55)", glow2="rgba(59,140,255,.28)", btn_hover="#5a9fff",
-                 borda_hover="#3d4a5e", side="#0a0d13", ciano="#22d3ee", fraco1="#2b4a80", fraco2="#323b4a",
+                 azul="#1f6fe5", glow="rgba(59,140,255,.55)", glow2="rgba(59,140,255,.28)", btn_hover="#1859c4",
+                 borda_hover="#3d4a5e", side="#0a0d13", ciano="#22d3ee", fraco1="#586882", fraco2="#5e6573",
                  sombra_nota="rgba(239,90,90,.8)"),
     "light": dict(bg="#f4f6fa", surf="#ffffff", line="#dbe1ea", line2="#c5cdd9", tx="#141a24", mu="#5b6677",
-                  azul="#1f6fe5", glow="rgba(31,111,229,.38)", glow2="rgba(31,111,229,.16)", btn_hover="#3a85f0",
-                  borda_hover="#aab5c6", side="#eceff5", ciano="#0b84a5", fraco1="#a8c6f5", fraco2="#cfd6e2",
+                  azul="#1f6fe5", glow="rgba(31,111,229,.38)", glow2="rgba(31,111,229,.16)", btn_hover="#1859c4",
+                  borda_hover="#aab5c6", side="#eceff5", ciano="#0a6f8c", fraco1="#7489ab", fraco2="#7c8492",
                   sombra_nota="rgba(217,60,60,.5)"),
 }
+
+
+# fraco1/fraco2: o resto da distribuicao e os grupos de contexto. Tambem passam de 3:1
+# com o fundo do proprio tema; a diferenca para COR_PROPRIO vem do tom (cinza contra
+# azul saturado) e, nos graficos, tambem da linha tracejada da nota ou do simbolo.
+# ciano: texto pequeno (posicao da metrica), entao passa de 4,5:1 (criterio 1.4.3).
+# azul e btn_hover: fundo do botao com texto branco, tambem 4,5:1 (antes 3,3:1 no escuro).
 
 
 def tema_atual() -> str:
@@ -106,6 +121,7 @@ h3{font-size:1rem!important;font-weight:600!important}
 [data-testid="stSidebar"] [data-testid="stCheckbox"]{padding:.5rem .8rem;margin-top:.8rem;border-top:1px solid var(--r-line)}
 [data-testid="stSidebar"] [data-testid="stCheckbox"] [data-testid="stWidgetLabel"] p{font:600 .72rem var(--r-mono);text-transform:uppercase;letter-spacing:.08em;color:var(--r-mu)}
 .r-lead{color:var(--r-mu);max-width:52ch;margin:0 0 1.4rem}
+.r-rodape{color:var(--r-mu);font-size:.78rem;border-top:1px solid var(--r-line);padding-top:.8rem;margin-top:2rem}
 .r-sec{border-top:1px solid var(--r-line);padding:1.1rem 0 .4rem}
 .r-tit{font:600 .72rem var(--r-mono);text-transform:uppercase;letter-spacing:.08em;color:var(--r-mu);margin:0 0 .5rem}
 .r-lin{display:grid;grid-template-columns:10px 1fr auto;gap:.2rem .7rem;align-items:center;padding:.7rem 0;border-bottom:1px solid var(--r-line)}
@@ -319,6 +335,38 @@ def anel(texto: str, titulo: str, descricao: str, cor: str = COR_PROPRIO, altura
         .replace("__DESCRICAO__", escape(descricao))
     )
     _iframe(corpo, height=altura)
+
+
+# --------------------------------------------------------------- RODAPE
+
+_MANIFESTO_PUBLICACAO = Path(__file__).resolve().parent.parent / "data" / "analytics" / "_manifesto_publicacao.json"
+
+
+@lru_cache(maxsize=1)
+def _versao_dos_dados(caminho: Path = _MANIFESTO_PUBLICACAO) -> tuple[str, str] | None:
+    """(data da auditoria, commit curto) do manifesto gravado por scripts/auditar_artefatos.py.
+
+    O manifesto so tem hashes, tamanhos e datas dos artefatos agregados; nenhuma contagem
+    vai para a tela. Sem o arquivo (por exemplo, rodando so com os testes), o rodape
+    mostra apenas a fonte.
+    """
+    try:
+        dados = json.loads(caminho.read_text(encoding="utf-8"))
+        quando = datetime.fromisoformat(dados["auditado_em_utc"]).strftime("%d/%m/%Y")
+        return quando, str(dados.get("versao_codigo_git") or "")[:7]
+    except (OSError, ValueError, KeyError, TypeError):
+        return None
+
+
+def rodape() -> None:
+    """Fonte e versao dos dados no fim de cada pagina (BI: todo painel mostra fonte e atualizacao)."""
+    texto = "Fonte: Microdados do ENEM 2019 a 2022, INEP, processados pela equipe Radar ENEM."
+    versao = _versao_dos_dados()
+    if versao is not None:
+        quando, commit = versao
+        texto += f" Dados agregados conferidos em {quando}"
+        texto += f" (código {commit})." if commit else "."
+    st.html(f'<p class="r-rodape">{escape(texto)}</p>')
 
 
 # --------------------------------------------------------------- GRAFICOS

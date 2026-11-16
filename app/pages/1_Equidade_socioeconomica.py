@@ -36,6 +36,7 @@ from ui import (  # noqa: E402
     anel,
     aplicar_tema,
     estilo_grafico,
+    rodape,
 )
 from equidade import (  # noqa: E402
     AREAS,
@@ -234,3 +235,5 @@ def main() -> None:
 
 
 main()
+# Fora de main(): aparece mesmo quando a pagina retorna antes do resultado.
+rodape()

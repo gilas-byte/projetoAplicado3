@@ -48,6 +48,7 @@ from ui import (  # noqa: E402
     anel,
     aplicar_tema,
     estilo_grafico,
+    rodape,
 )
 
 DIST_CAPITAL = Path(os.environ.get("RADAR_DIST_CAPITAL", RAIZ / "data" / "analytics" / "dist_capital.parquet"))
@@ -246,3 +247,5 @@ def main() -> None:
 
 
 main()
+# Fora de main(): aparece mesmo quando a pagina retorna antes do resultado.
+rodape()

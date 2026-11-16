@@ -37,6 +37,7 @@ from ui import (  # noqa: E402
     aplicar_tema,
     estilo_grafico,
     paleta,
+    rodape,
 )
 from territorial import (  # noqa: E402
     AREAS,
@@ -88,20 +89,45 @@ def grafico_distribuicoes(cdfs, e) -> go.Figure:
 
 
 def grafico_medianas(cdfs, e) -> go.Figure:
+    """Mediana de cada UF em pontos (dot plot), com o N no rótulo do eixo.
+
+    Antes era um gráfico de barras com o eixo começando perto da menor mediana, o que
+    exagera as diferenças: em barras o comprimento codifica a grandeza e o eixo precisa
+    começar em zero (Business Intelligence e Data Visualization, aula de percepção e
+    escolha de gráficos). Em pontos, a posição é que codifica a mediana, e o eixo pode
+    começar perto dos dados sem distorcer, desde que avisado no título do eixo. O N de
+    cada UF passa a ficar no rótulo, e não só no passar do mouse.
+    """
     ranking = medianas_ufs(cdfs, e.ano, e.area)[::-1]  # maior mediana no topo
-    cores = [COR_UF if uf == e.uf else (paleta()["fraco1"] if uf in REGIOES[e.regiao][1] else paleta()["fraco2"])
-             for uf, *_ in ranking]
-    fig = go.Figure(go.Bar(
-        x=[m for _, m, _ in ranking], y=[uf for uf, *_ in ranking], orientation="h", marker_color=cores,
-        customdata=[[NOMES_UF[uf], formatar_inteiro(n)] for uf, _, n in ranking],
-        hovertemplate="%{customdata[0]}: mediana %{x:.1f} (%{customdata[1]} participantes)<extra></extra>",
-    ))
-    fig.add_vline(x=e.nota, line_width=2, line_dash="dash", line_color=COR_NOTA)
-    minimo = min((m for _, m, _ in ranking), default=0)
-    fig.update_layout(margin=dict(l=10, r=10, t=10, b=10),
-                      xaxis=dict(title="Mediana da UF", range=[max(0, min(minimo, e.nota) - 40), None]),
-                      yaxis=dict(tickfont=dict(size=11)))
-    return estilo_grafico(fig, altura=max(300, 18 * len(ranking) + 60))
+    rotulo = {uf: f"{uf} · {formatar_inteiro(n)}" for uf, _, n in ranking}
+    da_regiao = set(REGIOES[e.regiao][1])
+    fig = go.Figure()
+    for nome, filtro, cor, simbolo in (
+        ("Outras UFs", lambda uf: uf != e.uf and uf not in da_regiao, paleta()["fraco2"], "circle-open"),
+        (f"Região {REGIOES[e.regiao][0]}", lambda uf: uf != e.uf and uf in da_regiao, paleta()["fraco1"], "circle"),
+        (NOMES_UF[e.uf], lambda uf: uf == e.uf, COR_UF, "diamond"),
+    ):
+        pontos = [(uf, m, n) for uf, m, n in ranking if filtro(uf)]
+        if not pontos:
+            continue
+        fig.add_trace(go.Scatter(
+            x=[m for _, m, _ in pontos], y=[rotulo[uf] for uf, _, _ in pontos], mode="markers", name=nome,
+            marker=dict(color=cor, size=11 if simbolo == "diamond" else 9, symbol=simbolo, line=dict(width=1.5, color=cor)),
+            customdata=[[NOMES_UF[uf], formatar_inteiro(n)] for uf, _, n in pontos],
+            hovertemplate="%{customdata[0]}: mediana %{x:.1f} (%{customdata[1]} participantes)<extra></extra>",
+        ))
+    fig.add_vline(x=e.nota, line_width=2, line_dash="dash", line_color=COR_NOTA,
+                  annotation_text="sua nota", annotation_position="top")
+    medianas = [m for _, m, _ in ranking] + [e.nota]
+    fig.update_layout(
+        margin=dict(l=10, r=10, t=30, b=10),
+        xaxis=dict(title="Mediana da UF (eixo ajustado aos dados, não começa em zero)",
+                   range=[max(0, min(medianas) - 15), min(1000, max(medianas) + 15)]),
+        yaxis=dict(categoryorder="array", categoryarray=[rotulo[uf] for uf, _, _ in ranking],
+                   tickfont=dict(size=11)),
+        legend=dict(orientation="h", y=-0.12),
+    )
+    return estilo_grafico(fig, altura=max(320, 20 * len(ranking) + 110))
 
 
 def mostrar(cdfs, r) -> None:
@@ -169,6 +195,8 @@ def mostrar(cdfs, r) -> None:
     if r.ufs_comparadas:
         with st.expander("Mediana de cada UF"):
             st.plotly_chart(grafico_medianas(cdfs, e), config={"displayModeBar": False})
+            st.caption("Cada ponto é a mediana de uma UF; o número ao lado da sigla é o total de "
+                       "participantes da UF nesta edição e área.")
 
 
 def main() -> None:
@@ -251,3 +279,5 @@ def main() -> None:
 
 
 main()
+# Fora de main(): aparece mesmo quando a pagina retorna antes do resultado.
+rodape()
