@@ -53,7 +53,8 @@ h3{font-size:1rem!important;font-weight:600!important}
 [data-testid="stExpander"]{transition:border-color .2s}[data-testid="stExpander"]:hover{border-color:#3d4a5e}
 [data-testid="stMetricLabel"] p{white-space:normal!important;font-family:var(--r-mono);font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;color:var(--r-mu)}
 [data-testid="stMetricValue"],[data-testid="stMetricValue"] *{font-family:var(--r-mono)!important;font-weight:600;font-variant-numeric:tabular-nums}
-[data-testid="stMetricValue"]{font-size:1.5rem}
+[data-testid="stMetricValue"]{font-size:1.4rem}
+[data-testid="stMetricValue"],[data-testid="stMetricValue"] div,[data-testid="stMetricValue"] p{white-space:normal!important;overflow:visible!important;text-overflow:clip!important;overflow-wrap:anywhere;line-height:1.2;min-width:0}
 [data-testid="stMetricDelta"],[data-testid="stMetricDelta"] *{color:#22d3ee!important;font-family:var(--r-mono)}
 [data-testid="stExpander"]{border:1px solid var(--r-line);border-radius:var(--r-raio);background:transparent}
 [data-testid="stExpander"] summary:hover{color:var(--r-azul)}
@@ -260,7 +261,7 @@ def estilo_grafico(fig: go.Figure, altura: int = 320) -> go.Figure:
         font=dict(family="IBM Plex Sans, sans-serif", color="#8b95a5", size=12),
         title=dict(font=dict(family="IBM Plex Mono, monospace", size=13, color="#e6e9ee"), x=0, xanchor="left"),
         hoverlabel=dict(bgcolor="#131820", bordercolor="#323b4a", font=dict(family="IBM Plex Mono, monospace", color="#e6e9ee")),
-        legend=dict(font=dict(size=11), bgcolor="rgba(0,0,0,0)"),
+        legend=dict(font=dict(size=11), bgcolor="rgba(0,0,0,0)", y=-0.38, yanchor="top"),
     )
     eixo = dict(gridcolor="#252c38", zerolinecolor="#323b4a", linecolor="#323b4a", tickfont=dict(family="IBM Plex Mono, monospace", size=11))
     fig.update_xaxes(**eixo)
