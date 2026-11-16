@@ -2,7 +2,10 @@
 .vscode/
 __pycache__/
 .venv/
-.env/
+.env
+.env.*
+!.env.example
+.streamlit/secrets.toml
 
 # Arquivos copiados
 *_copy.*
