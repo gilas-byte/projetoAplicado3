@@ -1,0 +1,1113 @@
+{
+  "gerado_em_utc": "2026-11-16T17:13:53+00:00",
+  "versao_codigo_git": "c0d58e2a2fecc8877f8824fc448c36710fcc0dc3",
+  "entradas": {
+    "dist_exata.parquet": "df2ef5f0ab20b5e711167c4b7ec3bb6c6db871cc9140f5babad134448e7df60b",
+    "dist_territorial.parquet": "8b3817c115470695c8e89b784bb26b05ea7d8a158670b5bdd3ef51303a247404"
+  },
+  "caixas": [
+    {
+      "ano": 2019,
+      "area": "ch",
+      "participantes": 3174212,
+      "media": 509.48,
+      "desvio": 81.27,
+      "p05": 375.7,
+      "q1": 450.1,
+      "mediana": 512.4,
+      "q3": 568.0,
+      "iqr": 117.9,
+      "p95": 639.1
+    },
+    {
+      "ano": 2019,
+      "area": "cn",
+      "participantes": 3174212,
+      "media": 476.99,
+      "desvio": 76.23,
+      "p05": 366.6,
+      "q1": 417.2,
+      "mediana": 468.7,
+      "q3": 531.3,
+      "iqr": 114.1,
+      "p95": 609.9
+    },
+    {
+      "ano": 2019,
+      "area": "lc",
+      "participantes": 3174212,
+      "media": 521.82,
+      "desvio": 62.88,
+      "p05": 406.3,
+      "q1": 484.7,
+      "mediana": 526.7,
+      "q3": 565.8,
+      "iqr": 81.1,
+      "p95": 615.3
+    },
+    {
+      "ano": 2019,
+      "area": "mt",
+      "participantes": 3174212,
+      "media": 520.71,
+      "desvio": 109.23,
+      "p05": 382.3,
+      "q1": 433.1,
+      "mediana": 497.4,
+      "q3": 594.0,
+      "iqr": 160.9,
+      "p95": 726.6
+    },
+    {
+      "ano": 2019,
+      "area": "redacao",
+      "participantes": 3174211,
+      "media": 580.21,
+      "desvio": 181.74,
+      "p05": 280.0,
+      "q1": 500.0,
+      "mediana": 580.0,
+      "q3": 680.0,
+      "iqr": 180.0,
+      "p95": 880.0
+    },
+    {
+      "ano": 2020,
+      "area": "ch",
+      "participantes": 2242169,
+      "media": 514.61,
+      "desvio": 95.89,
+      "p05": 367.6,
+      "q1": 438.1,
+      "mediana": 515.1,
+      "q3": 584.3,
+      "iqr": 146.2,
+      "p95": 673.0
+    },
+    {
+      "ano": 2020,
+      "area": "cn",
+      "participantes": 2242169,
+      "media": 490.93,
+      "desvio": 80.81,
+      "p05": 373.4,
+      "q1": 426.8,
+      "mediana": 483.4,
+      "q3": 549.3,
+      "iqr": 122.5,
+      "p95": 630.4
+    },
+    {
+      "ano": 2020,
+      "area": "lc",
+      "participantes": 2242169,
+      "media": 525.69,
+      "desvio": 73.48,
+      "p05": 392.4,
+      "q1": 479.4,
+      "mediana": 531.1,
+      "q3": 577.9,
+      "iqr": 98.5,
+      "p95": 637.1
+    },
+    {
+      "ano": 2020,
+      "area": "mt",
+      "participantes": 2242169,
+      "media": 519.71,
+      "desvio": 118.25,
+      "p05": 358.4,
+      "q1": 424.2,
+      "mediana": 502.7,
+      "q3": 601.3,
+      "iqr": 177.1,
+      "p95": 734.7
+    },
+    {
+      "ano": 2020,
+      "area": "redacao",
+      "participantes": 2242169,
+      "media": 581.01,
+      "desvio": 196.37,
+      "p05": 300.0,
+      "q1": 460.0,
+      "mediana": 580.0,
+      "q3": 700.0,
+      "iqr": 240.0,
+      "p95": 920.0
+    },
+    {
+      "ano": 2021,
+      "area": "ch",
+      "participantes": 1870734,
+      "media": 524.71,
+      "desvio": 95.62,
+      "p05": 375.8,
+      "q1": 449.1,
+      "mediana": 526.7,
+      "q3": 594.5,
+      "iqr": 145.4,
+      "p95": 681.0
+    },
+    {
+      "ano": 2021,
+      "area": "cn",
+      "participantes": 1870734,
+      "media": 493.47,
+      "desvio": 81.9,
+      "p05": 374.8,
+      "q1": 431.7,
+      "mediana": 483.0,
+      "q3": 548.0,
+      "iqr": 116.3,
+      "p95": 641.3
+    },
+    {
+      "ano": 2021,
+      "area": "lc",
+      "participantes": 1870734,
+      "media": 504.74,
+      "desvio": 79.31,
+      "p05": 371.0,
+      "q1": 448.5,
+      "mediana": 507.8,
+      "q3": 561.6,
+      "iqr": 113.1,
+      "p95": 630.9
+    },
+    {
+      "ano": 2021,
+      "area": "mt",
+      "participantes": 1870734,
+      "media": 534.46,
+      "desvio": 112.06,
+      "p05": 388.8,
+      "q1": 443.1,
+      "mediana": 513.1,
+      "q3": 613.5,
+      "iqr": 170.4,
+      "p95": 740.3
+    },
+    {
+      "ano": 2021,
+      "area": "redacao",
+      "participantes": 1870734,
+      "media": 623.69,
+      "desvio": 183.11,
+      "p05": 360.0,
+      "q1": 520.0,
+      "mediana": 620.0,
+      "q3": 740.0,
+      "iqr": 220.0,
+      "p95": 920.0
+    },
+    {
+      "ano": 2022,
+      "area": "ch",
+      "participantes": 1927753,
+      "media": 530.61,
+      "desvio": 80.86,
+      "p05": 391.7,
+      "q1": 479.5,
+      "mediana": 532.5,
+      "q3": 585.7,
+      "iqr": 106.2,
+      "p95": 659.2
+    },
+    {
+      "ano": 2022,
+      "area": "cn",
+      "participantes": 1927753,
+      "media": 497.42,
+      "desvio": 73.26,
+      "p05": 396.8,
+      "q1": 440.8,
+      "mediana": 486.7,
+      "q3": 545.6,
+      "iqr": 104.8,
+      "p95": 629.9
+    },
+    {
+      "ano": 2022,
+      "area": "lc",
+      "participantes": 1927753,
+      "media": 519.94,
+      "desvio": 76.91,
+      "p05": 379.9,
+      "q1": 470.8,
+      "mediana": 527.4,
+      "q3": 575.4,
+      "iqr": 104.6,
+      "p95": 633.9
+    },
+    {
+      "ano": 2022,
+      "area": "mt",
+      "participantes": 1927753,
+      "media": 542.09,
+      "desvio": 117.41,
+      "p05": 378.5,
+      "q1": 447.4,
+      "mediana": 529.0,
+      "q3": 622.1,
+      "iqr": 174.7,
+      "p95": 754.5
+    },
+    {
+      "ano": 2022,
+      "area": "redacao",
+      "participantes": 1927753,
+      "media": 627.46,
+      "desvio": 203.9,
+      "p05": 300.0,
+      "q1": 540.0,
+      "mediana": 620.0,
+      "q3": 780.0,
+      "iqr": 240.0,
+      "p95": 920.0
+    }
+  ],
+  "drift": [
+    {
+      "area": "cn",
+      "referencia": 2019,
+      "atual": 2020,
+      "ks_d": 0.0667,
+      "psi": 0.0309,
+      "mediana_referencia": 468.7,
+      "mediana_atual": 483.4
+    },
+    {
+      "area": "cn",
+      "referencia": 2020,
+      "atual": 2021,
+      "ks_d": 0.0221,
+      "psi": 0.0099,
+      "mediana_referencia": 483.4,
+      "mediana_atual": 483.0
+    },
+    {
+      "area": "cn",
+      "referencia": 2021,
+      "atual": 2022,
+      "ks_d": 0.0595,
+      "psi": 0.0556,
+      "mediana_referencia": 483.0,
+      "mediana_atual": 486.7
+    },
+    {
+      "area": "cn",
+      "referencia": 2019,
+      "atual": 2022,
+      "ks_d": 0.1221,
+      "psi": 0.1822,
+      "mediana_referencia": 468.7,
+      "mediana_atual": 486.7
+    },
+    {
+      "area": "ch",
+      "referencia": 2019,
+      "atual": 2020,
+      "ks_d": 0.0706,
+      "psi": 0.0687,
+      "mediana_referencia": 512.4,
+      "mediana_atual": 515.1
+    },
+    {
+      "area": "ch",
+      "referencia": 2020,
+      "atual": 2021,
+      "ks_d": 0.0488,
+      "psi": 0.0155,
+      "mediana_referencia": 515.1,
+      "mediana_atual": 526.7
+    },
+    {
+      "area": "ch",
+      "referencia": 2021,
+      "atual": 2022,
+      "ks_d": 0.1042,
+      "psi": 0.1081,
+      "mediana_referencia": 526.7,
+      "mediana_atual": 532.5
+    },
+    {
+      "area": "ch",
+      "referencia": 2019,
+      "atual": 2022,
+      "ks_d": 0.1112,
+      "psi": 0.0801,
+      "mediana_referencia": 512.4,
+      "mediana_atual": 532.5
+    },
+    {
+      "area": "lc",
+      "referencia": 2019,
+      "atual": 2020,
+      "ks_d": 0.0662,
+      "psi": 0.051,
+      "mediana_referencia": 526.7,
+      "mediana_atual": 531.1
+    },
+    {
+      "area": "lc",
+      "referencia": 2020,
+      "atual": 2021,
+      "ks_d": 0.1241,
+      "psi": 0.0871,
+      "mediana_referencia": 531.1,
+      "mediana_atual": 507.8
+    },
+    {
+      "area": "lc",
+      "referencia": 2021,
+      "atual": 2022,
+      "ks_d": 0.098,
+      "psi": 0.0486,
+      "mediana_referencia": 507.8,
+      "mediana_atual": 527.4
+    },
+    {
+      "area": "lc",
+      "referencia": 2019,
+      "atual": 2022,
+      "ks_d": 0.0576,
+      "psi": 0.0668,
+      "mediana_referencia": 526.7,
+      "mediana_atual": 527.4
+    },
+    {
+      "area": "mt",
+      "referencia": 2019,
+      "atual": 2020,
+      "ks_d": 0.0618,
+      "psi": 0.0441,
+      "mediana_referencia": 497.4,
+      "mediana_atual": 502.7
+    },
+    {
+      "area": "mt",
+      "referencia": 2020,
+      "atual": 2021,
+      "ks_d": 0.0829,
+      "psi": 0.1057,
+      "mediana_referencia": 502.7,
+      "mediana_atual": 513.1
+    },
+    {
+      "area": "mt",
+      "referencia": 2021,
+      "atual": 2022,
+      "ks_d": 0.0461,
+      "psi": 0.0212,
+      "mediana_referencia": 513.1,
+      "mediana_atual": 529.0
+    },
+    {
+      "area": "mt",
+      "referencia": 2019,
+      "atual": 2022,
+      "ks_d": 0.0953,
+      "psi": 0.048,
+      "mediana_referencia": 497.4,
+      "mediana_atual": 529.0
+    },
+    {
+      "area": "redacao",
+      "referencia": 2019,
+      "atual": 2020,
+      "ks_d": 0.062,
+      "psi": 0.0479,
+      "mediana_referencia": 580.0,
+      "mediana_atual": 580.0
+    },
+    {
+      "area": "redacao",
+      "referencia": 2020,
+      "atual": 2021,
+      "ks_d": 0.1167,
+      "psi": 0.1193,
+      "mediana_referencia": 580.0,
+      "mediana_atual": 620.0
+    },
+    {
+      "area": "redacao",
+      "referencia": 2021,
+      "atual": 2022,
+      "ks_d": 0.0477,
+      "psi": 0.0194,
+      "mediana_referencia": 620.0,
+      "mediana_atual": 620.0
+    },
+    {
+      "area": "redacao",
+      "referencia": 2019,
+      "atual": 2022,
+      "ks_d": 0.1494,
+      "psi": 0.1184,
+      "mediana_referencia": 580.0,
+      "mediana_atual": 620.0
+    }
+  ],
+  "normal": [
+    {
+      "ano": 2019,
+      "area": "ch",
+      "erro_medio_pp": 1.14,
+      "erro_maximo_pp": 2.14,
+      "assimetria": -0.154,
+      "curtose_excesso": 0.371,
+      "pontos": {
+        "p10": {
+          "nota": 400.5,
+          "percentil_exato": 10.01,
+          "percentil_normal": 9.0
+        },
+        "p50": {
+          "nota": 512.4,
+          "percentil_exato": 49.99,
+          "percentil_normal": 51.43
+        },
+        "p90": {
+          "nota": 612.6,
+          "percentil_exato": 90.0,
+          "percentil_normal": 89.78
+        }
+      }
+    },
+    {
+      "ano": 2019,
+      "area": "cn",
+      "erro_medio_pp": 2.42,
+      "erro_maximo_pp": 5.09,
+      "assimetria": 0.407,
+      "curtose_excesso": -0.185,
+      "pontos": {
+        "p10": {
+          "nota": 383.0,
+          "percentil_exato": 9.99,
+          "percentil_normal": 10.88
+        },
+        "p50": {
+          "nota": 468.7,
+          "percentil_exato": 49.99,
+          "percentil_normal": 45.67
+        },
+        "p90": {
+          "nota": 581.9,
+          "percentil_exato": 90.01,
+          "percentil_normal": 91.56
+        }
+      }
+    },
+    {
+      "ano": 2019,
+      "area": "lc",
+      "erro_medio_pp": 1.94,
+      "erro_maximo_pp": 3.53,
+      "assimetria": -0.565,
+      "curtose_excesso": 1.366,
+      "pontos": {
+        "p10": {
+          "nota": 436.9,
+          "percentil_exato": 10.0,
+          "percentil_normal": 8.84
+        },
+        "p50": {
+          "nota": 526.7,
+          "percentil_exato": 50.0,
+          "percentil_normal": 53.1
+        },
+        "p90": {
+          "nota": 597.6,
+          "percentil_exato": 89.99,
+          "percentil_normal": 88.59
+        }
+      }
+    },
+    {
+      "ano": 2019,
+      "area": "mt",
+      "erro_medio_pp": 4.25,
+      "erro_maximo_pp": 8.6,
+      "assimetria": 0.737,
+      "curtose_excesso": 0.035,
+      "pontos": {
+        "p10": {
+          "nota": 397.7,
+          "percentil_exato": 10.02,
+          "percentil_normal": 13.01
+        },
+        "p50": {
+          "nota": 497.4,
+          "percentil_exato": 50.02,
+          "percentil_normal": 41.55
+        },
+        "p90": {
+          "nota": 678.1,
+          "percentil_exato": 90.0,
+          "percentil_normal": 92.52
+        }
+      }
+    },
+    {
+      "ano": 2019,
+      "area": "redacao",
+      "erro_medio_pp": 3.0,
+      "erro_maximo_pp": 6.2,
+      "assimetria": -0.573,
+      "curtose_excesso": 1.396,
+      "pontos": {
+        "p10": {
+          "nota": 360.0,
+          "percentil_exato": 9.91,
+          "percentil_normal": 11.28
+        },
+        "p50": {
+          "nota": 580.0,
+          "percentil_exato": 49.08,
+          "percentil_normal": 49.95
+        },
+        "p90": {
+          "nota": 820.0,
+          "percentil_exato": 90.09,
+          "percentil_normal": 90.65
+        }
+      }
+    },
+    {
+      "ano": 2020,
+      "area": "ch",
+      "erro_medio_pp": 1.57,
+      "erro_maximo_pp": 3.77,
+      "assimetria": 0.051,
+      "curtose_excesso": -0.097,
+      "pontos": {
+        "p10": {
+          "nota": 387.8,
+          "percentil_exato": 10.0,
+          "percentil_normal": 9.3
+        },
+        "p50": {
+          "nota": 515.1,
+          "percentil_exato": 50.0,
+          "percentil_normal": 50.21
+        },
+        "p90": {
+          "nota": 641.6,
+          "percentil_exato": 89.99,
+          "percentil_normal": 90.73
+        }
+      }
+    },
+    {
+      "ano": 2020,
+      "area": "cn",
+      "erro_medio_pp": 2.3,
+      "erro_maximo_pp": 4.99,
+      "assimetria": 0.355,
+      "curtose_excesso": -0.255,
+      "pontos": {
+        "p10": {
+          "nota": 390.3,
+          "percentil_exato": 10.02,
+          "percentil_normal": 10.65
+        },
+        "p50": {
+          "nota": 483.4,
+          "percentil_exato": 49.98,
+          "percentil_normal": 46.29
+        },
+        "p90": {
+          "nota": 600.7,
+          "percentil_exato": 89.99,
+          "percentil_normal": 91.28
+        }
+      }
+    },
+    {
+      "ano": 2020,
+      "area": "lc",
+      "erro_medio_pp": 1.61,
+      "erro_maximo_pp": 2.91,
+      "assimetria": -0.419,
+      "curtose_excesso": 0.5,
+      "pontos": {
+        "p10": {
+          "nota": 426.2,
+          "percentil_exato": 10.0,
+          "percentil_normal": 8.79
+        },
+        "p50": {
+          "nota": 531.1,
+          "percentil_exato": 50.03,
+          "percentil_normal": 52.93
+        },
+        "p90": {
+          "nota": 615.9,
+          "percentil_exato": 89.99,
+          "percentil_normal": 89.02
+        }
+      }
+    },
+    {
+      "ano": 2020,
+      "area": "mt",
+      "erro_medio_pp": 3.02,
+      "erro_maximo_pp": 6.67,
+      "assimetria": 0.583,
+      "curtose_excesso": -0.091,
+      "pontos": {
+        "p10": {
+          "nota": 379.2,
+          "percentil_exato": 10.0,
+          "percentil_normal": 11.74
+        },
+        "p50": {
+          "nota": 502.7,
+          "percentil_exato": 49.99,
+          "percentil_normal": 44.28
+        },
+        "p90": {
+          "nota": 681.4,
+          "percentil_exato": 90.0,
+          "percentil_normal": 91.42
+        }
+      }
+    },
+    {
+      "ano": 2020,
+      "area": "redacao",
+      "erro_medio_pp": 1.82,
+      "erro_maximo_pp": 3.57,
+      "assimetria": -0.247,
+      "curtose_excesso": 0.289,
+      "pontos": {
+        "p10": {
+          "nota": 340.0,
+          "percentil_exato": 9.95,
+          "percentil_normal": 10.98
+        },
+        "p50": {
+          "nota": 580.0,
+          "percentil_exato": 51.07,
+          "percentil_normal": 49.79
+        },
+        "p90": {
+          "nota": 860.0,
+          "percentil_exato": 89.81,
+          "percentil_normal": 92.23
+        }
+      }
+    },
+    {
+      "ano": 2021,
+      "area": "ch",
+      "erro_medio_pp": 1.65,
+      "erro_maximo_pp": 3.6,
+      "assimetria": -0.021,
+      "curtose_excesso": 0.013,
+      "pontos": {
+        "p10": {
+          "nota": 398.0,
+          "percentil_exato": 9.99,
+          "percentil_normal": 9.26
+        },
+        "p50": {
+          "nota": 526.7,
+          "percentil_exato": 49.99,
+          "percentil_normal": 50.83
+        },
+        "p90": {
+          "nota": 649.5,
+          "percentil_exato": 90.01,
+          "percentil_normal": 90.41
+        }
+      }
+    },
+    {
+      "ano": 2021,
+      "area": "cn",
+      "erro_medio_pp": 2.57,
+      "erro_maximo_pp": 5.16,
+      "assimetria": 0.504,
+      "curtose_excesso": -0.01,
+      "pontos": {
+        "p10": {
+          "nota": 394.8,
+          "percentil_exato": 9.99,
+          "percentil_normal": 11.42
+        },
+        "p50": {
+          "nota": 483.0,
+          "percentil_exato": 50.02,
+          "percentil_normal": 44.92
+        },
+        "p90": {
+          "nota": 607.0,
+          "percentil_exato": 90.01,
+          "percentil_normal": 91.72
+        }
+      }
+    },
+    {
+      "ano": 2021,
+      "area": "lc",
+      "erro_medio_pp": 1.04,
+      "erro_maximo_pp": 1.88,
+      "assimetria": -0.14,
+      "curtose_excesso": 0.023,
+      "pontos": {
+        "p10": {
+          "nota": 397.1,
+          "percentil_exato": 10.01,
+          "percentil_normal": 8.73
+        },
+        "p50": {
+          "nota": 507.8,
+          "percentil_exato": 50.02,
+          "percentil_normal": 51.54
+        },
+        "p90": {
+          "nota": 606.0,
+          "percentil_exato": 90.0,
+          "percentil_normal": 89.92
+        }
+      }
+    },
+    {
+      "ano": 2021,
+      "area": "mt",
+      "erro_medio_pp": 3.89,
+      "erro_maximo_pp": 8.08,
+      "assimetria": 0.616,
+      "curtose_excesso": -0.232,
+      "pontos": {
+        "p10": {
+          "nota": 405.1,
+          "percentil_exato": 10.02,
+          "percentil_normal": 12.42
+        },
+        "p50": {
+          "nota": 513.1,
+          "percentil_exato": 50.0,
+          "percentil_normal": 42.44
+        },
+        "p90": {
+          "nota": 695.1,
+          "percentil_exato": 90.0,
+          "percentil_normal": 92.41
+        }
+      }
+    },
+    {
+      "ano": 2021,
+      "area": "redacao",
+      "erro_medio_pp": 2.59,
+      "erro_maximo_pp": 5.38,
+      "assimetria": -0.712,
+      "curtose_excesso": 1.741,
+      "pontos": {
+        "p10": {
+          "nota": 440.0,
+          "percentil_exato": 10.77,
+          "percentil_normal": 15.79
+        },
+        "p50": {
+          "nota": 620.0,
+          "percentil_exato": 52.33,
+          "percentil_normal": 49.2
+        },
+        "p90": {
+          "nota": 880.0,
+          "percentil_exato": 90.95,
+          "percentil_normal": 91.92
+        }
+      }
+    },
+    {
+      "ano": 2022,
+      "area": "ch",
+      "erro_medio_pp": 0.71,
+      "erro_maximo_pp": 1.37,
+      "assimetria": -0.367,
+      "curtose_excesso": 1.376,
+      "pontos": {
+        "p10": {
+          "nota": 426.1,
+          "percentil_exato": 10.0,
+          "percentil_normal": 9.81
+        },
+        "p50": {
+          "nota": 532.5,
+          "percentil_exato": 50.01,
+          "percentil_normal": 50.93
+        },
+        "p90": {
+          "nota": 632.5,
+          "percentil_exato": 89.99,
+          "percentil_normal": 89.62
+        }
+      }
+    },
+    {
+      "ano": 2022,
+      "area": "cn",
+      "erro_medio_pp": 3.0,
+      "erro_maximo_pp": 5.95,
+      "assimetria": 0.588,
+      "curtose_excesso": 0.291,
+      "pontos": {
+        "p10": {
+          "nota": 410.6,
+          "percentil_exato": 10.0,
+          "percentil_normal": 11.8
+        },
+        "p50": {
+          "nota": 486.7,
+          "percentil_exato": 49.99,
+          "percentil_normal": 44.18
+        },
+        "p90": {
+          "nota": 599.1,
+          "percentil_exato": 90.01,
+          "percentil_normal": 91.74
+        }
+      }
+    },
+    {
+      "ano": 2022,
+      "area": "lc",
+      "erro_medio_pp": 2.04,
+      "erro_maximo_pp": 3.87,
+      "assimetria": -0.446,
+      "curtose_excesso": 0.29,
+      "pontos": {
+        "p10": {
+          "nota": 413.1,
+          "percentil_exato": 9.99,
+          "percentil_normal": 8.24
+        },
+        "p50": {
+          "nota": 527.4,
+          "percentil_exato": 50.0,
+          "percentil_normal": 53.86
+        },
+        "p90": {
+          "nota": 612.9,
+          "percentil_exato": 89.99,
+          "percentil_normal": 88.66
+        }
+      }
+    },
+    {
+      "ano": 2022,
+      "area": "mt",
+      "erro_medio_pp": 2.57,
+      "erro_maximo_pp": 5.67,
+      "assimetria": 0.524,
+      "curtose_excesso": -0.166,
+      "pontos": {
+        "p10": {
+          "nota": 398.4,
+          "percentil_exato": 9.99,
+          "percentil_normal": 11.05
+        },
+        "p50": {
+          "nota": 529.0,
+          "percentil_exato": 49.99,
+          "percentil_normal": 45.56
+        },
+        "p90": {
+          "nota": 701.2,
+          "percentil_exato": 90.0,
+          "percentil_normal": 91.23
+        }
+      }
+    },
+    {
+      "ano": 2022,
+      "area": "redacao",
+      "erro_medio_pp": 2.55,
+      "erro_maximo_pp": 7.32,
+      "assimetria": -0.958,
+      "curtose_excesso": 1.576,
+      "pontos": {
+        "p10": {
+          "nota": 400.0,
+          "percentil_exato": 10.28,
+          "percentil_normal": 13.23
+        },
+        "p50": {
+          "nota": 620.0,
+          "percentil_exato": 48.04,
+          "percentil_normal": 48.54
+        },
+        "p90": {
+          "nota": 880.0,
+          "percentil_exato": 89.71,
+          "percentil_normal": 89.22
+        }
+      }
+    }
+  ],
+  "amostragem": [
+    {
+      "ano": 2022,
+      "area": "mt",
+      "fracao": 0.01,
+      "tamanho_amostra": 19278,
+      "populacao": 1927753,
+      "repeticoes": 200,
+      "estratos": 27,
+      "alocacao": "proporcional ao tamanho da UF",
+      "sorteio": "com reposição",
+      "quantis": {
+        "p10": {
+          "populacao": 398.4,
+          "simples": {
+            "erro_medio_absoluto": 0.59,
+            "rmse": 0.75,
+            "maior_erro_absoluto": 2.3
+          },
+          "estratificada": {
+            "erro_medio_absoluto": 0.64,
+            "rmse": 0.79,
+            "maior_erro_absoluto": 2.0
+          }
+        },
+        "p25": {
+          "populacao": 447.4,
+          "simples": {
+            "erro_medio_absoluto": 0.76,
+            "rmse": 0.95,
+            "maior_erro_absoluto": 2.9
+          },
+          "estratificada": {
+            "erro_medio_absoluto": 0.8,
+            "rmse": 1.02,
+            "maior_erro_absoluto": 3.0
+          }
+        },
+        "p50": {
+          "populacao": 529.0,
+          "simples": {
+            "erro_medio_absoluto": 0.98,
+            "rmse": 1.23,
+            "maior_erro_absoluto": 3.7
+          },
+          "estratificada": {
+            "erro_medio_absoluto": 1.08,
+            "rmse": 1.33,
+            "maior_erro_absoluto": 3.5
+          }
+        },
+        "p75": {
+          "populacao": 622.1,
+          "simples": {
+            "erro_medio_absoluto": 1.04,
+            "rmse": 1.28,
+            "maior_erro_absoluto": 3.7
+          },
+          "estratificada": {
+            "erro_medio_absoluto": 1.02,
+            "rmse": 1.27,
+            "maior_erro_absoluto": 4.2
+          }
+        },
+        "p90": {
+          "populacao": 701.2,
+          "simples": {
+            "erro_medio_absoluto": 1.24,
+            "rmse": 1.54,
+            "maior_erro_absoluto": 4.5
+          },
+          "estratificada": {
+            "erro_medio_absoluto": 1.21,
+            "rmse": 1.54,
+            "maior_erro_absoluto": 6.0
+          }
+        }
+      }
+    },
+    {
+      "ano": 2022,
+      "area": "redacao",
+      "fracao": 0.01,
+      "tamanho_amostra": 19278,
+      "populacao": 1927753,
+      "repeticoes": 200,
+      "estratos": 27,
+      "alocacao": "proporcional ao tamanho da UF",
+      "sorteio": "com reposição",
+      "quantis": {
+        "p10": {
+          "populacao": 400.0,
+          "simples": {
+            "erro_medio_absoluto": 1.3,
+            "rmse": 5.1,
+            "maior_erro_absoluto": 20.0
+          },
+          "estratificada": {
+            "erro_medio_absoluto": 2.2,
+            "rmse": 6.63,
+            "maior_erro_absoluto": 20.0
+          }
+        },
+        "p25": {
+          "populacao": 540.0,
+          "simples": {
+            "erro_medio_absoluto": 1.8,
+            "rmse": 6.0,
+            "maior_erro_absoluto": 20.0
+          },
+          "estratificada": {
+            "erro_medio_absoluto": 2.3,
+            "rmse": 6.78,
+            "maior_erro_absoluto": 20.0
+          }
+        },
+        "p50": {
+          "populacao": 620.0,
+          "simples": {
+            "erro_medio_absoluto": 2.7,
+            "rmse": 7.35,
+            "maior_erro_absoluto": 20.0
+          },
+          "estratificada": {
+            "erro_medio_absoluto": 4.4,
+            "rmse": 9.38,
+            "maior_erro_absoluto": 20.0
+          }
+        },
+        "p75": {
+          "populacao": 780.0,
+          "simples": {
+            "erro_medio_absoluto": 1.6,
+            "rmse": 5.66,
+            "maior_erro_absoluto": 20.0
+          },
+          "estratificada": {
+            "erro_medio_absoluto": 1.2,
+            "rmse": 4.9,
+            "maior_erro_absoluto": 20.0
+          }
+        },
+        "p90": {
+          "populacao": 880.0,
+          "simples": {
+            "erro_medio_absoluto": 0.0,
+            "rmse": 0.0,
+            "maior_erro_absoluto": 0.0
+          },
+          "estratificada": {
+            "erro_medio_absoluto": 0.0,
+            "rmse": 0.0,
+            "maior_erro_absoluto": 0.0
+          }
+        }
+      }
+    }
+  ],
+  "tempo_segundos": 12.6
+}
