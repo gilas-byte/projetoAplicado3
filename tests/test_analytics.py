@@ -67,6 +67,7 @@ class TestEtapaAnalytics(unittest.TestCase):
         csv = self.tmp / "microdados.csv"
         linhas, self.notas = gerar_linhas()
         escrever_csv(csv, linhas)
+        self.csv, self.inscritos = csv, len(linhas)
 
         self.trusted = self.tmp / "data" / "trusted" / "enem"
         self.analytics = self.tmp / "data" / "analytics"
@@ -86,6 +87,21 @@ class TestEtapaAnalytics(unittest.TestCase):
             patcher = mock.patch.object(etl, nome, valor)
             patcher.start()
             self.addCleanup(patcher.stop)
+
+    def test_manifesto_da_trusted_tem_run_id_commit_e_duracao(self):
+        (self.tmp / "docs" / "profiling").mkdir(parents=True)
+        (self.tmp / "docs" / "profiling" / f"profiling_{ANO}.json").write_text(
+            json.dumps({"volume": {"linhas": self.inscritos}}), encoding="utf-8")
+        manifesto = self.trusted / "_manifesto.json"
+        with mock.patch.object(etl, "MANIFESTO", manifesto), \
+                mock.patch.object(etl, "caminho_csv", lambda ano: self.csv), \
+                mock.patch.object(etl, "hash_zip", lambda ano: None):
+            etl.etapa_trusted([ANO], "20261116T120000Z-abcd1234")
+        entrada = json.loads(manifesto.read_text(encoding="utf-8"))[str(ANO)]
+        self.assertEqual(entrada["run_id"], "20261116T120000Z-abcd1234")
+        self.assertIn("versao_codigo_git", entrada)
+        self.assertGreater(entrada["tempo_segundos"], 0)
+        self.assertEqual(entrada["funil"]["inscritos"], self.inscritos)
 
     def ler(self, sql: str):
         con = duckdb.connect()
@@ -142,6 +158,7 @@ class TestEtapaAnalytics(unittest.TestCase):
             self.assertEqual(info["bytes"], arquivo.stat().st_size)
             self.assertEqual(info["sha256"], hashlib.sha256(arquivo.read_bytes()).hexdigest())
         self.assertEqual(manifesto["anos"], [ANO])
+        self.assertRegex(manifesto["run_id"], r"^\d{8}T\d{6}Z-[0-9a-f]{8}$")
         self.assertEqual(manifesto["distribuicoes"][f"{ANO}/cn"]["participantes"], N_ELEGIVEIS)
         self.assertLess(manifesto["verificacao_cdf_exata"]["maior_divergencia_pontos_percentuais"], 1e-9)
 
@@ -178,6 +195,13 @@ class TestEtapaAnalytics(unittest.TestCase):
             etl.etapa_analytics()
         restos = list(self.analytics.iterdir()) if self.analytics.exists() else []
         self.assertEqual(restos, [])
+
+
+
+class TestRunId(unittest.TestCase):
+    def test_run_id_e_unico_e_tem_formato(self):
+        self.assertNotEqual(etl.novo_run_id(), etl.novo_run_id())
+        self.assertRegex(etl.novo_run_id(), r"^\d{8}T\d{6}Z-[0-9a-f]{8}$")
 
 
 if __name__ == "__main__":

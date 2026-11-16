@@ -36,6 +36,7 @@ import sys
 import time
 import hashlib
 import subprocess
+import uuid
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -186,7 +187,17 @@ def hash_zip(ano: int) -> str | None:
     return None
 
 
-def etapa_trusted(anos: list[int]) -> None:
+def novo_run_id() -> str:
+    """Identificador da execucao: data/hora UTC mais 8 caracteres aleatorios.
+
+    Liga as linhas dos dois manifestos (TRUSTED e ANALYTICS) gravadas pela mesma
+    execucao, para que se saiba de qual rodada saiu cada artefato.
+    """
+    return f"{datetime.now(timezone.utc):%Y%m%dT%H%M%SZ}-{uuid.uuid4().hex[:8]}"
+
+
+def etapa_trusted(anos: list[int], run_id: str | None = None) -> None:
+    run_id = run_id or novo_run_id()
     manifesto = json.loads(MANIFESTO.read_text()) if MANIFESTO.exists() else {}
     con = conectar()
     for ano in anos:
@@ -211,6 +222,11 @@ def etapa_trusted(anos: list[int]) -> None:
             "funil": f,
             "gerado_em": time.strftime("%Y-%m-%dT%H:%M:%S"),
             "duckdb": duckdb.__version__,
+            # Pendencias da AV3 (secao 6.6): o manifesto da TRUSTED nao tinha commit,
+            # duracao nem identificador de execucao, que o da ANALYTICS ja registrava.
+            "run_id": run_id,
+            "versao_codigo_git": _commit_local(),
+            "tempo_segundos": round(time.perf_counter() - inicio, 3),
         }
         MANIFESTO.write_text(json.dumps(manifesto, indent=2, ensure_ascii=False))
         print(
@@ -264,7 +280,8 @@ def _commit_local() -> str | None:
         return None
 
 
-def etapa_analytics() -> None:
+def etapa_analytics(run_id: str | None = None) -> None:
+    run_id = run_id or novo_run_id()
     """Gera histograma protegido E distribuição exata separada.
 
     Não exporta os microdados individuais. O arquivo exato contém
@@ -362,6 +379,7 @@ def etapa_analytics() -> None:
 
         manifesto = {
             'gerado_em_utc': datetime.now(timezone.utc).isoformat(),
+            'run_id': run_id,
             'versao_codigo_git': _commit_local(),
             'anos': anos, 'piso_exibicao': 100,
             'metodo_percentil': 'posto medio, CDF empirica exata, sem interpolacao',
@@ -392,9 +410,11 @@ def main() -> int:
     ap.add_argument("--so-analytics", action="store_true", help="nao regenera a TRUSTED")
     args = ap.parse_args()
 
+    run_id = novo_run_id()
+    print(f"[etl] run_id {run_id}", flush=True)
     if not args.so_analytics:
-        etapa_trusted(args.anos)
-    etapa_analytics()
+        etapa_trusted(args.anos, run_id)
+    etapa_analytics(run_id)
     return 0
 
 
