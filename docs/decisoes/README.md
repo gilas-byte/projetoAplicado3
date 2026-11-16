@@ -16,7 +16,7 @@ apagada: quando muda, a entrada antiga recebe "substituída por DL-xx".
 | [DL-03](#dl-03--regras-do-módulo-equidade-socioeconômica) | 02/11/2026 | Regras do módulo Equidade socioeconômica | Samuel (autor do módulo) | Aceita |
 | [DL-04](#dl-04--regras-do-módulo-recorte-territorial) | 02/11/2026 | Regras do módulo Recorte territorial | Vinícius (autor do módulo); aceite de Samuel (PO) em 03/11/2026 | Aceita |
 | [DL-05](#dl-05--regras-do-módulo-capital-escolar-familiar) | 03/11/2026 | Regras do módulo Capital escolar familiar | Guilherme Anselmo (autor do módulo); aceite de Samuel (PO) em 08/11/2026 | Aceita |
-| [DL-06](#dl-06--hospedagem-em-teste-no-replit) | 03/11/2026 | Hospedagem em teste no Replit | Samuel (PO) | Decidida; publicação até 13/11 |
+| [DL-06](#dl-06--hospedagem-em-teste-no-replit) | 03/11/2026 | Hospedagem em teste no Replit | Samuel (PO) | Decidida; publicação remarcada para a etapa final, antes de 19/11 |
 | [DL-07](#dl-07--corte-do-módulo-rede-de-ensino-e-prazo-do-relatório-final-em-1911) | 08/11/2026 | Corte do módulo Rede de ensino e prazo do relatório final em 19/11 | Samuel (PO) | Aceita |
 
 ---
@@ -453,6 +453,11 @@ apagada: quando muda, a entrada antiga recebe "substituída por DL-xx".
   prazo do relatório final, que exige o link público. O prazo passou a ser
   19/11/2026 (DL-07).
 - **Situação:** decidida, primeira publicação ainda não feita (prevista até 13/11/2026, DL-07). Pode ser revista antes ou depois dessa publicação.
+  *Atualização (16/11/2026):* a publicação de 13/11/2026 não foi feita. Ela depende do aplicativo
+  completo, com os três módulos e a interface revisada; o código do Capital escolar entrou em
+  10/11/2026 à noite, e o capítulo 3 e a revisão da nova interface (PR #30) só se resolveram em
+  15/11/2026. O PO remarcou a primeira publicação para a etapa final, antes da entrega de
+  19/11/2026, como registrado no README (PR #18) e no relatório consolidado da AV4.
 - **Contexto:** `docs/av3/EVOLUCAO-FUTURA-NUVEM.md` deixou a hospedagem em aberto, com
   o Azure apenas como exemplo. O app precisa de quatro artefatos agregados que não
   vão para o GitHub (`docs/privacidade.md`, R1) e não podem ser baixados pelo público
@@ -541,6 +546,18 @@ apagada: quando muda, a entrada antiga recebe "substituída por DL-xx".
   5. **Papéis de front, QA e otimização:** definidos pelo PO depois de 10/11/2026,
      conforme o que estiver pronto. Se necessário, o PO assume responsabilidades
      originalmente de outro integrante para cumprir as datas.
+- **Atualização (16/11/2026), situação do cronograma:**
+  - **10/11 – módulos e capítulos da AV4:** os três módulos estavam no `main` em 10/11 (PRs #10,
+    #12 e #20). O capítulo 1 foi entregue em 02/11 e atualizado em 15/11; o capítulo 2, em 10/11
+    (PR #19), com a versão em Word em 15/11 (PRs #28 e #31); o capítulo 3, em 15/11 (PR #29),
+    cinco dias depois do prazo, após a cobrança nas issues #25 e #26.
+  - **13/11 – publicação no Replit:** remarcada para a etapa final (ver DL-06).
+  - **15/11 – QA e otimização:** parcial. Os papéis não foram formalizados, por dependência dos
+    itens acima; houve a revisão de segurança do `.gitignore` (PR #27) e a nova interface
+    (PR #30, aprovada para depois da AV4). O QA da aplicação completa e a otimização passam
+    para a AV6.
+  - **AV4:** relatório consolidado em `docs/av4/`, entregue no AVA.
+  - **17/11 e 19/11:** mantidos para o relatório final (AV6).
 - **Substitui:** o prazo de 24/11/2026 usado como referência nas DL-05 e DL-06 e no
   plano da Sprint 6; completa a DL-02 (corte do quarto módulo).
 - **Evidência:** revisão do PO no PR #15 (08/11/2026) e mensagem ao grupo da equipe

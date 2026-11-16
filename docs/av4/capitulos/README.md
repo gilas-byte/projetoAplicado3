@@ -7,11 +7,20 @@ retrabalho de formatação.
 
 | Capítulo | Módulo | Autor | Arquivo | Situação |
 | --- | --- | --- | --- | --- |
-| 1 | Equidade socioeconômica | Samuel Silva de Rezende | [`AV4_Capitulo_Samuel_Equidade_Socioeconomica.docx`](AV4_Capitulo_Samuel_Equidade_Socioeconomica.docx) | entregue (modelo) |
-| 2 | Recorte territorial | Vinícius Joacir dos Anjos | `AV4_Capitulo_Vinicius_Recorte_Territorial.docx` | conteúdo pronto em [`docs/modulos/relatorio-modulo-territorial.md`](../../modulos/relatorio-modulo-territorial.md); falta o .docx |
-| 3 | Capital escolar familiar | Guilherme da Silva Anselmo | `AV4_Capitulo_Guilherme_Capital_Escolar_Familiar.docx` | pendente |
+| 1 | Equidade socioeconômica | Samuel Silva de Rezende | [`AV4_Capitulo_Samuel_Equidade_Socioeconomica.docx`](AV4_Capitulo_Samuel_Equidade_Socioeconomica.docx) | entregue em 15/11/2026 (PR #24) |
+| 2 | Recorte territorial | Vinícius Joacir dos Anjos | [`AV4_Capitulo_Vinicius_Recorte_Territorial.docx`](AV4_Capitulo_Vinicius_Recorte_Territorial.docx) | entregue em 15/11/2026 (PRs #28 e #31) |
+| 3 | Capital escolar familiar | Guilherme da Silva Anselmo | [`AV4_Capitulo_Guilherme_Capital_Escolar_Familiar.docx`](AV4_Capitulo_Guilherme_Capital_Escolar_Familiar.docx) | entregue em 15/11/2026 (PR #29) |
 
 A numeração dos capítulos segue a ordem das páginas do app (1, 2 e 3).
+
+**Documento consolidado (entregue no AVA):**
+[`../AV4_Relatorio_Consolidado_RadarENEM_EquipeA.pdf`](../AV4_Relatorio_Consolidado_RadarENEM_EquipeA.pdf)
+e a versão editável em
+[`../AV4_Relatorio_Consolidado_RadarENEM_EquipeA.docx`](../AV4_Relatorio_Consolidado_RadarENEM_EquipeA.docx).
+Além dos três capítulos, ele tem identificação, sumário, apresentação, a seção "Construção da
+entrega e atuação da equipe" e o encerramento. Na consolidação, o PO acrescentou a cada capítulo a
+subseção N.2.7 (cálculos passo a passo, com exemplo numérico real); o restante de cada capítulo é
+do seu autor, igual aos arquivos desta pasta.
 
 ## Modelo
 
@@ -60,7 +69,7 @@ Mesmas seções, com o número do seu capítulo (2.1, 2.2… ou 3.1, 3.2…):
 1. Branch própria a partir da `main`, com o .docx nesta pasta e o nome indicado na tabela.
 2. Pull request com o PO (Samuel Silva de Rezende, `kiraabin`) como revisor. Como os capítulos
    vão para o documento consolidado, a revisão de cada um é feita por quem faz a junção.
-3. Prazo: definido na issue de aviso da AV4.
+3. Prazo: 15/11/2026, definido na issue #25. Os três capítulos foram entregues nessa data.
 
 Depois que os três capítulos estiverem na `main`, o PO monta o documento consolidado e o envia
 no AVA.
