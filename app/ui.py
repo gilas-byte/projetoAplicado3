@@ -44,7 +44,7 @@ _PALETAS = {
     "light": dict(bg="#f4f6fa", surf="#ffffff", line="#dbe1ea", line2="#c5cdd9", tx="#141a24", mu="#334155",
                   azul="#1f6fe5", glow="rgba(31,111,229,.38)", glow2="rgba(31,111,229,.16)", btn_hover="#1859c4",
                   borda_hover="#aab5c6", side="#eceff5", ciano="#0a6f8c", fraco1="#b9d3fa",
-                  sombra_nota="rgba(217,60,60,.5)"),
+                  sombra_nota="rgba(0,0,0,0)"),  # sem brilho no claro: o brilho borrava os rotulos
 }
 
 
@@ -436,36 +436,44 @@ def formatar_porcento(valor: float) -> str:
 def posicao_simples(itens: list[tuple[str, str, str]]) -> go.Figure | None:
     """Barras de 0 a 100 com a posição em cada grupo. `itens`: (grupo, texto exibido, cor).
 
-    A barra colorida é a parcela do grupo com nota menor; o trilho claro atrás dela vai até 100%.
-    Itens com texto fora do formato (grupo insuficiente) ficam de fora; sem nenhum, None.
+    A barra colorida é a parcela do grupo com nota menor; o trilho claro atrás dela vai até
+    100%. O nome do grupo e o valor ficam numa linha acima de cada barra, e não no eixo: assim
+    a barra usa a largura toda e nada é cortado no celular. Itens com texto fora do formato
+    (grupo insuficiente) ficam de fora; sem nenhum, None.
     """
     linhas = [(rotulo, *_valor_do_texto(texto), texto.strip(), cor)
               for rotulo, texto, cor in itens if _valor_do_texto(texto) is not None]
     if not linhas:
         return None
-    rotulos = [rotulo for rotulo, *_ in linhas]
+    posicoes = list(range(len(linhas)))
     valores = [valor for _, valor, *_ in linhas]
     fig = go.Figure()
-    # Trilho de 0 a 100 atrás de cada barra (sobreposição, não empilhamento), para o rótulo
-    # ficar fora da barra colorida, em texto escuro sobre o trilho. O trilho é um tom claro
-    # da cor do grupo, não cinza.
+    # Trilho de 0 a 100 atrás de cada barra (sobreposição): um tom claro da cor do grupo, não cinza.
     fig.add_trace(go.Bar(
-        x=[100] * len(linhas), y=rotulos, orientation="h", marker_color=[clarear(cor) for *_, cor in linhas],
+        x=[100] * len(linhas), y=posicoes, orientation="h", width=0.42,
+        marker=dict(color=[clarear(cor) for *_, cor in linhas], line=dict(width=0)),
         hoverinfo="skip", name="Grupo inteiro",
     ))
     fig.add_trace(go.Bar(
-        x=valores, y=rotulos, orientation="h", marker_color=[cor for *_, cor in linhas],
-        text=[texto for *_, texto, _ in linhas], textposition="outside", cliponaxis=False,
-        textfont=dict(family="IBM Plex Mono, monospace", size=13, color=paleta()["tx"]),
+        x=valores, y=posicoes, orientation="h", width=0.42,
+        marker=dict(color=[cor for *_, cor in linhas], line=dict(width=0)),
         hoverinfo="skip", name="Nota menor que a sua",
     ))
+    for i, (rotulo, _, _, texto, _) in enumerate(linhas):
+        fig.add_annotation(
+            x=0, y=i, yshift=24, xanchor="left", yanchor="bottom", showarrow=False, align="left",
+            text=f"<b>{escape(rotulo)}</b>  {escape(texto)}",
+            font=dict(family="IBM Plex Sans, sans-serif", size=13),
+        )
     fig.update_layout(
-        barmode="overlay", bargap=0.35, showlegend=False, margin=dict(l=10, r=120, t=10, b=10),
-        xaxis=dict(range=[0, 100], tickvals=[0, 25, 50, 75, 100], ticksuffix="%",
+        barmode="overlay", showlegend=False, margin=dict(l=10, r=30, t=30, b=10),
+        xaxis=dict(range=[0, 100], tickvals=[0, 25, 50, 75, 100],
+                   ticktext=["0%", "25%", "50%", "75%", "100%"],
                    title="Participantes do grupo com nota menor que a sua"),
-        yaxis=dict(autorange="reversed"),
+        yaxis=dict(autorange="reversed", showticklabels=False, showgrid=False, zeroline=False,
+                   range=[len(linhas) - 0.5, -0.9]),
     )
-    return estilo_grafico(fig, altura=90 + 52 * len(linhas))
+    return estilo_grafico(fig, altura=110 + 72 * len(linhas))
 
 
 def visao_simples(itens: list[tuple[str, str, str]]) -> None:

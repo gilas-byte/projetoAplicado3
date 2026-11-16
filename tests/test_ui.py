@@ -210,7 +210,8 @@ class TestVisaoSimples(unittest.TestCase):
         trilho, menor = fig.data
         self.assertEqual(list(trilho.x), [100, 100])
         self.assertEqual(list(menor.x), [73.0, 99.9])
-        self.assertEqual(list(menor.text), ["73,0%", "acima de 99,9%"])
+        self.assertEqual([a.text for a in fig.layout.annotations],
+                         ["<b>UF</b>  73,0%", "<b>Brasil</b>  acima de 99,9%"])
         self.assertEqual(fig.layout.barmode, "overlay")
         self.assertEqual(fig.layout.xaxis.range, (0, 100))
 

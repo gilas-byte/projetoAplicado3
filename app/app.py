@@ -91,9 +91,12 @@ def grafico(faixas_area, nota: float, titulo: str) -> go.Figure:
             x=[inicio + 10 for inicio, _ in classes],
             y=[pct for _, pct in classes],
             width=20,
-            # Acima da nota: azul claro com contorno azul (sem cinza; o contorno dá o contraste).
+            # Até a nota: azul cheio, com contorno da cor do fundo para cada barra ficar separada da
+            # vizinha. Acima da nota: azul claro com contorno azul (sem cinza; o contorno dá o
+            # contraste com o fundo e também separa as barras).
             marker_color=[COR_PROPRIO if inicio <= nota else paleta()["fraco1"] for inicio, _ in classes],
-            marker_line=dict(color=COR_PROPRIO, width=1),
+            marker_line=dict(color=[paleta()["bg"] if inicio <= nota else COR_PROPRIO for inicio, _ in classes],
+                             width=1),
             hovertemplate="%{x:.0f} ± 10 pontos: %{y:.1f}% dos participantes<extra></extra>",
         )
     )
@@ -101,7 +104,8 @@ def grafico(faixas_area, nota: float, titulo: str) -> go.Figure:
                   annotation_text="sua nota", annotation_position="top")
     fig.update_layout(
         title=titulo, bargap=0.05, margin=dict(l=10, r=10, t=50, b=10),
-        xaxis_title="Nota", yaxis_title="% dos participantes", showlegend=False,
+        xaxis=dict(title="Nota", range=[0, 1000]),  # mesma escala em todas as áreas e no boxplot
+        yaxis_title="% dos participantes", showlegend=False,
     )
     return estilo_grafico(fig)
 
@@ -132,8 +136,10 @@ def grafico_caixas(caixas: list[tuple[str, dict, float]]) -> go.Figure:
         yaxis=dict(autorange="reversed"),  # mesma ordem das áreas na página, de cima para baixo
         boxmode="overlay",
     )
-    fig = estilo_grafico(fig, altura=130 + 55 * len(caixas))
-    fig.update_layout(legend=dict(orientation="h", y=-0.25, yanchor="top"))
+    fig = estilo_grafico(fig, altura=150 + 55 * len(caixas))
+    # Legenda no topo: embaixo ela cobria o título do eixo, sobretudo no celular.
+    fig.update_layout(legend=dict(orientation="h", x=0, xanchor="left", y=1.0, yanchor="bottom"),
+                      margin=dict(l=10, r=10, t=40, b=10))
     return fig
 
 
