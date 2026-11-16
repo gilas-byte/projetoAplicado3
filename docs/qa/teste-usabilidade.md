@@ -44,7 +44,7 @@ sozinha, o tempo aproximado, onde travou e o que perguntou.
 
 | Verificação | Como | Situação |
 | --- | --- | --- |
-| Contraste das cores de papel e de contexto | Automático: `tests/test_ui.py`, `TestContraste` (3:1 para gráficos, 4,5:1 para texto, nos dois temas) | Passa |
+| Contraste das cores e tom dos textos | Automático: `tests/test_ui.py`, `TestContraste` (3:1 para cores de dado, 7:1 para texto principal e secundário, nenhuma cor de dado cinza, nos dois temas) | Passa |
 | Mensagem compreensível em escala de cinza | Ativar o filtro de escala de cinza do sistema e repetir a tarefa 3 | A fazer |
 | Daltonismo (protanopia e deuteranopia) | Simulador de visão de cores do navegador (DevTools → Rendering → Emulate vision deficiencies) | A fazer |
 | Navegação só pelo teclado | Tab e Enter do formulário até o resultado; foco visível | A fazer |

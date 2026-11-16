@@ -36,7 +36,6 @@ from ui import (  # noqa: E402
     anel,
     aplicar_tema,
     estilo_grafico,
-    paleta,
     rodape,
     ABAS_RESULTADO,
     visao_simples,
@@ -105,8 +104,9 @@ def grafico_medianas(cdfs, e) -> go.Figure:
     da_regiao = set(REGIOES[e.regiao][1])
     fig = go.Figure()
     for nome, filtro, cor, simbolo in (
-        ("Outras UFs", lambda uf: uf != e.uf and uf not in da_regiao, paleta()["fraco2"], "circle-open"),
-        (f"Região {REGIOES[e.regiao][0]}", lambda uf: uf != e.uf and uf in da_regiao, paleta()["fraco1"], "circle"),
+        # Mesmas cores de papel do resto da página: região em âmbar, demais UFs no tom do Brasil.
+        ("Outras UFs", lambda uf: uf != e.uf and uf not in da_regiao, COR_BRASIL, "circle-open"),
+        (f"Região {REGIOES[e.regiao][0]}", lambda uf: uf != e.uf and uf in da_regiao, COR_REGIAO, "circle"),
         (NOMES_UF[e.uf], lambda uf: uf == e.uf, COR_UF, "diamond"),
     ):
         pontos = [(uf, m, n) for uf, m, n in ranking if filtro(uf)]

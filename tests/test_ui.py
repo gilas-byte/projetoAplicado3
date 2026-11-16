@@ -70,7 +70,7 @@ class TestUi(unittest.TestCase):
             fig = ui.estilo_grafico(ui.go.Figure())
         self.assertIn(ui._PALETAS["dark"]["tx"], escuro)
         self.assertNotIn(ui._PALETAS["light"]["bg"], escuro)
-        self.assertEqual(fig.layout.font.color, ui._PALETAS["dark"]["mu"])
+        self.assertEqual(fig.layout.font.color, ui._PALETAS["dark"]["tx"])  # eixos em tom forte (16/11/2026)
         self.assertNotIn("text-shadow:none", escuro)
         claro = self.anel("58,3%")  # sem tema informado, o padrao e o claro
         self.assertIn("text-shadow:none", claro)
@@ -113,18 +113,38 @@ class TestContraste(unittest.TestCase):
                     with self.subTest(cor=nome, tema=tema, fundo=fundo):
                         self.assertGreaterEqual(contraste(getattr(ui, nome), paleta[fundo]), 3.0)
 
-    def test_cores_de_contexto_passam_de_3_para_1_no_proprio_tema(self):
-        for tema, paleta in ui._PALETAS.items():
-            for cor in ("fraco1", "fraco2"):
-                with self.subTest(tema=tema, cor=cor):
-                    self.assertGreaterEqual(contraste(paleta[cor], paleta["bg"]), 3.0)
+    def test_nenhuma_cor_de_dado_e_cinza(self):
+        """Pedido do PO (16/11/2026): graficos sem tons de cinza. Saturacao HSL de pelo menos 40%."""
+        import colorsys
 
-    def test_textos_passam_de_4_e_meio_para_1(self):
+        def saturacao(cor):
+            r, g, b = (int(cor.lstrip("#")[i:i + 2], 16) / 255 for i in (0, 2, 4))
+            return colorsys.rgb_to_hls(r, g, b)[2]
+
+        cores = {nome: getattr(ui, nome) for nome in ("COR_PROPRIO", "COR_VIZINHO", "COR_BRASIL", "COR_NOTA")}
+        cores.update({f"fraco1 ({tema})": paleta["fraco1"] for tema, paleta in ui._PALETAS.items()})
+        for nome, cor in cores.items():
+            with self.subTest(cor=nome):
+                self.assertGreaterEqual(saturacao(cor), 0.4)
+
+    def test_textos_principal_e_secundario_em_tom_forte(self):
+        """Texto principal e secundario com pelo menos 7:1 (nivel AAA) nos dois temas."""
         for tema, paleta in ui._PALETAS.items():
-            for cor in ("tx", "mu", "ciano"):
+            for cor in ("tx", "mu"):
                 for fundo in ("bg", "surf"):
                     with self.subTest(tema=tema, cor=cor, fundo=fundo):
-                        self.assertGreaterEqual(contraste(paleta[cor], paleta[fundo]), 4.5)
+                        self.assertGreaterEqual(contraste(paleta[cor], paleta[fundo]), 7.0)
+
+    def test_texto_ciano_passa_de_4_e_meio_para_1(self):
+        for tema, paleta in ui._PALETAS.items():
+            for fundo in ("bg", "surf"):
+                with self.subTest(tema=tema, fundo=fundo):
+                    self.assertGreaterEqual(contraste(paleta["ciano"], paleta[fundo]), 4.5)
+
+    def test_trilho_e_tom_claro_da_propria_cor(self):
+        with mock.patch.object(ui, "tema_atual", return_value="light"):
+            self.assertEqual(ui.clarear("#000000", 1.0), ui._PALETAS["light"]["bg"])
+            self.assertEqual(ui.clarear("#1375ff", 0.0), "#1375ff")
 
     def test_texto_branco_do_botao(self):
         for tema, paleta in ui._PALETAS.items():

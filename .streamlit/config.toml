@@ -39,7 +39,7 @@ borderColor = "#252c38"
 dataframeBorderColor = "#252c38"
 dataframeHeaderBackgroundColor = "#131820"
 linkColor = "#3b8cff"
-chartCategoricalColors = ["#1375ff", "#a3731a", "#707d90", "#eb3030"]
+chartCategoricalColors = ["#1375ff", "#a3731a", "#008c71", "#eb3030"]
 
 [theme.light]
 base = "light"
@@ -51,7 +51,7 @@ borderColor = "#dbe1ea"
 dataframeBorderColor = "#dbe1ea"
 dataframeHeaderBackgroundColor = "#eaeef5"
 linkColor = "#1f6fe5"
-chartCategoricalColors = ["#1375ff", "#a3731a", "#707d90", "#eb3030"]
+chartCategoricalColors = ["#1375ff", "#a3731a", "#008c71", "#eb3030"]
 
 [[theme.fontFaces]]
 family = "IBM Plex Sans"

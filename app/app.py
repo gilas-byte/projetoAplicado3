@@ -91,8 +91,9 @@ def grafico(faixas_area, nota: float, titulo: str) -> go.Figure:
             x=[inicio + 10 for inicio, _ in classes],
             y=[pct for _, pct in classes],
             width=20,
+            # Acima da nota: azul claro com contorno azul (sem cinza; o contorno dá o contraste).
             marker_color=[COR_PROPRIO if inicio <= nota else paleta()["fraco1"] for inicio, _ in classes],
-            marker_line_width=0,
+            marker_line=dict(color=COR_PROPRIO, width=1),
             hovertemplate="%{x:.0f} ± 10 pontos: %{y:.1f}% dos participantes<extra></extra>",
         )
     )

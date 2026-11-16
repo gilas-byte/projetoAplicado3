@@ -119,7 +119,7 @@ o autor do módulo que o exibe.
 | Barras começam em zero | Atendido. O gráfico de medianas era de barras com eixo truncado e virou dot plot (AV6) |
 | Fonte e data de atualização visíveis | Atendido: rodapé em todas as páginas (AV6) |
 | Informação essencial fora do passar do mouse | Atendido: N das UFs passou para o rótulo do eixo (AV6) |
-| Contraste e cor não como único código | Atendido: cores com 3:1 nos dois temas, conferidas em teste; a nota também é marcada por linha tracejada ou losango |
+| Contraste e cor não como único código | Atendido: cores de dado com 3:1 nos dois temas e textos com 7:1 (tom forte), conferidos em teste; nenhuma cor de dado é cinza (Brasil em verde-azulado da paleta Okabe-Ito, segura para daltonismo); a nota também é marcada por linha tracejada ou losango |
 | SQL dinâmica parametrizada | Atendido: o app lê os artefatos com `read_parquet(?)` |
 | Medição de p50/p95 | Em andamento: `scripts/medir_desempenho.py` e `docs/deploy/replit.md` |
 | Teste com público-alvo | Em andamento: protocolo em `docs/qa/teste-usabilidade.md` |
