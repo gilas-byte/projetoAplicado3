@@ -20,8 +20,8 @@ enableStaticServing = true
 
 [theme]
 # Tema do Radar ENEM (front): cor chapada, linha fina, cantos arredondados (16px).
-# Os papeis das cores nos graficos e o CSS ficam em app/ui.py. O botao "Modo claro"
-# da sidebar troca entre [theme.dark] e [theme.light].
+# Os papeis das cores nos graficos e o CSS ficam em app/ui.py. O padrao e o claro; o
+# interruptor "Modo escuro" da sidebar troca para [theme.dark] (opcional).
 baseRadius = "16px"
 buttonRadius = "16px"
 showWidgetBorder = true

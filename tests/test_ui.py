@@ -24,7 +24,8 @@ class TestUi(unittest.TestCase):
     def test_anel_anima_so_o_valor_do_texto(self):
         html = self.anel("58,3%")
         self.assertIn("const ALVO=58.3,FINAL=\"58,3%\",ANIMA=true", html)
-        self.assertIn("<small>acima de</small>", html)
+        self.assertIn("<small>percentil</small>", html)
+        self.assertNotIn("acima de", html)
 
     def test_anel_em_limite_mostra_prefixo_no_rotulo_e_numero_no_centro(self):
         html = self.anel("abaixo de 0,1%")
@@ -60,16 +61,18 @@ class TestUi(unittest.TestCase):
     def test_paletas_tem_as_mesmas_chaves(self):
         self.assertEqual(set(ui._PALETAS["dark"]), set(ui._PALETAS["light"]))
 
-    def test_tema_padrao_e_escuro_fora_de_uma_sessao(self):
-        self.assertEqual(ui.tema_atual(), "dark")
+    def test_tema_padrao_e_claro_fora_de_uma_sessao(self):
+        self.assertEqual(ui.tema_atual(), "light")
 
-    def test_tema_claro_troca_as_cores_do_anel_e_do_grafico(self):
-        with mock.patch.object(ui, "tema_atual", return_value="light"):
-            claro = self.anel("58,3%")
+    def test_tema_escuro_troca_as_cores_do_anel_e_do_grafico(self):
+        with mock.patch.object(ui, "tema_atual", return_value="dark"):
+            escuro = self.anel("58,3%")
             fig = ui.estilo_grafico(ui.go.Figure())
-        self.assertIn(ui._PALETAS["light"]["tx"], claro)
-        self.assertNotIn(ui._PALETAS["dark"]["bg"], claro)
-        self.assertEqual(fig.layout.font.color, ui._PALETAS["light"]["mu"])
+        self.assertIn(ui._PALETAS["dark"]["tx"], escuro)
+        self.assertNotIn(ui._PALETAS["light"]["bg"], escuro)
+        self.assertEqual(fig.layout.font.color, ui._PALETAS["dark"]["mu"])
+        self.assertNotIn("text-shadow:none", escuro)
+        claro = self.anel("58,3%")  # sem tema informado, o padrao e o claro
         self.assertIn("text-shadow:none", claro)
 
     def test_alternador_so_troca_quando_o_usuario_mexe(self):
@@ -82,7 +85,7 @@ class TestUi(unittest.TestCase):
         with mock.patch.object(ui, "_iframe") as frame, mock.patch.object(ui.st, "toggle", return_value=True), \
                 mock.patch.object(ui.st, "sidebar"):
             ui._alternador()
-        self.assertIn('const forcar = "Light";', frame.call_args[0][0])
+        self.assertIn('const forcar = "Dark";', frame.call_args[0][0])
         self.assertNotIn("_r_troca", ui.st.session_state)
 
 

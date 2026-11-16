@@ -39,12 +39,12 @@ _PALETAS = {
 
 
 def tema_atual() -> str:
-    """\"dark\" ou \"light\", conforme o tema ativo no navegador (padrao: dark)."""
+    """\"dark\" ou \"light\", conforme o tema ativo no navegador (padrao: light)."""
     try:
         tipo = st.context.theme.type
     except Exception:  # fora de uma sessao (teste isolado) ou versao sem o recurso
         tipo = None
-    return "light" if tipo == "light" else "dark"
+    return "dark" if tipo == "dark" else "light"
 
 
 def paleta() -> dict:
@@ -189,12 +189,12 @@ const guardar = (tema) => caminhos.forEach((c) => parent.localStorage.setItem("s
 if (forcar) {            // o usuario mexeu no interruptor
   guardar(forcar);
   parent.location.reload();
-} else {                 // primeira visita: o app abre no escuro, mesmo com o sistema claro
+} else {                 // primeira visita: o app abre no claro, mesmo com o sistema escuro
   const k = "stActiveTheme-" + parent.location.pathname + "-v2";
   const v = parent.localStorage.getItem(k);
   if (v === null || v === '"System"') {
-    guardar("Dark");
-    if (parent.matchMedia("(prefers-color-scheme: light)").matches) parent.location.reload();
+    guardar("Light");
+    if (parent.matchMedia("(prefers-color-scheme: dark)").matches) parent.location.reload();
   }
 }
 </script></body></html>"""
@@ -206,14 +206,14 @@ def _pedir_troca() -> None:
 
 
 def _alternador() -> None:
-    """Interruptor "Modo claro" da sidebar. So troca de tema quando o usuario mexe nele: o estado do
+    """Interruptor "Modo escuro" da sidebar (o claro e o padrao). So troca de tema quando o usuario mexe nele: o estado do
     widget nao e fonte de verdade, porque o tema ativo so chega ao servidor depois do primeiro run."""
     atual = tema_atual()
     with st.sidebar:
-        claro = st.toggle("Modo claro", value=atual == "light", on_change=_pedir_troca)
+        escuro = st.toggle("Modo escuro", value=atual == "dark", on_change=_pedir_troca)
     forcar = "null"
     if st.session_state.pop("_r_troca", False):
-        forcar = '"Light"' if claro else '"Dark"'
+        forcar = '"Dark"' if escuro else '"Light"'
     _iframe(_ALTERNAR.replace("__FORCAR__", forcar), height=1)
 
 
@@ -302,7 +302,7 @@ def anel(texto: str, titulo: str, descricao: str, cor: str = COR_PROPRIO, altura
     """
     m = _TEXTO_PERCENTIL.fullmatch(texto.strip())
     alvo = float(f"{m.group(2)}.{m.group(3)}") if m else 0.0
-    rotulo = (m.group(1) or "acima de ").strip() if m else ""
+    rotulo = (m.group(1) or "percentil ").strip() if m else ""  # prefixo so quando vem do texto
     final = f"{m.group(2)},{m.group(3)}%" if m else texto  # o prefixo vai no rotulo pequeno
     c = paleta()
     corpo = (
