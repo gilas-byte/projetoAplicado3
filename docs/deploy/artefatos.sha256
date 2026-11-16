@@ -1,0 +1,9 @@
+# SHA-256 dos artefatos da ANALYTICS publicados no app (execucoes de referencia).
+# Nao e dado: so a identidade de cada arquivo, para conferir o que foi enviado ao Replit.
+# notas/exata: execucao de 03/11/2026 (mesmos hashes da AV3, 13/10/2026).
+# equidade/territorial: execucao de 03/11/2026. capital: execucao de 10/11/2026 (PR #20).
+3a19f7028dc5d5ad2fafe06bf14870a43baa4cf570500deb85deea3c3f38f2e6  dist_notas.parquet
+df2ef5f0ab20b5e711167c4b7ec3bb6c6db871cc9140f5babad134448e7df60b  dist_exata.parquet
+06f3022bf6ff47e99603bd6250e5710df04dffe4cbd06f452f3772cce00f296f  dist_equidade.parquet
+8b3817c115470695c8e89b784bb26b05ea7d8a158670b5bdd3ef51303a247404  dist_territorial.parquet
+e67ea40d9738ae5a9e0eae3db2f1c1dd8904d9c89b51a3d67d82f026988ceca2  dist_capital.parquet
