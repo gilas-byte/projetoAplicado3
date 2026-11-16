@@ -27,7 +27,7 @@ sys.path.insert(0, str(RAIZ / "scripts"))
 
 from colunas import PISO_GRUPO  # noqa: E402
 from estatistica import histograma, percentil_exato_acumulado  # noqa: E402
-from ui import COR_NOTA, COR_PROPRIO, abertura, aplicar_tema, estilo_grafico  # noqa: E402
+from ui import COR_NOTA, COR_PROPRIO, abertura, aplicar_tema, estilo_grafico, paleta  # noqa: E402
 
 DIST_NOTAS = Path(os.environ.get("RADAR_DIST_NOTAS", RAIZ / "data" / "analytics" / "dist_notas.parquet"))
 DIST_EXATA = Path(os.environ.get("RADAR_DIST_EXATA", RAIZ / "data" / "analytics" / "dist_exata.parquet"))
@@ -78,7 +78,7 @@ def grafico(faixas_area, nota: float, titulo: str) -> go.Figure:
             x=[inicio + 10 for inicio, _ in classes],
             y=[pct for _, pct in classes],
             width=20,
-            marker_color=[COR_PROPRIO if inicio <= nota else "#2b4a80" for inicio, _ in classes],
+            marker_color=[COR_PROPRIO if inicio <= nota else paleta()["fraco1"] for inicio, _ in classes],
             marker_line_width=0,
             hovertemplate="%{x:.0f} ± 10 pontos: %{y:.1f}% dos participantes<extra></extra>",
         )

@@ -57,6 +57,34 @@ class TestUi(unittest.TestCase):
             ui.grupos("<i>t</i>", [dict(rotulo="<b>a</b>", valor="1", cor="#fff", pct=None)])
         self.assertNotIn("<b>a</b>", html.call_args[0][0])
 
+    def test_paletas_tem_as_mesmas_chaves(self):
+        self.assertEqual(set(ui._PALETAS["dark"]), set(ui._PALETAS["light"]))
+
+    def test_tema_padrao_e_escuro_fora_de_uma_sessao(self):
+        self.assertEqual(ui.tema_atual(), "dark")
+
+    def test_tema_claro_troca_as_cores_do_anel_e_do_grafico(self):
+        with mock.patch.object(ui, "tema_atual", return_value="light"):
+            claro = self.anel("58,3%")
+            fig = ui.estilo_grafico(ui.go.Figure())
+        self.assertIn(ui._PALETAS["light"]["tx"], claro)
+        self.assertNotIn(ui._PALETAS["dark"]["bg"], claro)
+        self.assertEqual(fig.layout.font.color, ui._PALETAS["light"]["mu"])
+        self.assertIn("text-shadow:none", claro)
+
+    def test_alternador_so_troca_quando_o_usuario_mexe(self):
+        ui.st.session_state.pop("_r_troca", None)
+        with mock.patch.object(ui, "_iframe") as frame, mock.patch.object(ui.st, "toggle", return_value=True), \
+                mock.patch.object(ui.st, "sidebar"):
+            ui._alternador()  # tema ainda escuro no servidor, toggle recem criado: nao pode forcar nada
+        self.assertIn("const forcar = null;", frame.call_args[0][0])
+        ui._pedir_troca()
+        with mock.patch.object(ui, "_iframe") as frame, mock.patch.object(ui.st, "toggle", return_value=True), \
+                mock.patch.object(ui.st, "sidebar"):
+            ui._alternador()
+        self.assertIn('const forcar = "Light";', frame.call_args[0][0])
+        self.assertNotIn("_r_troca", ui.st.session_state)
+
 
 if __name__ == "__main__":
     unittest.main()

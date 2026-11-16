@@ -25,10 +25,35 @@ COR_VIZINHO = "#e0a63a"  # nivel acima / contraste / regiao
 COR_BRASIL = "#8b95a5"  # referencia nacional
 COR_NOTA = "#ef5a5a"  # a nota digitada
 
+# Cores de superficie por tema. As cores de papel (COR_*) servem nos dois temas.
+_PALETAS = {
+    "dark": dict(bg="#0d1016", surf="#131820", line="#252c38", line2="#323b4a", tx="#e6e9ee", mu="#8b95a5",
+                 azul="#3b8cff", glow="rgba(59,140,255,.55)", glow2="rgba(59,140,255,.28)", btn_hover="#5a9fff",
+                 borda_hover="#3d4a5e", side="#0a0d13", ciano="#22d3ee", fraco1="#2b4a80", fraco2="#323b4a",
+                 sombra_nota="rgba(239,90,90,.8)"),
+    "light": dict(bg="#f4f6fa", surf="#ffffff", line="#dbe1ea", line2="#c5cdd9", tx="#141a24", mu="#5b6677",
+                  azul="#1f6fe5", glow="rgba(31,111,229,.38)", glow2="rgba(31,111,229,.16)", btn_hover="#3a85f0",
+                  borda_hover="#aab5c6", side="#eceff5", ciano="#0b84a5", fraco1="#a8c6f5", fraco2="#cfd6e2",
+                  sombra_nota="rgba(217,60,60,.5)"),
+}
+
+
+def tema_atual() -> str:
+    """\"dark\" ou \"light\", conforme o tema ativo no navegador (padrao: dark)."""
+    try:
+        tipo = st.context.theme.type
+    except Exception:  # fora de uma sessao (teste isolado) ou versao sem o recurso
+        tipo = None
+    return "light" if tipo == "light" else "dark"
+
+
+def paleta() -> dict:
+    return _PALETAS[tema_atual()]
+
+
 _CSS = """
 <style>
-:root{--r-raio:16px;--r-bg:#0d1016;--r-surf:#131820;--r-line:#252c38;--r-line2:#323b4a;--r-tx:#e6e9ee;--r-mu:#8b95a5;
- --r-azul:#3b8cff;--r-glow:rgba(59,140,255,.55);--r-mono:'IBM Plex Mono',ui-monospace,monospace}
+:root{--r-raio:16px;__ROOT__;--r-mono:'IBM Plex Mono',ui-monospace,monospace}
 header[data-testid="stHeader"]{background:transparent}
 .stMainBlockContainer{padding-top:2.2rem;padding-bottom:4rem;max-width:640px}
 h1,h2,h3{font-family:var(--r-mono)!important;letter-spacing:-.01em}
@@ -41,21 +66,21 @@ h3{font-size:1rem!important;font-weight:600!important}
 [data-testid="stCheckbox"] [data-testid="stWidgetLabel"] p{font-family:inherit;text-transform:none;letter-spacing:0;font-size:.9rem;color:var(--r-tx)}
 [data-testid="stForm"]{border:1px solid var(--r-line);background:var(--r-surf);border-radius:var(--r-raio);padding:1.1rem}
 [data-testid="stBaseButton-primaryFormSubmit"],[data-testid="stBaseButton-primary"]{width:100%;font-family:var(--r-mono);font-weight:600;text-transform:uppercase;letter-spacing:.05em;border:0;background:var(--r-azul);color:#fff;padding:.7rem 1rem;box-shadow:0 0 14px var(--r-glow);transition:background .15s,box-shadow .2s,transform .15s}
-[data-testid="stBaseButton-primaryFormSubmit"]:hover,[data-testid="stBaseButton-primary"]:hover{background:#5a9fff;color:#fff;box-shadow:0 0 24px var(--r-glow),0 0 48px rgba(59,140,255,.28);transform:translateY(-2px)}
+[data-testid="stBaseButton-primaryFormSubmit"]:hover,[data-testid="stBaseButton-primary"]:hover{background:var(--r-btn-hover);color:#fff;box-shadow:0 0 24px var(--r-glow),0 0 48px var(--r-glow2);transform:translateY(-2px)}
 [data-testid="stBaseButton-primaryFormSubmit"]:active,[data-testid="stBaseButton-primary"]:active{transform:scale(.98)}
 [data-testid="stElementContainer"]:has([data-testid="stFormSubmitButton"]),div:has(>[data-testid="stFormSubmitButton"]),[data-testid="stFormSubmitButton"],[data-testid="stFormSubmitButton"]>button{width:100%!important}
 [data-testid="stForm"] [data-testid="stHorizontalBlock"]{flex-wrap:nowrap;gap:.8rem}
 [data-testid="stForm"] [data-testid="stColumn"]{min-width:0!important;flex:1 1 0!important;width:auto!important}
 [data-testid="stMetric"]{background:var(--r-surf);border:1px solid var(--r-line);border-radius:var(--r-raio);padding:.8rem 1rem;transition:border-color .15s}
-[data-testid="stMetric"]:hover{border-color:#3d4a5e;transform:translateY(-3px)}
+[data-testid="stMetric"]:hover{border-color:var(--r-borda-hover);transform:translateY(-3px)}
 [data-testid="stMetric"]{transition:border-color .2s,transform .2s}
-[data-testid="stForm"]{transition:border-color .2s}[data-testid="stForm"]:focus-within{border-color:#3d4a5e}
-[data-testid="stExpander"]{transition:border-color .2s}[data-testid="stExpander"]:hover{border-color:#3d4a5e}
+[data-testid="stForm"]{transition:border-color .2s}[data-testid="stForm"]:focus-within{border-color:var(--r-borda-hover)}
+[data-testid="stExpander"]{transition:border-color .2s}[data-testid="stExpander"]:hover{border-color:var(--r-borda-hover)}
 [data-testid="stMetricLabel"] p{white-space:normal!important;font-family:var(--r-mono);font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;color:var(--r-mu)}
 [data-testid="stMetricValue"],[data-testid="stMetricValue"] *{font-family:var(--r-mono)!important;font-weight:600;font-variant-numeric:tabular-nums}
 [data-testid="stMetricValue"]{font-size:1.4rem}
 [data-testid="stMetricValue"],[data-testid="stMetricValue"] div,[data-testid="stMetricValue"] p{white-space:normal!important;overflow:visible!important;text-overflow:clip!important;overflow-wrap:anywhere;line-height:1.2;min-width:0}
-[data-testid="stMetricDelta"],[data-testid="stMetricDelta"] *{color:#22d3ee!important;font-family:var(--r-mono)}
+[data-testid="stMetricDelta"],[data-testid="stMetricDelta"] *{color:var(--r-ciano)!important;font-family:var(--r-mono)}
 [data-testid="stExpander"]{border:1px solid var(--r-line);border-radius:var(--r-raio);background:transparent}
 [data-testid="stExpander"] summary:hover{color:var(--r-azul)}
 [data-testid="stAlert"]{border-radius:var(--r-raio)}
@@ -63,7 +88,7 @@ h3{font-size:1rem!important;font-weight:600!important}
 [data-baseweb="tab-highlight"]{background:var(--r-azul)!important;height:2px!important}
 [data-baseweb="tab"]{font-family:var(--r-mono)}
 
-[data-testid="stSidebar"]{background:#0a0d13;border-right:1px solid var(--r-line)}
+[data-testid="stSidebar"]{background:var(--r-side);border-right:1px solid var(--r-line)}
 [data-testid="stSidebarContent"]{padding:1.2rem .9rem}
 [data-testid="stSidebarHeader"]{display:none}
 .r-logo{display:flex;align-items:center;gap:.7rem;font:600 1.05rem var(--r-mono);letter-spacing:-.01em;padding:.2rem .4rem 1.3rem;border-bottom:1px solid var(--r-line);margin-bottom:1rem}
@@ -77,6 +102,9 @@ h3{font-size:1rem!important;font-weight:600!important}
 [data-testid="stSidebarCollapseButton"] button,[data-testid="stExpandSidebarButton"]{color:var(--r-mu);transition:color .2s}
 [data-testid="stSidebarCollapseButton"] button:hover,[data-testid="stExpandSidebarButton"]:hover{color:var(--r-azul)}
 
+[data-testid="stSidebar"] [data-testid="stIFrame"],[data-testid="stSidebar"] [data-testid="stElementContainer"]:has([data-testid="stIFrame"]){display:none}
+[data-testid="stSidebar"] [data-testid="stCheckbox"]{padding:.5rem .8rem;margin-top:.8rem;border-top:1px solid var(--r-line)}
+[data-testid="stSidebar"] [data-testid="stCheckbox"] [data-testid="stWidgetLabel"] p{font:600 .72rem var(--r-mono);text-transform:uppercase;letter-spacing:.08em;color:var(--r-mu)}
 .r-lead{color:var(--r-mu);max-width:52ch;margin:0 0 1.4rem}
 .r-sec{border-top:1px solid var(--r-line);padding:1.1rem 0 .4rem}
 .r-tit{font:600 .72rem var(--r-mono);text-transform:uppercase;letter-spacing:.08em;color:var(--r-mu);margin:0 0 .5rem}
@@ -101,8 +129,8 @@ h3{font-size:1rem!important;font-weight:600!important}
 .st-key-resultado .js-plotly-plot .barlayer .point path{transform-box:fill-box;transform-origin:50% 100%;animation:r-grow .9s cubic-bezier(.2,.7,.2,1) backwards}
 @keyframes r-grow{from{transform:scaleY(0)}}
 .st-key-resultado .js-plotly-plot .barlayer .point:nth-child(1) path{animation-delay:16ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(2) path{animation-delay:32ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(3) path{animation-delay:48ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(4) path{animation-delay:64ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(5) path{animation-delay:80ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(6) path{animation-delay:96ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(7) path{animation-delay:112ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(8) path{animation-delay:128ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(9) path{animation-delay:144ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(10) path{animation-delay:160ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(11) path{animation-delay:176ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(12) path{animation-delay:192ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(13) path{animation-delay:208ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(14) path{animation-delay:224ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(15) path{animation-delay:240ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(16) path{animation-delay:256ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(17) path{animation-delay:272ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(18) path{animation-delay:288ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(19) path{animation-delay:304ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(20) path{animation-delay:320ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(21) path{animation-delay:336ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(22) path{animation-delay:352ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(23) path{animation-delay:368ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(24) path{animation-delay:384ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(25) path{animation-delay:400ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(26) path{animation-delay:416ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(27) path{animation-delay:432ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(28) path{animation-delay:448ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(29) path{animation-delay:464ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(30) path{animation-delay:480ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(31) path{animation-delay:496ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(32) path{animation-delay:512ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(33) path{animation-delay:528ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(34) path{animation-delay:544ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(35) path{animation-delay:560ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(36) path{animation-delay:576ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(37) path{animation-delay:592ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(38) path{animation-delay:608ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(39) path{animation-delay:624ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(40) path{animation-delay:640ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(41) path{animation-delay:656ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(42) path{animation-delay:672ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(43) path{animation-delay:688ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(44) path{animation-delay:704ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(45) path{animation-delay:720ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(46) path{animation-delay:736ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(47) path{animation-delay:752ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(48) path{animation-delay:768ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(49) path{animation-delay:784ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(50) path{animation-delay:800ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(51) path{animation-delay:816ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(52) path{animation-delay:832ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(53) path{animation-delay:848ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(54) path{animation-delay:864ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(55) path{animation-delay:880ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(56) path{animation-delay:896ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(57) path{animation-delay:912ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(58) path{animation-delay:928ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(59) path{animation-delay:944ms}.st-key-resultado .js-plotly-plot .barlayer .point:nth-child(60) path{animation-delay:960ms}
-.js-plotly-plot .shapelayer path{filter:drop-shadow(0 0 4px #ef5a5a)}
-.js-plotly-plot .infolayer .annotation text{filter:drop-shadow(0 0 4px rgba(239,90,90,.8))}
+.js-plotly-plot .shapelayer path{filter:drop-shadow(0 0 4px var(--r-sombra-nota))}
+.js-plotly-plot .infolayer .annotation text{filter:drop-shadow(0 0 4px var(--r-sombra-nota))}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 """
@@ -128,19 +156,21 @@ _CSS_ATIVO = (
     'color:var(--r-azul);filter:drop-shadow(0 0 5px var(--r-glow))}}</style>'
 )
 
-_LOGO = (
-    '<div class="r-logo"><svg width="26" height="26" viewBox="0 0 26 26" fill="none">'
-    '<circle cx="13" cy="13" r="10.5" stroke="#252c38" stroke-width="2.4"/>'
-    '<path d="M13 2.5a10.5 10.5 0 0 1 10.5 10.5" stroke="#3b8cff" stroke-width="2.4" stroke-linecap="round"/>'
-    '<circle cx="13" cy="13" r="2.6" fill="#3b8cff"/></svg>'
-    '<span>radar<b>.</b>enem</span></div><p class="r-menu">Módulos</p>'
-)
+def _logo() -> str:
+    c = paleta()
+    return (
+        '<div class="r-logo"><svg width="26" height="26" viewBox="0 0 26 26" fill="none">'
+        f'<circle cx="13" cy="13" r="10.5" stroke="{c["line"]}" stroke-width="2.4"/>'
+        f'<path d="M13 2.5a10.5 10.5 0 0 1 10.5 10.5" stroke="{c["azul"]}" stroke-width="2.4" stroke-linecap="round"/>'
+        f'<circle cx="13" cy="13" r="2.6" fill="{c["azul"]}"/></svg>'
+        '<span>radar<b>.</b>enem</span></div><p class="r-menu">Módulos</p>'
+    )
 
 
 def _sidebar(ativa: str) -> None:
     """Navegacao propria (a nativa chama a pagina principal de "app")."""
     with st.sidebar:
-        st.html(_LOGO)
+        st.html(_logo())
         href = next((h for chave, _, _, _, h in _PAGINAS if chave == ativa), None)
         if href is not None:
             st.html(_CSS_ATIVO.format(h=href))
@@ -151,13 +181,52 @@ def _sidebar(ativa: str) -> None:
                 pass
 
 
+_ALTERNAR = """<!doctype html><html><body><script>
+// O Streamlit guarda o tema escolhido em localStorage, uma chave por pagina.
+const forcar = __FORCAR__;
+const caminhos = ["/", "/Equidade_socioeconomica", "/Recorte_territorial", "/Capital_escolar_familiar"];
+const guardar = (tema) => caminhos.forEach((c) => parent.localStorage.setItem("stActiveTheme-" + c + "-v2", JSON.stringify(tema)));
+if (forcar) {            // o usuario mexeu no interruptor
+  guardar(forcar);
+  parent.location.reload();
+} else {                 // primeira visita: o app abre no escuro, mesmo com o sistema claro
+  const k = "stActiveTheme-" + parent.location.pathname + "-v2";
+  const v = parent.localStorage.getItem(k);
+  if (v === null || v === '"System"') {
+    guardar("Dark");
+    if (parent.matchMedia("(prefers-color-scheme: light)").matches) parent.location.reload();
+  }
+}
+</script></body></html>"""
+
+
+def _pedir_troca() -> None:
+    """Callback do interruptor: marca que foi o usuario quem mexeu (o valor novo vem no proximo run)."""
+    st.session_state["_r_troca"] = True
+
+
+def _alternador() -> None:
+    """Interruptor "Modo claro" da sidebar. So troca de tema quando o usuario mexe nele: o estado do
+    widget nao e fonte de verdade, porque o tema ativo so chega ao servidor depois do primeiro run."""
+    atual = tema_atual()
+    with st.sidebar:
+        claro = st.toggle("Modo claro", value=atual == "light", on_change=_pedir_troca)
+    forcar = "null"
+    if st.session_state.pop("_r_troca", False):
+        forcar = '"Light"' if claro else '"Dark"'
+    _iframe(_ALTERNAR.replace("__FORCAR__", forcar), height=1)
+
+
 def aplicar_tema(pagina: str) -> None:
     """Injeta o CSS e a sidebar do app. Chamar uma vez por pagina, logo apos set_page_config.
 
     `pagina` e a chave da pagina atual: "inicio", "equidade", "territorial" ou "capital".
     """
-    st.html(_CSS)
+    c = paleta()
+    root = ";".join(f"--r-{k.replace('_', '-')}:{v}" for k, v in c.items())
+    st.html(_CSS.replace("__ROOT__", root))
     _sidebar(pagina)
+    _alternador()
 
 
 def abertura(texto: str) -> None:
@@ -193,18 +262,18 @@ _ANEL = """<!doctype html><html><head><meta charset="utf-8"><style>
 @font-face{font-family:'IBM Plex Sans';font-weight:400;src:url('/app/static/fonts/ibm-plex-sans-400.woff2') format('woff2')}
 @font-face{font-family:'IBM Plex Sans';font-weight:600;src:url('/app/static/fonts/ibm-plex-sans-600.woff2') format('woff2')}
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:transparent;color:#e6e9ee;font:400 15px/1.5 'IBM Plex Sans',system-ui,sans-serif;display:flex;gap:18px;align-items:center;padding:6px 2px}
+body{background:transparent;color:__TX__;font:400 15px/1.5 'IBM Plex Sans',system-ui,sans-serif;display:flex;gap:18px;align-items:center;padding:6px 2px}
 .ring{position:relative;width:128px;height:128px;flex:none}
 .ring svg{display:block;transform:rotate(-90deg)}
 .n{position:absolute;inset:0;display:grid;place-content:center;text-align:center;font:600 26px 'IBM Plex Mono',ui-monospace,monospace;font-variant-numeric:tabular-nums}
-.n>span>span{text-shadow:0 0 14px __COR__}
+.n>span>span{text-shadow:__SOMBRA__}
 @keyframes pulso{50%{filter:drop-shadow(0 0 14px __COR__) drop-shadow(0 0 4px __COR__)}}
 #arc.fim{animation:pulso .9s ease-in-out 1}
-.n small{display:block;font:600 10px 'IBM Plex Mono',ui-monospace,monospace;color:#8b95a5;text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px}
-h2{font:600 11px 'IBM Plex Mono',ui-monospace,monospace;text-transform:uppercase;letter-spacing:.08em;color:#8b95a5;margin-bottom:6px}
-p{font-size:14px;color:#e6e9ee}
+.n small{display:block;font:600 10px 'IBM Plex Mono',ui-monospace,monospace;color:__MU__;text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px}
+h2{font:600 11px 'IBM Plex Mono',ui-monospace,monospace;text-transform:uppercase;letter-spacing:.08em;color:__MU__;margin-bottom:6px}
+p{font-size:14px;color:__TX__}
 </style></head><body>
-<div class="ring"><svg width="128" height="128" viewBox="0 0 128 128"><circle cx="64" cy="64" r="56" fill="none" stroke="#252c38" stroke-width="6"/>
+<div class="ring"><svg width="128" height="128" viewBox="0 0 128 128"><circle cx="64" cy="64" r="56" fill="none" stroke="__LINHA__" stroke-width="6"/>
 <circle id="arc" cx="64" cy="64" r="56" fill="none" stroke="__COR__" stroke-width="6" stroke-linecap="round" stroke-dasharray="351.86" stroke-dashoffset="351.86" style="filter:drop-shadow(0 0 5px __COR__)"/></svg>
 <div class="n" style="font-size:__TAM__px"><span><small>__ROTULO__</small><span id="v">__FINAL__</span></span></div></div>
 <div><h2>__TITULO__</h2><p>__DESCRICAO__</p></div>
@@ -235,8 +304,11 @@ def anel(texto: str, titulo: str, descricao: str, cor: str = COR_PROPRIO, altura
     alvo = float(f"{m.group(2)}.{m.group(3)}") if m else 0.0
     rotulo = (m.group(1) or "acima de ").strip() if m else ""
     final = f"{m.group(2)},{m.group(3)}%" if m else texto  # o prefixo vai no rotulo pequeno
+    c = paleta()
     corpo = (
-        _ANEL.replace("__COR__", escape(cor))
+        _ANEL.replace("__TX__", c["tx"]).replace("__MU__", c["mu"]).replace("__LINHA__", c["line"])
+        .replace("__COR__", escape(cor))
+        .replace("__SOMBRA__", f"0 0 14px {escape(cor)}" if tema_atual() == "dark" else "none")
         .replace("__ROTULO__", escape(rotulo))
         .replace("__FINAL__", escape(final))
         .replace("__FINAL_JS__", json.dumps(final))
@@ -254,16 +326,18 @@ def anel(texto: str, titulo: str, descricao: str, cor: str = COR_PROPRIO, altura
 
 def estilo_grafico(fig: go.Figure, altura: int = 320) -> go.Figure:
     """Aplica o visual do app (fundo transparente, linhas finas, fonte Plex) a um grafico Plotly."""
+    c = paleta()
     fig.update_layout(
         height=altura,
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(0,0,0,0)",
-        font=dict(family="IBM Plex Sans, sans-serif", color="#8b95a5", size=12),
-        title=dict(font=dict(family="IBM Plex Mono, monospace", size=13, color="#e6e9ee"), x=0, xanchor="left"),
-        hoverlabel=dict(bgcolor="#131820", bordercolor="#323b4a", font=dict(family="IBM Plex Mono, monospace", color="#e6e9ee")),
+        font=dict(family="IBM Plex Sans, sans-serif", color=c["mu"], size=12),
+        title=dict(font=dict(family="IBM Plex Mono, monospace", size=13, color=c["tx"]), x=0, xanchor="left"),
+        hoverlabel=dict(bgcolor=c["surf"], bordercolor=c["line2"], font=dict(family="IBM Plex Mono, monospace", color=c["tx"])),
         legend=dict(font=dict(size=11), bgcolor="rgba(0,0,0,0)", y=-0.38, yanchor="top"),
     )
-    eixo = dict(gridcolor="#252c38", zerolinecolor="#323b4a", linecolor="#323b4a", tickfont=dict(family="IBM Plex Mono, monospace", size=11))
+    eixo = dict(gridcolor=c["line"], zerolinecolor=c["line2"], linecolor=c["line2"],
+                tickfont=dict(family="IBM Plex Mono, monospace", size=11))
     fig.update_xaxes(**eixo)
     fig.update_yaxes(**eixo)
     return fig

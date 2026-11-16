@@ -36,6 +36,7 @@ from ui import (  # noqa: E402
     anel,
     aplicar_tema,
     estilo_grafico,
+    paleta,
 )
 from territorial import (  # noqa: E402
     AREAS,
@@ -88,7 +89,7 @@ def grafico_distribuicoes(cdfs, e) -> go.Figure:
 
 def grafico_medianas(cdfs, e) -> go.Figure:
     ranking = medianas_ufs(cdfs, e.ano, e.area)[::-1]  # maior mediana no topo
-    cores = [COR_UF if uf == e.uf else ("#2b4a80" if uf in REGIOES[e.regiao][1] else "#323b4a")
+    cores = [COR_UF if uf == e.uf else (paleta()["fraco1"] if uf in REGIOES[e.regiao][1] else paleta()["fraco2"])
              for uf, *_ in ranking]
     fig = go.Figure(go.Bar(
         x=[m for _, m, _ in ranking], y=[uf for uf, *_ in ranking], orientation="h", marker_color=cores,

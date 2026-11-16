@@ -19,8 +19,17 @@ headless = true
 enableStaticServing = true
 
 [theme]
-# Tema escuro do Radar ENEM (front, branch front-tema-dark). Cor chapada,
-# linha fina, cantos arredondados (16px). Papeis das cores nos graficos ficam em app/ui.py.
+# Tema do Radar ENEM (front): cor chapada, linha fina, cantos arredondados (16px).
+# Os papeis das cores nos graficos e o CSS ficam em app/ui.py. O botao "Modo claro"
+# da sidebar troca entre [theme.dark] e [theme.light].
+baseRadius = "16px"
+buttonRadius = "16px"
+showWidgetBorder = true
+font = "IBM Plex Sans, sans-serif"
+headingFont = "IBM Plex Mono, monospace"
+codeFont = "IBM Plex Mono, monospace"
+
+[theme.dark]
 base = "dark"
 primaryColor = "#3b8cff"
 backgroundColor = "#0d1016"
@@ -30,13 +39,19 @@ borderColor = "#252c38"
 dataframeBorderColor = "#252c38"
 dataframeHeaderBackgroundColor = "#131820"
 linkColor = "#3b8cff"
-baseRadius = "16px"
-buttonRadius = "16px"
-showWidgetBorder = true
-font = "IBM Plex Sans, sans-serif"
-headingFont = "IBM Plex Mono, monospace"
-codeFont = "IBM Plex Mono, monospace"
 chartCategoricalColors = ["#3b8cff", "#e0a63a", "#8b95a5", "#ef5a5a"]
+
+[theme.light]
+base = "light"
+primaryColor = "#1f6fe5"
+backgroundColor = "#f4f6fa"
+secondaryBackgroundColor = "#ffffff"
+textColor = "#141a24"
+borderColor = "#dbe1ea"
+dataframeBorderColor = "#dbe1ea"
+dataframeHeaderBackgroundColor = "#eaeef5"
+linkColor = "#1f6fe5"
+chartCategoricalColors = ["#1f6fe5", "#c98a0b", "#6b7686", "#d93c3c"]
 
 [[theme.fontFaces]]
 family = "IBM Plex Sans"
