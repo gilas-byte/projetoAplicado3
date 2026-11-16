@@ -118,9 +118,12 @@ def grafico_caixas(caixas: list[tuple[str, dict, float]]) -> go.Figure:
     ))
     fig.update_layout(
         margin=dict(l=10, r=10, t=10, b=10), xaxis=dict(title="Nota", range=[0, 1000]),
-        legend=dict(orientation="h", y=-0.3), boxmode="overlay",
+        yaxis=dict(autorange="reversed"),  # mesma ordem das áreas na página, de cima para baixo
+        boxmode="overlay",
     )
-    return estilo_grafico(fig, altura=110 + 55 * len(caixas))
+    fig = estilo_grafico(fig, altura=130 + 55 * len(caixas))
+    fig.update_layout(legend=dict(orientation="h", y=-0.25, yanchor="top"))
+    return fig
 
 
 def texto_quartis(caixa: dict) -> str:
