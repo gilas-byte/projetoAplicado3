@@ -54,6 +54,7 @@ h3{font-size:1rem!important;font-weight:600!important}
 [data-testid="stMetricLabel"] p{white-space:normal!important;font-family:var(--r-mono);font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;color:var(--r-mu)}
 [data-testid="stMetricValue"],[data-testid="stMetricValue"] *{font-family:var(--r-mono)!important;font-weight:600;font-variant-numeric:tabular-nums}
 [data-testid="stMetricValue"]{font-size:1.5rem}
+[data-testid="stMetricDelta"],[data-testid="stMetricDelta"] *{color:#22d3ee!important;font-family:var(--r-mono)}
 [data-testid="stExpander"]{border:1px solid var(--r-line);border-radius:var(--r-raio);background:transparent}
 [data-testid="stExpander"] summary:hover{color:var(--r-azul)}
 [data-testid="stAlert"]{border-radius:var(--r-raio)}
