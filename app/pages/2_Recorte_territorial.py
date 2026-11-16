@@ -125,9 +125,13 @@ def grafico_medianas(cdfs, e) -> go.Figure:
                    range=[max(0, min(medianas) - 15), min(1000, max(medianas) + 15)]),
         yaxis=dict(categoryorder="array", categoryarray=[rotulo[uf] for uf, _, _ in ranking],
                    tickfont=dict(size=11)),
-        legend=dict(orientation="h", y=-0.12),
     )
-    return estilo_grafico(fig, altura=max(320, 20 * len(ranking) + 110))
+    fig = estilo_grafico(fig, altura=max(320, 20 * len(ranking) + 110))
+    # Depois do estilo comum, que fixa a legenda em y=-0.38 (longe demais num gráfico alto):
+    # a legenda vai para o topo, à esquerda, longe do título do eixo e da marca "sua nota".
+    fig.update_layout(legend=dict(orientation="h", x=0, xanchor="left", y=1.0, yanchor="bottom"),
+                      margin=dict(l=10, r=10, t=50, b=10))
+    return fig
 
 
 def mostrar(cdfs, r) -> None:
