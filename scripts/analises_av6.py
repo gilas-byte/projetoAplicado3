@@ -197,6 +197,15 @@ def analise_amostragem(cdfs, ano: int, area: str, fracao: float, repeticoes: int
     ufs = carregar_ufs(ano, area)
     populacao = cdfs[(ano, area)]
     total = sum(cdf[-1][1] + cdf[-1][2] for cdf in ufs.values())
+    # A amostra simples sai da CDF nacional e a estratificada da soma das UFs: as duas so
+    # comparam a mesma populacao se os totais forem iguais (participante sem UF ou UF
+    # abaixo do piso quebrariam isso). Em 2022, mt e redacao: 1.927.753 nas duas fontes.
+    # Revisao do PR #33, ponto 5.
+    total_nacional = populacao[-1][1] + populacao[-1][2]
+    if total != total_nacional:
+        raise ValueError(f"{ano}/{area}: soma das UFs ({total}) difere do total nacional "
+                         f"({total_nacional}); a amostra simples e a estratificada nao comparariam "
+                         "a mesma populacao")
     tamanho = round(total * fracao)
     reais = {p: quantil(populacao, p) for p in QUANTIS_AMOSTRA}
     sorteia_pop = sorteador(populacao)

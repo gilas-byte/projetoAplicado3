@@ -11,6 +11,7 @@ import sys
 import unittest
 from fractions import Fraction
 from pathlib import Path
+from unittest import mock
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 from estatistica import (  # noqa: E402
@@ -151,6 +152,36 @@ class TestPercentilNormal(unittest.TestCase):
     def test_rejeita_infinito(self):
         with self.assertRaises(ValueError):
             percentil_normal(float('inf'))
+
+
+
+try:
+    import analises_av6
+except ImportError:  # duckdb ausente
+    analises_av6 = None
+
+
+@unittest.skipIf(analises_av6 is None, "duckdb nao instalado")
+class TestAmostragemMesmaPopulacao(unittest.TestCase):
+    """A simples (CDF nacional) e a estratificada (soma das UFs) sorteiam da mesma populacao."""
+
+    NACIONAL = construir_acumulada([(400.0, 60), (600.0, 40)])
+
+    def rodar(self, ufs):
+        with mock.patch.object(analises_av6, "carregar_ufs", return_value=ufs):
+            return analises_av6.analise_amostragem({(2022, "mt"): self.NACIONAL}, 2022, "mt",
+                                                    fracao=0.5, repeticoes=2)
+
+    def test_recusa_quando_a_soma_das_ufs_difere_do_total_nacional(self):
+        ufs = {"UF-AA": construir_acumulada([(400.0, 30), (600.0, 20)]),
+               "UF-BB": construir_acumulada([(400.0, 29), (600.0, 20)])}  # falta 1 participante
+        with self.assertRaisesRegex(ValueError, "difere do total nacional"):
+            self.rodar(ufs)
+
+    def test_aceita_quando_os_totais_batem(self):
+        ufs = {"UF-AA": construir_acumulada([(400.0, 30), (600.0, 20)]),
+               "UF-BB": construir_acumulada([(400.0, 30), (600.0, 20)])}
+        self.assertIsInstance(self.rodar(ufs), dict)
 
 
 if __name__ == "__main__":
