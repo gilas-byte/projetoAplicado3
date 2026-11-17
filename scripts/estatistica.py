@@ -7,6 +7,8 @@ usuario sem tocar no dado individual.
 
 As medidas do motor v1 (`resumo`, `quantil`, `z_score` e
 `prob_superioridade`) usam a CDF exata de data/analytics/dist_exata.parquet.
+As da AV6 (`caixa_protegida`, `ks_distancia`, `psi` e `percentil_normal`)
+também; as análises com elas estão em scripts/analises_av6.py.
 """
 
 from __future__ import annotations
@@ -14,7 +16,7 @@ from __future__ import annotations
 import sys
 from bisect import bisect_left
 from fractions import Fraction
-from math import isfinite, sqrt
+from math import erf, isfinite, log, sqrt
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -197,6 +199,121 @@ def prob_superioridade(
         valor, iguais, abaixo = dist_b[pos]
         dobro_de_u += n * (2 * abaixo + (iguais if valor == nota else 0))
     return dobro_de_u / (2 * total_a * total_b)
+
+
+# ================================================ MEDIDAS DA AV6 (Estatística I)
+#
+# Quartis e caixa protegida (boxplot do Plano de Trabalho, item 6), distância de
+# Kolmogorov-Smirnov e PSI entre distribuições (drift entre edições, aula 10 de
+# Engenharia de Dados e MLOps) e o percentil que a curva normal daria para um
+# Z-Score. Todas trabalham sobre a CDF exata (nota, n, abaixo), sem dado individual.
+
+
+def contagem_ate(distribuicao: list[tuple[float, int, int]], nota: float) -> int:
+    """Quantos participantes têm nota menor ou igual a `nota`."""
+    if not distribuicao:
+        raise ValueError('distribuicao vazia: grupo insuficiente')
+    notas = [item[0] for item in distribuicao]
+    pos = bisect_left(notas, nota)
+    if pos < len(distribuicao) and distribuicao[pos][0] == nota:
+        return distribuicao[pos][2] + distribuicao[pos][1]
+    if pos == len(distribuicao):
+        return _total(distribuicao)
+    return distribuicao[pos][2]
+
+
+def caixa_protegida(distribuicao: list[tuple[float, int, int]], piso: int = PISO_GRUPO,
+                    p_bigode: float = 0.05) -> dict | None:
+    """Quartis, IQR e bigodes nos percentis `p_bigode` e 1 − `p_bigode`.
+
+    O boxplot clássico desenha o mínimo, o máximo e os pontos discrepantes, e
+    cada um deles é a nota de uma pessoa (docs/privacidade.md, R3). Aqui os
+    bigodes param nos percentis 5 e 95 e não há pontos soltos. O bigode só é
+    desenhado se a ponta que ele deixa de fora tiver pelo menos `piso` pessoas
+    (p_bigode · N ≥ piso); abaixo disso a função devolve None e a interface não
+    mostra a caixa. Os quartis usam a mesma regra de `quantil` (DL-01).
+    """
+    total = _total(distribuicao)
+    if Fraction(str(p_bigode)) * total < piso:
+        return None
+    q1, mediana, q3 = (quantil(distribuicao, p) for p in (0.25, 0.5, 0.75))
+    return {
+        'N': total,
+        'p_bigode': p_bigode,
+        'bigode_inferior': quantil(distribuicao, p_bigode),
+        'q1': q1,
+        'mediana': mediana,
+        'q3': q3,
+        'iqr': q3 - q1,
+        'bigode_superior': quantil(distribuicao, 1 - p_bigode),
+    }
+
+
+def ks_distancia(dist_a: list[tuple[float, int, int]],
+                 dist_b: list[tuple[float, int, int]]) -> float:
+    """Estatística D de Kolmogorov-Smirnov: max |F_A(x) − F_B(x)|, exata.
+
+    F(x) é a proporção com nota menor ou igual a x. O máximo só pode ocorrer
+    numa nota observada em uma das duas distribuições, então basta percorrer a
+    união das notas. Não há p-valor: com milhões de participantes qualquer
+    diferença seria "significativa"; D é lido como tamanho de efeito (fração
+    máxima da população que muda de lado num mesmo ponto de corte).
+    """
+    total_a, total_b = _total(dist_a), _total(dist_b)
+    i = j = 0
+    acum_a = acum_b = 0
+    maior = 0.0
+    while i < len(dist_a) or j < len(dist_b):
+        nota_a = dist_a[i][0] if i < len(dist_a) else float('inf')
+        nota_b = dist_b[j][0] if j < len(dist_b) else float('inf')
+        nota = min(nota_a, nota_b)
+        if nota_a == nota:
+            acum_a += dist_a[i][1]
+            i += 1
+        if nota_b == nota:
+            acum_b += dist_b[j][1]
+            j += 1
+        maior = max(maior, abs(acum_a / total_a - acum_b / total_b))
+    return maior
+
+
+def psi(referencia: list[tuple[float, int, int]], atual: list[tuple[float, int, int]],
+        classes: int = 10, epsilon: float = 1e-6) -> float:
+    """Population Stability Index com classes definidas nos quantis da referência.
+
+    PSI = Σ (a − r) · ln(a / r), com r e a as proporções de cada classe na
+    referência e na distribuição atual. Os cortes são os quantis 1/classes,
+    2/classes, ... da referência (convenção usual do PSI); `epsilon` evita
+    log de zero em classe vazia. Convenção de leitura usada no mercado e
+    registrada em docs/av6/estatistica.md: < 0,1 estável; 0,1 a 0,25 mudança
+    moderada; > 0,25 mudança grande. É convenção, não teste estatístico.
+    """
+    if classes < 2:
+        raise ValueError('classes precisa ser pelo menos 2')
+    cortes = sorted({quantil(referencia, k / classes) for k in range(1, classes)})
+    total_r, total_a = _total(referencia), _total(atual)
+
+    def proporcoes(dist, total):
+        anteriores, saida = 0, []
+        for corte in cortes:
+            ate = contagem_ate(dist, corte)
+            saida.append((ate - anteriores) / total)
+            anteriores = ate
+        saida.append((total - anteriores) / total)
+        return saida
+
+    soma = 0.0
+    for r, a in zip(proporcoes(referencia, total_r), proporcoes(atual, total_a)):
+        r, a = max(r, epsilon), max(a, epsilon)
+        soma += (a - r) * log(a / r)
+    return soma
+
+
+def percentil_normal(z: float) -> float:
+    """Percentil que a curva normal padrão atribuiria a um Z-Score: 100 · Φ(z)."""
+    if not isfinite(z):
+        raise ValueError('z precisa ser finito')
+    return 50 * (1 + erf(z / sqrt(2)))
 
 
 # ====================================== EXIBIÇÃO PROTEGIDA (DL-01; DL-04, item 8)

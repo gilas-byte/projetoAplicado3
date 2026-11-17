@@ -48,6 +48,10 @@ from ui import (  # noqa: E402
     anel,
     aplicar_tema,
     estilo_grafico,
+    parar,
+    rodape,
+    ABAS_RESULTADO,
+    visao_simples,
 )
 
 DIST_CAPITAL = Path(os.environ.get("RADAR_DIST_CAPITAL", RAIZ / "data" / "analytics" / "dist_capital.parquet"))
@@ -127,7 +131,13 @@ def mostrar(cdfs, r) -> None:
     for aviso in r.avisos:
         st.caption(aviso)
     disponiveis = [c for c in cenarios if c.disponivel]
-    if disponiveis:
+    if not disponiveis:
+        return
+    cores = {id(r.proprio): COR_PROPRIO, id(r.vizinho): COR_VIZINHO}
+    simples, tecnica = st.tabs(ABAS_RESULTADO)
+    with simples:
+        visao_simples([(c.rotulo, c.texto_percentil, cores.get(id(c), COR_BRASIL)) for c in disponiveis])
+    with tecnica:
         st.dataframe(
             {
                 "Grupo": [c.rotulo for c in disponiveis],
@@ -153,19 +163,19 @@ def main() -> None:
     )
     if not DIST_CAPITAL.exists():
         st.error("Artefato do módulo ausente. Rode `scripts/etl.py` e depois `scripts/capital_escolar.py`.")
-        st.stop()
+        parar()
     cdfs = _cdfs()
     anos = sorted({ano for ano, _, _ in cdfs}, reverse=True)
     if not anos:
         st.error("Artefato do módulo sem nenhum grupo publicado.")
-        st.stop()
+        parar()
 
     ano = st.selectbox("Edição de comparação", anos)
     try:
         opcoes_pai, opcoes_mae = _opcoes(ano, "Q001"), _opcoes(ano, "Q002")
     except EntradaInvalida as erro:
         st.error(str(erro))
-        st.stop()
+        parar()
     texto_pai, texto_mae = dict(opcoes_pai), dict(opcoes_mae)
 
     with st.form("capital"):
@@ -246,3 +256,6 @@ def main() -> None:
 
 
 main()
+# Fora de main(): aparece mesmo quando main() retorna antes do resultado. Quando falta
+# artefato, parar() (ui.py) mostra o rodape antes do st.stop().
+rodape()

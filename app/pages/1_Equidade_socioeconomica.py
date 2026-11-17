@@ -36,6 +36,10 @@ from ui import (  # noqa: E402
     anel,
     aplicar_tema,
     estilo_grafico,
+    parar,
+    rodape,
+    ABAS_RESULTADO,
+    visao_simples,
 )
 from equidade import (  # noqa: E402
     AREAS,
@@ -130,7 +134,13 @@ def mostrar(cdfs, resultado) -> None:
     for aviso in resultado.avisos:
         st.caption(aviso)
     disponiveis = [c for c in (real, simulado) if c.disponivel]
-    if disponiveis:
+    if not disponiveis:
+        return
+    simples, tecnica = st.tabs(ABAS_RESULTADO)
+    with simples:
+        visao_simples([("Entre a sua faixa de renda" if c is real else "Entre escola privada de alta renda",
+                        c.texto, COR_FAIXA if c is real else COR_CONTRASTE) for c in disponiveis])
+    with tecnica:
         st.dataframe(
             {
                 "Grupo": ["Sua faixa" if c.grupo != CONTRASTE else "Contraste" for c in disponiveis],
@@ -157,19 +167,19 @@ def main() -> None:
     )
     if not DIST_EQUIDADE.exists():
         st.error("Artefato do módulo ausente. Rode `scripts/etl.py` e depois `scripts/equidade.py`.")
-        st.stop()
+        parar()
     cdfs = _cdfs()
     anos = sorted({ano for ano, _, _ in cdfs}, reverse=True)
     if not anos:
         st.error("Artefato do módulo sem nenhum grupo publicado.")
-        st.stop()
+        parar()
 
     ano = st.selectbox("Edição de comparação", anos)
     try:
         opcoes = _opcoes(ano)
     except EntradaInvalida as erro:
         st.error(str(erro))
-        st.stop()
+        parar()
     textos = dict(opcoes)
 
     with st.form("equidade"):
@@ -234,3 +244,6 @@ def main() -> None:
 
 
 main()
+# Fora de main(): aparece mesmo quando main() retorna antes do resultado. Quando falta
+# artefato, parar() (ui.py) mostra o rodape antes do st.stop().
+rodape()
