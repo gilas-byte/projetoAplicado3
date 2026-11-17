@@ -140,7 +140,7 @@ def mostrar(cdfs, r) -> None:
     with tecnica:
         st.dataframe(
             {
-                "Grupo": [c.rotulo for c in disponiveis],
+                COLUNA_GRUPO: [nome_na_tabela(c) for c in disponiveis],
                 "Participantes": [formatar_inteiro(c.n) for c in disponiveis],
                 "Média": [formatar_nota(c.media) for c in disponiveis],
                 "Mediana": [formatar_nota(c.mediana) for c in disponiveis],
@@ -150,6 +150,25 @@ def mostrar(cdfs, r) -> None:
             hide_index=True,
         )
         st.plotly_chart(grafico(cdfs, r), config={"displayModeBar": False})
+
+
+COLUNA_GRUPO = "Escolaridade"
+
+
+def nome_na_tabela(cenario) -> str:
+    """Nome curto do grupo na tabela da visão técnica.
+
+    Com "Responsáveis com ensino médio completo" na primeira coluna, as seis colunas
+    não cabem na largura da página e "Desvio-padrão" e "Z da sua nota" ficam cortadas
+    (achado ao refazer as capturas da AV4, 17/11/2026). A coluna se chama
+    "Escolaridade" e a célula leva só o nível, sem "Responsáveis com" e sem "Ensino";
+    o Brasil continua "Brasil". O nome completo segue nos cartões, nas barras e no
+    gráfico.
+    """
+    tipo, _, nivel = cenario.grupo.partition("-")
+    if tipo == "NV" and nivel in ROTULOS:
+        return ROTULOS[nivel].removeprefix("Ensino ").capitalize()
+    return cenario.rotulo
 
 
 def main() -> None:

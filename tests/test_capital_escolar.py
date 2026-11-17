@@ -676,6 +676,21 @@ class TestPagina(unittest.TestCase):
         self.assertTrue(any("33,3 pontos percentuais acima" in m.value for m in at.markdown))
         self.assertTrue(any("22,2%" in m.value for m in at.markdown))  # 2 / 9
 
+    def test_tabela_tecnica_usa_o_nivel_curto(self):
+        # "Responsaveis com ..." na primeira coluna cortava Desvio-padrao e Z na largura da
+        # pagina (capturas da AV4, 17/11/2026): a tabela leva so o nivel.
+        at = self.abrir()
+        self.responsaveis(at, "D", "D")
+        self.campo(at, "Matemática").set_value(500.0)
+        at.checkbox[0].check()
+        at.button[0].click().run()
+        self.assertFalse(at.exception)
+        tabela = at.dataframe[0].value
+        self.assertEqual(list(tabela.columns),
+                         ["Escolaridade", "Participantes", "Média", "Mediana", "Desvio-padrão", "Z da sua nota"])
+        self.assertEqual(list(tabela["Escolaridade"]), ["Fundamental completo", "Médio completo", "Brasil"])
+        self.assertEqual(at.metric[0].label, "Responsáveis com ensino fundamental completo")  # cartões sem mudança
+
     def test_vizinho_em_limite_esconde_a_diferenca(self):
         at = self.abrir()
         self.responsaveis(at, "G", "A")
