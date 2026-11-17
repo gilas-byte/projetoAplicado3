@@ -20,7 +20,9 @@ e a versão editável em
 Além dos três capítulos, ele tem identificação, sumário, apresentação, a seção "Construção da
 entrega e atuação da equipe" e o encerramento. Na consolidação, o PO acrescentou a cada capítulo a
 subseção N.2.7 (cálculos passo a passo, com exemplo numérico real); o restante de cada capítulo é
-do seu autor, igual aos arquivos desta pasta.
+do seu autor, igual aos arquivos desta pasta. A única troca é nas fontes de quadros e figuras: como o
+relatório é de grupo, "elaborado pelo autor" aparece como "elaborado por" seguido do nome do autor do
+capítulo (revisão de 17/11/2026, pedida pelo Vinícius no PR #32).
 
 ## Modelo
 

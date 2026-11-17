@@ -560,7 +560,7 @@ apagada: quando muda, a entrada antiga recebe "substituída por DL-xx".
   - **13/11 – publicação no Replit:** remarcada para a etapa final (ver DL-06).
   - **15/11 – QA e otimização:** parcial. Os papéis não foram formalizados, por dependência dos
     itens acima; houve a revisão de segurança do `.gitignore` (PR #27) e a nova interface
-    (PR #30, aprovada para depois da AV4). O QA da aplicação completa e a otimização passam
+    (PR #30, mesclada em 16/11/2026, depois do envio da AV4). O QA da aplicação completa e a otimização passam
     para a AV6.
   - **AV4:** relatório consolidado em `docs/av4/`, entregue no AVA.
   - **17/11 e 19/11:** mantidos para o relatório final (AV6).
