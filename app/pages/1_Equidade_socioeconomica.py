@@ -36,6 +36,7 @@ from ui import (  # noqa: E402
     anel,
     aplicar_tema,
     estilo_grafico,
+    parar,
     rodape,
     ABAS_RESULTADO,
     visao_simples,
@@ -166,19 +167,19 @@ def main() -> None:
     )
     if not DIST_EQUIDADE.exists():
         st.error("Artefato do módulo ausente. Rode `scripts/etl.py` e depois `scripts/equidade.py`.")
-        st.stop()
+        parar()
     cdfs = _cdfs()
     anos = sorted({ano for ano, _, _ in cdfs}, reverse=True)
     if not anos:
         st.error("Artefato do módulo sem nenhum grupo publicado.")
-        st.stop()
+        parar()
 
     ano = st.selectbox("Edição de comparação", anos)
     try:
         opcoes = _opcoes(ano)
     except EntradaInvalida as erro:
         st.error(str(erro))
-        st.stop()
+        parar()
     textos = dict(opcoes)
 
     with st.form("equidade"):
@@ -243,5 +244,6 @@ def main() -> None:
 
 
 main()
-# Fora de main(): aparece mesmo quando a pagina retorna antes do resultado.
+# Fora de main(): aparece mesmo quando main() retorna antes do resultado. Quando falta
+# artefato, parar() (ui.py) mostra o rodape antes do st.stop().
 rodape()

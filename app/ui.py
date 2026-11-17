@@ -17,6 +17,7 @@ from datetime import datetime
 from functools import lru_cache
 from html import escape
 from pathlib import Path
+from typing import NoReturn
 
 import plotly.graph_objects as go
 import streamlit as st
@@ -348,14 +349,24 @@ def anel(texto: str, titulo: str, descricao: str, cor: str = COR_PROPRIO, altura
 _MANIFESTO_PUBLICACAO = Path(__file__).resolve().parent.parent / "data" / "analytics" / "_manifesto_publicacao.json"
 
 
-@lru_cache(maxsize=1)
 def _versao_dos_dados(caminho: Path = _MANIFESTO_PUBLICACAO) -> tuple[str, str] | None:
     """(data da auditoria, commit curto) do manifesto gravado por scripts/auditar_artefatos.py.
 
     O manifesto so tem hashes, tamanhos e datas dos artefatos agregados; nenhuma contagem
     vai para a tela. Sem o arquivo (por exemplo, rodando so com os testes), o rodape
-    mostra apenas a fonte.
+    mostra apenas a fonte. O cache usa a data de modificacao do arquivo como chave: se a
+    auditoria rodar de novo com o app no ar, o rodape troca na proxima pagina, sem
+    reiniciar o processo (revisao do PR #33, ponto 4).
     """
+    try:
+        modificado = caminho.stat().st_mtime_ns
+    except OSError:
+        return None
+    return _ler_manifesto(caminho, modificado)
+
+
+@lru_cache(maxsize=4)
+def _ler_manifesto(caminho: Path, modificado: int) -> tuple[str, str] | None:
     try:
         dados = json.loads(caminho.read_text(encoding="utf-8"))
         quando = datetime.fromisoformat(dados["auditado_em_utc"]).strftime("%d/%m/%Y")
@@ -373,6 +384,16 @@ def rodape() -> None:
         texto += f" Dados agregados conferidos em {quando}"
         texto += f" (código {commit})." if commit else "."
     st.html(f'<p class="r-rodape">{escape(texto)}</p>')
+
+
+def parar() -> NoReturn:
+    """Mostra o rodape e interrompe a pagina (artefato ausente ou vazio).
+
+    O rodape chamado no fim do modulo nao roda depois de um st.stop(), porque o
+    st.stop() interrompe o script inteiro (revisao do PR #33, ponto 3).
+    """
+    rodape()
+    st.stop()
 
 
 # --------------------------------------------------------- VISAO SIMPLES
@@ -511,5 +532,7 @@ def estilo_grafico(fig: go.Figure, altura: int = 320) -> go.Figure:
                 title_font=dict(color=c["tx"]))
     fig.update_xaxes(**eixo)
     fig.update_yaxes(**eixo)
-    fig.update_annotations(font_color=c["tx"])
+    # So as anotacoes sem cor propria recebem a cor do texto; uma cor definida antes
+    # de estilo_grafico e mantida (revisao do PR #33, ponto 6).
+    fig.for_each_annotation(lambda a: a.update(font_color=c["tx"]) if a.font.color is None else None)
     return fig

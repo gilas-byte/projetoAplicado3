@@ -35,6 +35,7 @@ from ui import (  # noqa: E402
     aplicar_tema,
     estilo_grafico,
     paleta,
+    parar,
     rodape,
     visao_simples,
 )
@@ -162,7 +163,7 @@ def main() -> None:
 
     if not DIST_NOTAS.exists() or not DIST_EXATA.exists():
         st.error("Artefatos estatísticos incompletos. Rode `scripts/etl.py` para gerar faixas e distribuição exata.")
-        st.stop()
+        parar()
     faixas = carregar()
     exatas = carregar_exatas()
     anos = sorted({ano for ano, _ in faixas}, reverse=True)
@@ -243,5 +244,6 @@ def main() -> None:
 
 
 main()
-# Fora de main(): aparece mesmo quando a pagina retorna antes do resultado.
+# Fora de main(): aparece mesmo quando main() retorna antes do resultado. Quando falta
+# artefato, parar() (ui.py) mostra o rodape antes do st.stop().
 rodape()

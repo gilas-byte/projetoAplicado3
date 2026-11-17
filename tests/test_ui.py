@@ -75,6 +75,15 @@ class TestUi(unittest.TestCase):
         claro = self.anel("58,3%")  # sem tema informado, o padrao e o claro
         self.assertIn("text-shadow:none", claro)
 
+    def test_estilo_grafico_preserva_cor_de_anotacao_ja_definida(self):
+        fig = ui.go.Figure()
+        fig.add_annotation(text="sem cor", x=0, y=0)
+        fig.add_annotation(text="com cor", x=1, y=1, font={"color": ui.COR_NOTA})
+        ui.estilo_grafico(fig)
+        sem_cor, com_cor = fig.layout.annotations
+        self.assertEqual(sem_cor.font.color, ui._PALETAS["light"]["tx"])
+        self.assertEqual(com_cor.font.color, ui.COR_NOTA)
+
     def test_alternador_so_troca_quando_o_usuario_mexe(self):
         ui.st.session_state.pop("_r_troca", None)
         with mock.patch.object(ui, "_iframe") as frame, mock.patch.object(ui.st, "toggle", return_value=True), \
@@ -156,10 +165,10 @@ class TestContraste(unittest.TestCase):
 @unittest.skipIf(ui is None, "streamlit/plotly nao instalados")
 class TestRodape(unittest.TestCase):
     def setUp(self):
-        ui._versao_dos_dados.cache_clear()
+        ui._ler_manifesto.cache_clear()
 
     def tearDown(self):
-        ui._versao_dos_dados.cache_clear()
+        ui._ler_manifesto.cache_clear()
 
     def test_le_data_e_commit_do_manifesto(self):
         import json
@@ -169,6 +178,31 @@ class TestRodape(unittest.TestCase):
             caminho.write_text(json.dumps({"auditado_em_utc": "2026-11-16T17:30:00+00:00",
                                            "versao_codigo_git": "abcdef1234567"}), encoding="utf-8")
             self.assertEqual(ui._versao_dos_dados(caminho), ("16/11/2026", "abcdef1"))
+
+    def test_nova_auditoria_troca_o_rodape_sem_reiniciar(self):
+        import json
+        import os
+        import tempfile
+        with tempfile.TemporaryDirectory() as pasta:
+            caminho = Path(pasta) / "_manifesto_publicacao.json"
+            caminho.write_text(json.dumps({"auditado_em_utc": "2026-11-16T17:30:00+00:00",
+                                           "versao_codigo_git": "abcdef1"}), encoding="utf-8")
+            self.assertEqual(ui._versao_dos_dados(caminho), ("16/11/2026", "abcdef1"))
+            caminho.write_text(json.dumps({"auditado_em_utc": "2026-11-18T09:00:00+00:00",
+                                           "versao_codigo_git": "1234567"}), encoding="utf-8")
+            antes = caminho.stat().st_mtime_ns
+            os.utime(caminho, ns=(antes + 10**9, antes + 10**9))
+            self.assertEqual(ui._versao_dos_dados(caminho), ("18/11/2026", "1234567"))
+
+    def test_sem_arquivo_devolve_none(self):
+        self.assertIsNone(ui._versao_dos_dados(Path("/caminho/que/nao/existe.json")))
+
+    def test_parar_mostra_rodape_antes_de_interromper(self):
+        ordem = []
+        with mock.patch.object(ui, "rodape", side_effect=lambda: ordem.append("rodape")), \
+                mock.patch.object(ui.st, "stop", side_effect=lambda: ordem.append("stop")):
+            ui.parar()
+        self.assertEqual(ordem, ["rodape", "stop"])
 
     def test_sem_manifesto_mostra_so_a_fonte(self):
         with mock.patch.object(ui, "_versao_dos_dados", return_value=None), \
