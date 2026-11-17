@@ -36,6 +36,7 @@ from ui import (  # noqa: E402
     anel,
     aplicar_tema,
     estilo_grafico,
+    parar,
     rodape,
     ABAS_RESULTADO,
     visao_simples,
@@ -186,6 +187,10 @@ def mostrar(cdfs, r) -> None:
         st.caption(aviso)
     disponiveis = [c for c in cenarios if c.disponivel]
     if not disponiveis:
+        # Sem nenhum cenario publicado nao ha abas, mas a mediana de cada UF continua
+        # aparecendo, como na main antes da AV6 (revisao do PR #33, ponto 2).
+        if r.ufs_comparadas:
+            _medianas_das_ufs(cdfs, e)
         return
     cores = {id(r.uf): COR_UF, id(r.regiao): COR_REGIAO}
     simples, tecnica = st.tabs(ABAS_RESULTADO)
@@ -205,10 +210,14 @@ def mostrar(cdfs, r) -> None:
         )
         st.plotly_chart(grafico_distribuicoes(cdfs, e), config={"displayModeBar": False})
         if r.ufs_comparadas:
-            with st.expander("Mediana de cada UF"):
-                st.plotly_chart(grafico_medianas(cdfs, e), config={"displayModeBar": False})
-                st.caption("Cada ponto é a mediana de uma UF; o número ao lado da sigla é o total de "
-                           "participantes da UF nesta edição e área.")
+            _medianas_das_ufs(cdfs, e)
+
+
+def _medianas_das_ufs(cdfs, e) -> None:
+    with st.expander("Mediana de cada UF"):
+        st.plotly_chart(grafico_medianas(cdfs, e), config={"displayModeBar": False})
+        st.caption("Cada ponto é a mediana de uma UF; o número ao lado da sigla é o total de "
+                   "participantes da UF nesta edição e área.")
 
 
 def main() -> None:
@@ -221,12 +230,12 @@ def main() -> None:
     )
     if not DIST_TERRITORIAL.exists():
         st.error("Artefato do módulo ausente. Rode `scripts/etl.py` e depois `scripts/territorial.py`.")
-        st.stop()
+        parar()
     cdfs = _cdfs()
     anos = sorted({ano for ano, _, _ in cdfs}, reverse=True)
     if not anos:
         st.error("Artefato do módulo sem nenhum grupo publicado.")
-        st.stop()
+        parar()
 
     ano = st.selectbox("Edição de comparação", anos)
     with st.form("territorial"):
@@ -291,5 +300,6 @@ def main() -> None:
 
 
 main()
-# Fora de main(): aparece mesmo quando a pagina retorna antes do resultado.
+# Fora de main(): aparece mesmo quando main() retorna antes do resultado. Quando falta
+# artefato, parar() (ui.py) mostra o rodape antes do st.stop().
 rodape()
