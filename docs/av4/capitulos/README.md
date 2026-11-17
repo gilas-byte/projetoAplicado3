@@ -20,9 +20,19 @@ e a versão editável em
 Além dos três capítulos, ele tem identificação, sumário, apresentação, a seção "Construção da
 entrega e atuação da equipe" e o encerramento. Na consolidação, o PO acrescentou a cada capítulo a
 subseção N.2.7 (cálculos passo a passo, com exemplo numérico real); o restante de cada capítulo é
-do seu autor, igual aos arquivos desta pasta. A única troca é nas fontes de quadros e figuras: como o
-relatório é de grupo, "elaborado pelo autor" aparece como "elaborado por" seguido do nome do autor do
-capítulo (revisão de 17/11/2026, pedida pelo Vinícius no PR #32).
+do seu autor, igual aos arquivos desta pasta, com duas diferenças da versão revisada de 17/11/2026
+(PR #32):
+
+- Fontes de quadros e figuras: como o relatório é de grupo, "elaborado pelo autor" aparece como
+  "elaborado por" seguido do nome do autor do capítulo (pedido do Vinícius na revisão).
+- Capturas de tela: refeitas com o aplicativo depois das atualizações da AV6 (PR #33, commit
+  `6785981`). Cada resultado agora tem as abas "Visão simples" e "Visão técnica", e a visão técnica
+  virou uma figura própria em cada capítulo, o que mudou a numeração das figuras. O texto só mudou
+  onde descrevia a tela: as abas, a cor do Brasil nos gráficos (cinza passou a verde-azulado) e o
+  rótulo "acima de 99,9%", que era cortado em 15/11 e hoje aparece inteiro. Os números exibidos são
+  os mesmos.
+
+Os arquivos desta pasta continuam como foram entregues em 15/11/2026, com as capturas daquela data.
 
 ## Modelo
 
