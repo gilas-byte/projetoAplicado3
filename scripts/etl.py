@@ -281,13 +281,13 @@ def _commit_local() -> str | None:
 
 
 def etapa_analytics(run_id: str | None = None) -> None:
-    run_id = run_id or novo_run_id()
     """Gera histograma protegido E distribuição exata separada.
 
     Não exporta os microdados individuais. O arquivo exato contém
     frequências finas e deve ser usado SOMENTE no backend; o piso de
     privacidade aplica-se a grupos exibidos, não a linhas internas da CDF.
     """
+    run_id = run_id or novo_run_id()
     fonte = f"read_parquet('{TRUSTED}/*/*.parquet', hive_partitioning=true)"
     con = conectar()
     try:
