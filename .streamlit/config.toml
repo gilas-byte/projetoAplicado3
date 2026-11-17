@@ -5,6 +5,8 @@
 gatherUsageStats = false
 
 [client]
+# Navegacao propria em app/ui.py (a nativa chama a pagina principal de "app").
+showSidebarNavigation = false
 # Erros mostram so o tipo da excecao, nunca a mensagem nem valores
 # digitados pelo usuario.
 showErrorDetails = "type"
@@ -12,3 +14,71 @@ toolbarMode = "viewer"
 
 [server]
 headless = true
+# Serve so app/static/ (fontes IBM Plex, licenca OFL). Dados ficam em data/,
+# fora dessa pasta. Fontes proprias evitam pedir a fonte ao Google (IP do visitante).
+enableStaticServing = true
+
+[theme]
+# Tema do Radar ENEM (front): cor chapada, linha fina, cantos arredondados (16px).
+# Os papeis das cores nos graficos e o CSS ficam em app/ui.py. O padrao e o claro; o
+# interruptor "Modo escuro" da sidebar troca para [theme.dark] (opcional).
+baseRadius = "16px"
+buttonRadius = "16px"
+showWidgetBorder = true
+font = "IBM Plex Sans, sans-serif"
+headingFont = "IBM Plex Mono, monospace"
+codeFont = "IBM Plex Mono, monospace"
+
+[theme.dark]
+base = "dark"
+primaryColor = "#3b8cff"
+backgroundColor = "#0d1016"
+secondaryBackgroundColor = "#131820"
+textColor = "#e6e9ee"
+borderColor = "#252c38"
+dataframeBorderColor = "#252c38"
+dataframeHeaderBackgroundColor = "#131820"
+linkColor = "#3b8cff"
+chartCategoricalColors = ["#1375ff", "#a3731a", "#008c71", "#eb3030"]
+
+[theme.light]
+base = "light"
+primaryColor = "#1f6fe5"
+backgroundColor = "#f4f6fa"
+secondaryBackgroundColor = "#ffffff"
+textColor = "#141a24"
+borderColor = "#dbe1ea"
+dataframeBorderColor = "#dbe1ea"
+dataframeHeaderBackgroundColor = "#eaeef5"
+linkColor = "#1f6fe5"
+chartCategoricalColors = ["#1375ff", "#a3731a", "#008c71", "#eb3030"]
+
+[[theme.fontFaces]]
+family = "IBM Plex Sans"
+url = "app/static/fonts/ibm-plex-sans-400.woff2"
+weight = "400"
+style = "normal"
+
+[[theme.fontFaces]]
+family = "IBM Plex Sans"
+url = "app/static/fonts/ibm-plex-sans-500.woff2"
+weight = "500"
+style = "normal"
+
+[[theme.fontFaces]]
+family = "IBM Plex Sans"
+url = "app/static/fonts/ibm-plex-sans-600.woff2"
+weight = "600"
+style = "normal"
+
+[[theme.fontFaces]]
+family = "IBM Plex Mono"
+url = "app/static/fonts/ibm-plex-mono-500.woff2"
+weight = "500"
+style = "normal"
+
+[[theme.fontFaces]]
+family = "IBM Plex Mono"
+url = "app/static/fonts/ibm-plex-mono-600.woff2"
+weight = "600"
+style = "normal"

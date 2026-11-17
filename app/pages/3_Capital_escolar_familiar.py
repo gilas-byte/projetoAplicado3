@@ -23,6 +23,7 @@ import streamlit as st
 
 RAIZ = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(RAIZ / "scripts"))
+sys.path.insert(0, str(RAIZ / "app"))
 
 from colunas import PISO_GRUPO  # noqa: E402
 from capital_escolar import (  # noqa: E402
@@ -38,9 +39,22 @@ from capital_escolar import (  # noqa: E402
     validar_entrada,
 )
 from estatistica import alcance_do_limite, densidade_protegida, formatar_percentil  # noqa: E402
+from ui import (  # noqa: E402
+    COR_BRASIL,
+    COR_NOTA,
+    COR_PROPRIO,
+    COR_VIZINHO,
+    abertura,
+    anel,
+    aplicar_tema,
+    estilo_grafico,
+    parar,
+    rodape,
+    ABAS_RESULTADO,
+    visao_simples,
+)
 
 DIST_CAPITAL = Path(os.environ.get("RADAR_DIST_CAPITAL", RAIZ / "data" / "analytics" / "dist_capital.parquet"))
-COR_PROPRIO, COR_VIZINHO, COR_BRASIL, COR_NOTA = "#2563eb", "#f59e0b", "#6b7280", "#dc2626"
 
 
 @st.cache_data
@@ -67,9 +81,9 @@ def grafico(cdfs, r) -> go.Figure:
         ))
     fig.add_vline(x=e.nota, line_width=2, line_dash="dash", line_color=COR_NOTA,
                   annotation_text="sua nota", annotation_position="top")
-    fig.update_layout(height=320, margin=dict(l=10, r=10, t=30, b=10), xaxis_title="Nota",
+    fig.update_layout(margin=dict(l=10, r=10, t=30, b=10), xaxis_title="Nota",
                       yaxis_title="% do grupo a cada 10 pontos", legend=dict(orientation="h", y=-0.25))
-    return fig
+    return estilo_grafico(fig)
 
 
 def mostrar_metrica(cenario) -> None:
@@ -91,8 +105,14 @@ def mostrar_metrica(cenario) -> None:
 
 def mostrar(cdfs, r) -> None:
     e = r.entrada
-    st.subheader(f"{AREAS[e.area]}: nota {formatar_nota(e.nota)}")
     cenarios = [c for c in (r.proprio, r.vizinho, r.brasil) if c is not None]
+    destaque = r.proprio if r.proprio is not None and r.proprio.disponivel else r.brasil
+    if destaque.disponivel:
+        anel(destaque.texto_percentil, f"{AREAS[e.area]} | nota {formatar_nota(e.nota)}",
+             f"{destaque.rotulo}: {formatar_inteiro(destaque.n)} participantes.",
+             cor=COR_PROPRIO if destaque is r.proprio else COR_BRASIL)
+    else:
+        st.subheader(f"{AREAS[e.area]}: nota {formatar_nota(e.nota)}")
     for coluna, cenario in zip(st.columns(len(cenarios)), cenarios):
         with coluna:
             mostrar_metrica(cenario)
@@ -111,7 +131,13 @@ def mostrar(cdfs, r) -> None:
     for aviso in r.avisos:
         st.caption(aviso)
     disponiveis = [c for c in cenarios if c.disponivel]
-    if disponiveis:
+    if not disponiveis:
+        return
+    cores = {id(r.proprio): COR_PROPRIO, id(r.vizinho): COR_VIZINHO}
+    simples, tecnica = st.tabs(ABAS_RESULTADO)
+    with simples:
+        visao_simples([(c.rotulo, c.texto_percentil, cores.get(id(c), COR_BRASIL)) for c in disponiveis])
+    with tecnica:
         st.dataframe(
             {
                 "Grupo": [c.rotulo for c in disponiveis],
@@ -128,27 +154,28 @@ def mostrar(cdfs, r) -> None:
 
 def main() -> None:
     st.set_page_config(page_title="Radar ENEM · Capital escolar familiar", layout="centered")
+    aplicar_tema("capital")
     st.title("Capital escolar familiar")
-    st.write(
+    abertura(
         "A mesma nota pode ocupar posições diferentes conforme o grupo de comparação. "
         "Informe até que série seus responsáveis estudaram e suas notas para ver a sua posição entre "
         "participantes do mesmo nível de escolaridade familiar e na referência nacional."
     )
     if not DIST_CAPITAL.exists():
         st.error("Artefato do módulo ausente. Rode `scripts/etl.py` e depois `scripts/capital_escolar.py`.")
-        st.stop()
+        parar()
     cdfs = _cdfs()
     anos = sorted({ano for ano, _, _ in cdfs}, reverse=True)
     if not anos:
         st.error("Artefato do módulo sem nenhum grupo publicado.")
-        st.stop()
+        parar()
 
     ano = st.selectbox("Edição de comparação", anos)
     try:
         opcoes_pai, opcoes_mae = _opcoes(ano, "Q001"), _opcoes(ano, "Q002")
     except EntradaInvalida as erro:
         st.error(str(erro))
-        st.stop()
+        parar()
     texto_pai, texto_mae = dict(opcoes_pai), dict(opcoes_mae)
 
     with st.form("capital"):
@@ -186,15 +213,16 @@ def main() -> None:
         st.warning("Informe ao menos uma nota.")
         return
 
-    for area, nota in informadas.items():
-        try:
-            entrada = validar_entrada(ano, area, nota, pai, mae, anos)
-        except EntradaInvalida as erro:
-            st.error(str(erro))
-            continue
-        if entrada.nivel is not None and area == next(iter(informadas)):
-            st.caption(f"Seu grupo: {ROTULOS[entrada.nivel].lower()} (o maior nível entre pai e mãe).")
-        mostrar(cdfs, comparar(cdfs, entrada, outro_nivel))
+    with st.container(key="resultado"):
+        for area, nota in informadas.items():
+            try:
+                entrada = validar_entrada(ano, area, nota, pai, mae, anos)
+            except EntradaInvalida as erro:
+                st.error(str(erro))
+                continue
+            if entrada.nivel is not None and area == next(iter(informadas)):
+                st.caption(f"Seu grupo: {ROTULOS[entrada.nivel].lower()} (o maior nível entre pai e mãe).")
+            mostrar(cdfs, comparar(cdfs, entrada, outro_nivel))
 
     with st.expander("Como a comparação é feita"):
         st.markdown(
@@ -228,3 +256,6 @@ def main() -> None:
 
 
 main()
+# Fora de main(): aparece mesmo quando main() retorna antes do resultado. Quando falta
+# artefato, parar() (ui.py) mostra o rodape antes do st.stop().
+rodape()

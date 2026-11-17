@@ -23,9 +23,24 @@ import streamlit as st
 
 RAIZ = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(RAIZ / "scripts"))
+sys.path.insert(0, str(RAIZ / "app"))
 
 from colunas import PISO_GRUPO  # noqa: E402
 from estatistica import alcance_do_limite, densidade_protegida, formatar_percentil  # noqa: E402
+from ui import (  # noqa: E402
+    COR_BRASIL,
+    COR_NOTA,
+    COR_PROPRIO,
+    COR_VIZINHO,
+    abertura,
+    anel,
+    aplicar_tema,
+    estilo_grafico,
+    parar,
+    rodape,
+    ABAS_RESULTADO,
+    visao_simples,
+)
 from territorial import (  # noqa: E402
     AREAS,
     BRASIL,
@@ -46,7 +61,7 @@ from territorial import (  # noqa: E402
 
 DIST_TERRITORIAL = Path(os.environ.get("RADAR_DIST_TERRITORIAL",
                                        RAIZ / "data" / "analytics" / "dist_territorial.parquet"))
-COR_UF, COR_REGIAO, COR_BRASIL, COR_NOTA = "#2563eb", "#16a34a", "#6b7280", "#dc2626"
+COR_UF, COR_REGIAO = COR_PROPRIO, COR_VIZINHO
 
 
 @st.cache_data
@@ -70,32 +85,68 @@ def grafico_distribuicoes(cdfs, e) -> go.Figure:
         ))
     fig.add_vline(x=e.nota, line_width=2, line_dash="dash", line_color=COR_NOTA,
                   annotation_text="sua nota", annotation_position="top")
-    fig.update_layout(height=320, margin=dict(l=10, r=10, t=30, b=10), xaxis_title="Nota",
+    fig.update_layout(margin=dict(l=10, r=10, t=30, b=10), xaxis_title="Nota",
                       yaxis_title="% do grupo a cada 10 pontos", legend=dict(orientation="h", y=-0.25))
-    return fig
+    return estilo_grafico(fig)
 
 
 def grafico_medianas(cdfs, e) -> go.Figure:
+    """Mediana de cada UF em pontos (dot plot), com o N no rótulo do eixo.
+
+    Antes era um gráfico de barras com o eixo começando perto da menor mediana, o que
+    exagera as diferenças: em barras o comprimento codifica a grandeza e o eixo precisa
+    começar em zero (Business Intelligence e Data Visualization, aula de percepção e
+    escolha de gráficos). Em pontos, a posição é que codifica a mediana, e o eixo pode
+    começar perto dos dados sem distorcer, desde que avisado no título do eixo. O N de
+    cada UF passa a ficar no rótulo, e não só no passar do mouse.
+    """
     ranking = medianas_ufs(cdfs, e.ano, e.area)[::-1]  # maior mediana no topo
-    cores = [COR_UF if uf == e.uf else ("#93c5fd" if uf in REGIOES[e.regiao][1] else "#d1d5db")
-             for uf, *_ in ranking]
-    fig = go.Figure(go.Bar(
-        x=[m for _, m, _ in ranking], y=[uf for uf, *_ in ranking], orientation="h", marker_color=cores,
-        customdata=[[NOMES_UF[uf], formatar_inteiro(n)] for uf, _, n in ranking],
-        hovertemplate="%{customdata[0]}: mediana %{x:.1f} (%{customdata[1]} participantes)<extra></extra>",
-    ))
-    fig.add_vline(x=e.nota, line_width=2, line_dash="dash", line_color=COR_NOTA)
-    minimo = min((m for _, m, _ in ranking), default=0)
-    fig.update_layout(height=max(300, 18 * len(ranking) + 60), margin=dict(l=10, r=10, t=10, b=10),
-                      xaxis=dict(title="Mediana da UF", range=[max(0, min(minimo, e.nota) - 40), None]),
-                      yaxis=dict(tickfont=dict(size=11)))
+    rotulo = {uf: f"{uf} · {formatar_inteiro(n)}" for uf, _, n in ranking}
+    da_regiao = set(REGIOES[e.regiao][1])
+    fig = go.Figure()
+    for nome, filtro, cor, simbolo in (
+        # Mesmas cores de papel do resto da página: região em âmbar, demais UFs no tom do Brasil.
+        ("Outras UFs", lambda uf: uf != e.uf and uf not in da_regiao, COR_BRASIL, "circle-open"),
+        (f"Região {REGIOES[e.regiao][0]}", lambda uf: uf != e.uf and uf in da_regiao, COR_REGIAO, "circle"),
+        (NOMES_UF[e.uf], lambda uf: uf == e.uf, COR_UF, "diamond"),
+    ):
+        pontos = [(uf, m, n) for uf, m, n in ranking if filtro(uf)]
+        if not pontos:
+            continue
+        fig.add_trace(go.Scatter(
+            x=[m for _, m, _ in pontos], y=[rotulo[uf] for uf, _, _ in pontos], mode="markers", name=nome,
+            marker=dict(color=cor, size=11 if simbolo == "diamond" else 9, symbol=simbolo, line=dict(width=1.5, color=cor)),
+            customdata=[[NOMES_UF[uf], formatar_inteiro(n)] for uf, _, n in pontos],
+            hovertemplate="%{customdata[0]}: mediana %{x:.1f} (%{customdata[1]} participantes)<extra></extra>",
+        ))
+    fig.add_vline(x=e.nota, line_width=2, line_dash="dash", line_color=COR_NOTA,
+                  annotation_text="sua nota", annotation_position="top")
+    medianas = [m for _, m, _ in ranking] + [e.nota]
+    fig.update_layout(
+        margin=dict(l=10, r=10, t=30, b=10),
+        xaxis=dict(title="Mediana da UF (eixo ajustado aos dados, não começa em zero)",
+                   range=[max(0, min(medianas) - 15), min(1000, max(medianas) + 15)]),
+        yaxis=dict(categoryorder="array", categoryarray=[rotulo[uf] for uf, _, _ in ranking],
+                   tickfont=dict(size=11)),
+    )
+    fig = estilo_grafico(fig, altura=max(320, 20 * len(ranking) + 110))
+    # Depois do estilo comum, que fixa a legenda em y=-0.38 (longe demais num gráfico alto):
+    # a legenda vai para o topo, à esquerda, longe do título do eixo e da marca "sua nota".
+    fig.update_layout(legend=dict(orientation="h", x=0, xanchor="left", y=1.0, yanchor="bottom"),
+                      margin=dict(l=10, r=10, t=50, b=10))
     return fig
 
 
 def mostrar(cdfs, r) -> None:
     e = r.entrada
-    st.subheader(f"{AREAS[e.area]}: nota {formatar_nota(e.nota)}")
     cenarios = (r.uf, r.regiao, r.brasil)
+    destaque = next((c for c in cenarios if c.disponivel), None)
+    if destaque is not None:
+        anel(destaque.texto_percentil, f"{AREAS[e.area]} | nota {formatar_nota(e.nota)}",
+             f"{destaque.rotulo}: {formatar_inteiro(destaque.n)} participantes.",
+             cor={r.uf: COR_UF, r.regiao: COR_REGIAO}.get(destaque, COR_BRASIL))
+    else:
+        st.subheader(f"{AREAS[e.area]}: nota {formatar_nota(e.nota)}")
     for coluna, cenario in zip(st.columns(3), cenarios):
         with coluna:
             if cenario.disponivel:
@@ -135,7 +186,17 @@ def mostrar(cdfs, r) -> None:
     for aviso in r.avisos:
         st.caption(aviso)
     disponiveis = [c for c in cenarios if c.disponivel]
-    if disponiveis:
+    if not disponiveis:
+        # Sem nenhum cenario publicado nao ha abas, mas a mediana de cada UF continua
+        # aparecendo, como na main antes da AV6 (revisao do PR #33, ponto 2).
+        if r.ufs_comparadas:
+            _medianas_das_ufs(cdfs, e)
+        return
+    cores = {id(r.uf): COR_UF, id(r.regiao): COR_REGIAO}
+    simples, tecnica = st.tabs(ABAS_RESULTADO)
+    with simples:
+        visao_simples([(c.rotulo, c.texto_percentil, cores.get(id(c), COR_BRASIL)) for c in disponiveis])
+    with tecnica:
         st.dataframe(
             {
                 "Grupo": [c.rotulo for c in disponiveis],
@@ -148,26 +209,33 @@ def mostrar(cdfs, r) -> None:
             hide_index=True,
         )
         st.plotly_chart(grafico_distribuicoes(cdfs, e), config={"displayModeBar": False})
-    if r.ufs_comparadas:
-        with st.expander("Mediana de cada UF"):
-            st.plotly_chart(grafico_medianas(cdfs, e), config={"displayModeBar": False})
+        if r.ufs_comparadas:
+            _medianas_das_ufs(cdfs, e)
+
+
+def _medianas_das_ufs(cdfs, e) -> None:
+    with st.expander("Mediana de cada UF"):
+        st.plotly_chart(grafico_medianas(cdfs, e), config={"displayModeBar": False})
+        st.caption("Cada ponto é a mediana de uma UF; o número ao lado da sigla é o total de "
+                   "participantes da UF nesta edição e área.")
 
 
 def main() -> None:
     st.set_page_config(page_title="Radar ENEM · Recorte territorial", layout="centered")
+    aplicar_tema("territorial")
     st.title("Recorte territorial")
-    st.write(
+    abertura(
         "A mesma nota pode ocupar posições diferentes no seu estado, na sua região e no Brasil. "
         "Informe a UF onde fez a prova e suas notas para ver as três posições lado a lado."
     )
     if not DIST_TERRITORIAL.exists():
         st.error("Artefato do módulo ausente. Rode `scripts/etl.py` e depois `scripts/territorial.py`.")
-        st.stop()
+        parar()
     cdfs = _cdfs()
     anos = sorted({ano for ano, _, _ in cdfs}, reverse=True)
     if not anos:
         st.error("Artefato do módulo sem nenhum grupo publicado.")
-        st.stop()
+        parar()
 
     ano = st.selectbox("Edição de comparação", anos)
     with st.form("territorial"):
@@ -194,13 +262,14 @@ def main() -> None:
         st.warning("Informe ao menos uma nota.")
         return
 
-    for area, nota in informadas.items():
-        try:
-            entrada = validar_entrada(ano, area, nota, uf, anos)
-        except EntradaInvalida as erro:
-            st.error(str(erro))
-            continue
-        mostrar(cdfs, comparar(cdfs, entrada))
+    with st.container(key="resultado"):
+        for area, nota in informadas.items():
+            try:
+                entrada = validar_entrada(ano, area, nota, uf, anos)
+            except EntradaInvalida as erro:
+                st.error(str(erro))
+                continue
+            mostrar(cdfs, comparar(cdfs, entrada))
 
     with st.expander("Como a comparação é feita"):
         st.markdown(
@@ -231,3 +300,6 @@ def main() -> None:
 
 
 main()
+# Fora de main(): aparece mesmo quando main() retorna antes do resultado. Quando falta
+# artefato, parar() (ui.py) mostra o rodape antes do st.stop().
+rodape()

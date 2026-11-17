@@ -87,6 +87,28 @@ class TestApp(unittest.TestCase):
         at.button[0].click().run()
         self.assertIn("ao menos uma nota", at.warning[0].value)
 
+    def test_visao_simples_ao_lado_da_tecnica(self):
+        at = self.abrir()
+        self.campo(at, "Matemática").set_value(550.0)
+        at.button[0].click().run()
+        self.assertFalse(at.exception)
+        self.assertEqual([aba.label for aba in at.tabs], ["Visão simples", "Visão técnica"])
+        texto = " ".join(m.value for m in at.tabs[0].markdown)
+        self.assertIn("Sua nota foi maior que a de 50,1% dos participantes: cerca de 50 em cada 100.", texto)
+
+    def test_quartis_e_caixa_protegida(self):
+        at = self.abrir()
+        self.campo(at, "Matemática").set_value(550.0)
+        at.button[0].click().run()
+        self.assertFalse(at.exception)
+        # 500 notas inteiras de 300 a 799, 1000 pessoas cada: Q1 = 424, mediana = 549,
+        # Q3 = 674, P5 = 324 e P95 = 774 (menor nota com ao menos p · N nela ou abaixo).
+        texto = " ".join(c.value for c in at.caption)
+        self.assertIn("entre 424,0 e 674,0", texto)
+        self.assertIn("mediana foi 549,0", texto)
+        self.assertIn("entre 324,0 e 774,0", texto)
+        self.assertIn("percentis 5 a 95", texto)
+
     def test_notas_nao_vao_para_a_url(self):
         at = self.abrir()
         self.campo(at, "Ciências Humanas").set_value(700.0)

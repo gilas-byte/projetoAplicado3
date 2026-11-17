@@ -1,21 +1,24 @@
-# Publicação no Replit (teste)
+# Publicação no Replit
 
 Responsável: Samuel Silva de Rezende (PO). Decisão em
-[`docs/decisoes/README.md`](../decisoes/README.md#dl-06--hospedagem-em-teste-no-replit) (DL-06).
-A configuração está em [`.replit`](../../.replit).
+[`docs/decisoes/README.md`](../decisoes/README.md#dl-08--replit-como-hospedagem-definitiva-e-publicação-beta) (DL-06 e DL-08).
+A configuração está em [`.replit`](../../.replit). Modelo de serviço, segurança, custo e
+operação em [`docs/av6/nuvem.md`](../av6/nuvem.md).
 
 ## O que precisa estar pronto
 
 - Conta do Replit com plano Core (créditos mensais pagam a publicação).
-- Os quatro artefatos da camada ANALYTICS, gerados pelo pipeline com os microdados
-  reais. Eles **não** estão no GitHub (`.gitignore`, `docs/privacidade.md` R1):
+- Os **cinco** artefatos da camada ANALYTICS, gerados pelo pipeline com os microdados
+  reais. Eles **não** estão no GitHub (`.gitignore`, `docs/privacidade.md` R1). Os hashes
+  de referência estão em [`artefatos.sha256`](artefatos.sha256).
 
-  | Arquivo | Gerado por | Tamanho (execução de 03/11/2026) |
-  | --- | --- | --- |
-  | `dist_notas.parquet` | `scripts/etl.py` | 0,26 MB |
-  | `dist_exata.parquet` | `scripts/etl.py` | 0,40 MB |
-  | `dist_equidade.parquet` | `scripts/equidade.py` | 1,93 MB |
-  | `dist_territorial.parquet` | `scripts/territorial.py` | 7,96 MB |
+  | Arquivo | Gerado por | Tamanho | Usado pela página |
+  | --- | --- | --- | --- |
+  | `dist_notas.parquet` | `scripts/etl.py` | 0,26 MB | Início (histograma) |
+  | `dist_exata.parquet` | `scripts/etl.py` | 0,40 MB | Início (percentil exato) |
+  | `dist_equidade.parquet` | `scripts/equidade.py` | 1,93 MB | Equidade socioeconômica |
+  | `dist_territorial.parquet` | `scripts/territorial.py` | 7,96 MB | Recorte territorial |
+  | `dist_capital.parquet` | `scripts/capital_escolar.py` | 2,08 MB | Capital escolar familiar |
 
 ## Passo a passo
 
@@ -26,37 +29,87 @@ A configuração está em [`.replit`](../../.replit).
    Os artefatos têm frequências por nota e só podem ficar no backend (ADR-001); num
    projeto público qualquer visitante veria os arquivos.
 3. **Enviar os artefatos.** No painel de arquivos, criar a pasta `data/analytics/` e
-   arrastar para ela os quatro `.parquet`. Como `data/` está no `.gitignore`, eles
+   arrastar para ela os cinco `.parquet`. Como `data/` está no `.gitignore`, eles
    nunca entram num commit feito pelo Replit.
-4. **Testar no editor.** Clicar em *Run*. O app abre na aba de pré-visualização; conferir
-   a página principal, a Equidade e o Recorte territorial.
-5. **Publicar.** *Deploy* (ou *Publish*) → escolher o tipo:
-   - **Reserved VM, máquina compartilhada (0,5 vCPU, 2 GB):** sempre ligada; usar na
-     semana da banca e quando o link estiver no relatório final.
-   - **Autoscale:** mais barato para testes, mas desliga quando ninguém acessa, e o
-     primeiro acesso seguinte demora para responder.
-6. **Aquecer o app depois de cada publicação.** Abrir uma vez a página principal, a
-   Equidade e o Recorte territorial. A primeira abertura do territorial carrega 2,2
-   milhões de linhas (10 s no teste com 2 vCPU); a partir daí os dados ficam em memória.
-7. **Registrar o link** público (`*.replit.app`) no README e no relatório final (entrega de 19/11/2026, DL-07).
+4. **Conferir os artefatos (barreira de qualidade).** No *Shell* do projeto:
+
+   ```
+   pip install -q -r requirements.txt
+   python scripts/auditar_artefatos.py
+   ```
+
+   Só seguir se terminar com `OK`. A auditoria confere colunas, chave do grão, piso de
+   100 por grupo, coerência das CDFs, o total do Brasil entre artefatos e o SHA-256
+   contra a referência. Ela grava `data/analytics/_manifesto_publicacao.json`, que o
+   rodapé do app usa para mostrar a data e o commit dos dados.
+5. **Testar no editor.** Clicar em *Run*. Conferir as quatro páginas: Início, Equidade,
+   Recorte territorial e Capital escolar familiar.
+6. **Publicar.** *Publish* → **Reserved VM**, máquina compartilhada (0,5 vCPU, 2 GB),
+   sempre ligada (justificativa em `docs/av6/nuvem.md`, seção 1). Se o diálogo oferecer
+   **Enable app monitoring**, ativar.
+7. **Aquecer o app depois de cada publicação.** Abrir uma vez as quatro páginas. A
+   primeira abertura do territorial carrega 2,2 milhões de linhas; depois os dados ficam
+   em memória.
+8. **Conferir saúde e privacidade pela rede.** De qualquer computador com o repositório:
+
+   ```
+   python scripts/checar_saude.py https://<app>.replit.app --vezes 20 --gravar
+   ```
+
+   Termina com erro se o app não responder ou se algum artefato puder ser baixado.
+9. **Medir no ambiente real.** No *Shell* do Replit:
+
+   ```
+   python scripts/medir_desempenho.py --ambiente replit
+   ```
+
+   Commitar os dois JSON de `docs/deploy/medicoes/` e preencher a tabela abaixo.
+10. **Registrar o link** público (`*.replit.app`) no README, na DL-06 e no relatório final.
 
 ## Atualizar o app
 
-- **Código:** no *Shell* do Replit, `git pull`, e publicar de novo.
+- **Código:** no *Shell* do Replit, `git pull`, rodar a auditoria (passo 4) e publicar de novo.
 - **Dados:** gerar os artefatos com o pipeline, substituir os arquivos em
-  `data/analytics/` e publicar de novo.
+  `data/analytics/`, atualizar `artefatos.sha256` por PR, rodar a auditoria e publicar de novo.
+- **Voltar uma versão (rollback):** no *Shell*, `git checkout <commit anterior>`, auditoria e
+  publicar. O commit em produção aparece no rodapé do app.
 
-## Medições de referência
+Atenção: a publicação é uma cópia do projeto no momento em que se clica em *Publish*.
+Arquivos gravados pelo app durante a execução não sobrevivem a uma nova publicação, e
+trocar artefatos só vale depois de publicar de novo.
 
-Teste local em 03/11/2026, com os quatro artefatos reais, 2 vCPU, Python 3.13 e
-Streamlit 1.64: memória de cerca de 600 MB com as três páginas abertas; resposta de
-uma consulta entre 0,4 e 1,4 s; primeira abertura do territorial em 10,4 s e as
-seguintes em 2,2 s. As medições no Replit entram aqui depois da primeira publicação.
+## Medições
+
+**Referência local (03/11/2026, DL-06):** 2 vCPU, Python 3.13, Streamlit 1.64, artefatos
+reais: memória de cerca de 600 MB com três páginas abertas; consulta entre 0,4 e 1,4 s;
+primeira abertura do territorial em 10,4 s e as seguintes em 2,2 s.
+
+**Ambiente de desenvolvimento (16/11/2026):** `medir_desempenho.py` com as quatro
+páginas no mesmo processo: carga do territorial em 2,8 s; consulta p95 entre 65 ms
+(Início) e 370 ms (Recorte territorial); pico de memória de cerca de 1,2 GB. O pico é o
+dobro da estimativa de 03/11 e fica dentro dos 2 GB da VM compartilhada, mas com margem
+menor; por isso a medição no Replit é obrigatória antes de fechar a DL-06.
+
+**Replit (beta):** preencher depois da publicação.
+
+| Medida | Valor | Como foi medido |
+| --- | --- | --- |
+| Memória da publicação com as 4 páginas abertas | | Painel de recursos do Replit |
+| Carga do Recorte territorial (primeira abertura) | | `medir_desempenho.py --ambiente replit` |
+| Consulta p50 / p95 por página | | `medir_desempenho.py --ambiente replit` |
+| Saúde p50 / p95 pela rede | | `checar_saude.py --gravar` |
+| Tempo até o resultado aparecer (navegador, 10 repetições por página) | | Cronômetro do navegador (DevTools → Network/Performance) |
+| Artefatos expostos | | `checar_saude.py` (deve ser lista vazia) |
+| Tempo para recriar a publicação do zero (RTO) | | Do import ao link no ar |
 
 ## Checklist de privacidade antes de divulgar o link
 
 - [ ] Projeto do Replit privado.
 - [ ] `git status` no Replit não lista nenhum `.parquet` ou `.csv`.
-- [ ] O app não oferece download de artefato (o Streamlit não serve arquivos estáticos
-      por padrão, e `showErrorDetails = "type"` esconde valores digitados nos erros).
+- [ ] `python scripts/auditar_artefatos.py` termina com `OK`.
+- [ ] `python scripts/checar_saude.py <url>` termina sem falha e com
+      `"artefatos_expostos": []`. O servidor de estáticos está ligado
+      (`enableStaticServing`) só para `app/static/` (fontes IBM Plex, licença OFL); `data/`
+      fica fora dessa pasta e caminho com `..` volta 400 (DL-09).
+      `showErrorDetails = "type"` esconde valores digitados nos erros.
 - [ ] `python scripts/verificar_piso.py` passa.

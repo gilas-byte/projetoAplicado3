@@ -16,8 +16,10 @@ apagada: quando muda, a entrada antiga recebe "substituída por DL-xx".
 | [DL-03](#dl-03--regras-do-módulo-equidade-socioeconômica) | 02/11/2026 | Regras do módulo Equidade socioeconômica | Samuel (autor do módulo) | Aceita |
 | [DL-04](#dl-04--regras-do-módulo-recorte-territorial) | 02/11/2026 | Regras do módulo Recorte territorial | Vinícius (autor do módulo); aceite de Samuel (PO) em 03/11/2026 | Aceita |
 | [DL-05](#dl-05--regras-do-módulo-capital-escolar-familiar) | 03/11/2026 | Regras do módulo Capital escolar familiar | Guilherme Anselmo (autor do módulo); aceite de Samuel (PO) em 08/11/2026 | Aceita |
-| [DL-06](#dl-06--hospedagem-em-teste-no-replit) | 03/11/2026 | Hospedagem em teste no Replit | Samuel (PO) | Decidida; publicação remarcada para a etapa final, antes de 19/11 |
+| [DL-06](#dl-06--hospedagem-em-teste-no-replit) | 03/11/2026 | Hospedagem em teste no Replit | Samuel (PO) | Substituída em parte pela DL-08 |
 | [DL-07](#dl-07--corte-do-módulo-rede-de-ensino-e-prazo-do-relatório-final-em-1911) | 08/11/2026 | Corte do módulo Rede de ensino e prazo do relatório final em 19/11 | Samuel (PO) | Aceita |
+| [DL-08](#dl-08--replit-como-hospedagem-definitiva-e-publicação-beta) | 16/11/2026 | Replit como hospedagem definitiva e publicação beta | Samuel (PO) | Aceita |
+| [DL-09](#dl-09--servidor-de-arquivos-estáticos-só-para-as-fontes) | 16/11/2026 | Servidor de arquivos estáticos só para as fontes | Guilherme Anselmo (front); registro do PO | Aceita |
 
 ---
 
@@ -455,9 +457,13 @@ apagada: quando muda, a entrada antiga recebe "substituída por DL-xx".
 - **Situação:** decidida, primeira publicação ainda não feita (prevista até 13/11/2026, DL-07). Pode ser revista antes ou depois dessa publicação.
   *Atualização (16/11/2026):* a publicação de 13/11/2026 não foi feita. Ela depende do aplicativo
   completo, com os três módulos e a interface revisada; o código do Capital escolar entrou em
-  10/11/2026 à noite, e o capítulo 3 e a revisão da nova interface (PR #30) só se resolveram em
-  15/11/2026. O PO remarcou a primeira publicação para a etapa final, antes da entrega de
+  10/11/2026 à noite, o capítulo 3 só foi entregue em 15/11/2026 e a nova interface (PR #30),
+  aprovada em 15/11, só foi mesclada em 16/11/2026 à 01h15. O PO remarcou a primeira publicação para a etapa final, antes da entrega de
   19/11/2026, como registrado no README (PR #18) e no relatório consolidado da AV4.
+  *Atualização (17/11/2026):* o caráter de "teste" e a troca de provedor como saída
+  foram substituídos pela DL-08: o Replit passa a ser a hospedagem definitiva, com
+  publicação beta depois do merge das atualizações da AV6. Os critérios desta entrada continuam como
+  critérios de operação.
 - **Contexto:** `docs/av3/EVOLUCAO-FUTURA-NUVEM.md` deixou a hospedagem em aberto, com
   o Azure apenas como exemplo. O app precisa de quatro artefatos agregados que não
   vão para o GitHub (`docs/privacidade.md`, R1) e não podem ser baixados pelo público
@@ -562,3 +568,67 @@ apagada: quando muda, a entrada antiga recebe "substituída por DL-xx".
   plano da Sprint 6; completa a DL-02 (corte do quarto módulo).
 - **Evidência:** revisão do PO no PR #15 (08/11/2026) e mensagem ao grupo da equipe
   na mesma data.
+
+## DL-08 — Replit como hospedagem definitiva e publicação beta
+
+- **Data:** 16/11/2026
+- **Responsável:** Samuel Silva de Rezende (Product Owner)
+- **Situação:** aceita
+- **Substitui em parte:** DL-06 (o caráter de teste e a volta às alternativas como saída).
+- **Contexto:** a DL-06 colocou o Replit em teste, com a troca de provedor como saída se
+  algum critério falhasse. A publicação prevista para 13/11 (DL-07) não aconteceu, e o
+  relatório final de 19/11 exige o link público com a aplicação validada (30% da AV6).
+  Não há tempo para avaliar outro provedor, e o Plano de Trabalho (objetivo 8) pedia uma
+  versão beta antes da final.
+- **Decisão:**
+  1. **Hospedagem definitiva no Replit**, na conta do PO, plano Core, tipo Reserved VM
+     com máquina compartilhada (0,5 vCPU, 2 GB), sempre ligada. Justificativa do modelo
+     de serviço, custos e comparação com a arquitetura de referência da disciplina de
+     Computação em Nuvem em `docs/av6/nuvem.md`.
+  2. **Publicação beta depois do merge deste PR na `main`** (prevista para 17/11/2026), com os cinco artefatos da
+     execução de referência (hashes em `docs/deploy/artefatos.sha256`). A beta serve para
+     medir no ambiente real e para o teste de usabilidade; as correções da AV6 entram por
+     PR e são republicadas.
+  3. **Barreira antes de cada publicação:** `scripts/auditar_artefatos.py` precisa terminar
+     com OK (colunas, chave do grão, piso por grupo, coerência das CDFs, Brasil igual entre
+     artefatos e hash). Depois de publicar, `scripts/checar_saude.py` confere a resposta e
+     que nenhum artefato pode ser baixado.
+  4. **Agente de IA do Replit:** a DL-06 deixava o agente fora do projeto, para não
+     consumir os créditos da hospedagem. Ele passa a ser usado só para configurar a
+     publicação (importação, dependências, auditoria e tipo de publicação), com um
+     prompt fechado escrito pela equipe e versionado em `docs/deploy/`. O agente não
+     altera código do produto; qualquer mudança de código continua entrando por PR no
+     GitHub. O consumo de créditos é conferido no painel antes e depois.
+  5. **Se um critério da DL-06 falhar** (consulta acima de 3 s, projeto não privado ou
+     créditos insuficientes até a banca), a primeira resposta passa a ser dentro do
+     próprio Replit: VM dedicada (1 vCPU, 4 GB) para desempenho ou memória; ajuste de
+     créditos para custo. Trocar de provedor só com DL nova.
+- **O que está sendo testado na beta:** memória com as quatro páginas abertas (no ambiente
+  de desenvolvimento, em 16/11, o pico foi de cerca de 1,2 GB com as quatro páginas no
+  mesmo processo, o dobro da estimativa de 03/11); tempo de consulta no ambiente real;
+  tempo para recriar a publicação do zero (RTO).
+- **Evidência:** `docs/deploy/replit.md` (passo a passo e tabela de medições),
+  `docs/av6/nuvem.md`, `docs/deploy/medicoes/`, `scripts/auditar_artefatos.py`,
+  `scripts/checar_saude.py`, `scripts/medir_desempenho.py`.
+
+## DL-09 — Servidor de arquivos estáticos só para as fontes
+
+- **Data:** registro em 16/11/2026; a mudança entrou no PR #30 (commit `b888e0b`, 15/11/2026)
+- **Responsável:** Guilherme da Silva Anselmo (autor do front); registro do PO
+- **Situação:** aceita
+- **Contexto:** `docs/av3/EVOLUCAO-FUTURA-NUVEM.md` (seção 7) recomendava não habilitar o
+  serviço de arquivos estáticos do Streamlit, para não haver nenhum caminho de download
+  perto dos artefatos. O front novo passou a servir as fontes IBM Plex de `app/static/`
+  (`enableStaticServing = true`), para não pedir as fontes ao Google, o que enviaria o IP
+  de cada visitante a um terceiro (R6).
+- **Decisão:** manter o servidor de estáticos ligado, com estas condições:
+  1. `app/static/` só contém as fontes e a licença OFL; nenhum dado vai para essa pasta;
+  2. os artefatos ficam em `data/analytics/`, fora da pasta servida;
+  3. caminho com `..`, inclusive codificado, é recusado pelo Streamlit com HTTP 400
+     (conferido em 15/11/2026 e em 16/11/2026);
+  4. a conferência é automática: `scripts/checar_saude.py` tenta baixar os cinco artefatos
+     por caminhos diretos e pelo servidor de estáticos e falha se algum responder com um
+     Parquet.
+- **Alternativa descartada:** fontes do Google Fonts (terceiro recebe o IP do visitante) ou
+  fontes do sistema (perde a identidade visual do front).
+- **Evidência:** `.streamlit/config.toml`, `app/static/fonts/`, `scripts/checar_saude.py`.

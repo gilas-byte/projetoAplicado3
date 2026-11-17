@@ -76,9 +76,9 @@ exibicao do percentil em UF e regiao, em `scripts/estatistica.py`
 (`exibir_percentil`, compartilhada pelos modulos), auditados por
 `scripts/auditoria_limites.py`.
 
-O valor 100 e proposta tecnica pendente de aceite do PO. Tambem atende ao
-item "Grupos pequenos" do plano, com folga sobre o minimo estatistico usual
-de 30.
+O valor 100 foi aceito pelo PO junto com o ADR-001 e a DL-04 (03/11/2026) e
+e aplicado em todos os modulos (DL-03 a DL-05). Tambem atende ao item "Grupos
+pequenos" do plano, com folga sobre o minimo estatistico usual de 30.
 
 **Limite conhecido.** Numa distribuicao de uma unica variavel nacional, a
 contagem suprimida pode ser deduzida pela diferenca entre o total e as
@@ -156,5 +156,9 @@ com recortes pequenos e avaliar consultas reiteradas e diferença entre grupos.
 A indicação de percentil com uma casa decimal é arredondamento do resultado
 exato, não um método de aproximação da distribuição.
 
-**Pendente:** aceite formal de risco e de política de piso pelo Product Owner
-na branch revisada; teste em ambiente de nuvem efetivo.
+**Situação (16/11/2026):** aceite de risco e do piso pelo Product Owner em
+03/11/2026 (ADR-001 e DL-04, "Aceite do PO"). O teste em ambiente de nuvem
+efetivo é feito na publicação beta (DL-08): `scripts/auditar_artefatos.py` antes
+de publicar e `scripts/checar_saude.py` depois, que falha se algum artefato
+puder ser baixado pelo link público. Revisão de QA do ADR-001 continua pendente
+(Guilherme da Silva Anselmo).
