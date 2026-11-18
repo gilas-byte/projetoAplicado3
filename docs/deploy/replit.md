@@ -66,6 +66,19 @@ operação em [`docs/av6/nuvem.md`](../av6/nuvem.md).
    Commitar os dois JSON de `docs/deploy/medicoes/` e preencher a tabela abaixo.
 10. **Registrar o link** público (`*.replit.app`) no README, na DL-06 e no relatório final.
 
+## Dependências e filtro de pacotes do Replit
+
+O Replit instala os pacotes por um filtro (Package Firewall, da Socket) que recusa com
+erro 403 versões com vulnerabilidade conhecida. Em 18/11/2026 ele recusou o Pillow 12.3.0
+e o 12.2.0, que o Streamlit 1.64 exigia (`pillow<13`): o CVE-2026-112900 (crítico, CVSS
+9,2) e outras falhas afetam todas as versões anteriores à 13.0.0. Por isso o
+`requirements.txt` passou para o Streamlit 1.66.1, o primeiro que aceita `pillow<14`, e
+fixa `pillow==13.0.0`. O app não importa o Pillow diretamente; ele vem com o Streamlit.
+
+Se uma instalação no Replit voltar com 403, não contorne o filtro (por exemplo, trocando o
+índice de pacotes): ache a versão corrigida, teste com os 273 testes e atualize o
+`requirements.txt` por PR.
+
 ## Atualizar o app
 
 - **Código:** no *Shell* do Replit, `git pull`, rodar a auditoria (passo 4) e publicar de novo.
