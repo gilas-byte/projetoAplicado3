@@ -1,10 +1,13 @@
-# Configuracao do Replit (hospedagem em teste, DL-06 em docs/decisoes/README.md).
+# Configuracao do Replit (hospedagem definitiva, DL-08 em docs/decisoes/README.md).
 # Passo a passo em docs/deploy/replit.md.
 #
 # Os artefatos de data/analytics/ NAO estao no git (.gitignore, docs/privacidade.md R1):
 # sao enviados direto ao projeto do Replit, que precisa ser PRIVADO.
+#
+# "bash", [nix] e ignorePorts foram acrescentados pelo proprio Replit na importacao
+# (18/11/2026); deploymentTarget = "vm" e a Reserved VM escolhida na DL-08.
 
-modules = ["python-3.12"]
+modules = ["python-3.12", "bash"]
 
 # Botao "Run" no editor do Replit (teste antes de publicar).
 run = ["sh", "-c", "pip install -q -r requirements.txt && streamlit run app/app.py --server.address 0.0.0.0 --server.port 8501 --server.headless true"]
@@ -12,7 +15,13 @@ run = ["sh", "-c", "pip install -q -r requirements.txt && streamlit run app/app.
 [deployment]
 build = ["sh", "-c", "pip install -r requirements.txt"]
 run = ["sh", "-c", "streamlit run app/app.py --server.address 0.0.0.0 --server.port 8501 --server.headless true"]
+deploymentTarget = "vm"
+ignorePorts = false
 
 [[ports]]
 localPort = 8501
 externalPort = 80
+
+[nix]
+channel = "stable-25_05"
+packages = ["openssl"]
