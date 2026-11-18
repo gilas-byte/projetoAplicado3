@@ -9,3 +9,5 @@ dash==4.4.1
 shiny==1.8.0
 fastapi==0.141.1
 uvicorn==0.54.0
+# Versao corrigida do setuptools para o ambiente de benchmark (verificacao de seguranca do Replit, 18/11/2026).
+setuptools==84.2.1

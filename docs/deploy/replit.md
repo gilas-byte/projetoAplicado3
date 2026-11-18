@@ -80,9 +80,9 @@ vulnerabilidades críticas) acusou anyio 4.9.0, certifi 2026.7.22, h11 0.9.0 e i
 embora o pip tivesse instalado anyio 4.16.0, certifi 2026.10.23, h11 0.16.0 e idna 3.20.
 A verificação lê os manifestos (`requirements.txt` e `requirements-benchmark.txt`) e
 supõe versões para as dependências indiretas que não estão fixadas. Por isso o
-`requirements.txt` também fixa essas quatro, nas versões instaladas e testadas. Os alertas
-que sobram (setuptools, altos e médios) vêm só do `requirements-benchmark.txt`, que o app
-não instala, e não bloqueiam a publicação.
+`requirements.txt` também fixa essas quatro, nas versões instaladas e testadas, e o
+`requirements-benchmark.txt` (que o app não instala) fixa `setuptools==84.2.1`, que zerou
+os alertas altos e médios que vinham dele.
 
 Se uma instalação no Replit voltar com 403, não contorne o filtro (por exemplo, trocando o
 índice de pacotes): ache a versão corrigida, teste com os 273 testes e atualize o
