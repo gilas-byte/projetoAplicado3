@@ -631,7 +631,7 @@ apagada: quando muda, a entrada antiga recebe "substituída por DL-xx".
     e não alterou código do produto. A exceção foi a correção automática do Centro de
     segurança ("Corrigir tudo com Agent"), acionada pelo PO, que fixou as mesmas versões num
     commit local do Replit. Esse commit não foi enviado ao GitHub; a mesma mudança entrou pelo
-    PR `deps-fixar-transitivas`, com revisão.
+    PR #36, com revisão.
   - **Resultado:** as quatro páginas mostraram o resultado pelo link público; consulta p95
     entre 70 e 416 ms (meta de 3 s); pico de cerca de 838 MiB na publicação; nenhum artefato
     exposto. O item 5 (VM dedicada) não foi necessário. Ficam para a AV6 o tempo até o
