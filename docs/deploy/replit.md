@@ -147,8 +147,8 @@ Duas ressalvas para ler os números:
    4 páginas num único processo, o que é mais pesado que a publicação real.
 2. O campo `versao_codigo_git` do JSON (`95f7798`) é o commit que o próprio Replit cria ao
    publicar ("Published your App"). Ele não existe no GitHub. O código publicado é o da
-   `main` no merge do PR #35 (`52fcad9`), mais a fixação das dependências do PR
-   `deps-fixar-transitivas`. O rodapé do app mostra o commit dos dados (`94f6a36`), que é o
+   `main` no merge do PR #35 (`52fcad9`), mais a fixação das dependências do PR #36.
+   O rodapé do app mostra o commit dos dados (`94f6a36`), que é o
    merge local feito pelo Replit ao importar a `main`.
 
 ## Checklist de privacidade antes de divulgar o link
