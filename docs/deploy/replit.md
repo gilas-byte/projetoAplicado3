@@ -133,9 +133,10 @@ Os dois JSON estão em [`medicoes/`](medicoes/).
 | Tempo para recriar a publicação do zero (RTO) | não medido | Do import ao link no ar |
 
 **Leitura.** Todas as consultas ficaram abaixo de 0,5 s, muito dentro da meta de 3 s
-(RNF02), e a primeira abertura do territorial caiu de 10,4 s (03/11) para 4,1 s. A
-publicação usou no pico cerca de 41% dos 2 GiB, então a VM compartilhada basta e a VM
-dedicada da DL-08 (item 5) não é necessária.
+(RNF02). A primeira abertura do territorial levou 4,1 s no Shell do Replit (4 CPUs); esse
+número não é comparável aos 10,4 s de 03/11 (2 vCPU, Streamlit 1.64) e não mede a VM
+publicada (ressalva 1). A publicação usou no pico cerca de 41% dos 2 GiB, então a VM
+compartilhada basta e a VM dedicada da DL-08 (item 5) não é necessária.
 
 Duas ressalvas para ler os números:
 
