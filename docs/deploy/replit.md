@@ -75,6 +75,15 @@ e o 12.2.0, que o Streamlit 1.64 exigia (`pillow<13`): o CVE-2026-112900 (críti
 `requirements.txt` passou para o Streamlit 1.66.1, o primeiro que aceita `pillow<14`, e
 fixa `pillow==13.0.0`. O app não importa o Pillow diretamente; ele vem com o Streamlit.
 
+Na primeira publicação, a verificação de segurança da tela Publish (que bloqueia
+vulnerabilidades críticas) acusou anyio 4.9.0, certifi 2026.7.22, h11 0.9.0 e idna 3.9.0,
+embora o pip tivesse instalado anyio 4.16.0, certifi 2026.10.23, h11 0.16.0 e idna 3.20.
+A verificação lê os manifestos (`requirements.txt` e `requirements-benchmark.txt`) e
+supõe versões para as dependências indiretas que não estão fixadas. Por isso o
+`requirements.txt` também fixa essas quatro, nas versões instaladas e testadas, e o
+`requirements-benchmark.txt` (que o app não instala) fixa `setuptools==84.2.1`, que zerou
+os alertas altos e médios que vinham dele.
+
 Se uma instalação no Replit voltar com 403, não contorne o filtro (por exemplo, trocando o
 índice de pacotes): ache a versão corrigida, teste com os 273 testes e atualize o
 `requirements.txt` por PR.
@@ -93,7 +102,8 @@ trocar artefatos só vale depois de publicar de novo.
 
 ## Medições
 
-**Referência local (03/11/2026, DL-06):** 2 vCPU, Python 3.13, Streamlit 1.64, artefatos
+**Referência local (03/11/2026, DL-06):** 2 vCPU, Python 3.13, Streamlit 1.64 (versão
+anterior ao 1.66.1), artefatos
 reais: memória de cerca de 600 MB com três páginas abertas; consulta entre 0,4 e 1,4 s;
 primeira abertura do territorial em 10,4 s e as seguintes em 2,2 s.
 

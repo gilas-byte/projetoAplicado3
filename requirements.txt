@@ -1,5 +1,9 @@
+anyio==4.16.0
+certifi==2026.10.23
 duckdb==1.5.5
 et_xmlfile==2.0.0
+h11==0.16.0
+idna==3.20
 openpyxl==3.1.5
 pillow==13.0.0
 plotly==7.1.0
