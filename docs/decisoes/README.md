@@ -469,8 +469,9 @@ apagada: quando muda, a entrada antiga recebe "substituída por DL-xx".
   pontos testados: (1) o `.replit` do repositório funcionou na importação, com
   `deploymentTarget = "vm"` acrescentado para a Reserved VM; (2) o projeto ficou privado, os
   artefatos ficaram fora do git e o `checar_saude.py` não conseguiu baixar nenhum deles;
-  (3) consulta p95 entre 70 e 416 ms, primeira abertura do territorial em 4,1 s e pico de
-  cerca de 838 MiB na publicação, dentro dos 2 GB; (4) créditos: a Reserved VM custa cerca de
+  (3) no Shell do Replit, consulta p95 entre 70 e 416 ms e primeira abertura do territorial
+  em 4,1 s; na VM publicada, pico de cerca de 838 MiB, dentro dos 2 GB; (4) créditos: a
+  Reserved VM custa cerca de
   US$ 15 por mês, a conferir no painel até a banca. Nenhum critério de revisão foi atingido.
   Medições em `docs/deploy/replit.md` e `docs/deploy/medicoes/`.
 - **Contexto:** `docs/av3/EVOLUCAO-FUTURA-NUVEM.md` deixou a hospedagem em aberto, com
