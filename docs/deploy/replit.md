@@ -112,26 +112,56 @@ páginas no mesmo processo: carga do territorial em 2,8 s; consulta p95 entre 65
 dobro da estimativa de 03/11 e fica dentro dos 2 GB da VM compartilhada, mas com margem
 menor; por isso a medição no Replit é obrigatória antes de fechar a DL-06.
 
-**Replit (beta):** preencher depois da publicação.
+**Replit (beta, 19/11/2026):** publicação em
+<https://radarenem-projetoaplicado3-kirasapiens.replit.app>, Reserved VM compartilhada
+(`e2-small`, 0,5 vCPU, 2 GB), região South America, monitoramento ligado e análises de
+visitantes desligadas (R6). Publicada às 00:10 (horário de Brasília) e no ar às 00:18.
+Os dois JSON estão em [`medicoes/`](medicoes/).
 
 | Medida | Valor | Como foi medido |
 | --- | --- | --- |
-| Memória da publicação com as 4 páginas abertas | | Painel de recursos do Replit |
-| Carga do Recorte territorial (primeira abertura) | | `medir_desempenho.py --ambiente replit` |
-| Consulta p50 / p95 por página | | `medir_desempenho.py --ambiente replit` |
-| Saúde p50 / p95 pela rede | | `checar_saude.py --gravar` |
-| Tempo até o resultado aparecer (navegador, 10 repetições por página) | | Cronômetro do navegador (DevTools → Network/Performance) |
-| Artefatos expostos | | `checar_saude.py` (deve ser lista vazia) |
-| Tempo para recriar a publicação do zero (RTO) | | Do import ao link no ar |
+| Memória da publicação | pico de 40,9% dos 2 GiB (cerca de 838 MiB), média de 782 MiB | Painel de Monitoramento, 00:30 a 00:50, com o aquecimento das 4 páginas e as medições pela rede |
+| CPU da publicação | média de 16,3%, pico de 50,0% da cota de 0,5 vCPU | Painel de Monitoramento, mesmo intervalo |
+| Carga do Recorte territorial (primeira abertura) | 4,1 s (Início: 4,2 s; Equidade: 0,95 s; Capital: 0,73 s) | `medir_desempenho.py --ambiente replit` |
+| Consulta p50 / p95 por página | Início 52 / 70 ms; Equidade 179 / 255 ms; Territorial 308 / 416 ms; Capital 294 / 407 ms | `medir_desempenho.py --ambiente replit` (200 consultas por página) |
+| Pico de memória com as 4 páginas no mesmo processo | 1.310 MB | `medir_desempenho.py --ambiente replit` |
+| Saúde p50 / p95 pela rede | `/_stcore/health` 402 / 764 ms; página inicial 233 / 582 ms; 0 falhas em 40 requisições | `checar_saude.py --gravar` |
+| Resultado na tela pelo link público | as 4 páginas mostraram o resultado (Matemática 650: Brasil 81,4% em todas) | Teste manual e do agente no navegador, 19/11 |
+| Tempo até o resultado aparecer (navegador, 10 repetições por página) | não medido na beta | Fica para o teste de usabilidade da AV6 |
+| Artefatos expostos | nenhum (`[]`) | `checar_saude.py` |
+| Tempo para republicar | cerca de 8 min, do clique em *Republicar* ao app no ar | Logs da publicação (03:10:33 a 03:18:31 UTC) |
+| Tempo para recriar a publicação do zero (RTO) | não medido | Do import ao link no ar |
+
+**Leitura.** Todas as consultas ficaram abaixo de 0,5 s, muito dentro da meta de 3 s
+(RNF02), e a primeira abertura do territorial caiu de 10,4 s (03/11) para 4,1 s. A
+publicação usou no pico cerca de 41% dos 2 GiB, então a VM compartilhada basta e a VM
+dedicada da DL-08 (item 5) não é necessária.
+
+Duas ressalvas para ler os números:
+
+1. O `medir_desempenho.py` roda no *Shell* do projeto, que é o ambiente de trabalho do
+   Replit (4 CPUs visíveis), e não na VM publicada. Por isso a carga, a consulta e os
+   1.310 MB são do Replit, mas não da máquina de 0,5 vCPU. A VM publicada é medida pela
+   rede (`checar_saude.py`) e pelo painel de Monitoramento. Os 1.310 MB também somam as
+   4 páginas num único processo, o que é mais pesado que a publicação real.
+2. O campo `versao_codigo_git` do JSON (`95f7798`) é o commit que o próprio Replit cria ao
+   publicar ("Published your App"). Ele não existe no GitHub. O código publicado é o da
+   `main` no merge do PR #35 (`52fcad9`), mais a fixação das dependências do PR
+   `deps-fixar-transitivas`. O rodapé do app mostra o commit dos dados (`94f6a36`), que é o
+   merge local feito pelo Replit ao importar a `main`.
 
 ## Checklist de privacidade antes de divulgar o link
 
-- [ ] Projeto do Replit privado.
-- [ ] `git status` no Replit não lista nenhum `.parquet` ou `.csv`.
-- [ ] `python scripts/auditar_artefatos.py` termina com `OK`.
-- [ ] `python scripts/checar_saude.py <url>` termina sem falha e com
+Conferido na beta em 18 e 19/11/2026:
+
+- [x] Projeto do Replit privado (a publicação é pública; o projeto, não).
+- [x] `git status` no Replit não lista nenhum `.parquet` ou `.csv`.
+- [x] `python scripts/auditar_artefatos.py` termina com `OK`.
+- [x] `python scripts/checar_saude.py <url>` termina sem falha e com
       `"artefatos_expostos": []`. O servidor de estáticos está ligado
       (`enableStaticServing`) só para `app/static/` (fontes IBM Plex, licença OFL); `data/`
       fica fora dessa pasta e caminho com `..` volta 400 (DL-09).
       `showErrorDetails = "type"` esconde valores digitados nos erros.
-- [ ] `python scripts/verificar_piso.py` passa.
+- [x] `python scripts/verificar_piso.py` passa.
+- [x] Análises de visitantes do Replit desligadas e widget de feedback desligado (R6: nada do
+      que o visitante digita é gravado).
