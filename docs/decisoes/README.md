@@ -626,7 +626,7 @@ apagada: quando muda, a entrada antiga recebe "substituída por DL-xx".
     (CVE-2026-112900), o que levou ao Streamlit 1.66.1 e ao Pillow 13.0.0 (PR #35). Depois, a
     verificação de segurança da tela Publish bloqueou a publicação por versões supostas de
     dependências indiretas; a correção foi fixá-las no `requirements.txt` e o setuptools no
-    `requirements-benchmark.txt` (PR `deps-fixar-transitivas`).
+    `requirements-benchmark.txt` (PR #36).
   - **Uso do agente (item 4):** o agente seguiu o prompt de `docs/deploy/prompt-agente-replit.md`
     e não alterou código do produto. A exceção foi a correção automática do Centro de
     segurança ("Corrigir tudo com Agent"), acionada pelo PO, que fixou as mesmas versões num
