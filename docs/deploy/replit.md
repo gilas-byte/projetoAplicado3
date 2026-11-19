@@ -122,14 +122,14 @@ Os dois JSON estão em [`medicoes/`](medicoes/).
 | --- | --- | --- |
 | Memória da publicação | pico de 40,9% dos 2 GiB (cerca de 838 MiB), média de 782 MiB | Painel de Monitoramento, 00:30 a 00:50, com o aquecimento das 4 páginas e as medições pela rede |
 | CPU da publicação | média de 16,3%, pico de 50,0% da cota de 0,5 vCPU | Painel de Monitoramento, mesmo intervalo |
-| Carga do Recorte territorial (primeira abertura) | 4,1 s (Início: 4,2 s; Equidade: 0,95 s; Capital: 0,73 s) | `medir_desempenho.py --ambiente replit` |
-| Consulta p50 / p95 por página | Início 52 / 70 ms; Equidade 179 / 255 ms; Territorial 308 / 416 ms; Capital 294 / 407 ms | `medir_desempenho.py --ambiente replit` (200 consultas por página) |
-| Pico de memória com as 4 páginas no mesmo processo | 1.310 MB | `medir_desempenho.py --ambiente replit` |
+| Carga do Recorte territorial (primeira abertura) | 4,1 s (Início: 4,2 s; Equidade: 0,95 s; Capital: 0,73 s) | `medir_desempenho.py --ambiente replit`, no Shell do Replit (ressalva 1) |
+| Consulta p50 / p95 por página | Início 52 / 70 ms; Equidade 179 / 255 ms; Territorial 308 / 416 ms; Capital 294 / 407 ms | `medir_desempenho.py --ambiente replit`, no Shell do Replit (200 consultas por página; ressalva 1) |
+| Pico de memória com as 4 páginas no mesmo processo | 1.310 MB | `medir_desempenho.py --ambiente replit`, no Shell do Replit (ressalva 1) |
 | Saúde p50 / p95 pela rede | `/_stcore/health` 402 / 764 ms; página inicial 233 / 582 ms; 0 falhas em 40 requisições | `checar_saude.py --gravar` |
 | Resultado na tela pelo link público | as 4 páginas mostraram o resultado (Matemática 650: Brasil 81,4% em todas) | Teste manual e do agente no navegador, 19/11 |
 | Tempo até o resultado aparecer (navegador, 10 repetições por página) | não medido na beta | Fica para o teste de usabilidade da AV6 |
 | Artefatos expostos | nenhum (`[]`) | `checar_saude.py` |
-| Tempo para republicar | cerca de 8 min, do clique em *Republicar* ao app no ar | Logs da publicação (03:10:33 a 03:18:31 UTC) |
+| Tempo de publicação (primeira publicação bem-sucedida) | cerca de 8 min, do clique ao app no ar. O botão já se chamava *Republicar* porque a tentativa de 18/11, às 18:40, foi bloqueada pela verificação de segurança antes de ir ao ar | Logs da publicação (19/11, 03:10:33 a 03:18:31 UTC) |
 | Tempo para recriar a publicação do zero (RTO) | não medido | Do import ao link no ar |
 
 **Leitura.** Todas as consultas ficaram abaixo de 0,5 s, muito dentro da meta de 3 s
