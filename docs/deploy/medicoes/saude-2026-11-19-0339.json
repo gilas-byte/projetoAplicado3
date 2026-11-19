@@ -1,0 +1,20 @@
+{
+  "url": "https://radarenem-projetoaplicado3-kirasapiens.replit.app",
+  "medido_em_utc": "2026-11-19T03:39:08+00:00",
+  "primeira_requisicao_ms": 764.0,
+  "saude": {
+    "requisicoes": 20,
+    "falhas": 0,
+    "p50_ms": 402.1,
+    "p95_ms": 764.0,
+    "max_ms": 764.0
+  },
+  "pagina_inicial": {
+    "requisicoes": 20,
+    "falhas": 0,
+    "p50_ms": 233.2,
+    "p95_ms": 581.5,
+    "max_ms": 581.5
+  },
+  "artefatos_expostos": []
+}

@@ -464,6 +464,16 @@ apagada: quando muda, a entrada antiga recebe "substituída por DL-xx".
   foram substituídos pela DL-08: o Replit passa a ser a hospedagem definitiva, com
   publicação beta depois do merge das atualizações da AV6. Os critérios desta entrada continuam como
   critérios de operação.
+  *Atualização (19/11/2026):* a primeira publicação foi feita em 19/11/2026, às 00:10, em
+  <https://radarenem-projetoaplicado3-kirasapiens.replit.app> (DL-08). Resultado dos quatro
+  pontos testados: (1) o `.replit` do repositório funcionou na importação, com
+  `deploymentTarget = "vm"` acrescentado para a Reserved VM; (2) o projeto ficou privado, os
+  artefatos ficaram fora do git e o `checar_saude.py` não conseguiu baixar nenhum deles;
+  (3) no Shell do Replit, consulta p95 entre 70 e 416 ms e primeira abertura do territorial
+  em 4,1 s; na VM publicada, pico de cerca de 838 MiB, dentro dos 2 GB; (4) créditos: a
+  Reserved VM custa cerca de
+  US$ 15 por mês, a conferir no painel até a banca. Nenhum critério de revisão foi atingido.
+  Medições em `docs/deploy/replit.md` e `docs/deploy/medicoes/`.
 - **Contexto:** `docs/av3/EVOLUCAO-FUTURA-NUVEM.md` deixou a hospedagem em aberto, com
   o Azure apenas como exemplo. O app precisa de quatro artefatos agregados que não
   vão para o GitHub (`docs/privacidade.md`, R1) e não podem ser baixados pelo público
@@ -607,6 +617,25 @@ apagada: quando muda, a entrada antiga recebe "substituída por DL-xx".
   de desenvolvimento, em 16/11, o pico foi de cerca de 1,2 GB com as quatro páginas no
   mesmo processo, o dobro da estimativa de 03/11); tempo de consulta no ambiente real;
   tempo para recriar a publicação do zero (RTO).
+- **Atualização (19/11/2026), beta publicada:**
+  - **Quando e onde:** publicada em 19/11/2026, às 00:10 (horário de Brasília), em
+    <https://radarenem-projetoaplicado3-kirasapiens.replit.app>, Reserved VM compartilhada
+    (0,5 vCPU, 2 GB), região South America, monitoramento ligado, análises de visitantes e
+    widget de feedback desligados (R6).
+  - **Atraso em relação a 17/11:** o filtro de pacotes do Replit recusou o Pillow 12.x
+    (CVE-2026-112900), o que levou ao Streamlit 1.66.1 e ao Pillow 13.0.0 (PR #35). Depois, a
+    verificação de segurança da tela Publish bloqueou a publicação por versões supostas de
+    dependências indiretas; a correção foi fixá-las no `requirements.txt` e o setuptools no
+    `requirements-benchmark.txt` (PR #36).
+  - **Uso do agente (item 4):** o agente seguiu o prompt de `docs/deploy/prompt-agente-replit.md`
+    e não alterou código do produto. A exceção foi a correção automática do Centro de
+    segurança ("Corrigir tudo com Agent"), acionada pelo PO, que fixou as mesmas versões num
+    commit local do Replit. Esse commit não foi enviado ao GitHub; a mesma mudança entrou pelo
+    PR #36, com revisão.
+  - **Resultado:** as quatro páginas mostraram o resultado pelo link público; no Shell do
+    Replit, consulta p95 entre 70 e 416 ms (meta de 3 s); na VM publicada, pico de cerca de
+    838 MiB; nenhum artefato exposto. O item 5 (VM dedicada) não foi necessário. Ficam para a AV6 o tempo até o
+    resultado no navegador (teste de usabilidade) e o RTO.
 - **Evidência:** `docs/deploy/replit.md` (passo a passo e tabela de medições),
   `docs/av6/nuvem.md`, `docs/deploy/medicoes/`, `scripts/auditar_artefatos.py`,
   `scripts/checar_saude.py`, `scripts/medir_desempenho.py`.

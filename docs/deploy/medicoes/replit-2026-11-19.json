@@ -1,0 +1,45 @@
+{
+  "ambiente": "replit",
+  "medido_em_utc": "2026-11-19T03:41:43+00:00",
+  "versao_codigo_git": "95f77989d277cf4d7c2351876daed6eb0a7a3084",
+  "maquina": {
+    "sistema": "Linux-6.18.64-x86_64-with-glibc2.40",
+    "python": "3.12.12",
+    "cpus_visiveis": 4,
+    "duckdb": "1.5.5"
+  },
+  "carga_ms": {
+    "inicio (dist_exata)": 4202.5,
+    "equidade": 953.6,
+    "territorial": 4092.1,
+    "capital": 732.3
+  },
+  "consulta": {
+    "inicio": {
+      "consultas": 200,
+      "p50_ms": 52.13,
+      "p95_ms": 70.2,
+      "max_ms": 91.74
+    },
+    "equidade": {
+      "consultas": 200,
+      "p50_ms": 178.96,
+      "p95_ms": 255.39,
+      "max_ms": 273.75
+    },
+    "territorial": {
+      "consultas": 200,
+      "p50_ms": 308.1,
+      "p95_ms": 416.29,
+      "max_ms": 452.17
+    },
+    "capital": {
+      "consultas": 200,
+      "p50_ms": 293.68,
+      "p95_ms": 406.8,
+      "max_ms": 443.78
+    }
+  },
+  "memoria_pico_mb": 1310.2,
+  "meta_rnf02_ms": 3000
+}

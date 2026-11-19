@@ -19,6 +19,16 @@
 
 ---
 
+## 🌐 Aplicação publicada (beta)
+
+**https://radarenem-projetoaplicado3-kirasapiens.replit.app**
+
+Publicada em 19/11/2026 no Replit (Reserved VM, 0,5 vCPU e 2 GB, região South America).
+Decisão em [`docs/decisoes/README.md`](docs/decisoes/README.md) (DL-06 e DL-08);
+procedimento e medições em [`docs/deploy/replit.md`](docs/deploy/replit.md).
+
+---
+
 ## 🔒 Protecao de dados (LGPD)
 
 Os microdados nunca vao para o repositorio e nenhum grupo com menos de 100
@@ -108,9 +118,8 @@ distribuicao exata e a contagem direta (`docs/relatorio/AV3.md` e
 `docs/modulos/equidade-resultados.md`). Os testes automatizados, com dados
 sinteticos, passam no CI. Modulos na `main`: Equidade socioeconomica, Recorte
 territorial e Capital escolar familiar (PR #20); Rede de ensino de origem fora
-do escopo (DL-07). Hospedagem: a primeira publicacao no Replit (DL-06, em teste)
-foi remarcada para a etapa final, antes da entrega do relatorio final em
-19/11/2026 (DL-07).
+do escopo (DL-07). Hospedagem: versao beta publicada no Replit em 19/11/2026
+(DL-08), link na secao "Aplicacao publicada" acima.
 
 ---
 
