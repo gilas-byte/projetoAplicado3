@@ -102,7 +102,8 @@ trocar artefatos só vale depois de publicar de novo.
 
 ## Medições
 
-**Referência local (03/11/2026, DL-06, ainda com o Streamlit 1.64):** 2 vCPU, Python 3.13, Streamlit 1.64, artefatos
+**Referência local (03/11/2026, DL-06):** 2 vCPU, Python 3.13, Streamlit 1.64 (versão
+anterior ao 1.66.1), artefatos
 reais: memória de cerca de 600 MB com três páginas abertas; consulta entre 0,4 e 1,4 s;
 primeira abertura do territorial em 10,4 s e as seguintes em 2,2 s.
 
