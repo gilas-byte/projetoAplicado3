@@ -14,6 +14,13 @@ toolbarMode = "viewer"
 
 [server]
 headless = true
+# Protecoes contra requisicoes forjadas (XSRF) e de origem cruzada (CORS). Ja sao o padrao do
+# Streamlit; ficam explicitas para uma mudanca futura nao desliga-las sem revisao (pente fino
+# da AV6, 24/11/2026). Conferido no link publico: o cookie _streamlit_xsrf e emitido.
+enableXsrfProtection = true
+enableCORS = true
+# O app nao recebe arquivos do usuario: limite minimo para upload (1 MB).
+maxUploadSize = 1
 # Serve so app/static/ (fontes IBM Plex, licenca OFL). Dados ficam em data/,
 # fora dessa pasta. Fontes proprias evitam pedir a fonte ao Google (IP do visitante).
 enableStaticServing = true
