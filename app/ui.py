@@ -17,6 +17,7 @@ from datetime import datetime
 from functools import lru_cache
 from html import escape
 from pathlib import Path
+from types import MappingProxyType
 from typing import NoReturn
 from urllib.parse import quote
 
@@ -130,6 +131,17 @@ def _css_neon(c: dict, tema: str) -> str:
 [data-testid="stSidebar"] [data-testid="stImageToolbar"],[data-testid="stSidebar"] [data-testid="stFullScreenFrame"] button{{display:none}}
 </style>"""
 
+
+def congelar(dados: dict) -> MappingProxyType:
+    """Versao so de leitura de um dicionario de listas, para guardar em st.cache_resource.
+
+    O st.cache_data devolve uma copia (pickle) a cada chamada: no Recorte territorial eram
+    cerca de 37 MB copiados a cada execucao da pagina e por sessao (pente fino da AV6,
+    24/11/2026). O st.cache_resource devolve sempre o mesmo objeto, compartilhado entre as
+    sessoes; para ninguem altera-lo por engano, o dicionario vira um MappingProxyType e cada
+    lista vira uma tupla.
+    """
+    return MappingProxyType({chave: tuple(valor) for chave, valor in dados.items()})
 
 def tema_atual() -> str:
     """\"dark\" ou \"light\", conforme o tema ativo no navegador (padrao: light)."""

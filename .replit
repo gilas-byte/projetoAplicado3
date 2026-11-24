@@ -14,7 +14,9 @@ run = ["sh", "-c", "pip install -q -r requirements.txt && streamlit run app/app.
 
 [deployment]
 build = ["sh", "-c", "pip install -r requirements.txt"]
-run = ["sh", "-c", "streamlit run app/app.py --server.address 0.0.0.0 --server.port 8501 --server.headless true"]
+# Na publicacao o codigo nao muda: sem o observador de arquivos (fileWatcherType none) o
+# servidor nao gasta CPU e memoria vigiando a pasta (pente fino da AV6, 24/11/2026).
+run = ["sh", "-c", "streamlit run app/app.py --server.address 0.0.0.0 --server.port 8501 --server.headless true --server.fileWatcherType none"]
 deploymentTarget = "vm"
 ignorePorts = false
 

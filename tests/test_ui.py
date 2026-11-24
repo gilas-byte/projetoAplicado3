@@ -291,5 +291,27 @@ class TestIdentidadeVisual(unittest.TestCase):
                         self.assertNotIn("background", corpo)
 
 
+
+class TestCacheSemCopia(unittest.TestCase):
+    """Artefatos em st.cache_resource, so leitura (otimizacao do pente fino da AV6, 24/11/2026)."""
+
+    def test_congelar_devolve_mapeamento_so_leitura(self):
+        dados = ui.congelar({("2022", "mt"): [(400.0, 1, 0), (500.0, 2, 1)]})
+        self.assertEqual(dados[("2022", "mt")], ((400.0, 1, 0), (500.0, 2, 1)))
+        with self.assertRaises(TypeError):
+            dados[("2022", "lc")] = ()
+        with self.assertRaises(AttributeError):
+            dados[("2022", "mt")].append((600.0, 1, 3))
+
+    def test_artefatos_grandes_nao_usam_cache_data(self):
+        # cache_data copiaria o artefato a cada execucao da pagina (37 MB no territorial).
+        app = Path(ui.__file__).resolve().parent
+        for arquivo in [app / "app.py", *sorted((app / "pages").glob("*.py"))]:
+            fonte = arquivo.read_text(encoding="utf-8")
+            with self.subTest(pagina=arquivo.name):
+                self.assertNotRegex(fonte, r"@st\.cache_data\s*\ndef (_cdfs|carregar|carregar_exatas)\(")
+                self.assertIn("@st.cache_resource", fonte)
+
+
 if __name__ == "__main__":
     unittest.main()

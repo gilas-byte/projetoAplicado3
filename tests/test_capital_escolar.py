@@ -639,6 +639,7 @@ class TestPagina(unittest.TestCase):
     def abrir(self) -> AppTest:
         import streamlit as st
         st.cache_data.clear()  # o cache é global ao processo; cada teste pode usar outro artefato
+        st.cache_resource.clear()  # artefatos ficam em cache_resource (pente fino da AV6)
         at = AppTest.from_file(str(PAGINA), default_timeout=30)
         at.run()
         self.assertFalse(at.exception)

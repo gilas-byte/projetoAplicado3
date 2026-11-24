@@ -16,6 +16,7 @@ from __future__ import annotations
 
 import os
 import sys
+from collections.abc import Mapping
 from pathlib import Path
 
 import duckdb
@@ -28,6 +29,7 @@ sys.path.insert(0, str(RAIZ / "scripts"))
 from colunas import PISO_GRUPO  # noqa: E402
 from estatistica import caixa_protegida, formatar_percentil, histograma, percentil_exato_acumulado  # noqa: E402
 from ui import (  # noqa: E402
+    congelar,
     ABAS_RESULTADO,
     COR_NOTA,
     COR_PROPRIO,
@@ -52,8 +54,8 @@ AREAS = {
 }
 
 
-@st.cache_data
-def carregar() -> dict[tuple[int, str], list[tuple[float, float, int]]]:
+@st.cache_resource(show_spinner=False)
+def carregar() -> Mapping[tuple[int, str], tuple[tuple[float, float, int], ...]]:
     """Faixas por (edicao, area). Carregado uma vez e compartilhado entre sessoes."""
     # Caminho como parâmetro da consulta, não interpolado no texto da SQL (Business
     # Intelligence, aula de KPIs e performance: a f-string do exemplo é insegura).
@@ -65,11 +67,11 @@ def carregar() -> dict[tuple[int, str], list[tuple[float, float, int]]]:
     faixas: dict[tuple[int, str], list[tuple[float, float, int]]] = {}
     for ano, area, nota_min, nota_max, n in linhas:
         faixas.setdefault((ano, area), []).append((nota_min, nota_max, n))
-    return faixas
+    return congelar(faixas)
 
 
-@st.cache_data
-def carregar_exatas() -> dict[tuple[int, str], list[tuple[float, int, int]]]:
+@st.cache_resource(show_spinner=False)
+def carregar_exatas() -> Mapping[tuple[int, str], tuple[tuple[float, int, int], ...]]:
     """CDF de notas exatas, exclusivamente em memoria do backend.
 
     Não expor a tabela ou suas contagens por endpoint público: algumas
@@ -82,7 +84,7 @@ def carregar_exatas() -> dict[tuple[int, str], list[tuple[float, int, int]]]:
     saida = {}
     for ano, area, nota, n, abaixo in linhas:
         saida.setdefault((ano, area), []).append((float(nota), int(n), int(abaixo)))
-    return saida
+    return congelar(saida)
 
 
 def grafico(faixas_area, nota: float, titulo: str) -> go.Figure:

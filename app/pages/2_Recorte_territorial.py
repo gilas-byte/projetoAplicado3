@@ -28,6 +28,7 @@ sys.path.insert(0, str(RAIZ / "app"))
 from colunas import PISO_GRUPO  # noqa: E402
 from estatistica import alcance_do_limite, densidade_protegida, formatar_percentil  # noqa: E402
 from ui import (  # noqa: E402
+    congelar,
     COR_BRASIL,
     COR_NOTA,
     COR_PROPRIO,
@@ -64,9 +65,9 @@ DIST_TERRITORIAL = Path(os.environ.get("RADAR_DIST_TERRITORIAL",
 COR_UF, COR_REGIAO = COR_PROPRIO, COR_VIZINHO
 
 
-@st.cache_data
+@st.cache_resource(show_spinner=False)
 def _cdfs():
-    return carregar(DIST_TERRITORIAL)
+    return congelar(carregar(DIST_TERRITORIAL))
 
 
 def grafico_distribuicoes(cdfs, e) -> go.Figure:

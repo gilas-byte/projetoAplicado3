@@ -40,6 +40,7 @@ from capital_escolar import (  # noqa: E402
 )
 from estatistica import alcance_do_limite, densidade_protegida, formatar_percentil  # noqa: E402
 from ui import (  # noqa: E402
+    congelar,
     COR_BRASIL,
     COR_NOTA,
     COR_PROPRIO,
@@ -57,9 +58,9 @@ from ui import (  # noqa: E402
 DIST_CAPITAL = Path(os.environ.get("RADAR_DIST_CAPITAL", RAIZ / "data" / "analytics" / "dist_capital.parquet"))
 
 
-@st.cache_data
+@st.cache_resource(show_spinner=False)
 def _cdfs():
-    return carregar(DIST_CAPITAL)
+    return congelar(carregar(DIST_CAPITAL))
 
 
 @st.cache_data

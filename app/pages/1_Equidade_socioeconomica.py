@@ -29,6 +29,7 @@ from colunas import PISO_GRUPO  # noqa: E402
 from estatistica import densidade_protegida, formatar_percentil  # noqa: E402
 from ui import (  # noqa: E402
     COR_BRASIL,
+    congelar,
     COR_NOTA,
     COR_PROPRIO,
     COR_VIZINHO,
@@ -60,9 +61,9 @@ DIST_EQUIDADE = Path(os.environ.get("RADAR_DIST_EQUIDADE", RAIZ / "data" / "anal
 COR_FAIXA, COR_CONTRASTE = COR_PROPRIO, COR_VIZINHO
 
 
-@st.cache_data
+@st.cache_resource(show_spinner=False)
 def _cdfs():
-    return carregar(DIST_EQUIDADE)
+    return congelar(carregar(DIST_EQUIDADE))
 
 
 @st.cache_data
