@@ -687,7 +687,13 @@ apagada: quando muda, a entrada antiga recebe "substituída por DL-xx".
 - **Resultado:** `docs/qa/relatorio-qa-av6.md`. O principal achado foi o cache: os
   artefatos saíram do `st.cache_data`, que copiava até 37 MB a cada clique, para o
   `st.cache_resource`, e a execução da página territorial caiu de 611 ms para 23 ms (1 CPU).
-- **O que não foi feito:** teste de usabilidade com pessoas de fora da equipe e medição do
-  RTO (recriar a publicação do zero); motivos no relatório de QA, seção 6.
+- **O que não foi feito, por decisão do PO:**
+  1. **Teste de usabilidade com pessoas de fora da equipe:** não houve como recrutar
+     participantes a tempo. O protocolo fica pronto (`docs/qa/teste-usabilidade.md`); a
+     auditoria automática de acessibilidade e a avaliação heurística interna cobrem parte
+     do risco, sem substituir usuários reais.
+  2. **RTO medido:** recriar a publicação do zero exigiria apagar o projeto no Replit às
+     vésperas da entrega. Fica a estimativa documentada (`docs/av6/nuvem.md`, seção 7) e o
+     tempo medido de republicação, cerca de 3 min (24/11/2026).
 - **Evidência:** PR #38, PR do pente fino, `docs/qa/relatorio-qa-av6.md`,
   `docs/privacidade.md` (revisão do ADR-001), `.github/workflows/qualidade.yml`.

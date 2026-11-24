@@ -23,12 +23,16 @@ de publicar. Cada achado virou um commit com a medida de antes e depois.
 | Segurança | Dependências sem auditoria automática | `pip-audit` no CI | Nenhuma vulnerabilidade conhecida |
 | Segurança | XSRF e CORS só pelo padrão do Streamlit | Explícitos no `config.toml`; upload limitado a 1 MB | Cookie XSRF conferido no link público |
 | Segurança | Revisão de QA do ADR-001 pendente desde 03/11 | Revisão feita, ação por ação (`docs/privacidade.md`) | Nenhum artefato baixável pelo link público |
+| Operação | Monitor externo previsto no `nuvem.md`, mas nunca criado | Workflow agendado do GitHub Actions roda `checar_saude.py` no link a cada 3 horas | Disponibilidade e privacidade conferidas de fora do Replit, com histórico |
+| Acessibilidade | Os dois logotipos sem texto alternativo (axe: crítico, 2 por página) | `alt` no `st.image` | 0 violações WCAG 2.1 AA nas 4 páginas, nos 2 temas, no computador e no celular |
+| Usabilidade | Arcos decorativos passavam por trás do texto (celular e lado direito no computador) | Coluna de conteúdo com fundo opaco: arcos só nas margens | Texto sem interferência |
+| Usabilidade | Primeira abertura mostrava "Running carregar()", texto técnico | Mensagem "Carregando os dados do ENEM..." | Linguagem do usuário |
 
 ## 2. Testes
 
 | Medida | Valor |
 | --- | --- |
-| Testes automatizados | 279 (`python -m unittest discover -s tests`), todos passando |
+| Testes automatizados | 280 (`python -m unittest discover -s tests`), todos passando |
 | Cobertura do núcleo do produto (app, motor estatístico, três módulos, ETL e auditoria) | 95% das linhas (2.166 linhas, 119 sem execução) |
 | Cobertura por página do app | Início 98%, Equidade 94%, Territorial 93%, Capital 95%, `ui.py` 97% |
 | Cobertura do repositório inteiro | 58%: os scripts de uso único (benchmark da AV3, profiling, dicionário, contrato) e os que dependem de rede (`checar_saude.py`) não têm teste automatizado |
@@ -42,6 +46,7 @@ Testes novos deste pente fino:
   volta a usar `cache_data` nos artefatos.
 - `TestIdentidadeVisual` (PR #38): o CSS neon não carrega recurso externo, os arcos ficam
   só no fundo da página e os logotipos ficam fora de `app/static/`.
+- `TestLogotiposAcessiveis` (`tests/test_ui.py`): os dois logotipos têm texto alternativo.
 
 ## 3. Otimização
 
@@ -126,7 +131,60 @@ com cada ação prevista e como foi conferida está em `docs/privacidade.md`. Na
 visitante digita é gravado (R6): as análises de visitantes e o widget de feedback do
 Replit ficam desligados, e os erros mostram só o tipo da exceção.
 
-## 5. Publicação
+## 5. Acessibilidade e usabilidade
+
+O teste com pessoas do público-alvo não foi feito (seção 7). Para cobrir parte desse
+risco, foram feitas duas verificações internas, que **não** medem se um usuário real
+entende o resultado sozinho.
+
+### 5.1 Auditoria automática de acessibilidade (axe-core)
+
+Ferramenta: axe-core 4.14, regras dos níveis A e AA da WCAG 2.0 e 2.1, aplicada com o app
+rodando sobre os artefatos reais e **depois** de uma comparação (Matemática 650), para que
+o resultado também fosse auditado. Combinações: 4 páginas × 2 temas × 2 larguras de tela
+(1.280 px e 375 px, a de um celular).
+
+| Rodada | Violações |
+| --- | --- |
+| Antes | 2 por página, nas 16 combinações: imagem sem texto alternativo (`image-alt`, crítico), os dois logotipos do PR #38 |
+| Depois do `alt` nos logotipos | **0** nas 16 combinações |
+
+Limite da ferramenta: o axe não calcula contraste de texto sobre imagem de fundo. Isso foi
+resolvido pelo desenho: os arcos não ficam mais atrás de texto (5.2), e o contraste das
+cores de texto nos dois temas já é conferido em teste (`tests/test_ui.py`, AV6).
+
+### 5.2 Avaliação heurística interna (heurísticas de Nielsen)
+
+Feita pelo PO, percorrendo as 4 páginas no computador e no celular, nos dois temas.
+Gravidade de 0 (não é problema) a 4 (catastrófico).
+
+| Heurística | Observação | Gravidade | Ação |
+| --- | --- | --- | --- |
+| 1. Visibilidade do estado do sistema | Na primeira abertura depois de publicar, aparecia "Running carregar()" por alguns segundos | 2 | Mensagem trocada por "Carregando os dados do ENEM..." |
+| 2. Correspondência com o mundo real | Visão simples em frequência natural ("cerca de 76 em cada 100"); a legenda dos cartões dizia "acima dessa porcentagem", ambígua | 2 | Legenda unificada: "parcela dos N participantes com nota menor que a sua" |
+| 3. Controle e liberdade do usuário | Campos com botão de limpar, edição e navegação sempre disponíveis | 0 | — |
+| 4. Consistência e padrões | Mesmo formulário, mesma ordem de áreas e mesmo rodapé nas 4 páginas | 0 | — |
+| 5. Prevenção de erros | Notas limitadas de 0 a 1.000 no próprio campo; a página só compara com ao menos uma nota | 0 | — |
+| 6. Reconhecer em vez de lembrar | UF com sigla e nome; faixas de renda e escolaridade com o texto do questionário | 0 | — |
+| 7. Flexibilidade e eficiência | Visão simples para leigos e visão técnica para quem quer os números | 0 | — |
+| 8. Estética e design minimalista | Os arcos decorativos passavam por trás do texto do resultado no celular e na lateral direita no computador | 2 | Coluna de conteúdo com fundo opaco; os arcos ficam só nas margens |
+| 9. Reconhecer, diagnosticar e corrigir erros | Mensagens de entrada inválida em português, sem detalhe técnico (`showErrorDetails = "type"`) | 0 | — |
+| 10. Ajuda e documentação | "Como a comparação é feita" em cada página; fonte e data no rodapé | 0 | — |
+
+As telas foram conferidas também com 375 px de largura: formulário em uma coluna, cartões
+de resultado empilhados e nenhum texto cortado.
+
+## 6. Operação: monitor externo
+
+O `docs/av6/nuvem.md` previa um monitor externo de disponibilidade (UptimeRobot, por
+exemplo), que nunca chegou a ser criado. O workflow `.github/workflows/monitor-producao.yml`
+cumpre esse papel sem serviço de terceiros: a cada 3 horas, o GitHub Actions roda
+`scripts/checar_saude.py` contra o link público, de fora do Replit, e o job falha se o app
+não responder (código 1) ou se algum artefato puder ser baixado (código 2, ADR-001). O
+resumo de cada execução fica na aba Actions, que vira o histórico de disponibilidade da
+aplicação em nuvem. O workflow só faz GET de leitura e não usa segredos.
+
+## 7. Publicação
 
 | Data | O que foi publicado | Saúde pela rede (p95) | Artefatos expostos |
 | --- | --- | --- | --- |
@@ -136,12 +194,17 @@ Replit ficam desligados, e os erros mostram só o tipo da exceção.
 A publicação deste pente fino vem depois do merge, pelo mesmo procedimento
 (`docs/deploy/replit.md`), com nova checagem de saúde.
 
-## 6. O que não foi feito
+## 8. O que não foi feito
 
-- **Teste de usabilidade com o público-alvo** (`docs/qa/teste-usabilidade.md`): depende
-  de 3 a 5 pessoas de fora da equipe. Situação registrada no relatório final.
-- **RTO (recriar a publicação do zero):** exigiria apagar e recriar o projeto no Replit.
-  A referência medida é a republicação: cerca de 3 min do clique ao app no ar (24/11).
-  Recriar do zero soma a importação do GitHub e o envio dos 5 artefatos (cerca de 13 MB),
-  seguindo `docs/deploy/replit.md`.
+Decisões do PO em 24/11/2026 (DL-10):
+
+- **Teste de usabilidade com o público-alvo** (`docs/qa/teste-usabilidade.md`): não houve
+  como recrutar 3 a 5 pessoas de fora da equipe a tempo da entrega. O protocolo fica
+  pronto para uma próxima versão. A auditoria de acessibilidade e a avaliação heurística
+  (seção 5) cobrem parte do risco, mas não medem a compreensão de um usuário real.
+- **RTO medido:** recriar a publicação do zero exigiria apagar o projeto no Replit às
+  vésperas da entrega. Fica o tempo medido da republicação, cerca de 3 min do clique ao
+  app no ar (24/11), e a estimativa documentada em `docs/av6/nuvem.md`, seção 7: de 30 a
+  60 minutos, somando a importação do GitHub, o envio dos 5 artefatos (cerca de 13 MB) e a
+  configuração da Reserved VM, passos manuais descritos em `docs/deploy/replit.md`.
 - **Cabeçalhos CSP e X-Frame-Options:** fora do alcance do Streamlit (seção 4.3).
