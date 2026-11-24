@@ -18,6 +18,7 @@ from functools import lru_cache
 from html import escape
 from pathlib import Path
 from typing import NoReturn
+from urllib.parse import quote
 
 import plotly.graph_objects as go
 import streamlit as st
@@ -41,11 +42,13 @@ _PALETAS = {
     "dark": dict(bg="#0d1016", surf="#131820", line="#252c38", line2="#323b4a", tx="#e6e9ee", mu="#cbd5e1",
                  azul="#1f6fe5", glow="rgba(59,140,255,.55)", glow2="rgba(59,140,255,.28)", btn_hover="#1859c4",
                  borda_hover="#3d4a5e", side="#0a0d13", ciano="#22d3ee", fraco1="#1f3f73",
-                 sombra_nota="rgba(239,90,90,.8)"),
+                 sombra_nota="rgba(239,90,90,.8)", neon="#22d3ee", neon_borda="rgba(34,211,238,.42)",
+                 neon_glow="rgba(34,211,238,.16)"),
     "light": dict(bg="#f4f6fa", surf="#ffffff", line="#dbe1ea", line2="#c5cdd9", tx="#141a24", mu="#334155",
                   azul="#1f6fe5", glow="rgba(31,111,229,.38)", glow2="rgba(31,111,229,.16)", btn_hover="#1859c4",
                   borda_hover="#aab5c6", side="#eceff5", ciano="#0a6f8c", fraco1="#b9d3fa",
-                  sombra_nota="rgba(0,0,0,0)"),  # sem brilho no claro: o brilho borrava os rotulos
+                  sombra_nota="rgba(0,0,0,0)",  # sem brilho no claro: o brilho borrava os rotulos
+                  neon="#1d4ed8", neon_borda="rgba(29,78,216,.85)", neon_glow="rgba(29,78,216,.18)"),
 }
 
 
@@ -56,6 +59,76 @@ _PALETAS = {
 # acima de 7:1 com o fundo nos dois temas (nivel AAA), a pedido do PO (16/11/2026).
 # ciano: texto pequeno (posicao da metrica), entao passa de 4,5:1 (criterio 1.4.3).
 # azul e btn_hover: fundo do botao com texto branco, tambem 4,5:1 (antes 3,3:1 no escuro).
+# neon, neon_borda e neon_glow: identidade visual de bordas e arcos em azul neon nos dois
+# temas, a pedido do PO (24/11/2026). No escuro, ciano; no claro, azul forte e escuro, para
+# dar destaque e contraste sobre o fundo claro. So decoram contornos e o fundo (fora dos
+# cartoes); nenhum texto nem dado usa essas cores, entao elas nao entram nos testes de contraste.
+
+# Logotipos (PO, 24/11/2026): o do Radar ENEM no topo da sidebar, no lugar do texto, e o da
+# KiraSapiens Neurotech no pe da sidebar, abaixo do interruptor de tema. Ficam em app/assets/
+# e vao pelo st.image (servidor de midia do Streamlit), e nao por app/static/, que continua
+# so com as fontes (DL-09).
+LOGO_APP = Path(__file__).resolve().parent / "assets" / "radar-enem.jpg"
+MARCA = Path(__file__).resolve().parent / "assets" / "kirasapiens-neurotech.jpg"
+
+
+def _arcos(cor: str, raios: tuple[int, ...], forte: int, opacidade: float, canto: str = "se") -> str:
+    """SVG de arcos concentricos centrados num canto ("se": inferior direito; "ne": superior direito), como data URI.
+
+    So desenho vetorial embutido no CSS: nenhum recurso externo e carregado (R6).
+    """
+    lado = max(raios) + 20
+    cx, cy = lado, (lado if canto == "se" else 0)
+    traco = []
+    for i, r in enumerate(raios):
+        forte_aqui = i == forte
+        op = opacidade if forte_aqui else opacidade * (0.35 + 0.1 * (i % 3))
+        if forte_aqui:  # brilho: o mesmo arco mais largo e transparente por baixo
+            traco.append(f'<circle cx="{cx}" cy="{cy}" r="{r}" fill="none" stroke="{cor}" '
+                         f'stroke-width="7" stroke-opacity="{op * 0.22:.3f}"/>')
+        traco.append(f'<circle cx="{cx}" cy="{cy}" r="{r}" fill="none" stroke="{cor}" '
+                     f'stroke-width="{2.2 if forte_aqui else 1.3}" stroke-opacity="{op:.3f}"/>')
+    svg = (f'<svg xmlns="http://www.w3.org/2000/svg" width="{lado}" height="{lado}" '
+           f'viewBox="0 0 {lado} {lado}">{"".join(traco)}</svg>')
+    return "url(\"data:image/svg+xml," + quote(svg) + "\")"
+
+
+def _css_neon(c: dict, tema: str) -> str:
+    """Bordas e arcos em azul neon: fundo da pagina, sidebar, formulario e cartoes.
+
+    `tema` e "dark" ou "light" (o de tema_atual()). Os seletores dependem de internos do
+    Streamlit (data-testid, .st-key-*), que mudam entre versoes: por isso o requirements.txt
+    fixa streamlit==1.66.1, e uma atualizacao do Streamlit precisa conferir a sidebar e os
+    cards nos dois temas antes de publicar.
+    """
+    escuro = tema == "dark"
+    fundo = _arcos(c["neon"], (150, 215, 280, 345, 410, 475), 3, .55 if escuro else .9)
+    topo = _arcos(c["neon"], (90, 140, 190, 240), 1, .4 if escuro else .7, canto="ne")
+    return f"""<style>
+[data-testid="stApp"]{{background-image:{fundo},{topo};background-repeat:no-repeat;background-attachment:fixed;
+ background-position:right -30px bottom -30px,right 0 top 0;background-size:400px,240px}}
+@media (max-width:900px){{[data-testid="stApp"]{{background-size:240px,150px}}}}
+[data-testid="stSidebar"]{{border-right:1px solid var(--r-neon-borda);box-shadow:1px 0 0 var(--r-neon-glow),6px 0 24px var(--r-neon-glow)}}
+.r-logo{{border-bottom-color:var(--r-neon-borda)}}
+[data-testid="stForm"]{{border-color:var(--r-neon-borda);border-width:2px;box-shadow:0 0 0 1px var(--r-neon-glow),0 0 22px var(--r-neon-glow)}}
+[data-testid="stMetric"],[data-testid="stExpander"]{{border-color:var(--r-neon-borda)}}
+[data-testid="stMetric"]:hover,[data-testid="stExpander"]:hover{{border-color:var(--r-neon);box-shadow:0 0 16px var(--r-neon-glow)}}
+.stMainBlockContainer h1::after{{content:"";display:block;width:64px;height:3px;border-radius:3px;margin-top:.55rem;
+ background:var(--r-neon);box-shadow:0 0 10px var(--r-neon)}}
+[data-testid="stSidebarContent"]{{display:flex;flex-direction:column;padding-bottom:0}}
+[data-testid="stSidebarUserContent"]{{flex:1 0 auto;display:flex;flex-direction:column;padding-bottom:0}}
+[data-testid="stSidebarUserContent"]>div{{flex:1 0 auto;display:flex;flex-direction:column}}
+[data-testid="stSidebarUserContent"]>div>[data-testid="stVerticalBlock"]{{flex:1 0 auto}}
+[data-testid="stLayoutWrapper"]:has(>.st-key-r-marca){{margin-top:auto}}
+.st-key-r-marca{{padding:1.2rem .4rem .9rem;align-items:center}}
+@media (max-height:820px){{.st-key-r-marca img{{width:120px!important;height:auto!important}}.st-key-r-marca{{padding-top:.6rem}}}}
+.st-key-r-topo{{padding:0 0 1rem;margin-bottom:1rem;border-bottom:1px solid var(--r-neon-borda)}}
+.st-key-r-topo img{{border-radius:12px;border:1px solid var(--r-neon-borda);box-shadow:0 0 14px var(--r-neon-glow)}}
+.r-sr{{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}}
+.st-key-r-marca img{{border-radius:var(--r-raio);border:1px solid var(--r-neon-borda);
+ box-shadow:0 0 18px var(--r-neon-glow),0 0 2px var(--r-neon)}}
+[data-testid="stSidebar"] [data-testid="stImageToolbar"],[data-testid="stSidebar"] [data-testid="stFullScreenFrame"] button{{display:none}}
+</style>"""
 
 
 def tema_atual() -> str:
@@ -179,21 +252,21 @@ _CSS_ATIVO = (
     'color:var(--r-azul);filter:drop-shadow(0 0 5px var(--r-glow))}}</style>'
 )
 
-def _logo() -> str:
-    c = paleta()
-    return (
-        '<div class="r-logo"><svg width="26" height="26" viewBox="0 0 26 26" fill="none">'
-        f'<circle cx="13" cy="13" r="10.5" stroke="{c["line"]}" stroke-width="2.4"/>'
-        f'<path d="M13 2.5a10.5 10.5 0 0 1 10.5 10.5" stroke="{c["azul"]}" stroke-width="2.4" stroke-linecap="round"/>'
-        f'<circle cx="13" cy="13" r="2.6" fill="{c["azul"]}"/></svg>'
-        '<span>radar<b>.</b>enem</span></div><p class="r-menu">Módulos</p>'
-    )
+def _logo() -> None:
+    """Logotipo do Radar ENEM no topo da sidebar. Sem o arquivo, volta ao nome em texto."""
+    if LOGO_APP.exists():
+        with st.container(key="r-topo"):
+            st.html('<span class="r-sr">Radar ENEM</span>')  # nome para leitores de tela
+            st.image(str(LOGO_APP), width="stretch")
+    else:
+        st.html('<div class="r-logo"><span>Radar<b>.</b>ENEM</span></div>')
+    st.html('<p class="r-menu">Módulos</p>')
 
 
 def _sidebar(ativa: str) -> None:
     """Navegacao propria (a nativa chama a pagina principal de "app")."""
     with st.sidebar:
-        st.html(_logo())
+        _logo()
         href = next((h for chave, _, _, _, h in _PAGINAS if chave == ativa), None)
         if href is not None:
             st.html(_CSS_ATIVO.format(h=href))
@@ -240,6 +313,15 @@ def _alternador() -> None:
     _iframe(_ALTERNAR.replace("__FORCAR__", forcar), height=1)
 
 
+def _marca() -> None:
+    """Logotipo da KiraSapiens Neurotech, em tamanho medio, logo abaixo do interruptor de tema."""
+    if not MARCA.exists():  # app empacotado sem o arquivo: a sidebar segue sem a marca
+        return
+    with st.sidebar, st.container(key="r-marca"):
+        st.html('<span class="r-sr">KiraSapiens Neurotech</span>')  # nome para leitores de tela
+        st.image(str(MARCA), width=160)
+
+
 def aplicar_tema(pagina: str) -> None:
     """Injeta o CSS e a sidebar do app. Chamar uma vez por pagina, logo apos set_page_config.
 
@@ -248,8 +330,10 @@ def aplicar_tema(pagina: str) -> None:
     c = paleta()
     root = ";".join(f"--r-{k.replace('_', '-')}:{v}" for k, v in c.items())
     st.html(_CSS.replace("__ROOT__", root))
+    st.html(_css_neon(c, tema_atual()))
     _sidebar(pagina)
     _alternador()
+    _marca()
 
 
 def abertura(texto: str) -> None:

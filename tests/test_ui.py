@@ -1,5 +1,6 @@
 """Testes das pecas visuais de app/ui.py (so apresentacao, sem dados reais)."""
 
+import re
 import sys
 import unittest
 from pathlib import Path
@@ -248,6 +249,46 @@ class TestVisaoSimples(unittest.TestCase):
                          ["<b>UF</b>  73,0%", "<b>Brasil</b>  acima de 99,9%"])
         self.assertEqual(fig.layout.barmode, "overlay")
         self.assertEqual(fig.layout.xaxis.range, (0, 100))
+
+
+
+
+class TestIdentidadeVisual(unittest.TestCase):
+    """Logotipos e bordas/arcos em azul neon (PO, 24/11/2026)."""
+
+    def test_logotipos_existem_e_sao_leves(self):
+        for arquivo in (ui.LOGO_APP, ui.MARCA):
+            self.assertTrue(arquivo.exists(), arquivo)
+            self.assertLess(arquivo.stat().st_size, 100_000, arquivo)  # reduzidos para a sidebar
+            self.assertNotIn("static", arquivo.parts)  # app/static/ continua so com as fontes (DL-09)
+
+    def test_css_neon_nao_carrega_recurso_externo(self):
+        for tema, paleta in ui._PALETAS.items():
+            with self.subTest(tema=tema):
+                css = ui._css_neon(paleta, tema)
+                urls = re.findall(r'url\("([^"]+)"\)', css)
+                self.assertTrue(urls)
+                for u in urls:
+                    self.assertTrue(u.startswith("data:image/svg+xml,"), u)  # R6: nada sai do navegador
+
+    def test_neon_do_claro_e_azul_forte(self):
+        self.assertEqual(ui._PALETAS["light"]["neon"], "#1d4ed8")
+        self.assertEqual(ui._PALETAS["dark"]["neon"], "#22d3ee")
+
+    def test_arcos_so_no_fundo_da_pagina(self):
+        # Os arcos ficam so fora dos cards (PO, 24/11/2026): toda imagem do CSS neon tem de
+        # estar numa regra do fundo da pagina, nunca no formulario nem nos cartoes.
+        for tema, paleta in ui._PALETAS.items():
+            css = ui._css_neon(paleta, tema)
+            regras = re.findall(r"([^{}]+)\{([^{}]*)\}", css)
+            com_imagem = [sel.replace("<style>", "").strip() for sel, corpo in regras if "url(" in corpo]
+            with self.subTest(tema=tema):
+                self.assertTrue(com_imagem)
+                for sel in com_imagem:
+                    self.assertEqual(sel, '[data-testid="stApp"]')
+                for sel, corpo in regras:
+                    if "stForm" in sel or "stMetric" in sel:
+                        self.assertNotIn("background", corpo)
 
 
 if __name__ == "__main__":
