@@ -93,17 +93,21 @@ def _arcos(cor: str, raios: tuple[int, ...], forte: int, opacidade: float, canto
     return "url(\"data:image/svg+xml," + quote(svg) + "\")"
 
 
-def _css_neon(c: dict) -> str:
-    """Bordas e arcos em azul neon: fundo da pagina, sidebar, formulario e cartoes."""
-    escuro = c["bg"] == _PALETAS["dark"]["bg"]
+def _css_neon(c: dict, tema: str) -> str:
+    """Bordas e arcos em azul neon: fundo da pagina, sidebar, formulario e cartoes.
+
+    `tema` e "dark" ou "light" (o de tema_atual()). Os seletores dependem de internos do
+    Streamlit (data-testid, .st-key-*), que mudam entre versoes: por isso o requirements.txt
+    fixa streamlit==1.66.1, e uma atualizacao do Streamlit precisa conferir a sidebar e os
+    cards nos dois temas antes de publicar.
+    """
+    escuro = tema == "dark"
     fundo = _arcos(c["neon"], (150, 215, 280, 345, 410, 475), 3, .55 if escuro else .9)
     topo = _arcos(c["neon"], (90, 140, 190, 240), 1, .4 if escuro else .7, canto="ne")
     return f"""<style>
 [data-testid="stApp"]{{background-image:{fundo},{topo};background-repeat:no-repeat;background-attachment:fixed;
  background-position:right -30px bottom -30px,right 0 top 0;background-size:400px,240px}}
 @media (max-width:900px){{[data-testid="stApp"]{{background-size:240px,150px}}}}
-[data-testid="stApp"]{{background-blend-mode:normal}}
-[data-testid="stApp"]>div{{background:transparent}}
 [data-testid="stSidebar"]{{border-right:1px solid var(--r-neon-borda);box-shadow:1px 0 0 var(--r-neon-glow),6px 0 24px var(--r-neon-glow)}}
 .r-logo{{border-bottom-color:var(--r-neon-borda)}}
 [data-testid="stForm"]{{border-color:var(--r-neon-borda);border-width:2px;box-shadow:0 0 0 1px var(--r-neon-glow),0 0 22px var(--r-neon-glow)}}
@@ -314,6 +318,7 @@ def _marca() -> None:
     if not MARCA.exists():  # app empacotado sem o arquivo: a sidebar segue sem a marca
         return
     with st.sidebar, st.container(key="r-marca"):
+        st.html('<span class="r-sr">KiraSapiens Neurotech</span>')  # nome para leitores de tela
         st.image(str(MARCA), width=160)
 
 
@@ -325,7 +330,7 @@ def aplicar_tema(pagina: str) -> None:
     c = paleta()
     root = ";".join(f"--r-{k.replace('_', '-')}:{v}" for k, v in c.items())
     st.html(_CSS.replace("__ROOT__", root))
-    st.html(_css_neon(c))
+    st.html(_css_neon(c, tema_atual()))
     _sidebar(pagina)
     _alternador()
     _marca()
