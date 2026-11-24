@@ -1,0 +1,45 @@
+# Monitor externo do link publico (pente fino da AV6, 24/11/2026; docs/av6/nuvem.md, secao 7).
+#
+# Roda scripts/checar_saude.py contra a publicacao no Replit, de fora dela, a cada 3 horas.
+# Falha (e o GitHub avisa por e-mail quem acompanha o repositorio) se:
+#   - o endpoint de saude ou a pagina inicial nao responderem (codigo de saida 1);
+#   - algum artefato de data/analytics/ puder ser baixado pelo link (codigo 2, ADR-001).
+# O historico de execucoes na aba Actions e a evidencia continua de que o app esta no ar.
+# So faz requisicoes GET de leitura; nao envia nenhum dado ao app e nao precisa de segredos.
+name: Monitor da publicacao
+on:
+  schedule:
+    - cron: '17 */3 * * *'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: monitor-producao
+  cancel-in-progress: false
+jobs:
+  saude:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      URL_PUBLICA: https://radarenem-projetoaplicado3-kirasapiens.replit.app
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Saude e privacidade pelo link publico
+        run: |
+          set -o pipefail
+          python scripts/checar_saude.py "$URL_PUBLICA" --vezes 5 --intervalo 2 | tee saude.json
+      - name: Resumo da execucao
+        if: always()
+        run: |
+          {
+            echo "### Monitor da publicacao"
+            echo ""
+            echo "Link: $URL_PUBLICA"
+            echo ""
+            echo '```json'
+            cat saude.json 2>/dev/null || echo "sem saida"
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
