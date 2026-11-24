@@ -292,6 +292,15 @@ class TestIdentidadeVisual(unittest.TestCase):
 
 
 
+class TestLogotiposAcessiveis(unittest.TestCase):
+    """Os dois logotipos tem texto alternativo (WCAG 1.1.1; achado do axe no pente fino)."""
+
+    def test_st_image_dos_logotipos_recebe_alt(self):
+        fonte = Path(ui.__file__).read_text(encoding="utf-8")
+        self.assertRegex(fonte, r'st\.image\(str\(LOGO_APP\)[^)]*alt="Radar ENEM"\)')
+        self.assertRegex(fonte, r'st\.image\(str\(MARCA\)[^)]*alt="KiraSapiens Neurotech"\)')
+
+
 class TestCacheSemCopia(unittest.TestCase):
     """Artefatos em st.cache_resource, so leitura (otimizacao do pente fino da AV6, 24/11/2026)."""
 

@@ -58,7 +58,7 @@ from ui import (  # noqa: E402
 DIST_CAPITAL = Path(os.environ.get("RADAR_DIST_CAPITAL", RAIZ / "data" / "analytics" / "dist_capital.parquet"))
 
 
-@st.cache_resource(show_spinner=False)
+@st.cache_resource(show_spinner="Carregando os dados do ENEM...")
 def _cdfs():
     return congelar(carregar(DIST_CAPITAL))
 

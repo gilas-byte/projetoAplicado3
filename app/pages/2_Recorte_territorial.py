@@ -65,7 +65,7 @@ DIST_TERRITORIAL = Path(os.environ.get("RADAR_DIST_TERRITORIAL",
 COR_UF, COR_REGIAO = COR_PROPRIO, COR_VIZINHO
 
 
-@st.cache_resource(show_spinner=False)
+@st.cache_resource(show_spinner="Carregando os dados do ENEM...")
 def _cdfs():
     return congelar(carregar(DIST_TERRITORIAL))
 

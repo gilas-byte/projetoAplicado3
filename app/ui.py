@@ -97,6 +97,10 @@ def _arcos(cor: str, raios: tuple[int, ...], forte: int, opacidade: float, canto
 def _css_neon(c: dict, tema: str) -> str:
     """Bordas e arcos em azul neon: fundo da pagina, sidebar, formulario e cartoes.
 
+    A coluna de conteudo (.stMainBlockContainer) tem o fundo da pagina, opaco: os arcos so
+    aparecem nas margens e nunca passam por tras de texto (no celular, a coluna ocupa a tela
+    e os arcos somem). Achado da avaliacao heuristica do pente fino da AV6.
+
     `tema` e "dark" ou "light" (o de tema_atual()). Os seletores dependem de internos do
     Streamlit (data-testid, .st-key-*), que mudam entre versoes: por isso o requirements.txt
     fixa streamlit==1.66.1, e uma atualizacao do Streamlit precisa conferir a sidebar e os
@@ -109,6 +113,7 @@ def _css_neon(c: dict, tema: str) -> str:
 [data-testid="stApp"]{{background-image:{fundo},{topo};background-repeat:no-repeat;background-attachment:fixed;
  background-position:right -30px bottom -30px,right 0 top 0;background-size:400px,240px}}
 @media (max-width:900px){{[data-testid="stApp"]{{background-size:240px,150px}}}}
+.stMainBlockContainer{{background:var(--r-bg)}}
 [data-testid="stSidebar"]{{border-right:1px solid var(--r-neon-borda);box-shadow:1px 0 0 var(--r-neon-glow),6px 0 24px var(--r-neon-glow)}}
 .r-logo{{border-bottom-color:var(--r-neon-borda)}}
 [data-testid="stForm"]{{border-color:var(--r-neon-borda);border-width:2px;box-shadow:0 0 0 1px var(--r-neon-glow),0 0 22px var(--r-neon-glow)}}
@@ -125,7 +130,6 @@ def _css_neon(c: dict, tema: str) -> str:
 @media (max-height:820px){{.st-key-r-marca img{{width:120px!important;height:auto!important}}.st-key-r-marca{{padding-top:.6rem}}}}
 .st-key-r-topo{{padding:0 0 1rem;margin-bottom:1rem;border-bottom:1px solid var(--r-neon-borda)}}
 .st-key-r-topo img{{border-radius:12px;border:1px solid var(--r-neon-borda);box-shadow:0 0 14px var(--r-neon-glow)}}
-.r-sr{{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}}
 .st-key-r-marca img{{border-radius:var(--r-raio);border:1px solid var(--r-neon-borda);
  box-shadow:0 0 18px var(--r-neon-glow),0 0 2px var(--r-neon)}}
 [data-testid="stSidebar"] [data-testid="stImageToolbar"],[data-testid="stSidebar"] [data-testid="stFullScreenFrame"] button{{display:none}}
@@ -268,8 +272,8 @@ def _logo() -> None:
     """Logotipo do Radar ENEM no topo da sidebar. Sem o arquivo, volta ao nome em texto."""
     if LOGO_APP.exists():
         with st.container(key="r-topo"):
-            st.html('<span class="r-sr">Radar ENEM</span>')  # nome para leitores de tela
-            st.image(str(LOGO_APP), width="stretch")
+            # alt: nome para leitores de tela (WCAG 1.1.1; axe acusava imagem sem alt).
+            st.image(str(LOGO_APP), width="stretch", alt="Radar ENEM")
     else:
         st.html('<div class="r-logo"><span>Radar<b>.</b>ENEM</span></div>')
     st.html('<p class="r-menu">Módulos</p>')
@@ -330,8 +334,7 @@ def _marca() -> None:
     if not MARCA.exists():  # app empacotado sem o arquivo: a sidebar segue sem a marca
         return
     with st.sidebar, st.container(key="r-marca"):
-        st.html('<span class="r-sr">KiraSapiens Neurotech</span>')  # nome para leitores de tela
-        st.image(str(MARCA), width=160)
+        st.image(str(MARCA), width=160, alt="KiraSapiens Neurotech")
 
 
 def aplicar_tema(pagina: str) -> None:

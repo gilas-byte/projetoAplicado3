@@ -54,7 +54,7 @@ AREAS = {
 }
 
 
-@st.cache_resource(show_spinner=False)
+@st.cache_resource(show_spinner="Carregando os dados do ENEM...")
 def carregar() -> Mapping[tuple[int, str], tuple[tuple[float, float, int], ...]]:
     """Faixas por (edicao, area). Carregado uma vez e compartilhado entre sessoes."""
     # Caminho como parâmetro da consulta, não interpolado no texto da SQL (Business
@@ -70,7 +70,7 @@ def carregar() -> Mapping[tuple[int, str], tuple[tuple[float, float, int], ...]]
     return congelar(faixas)
 
 
-@st.cache_resource(show_spinner=False)
+@st.cache_resource(show_spinner="Carregando os dados do ENEM...")
 def carregar_exatas() -> Mapping[tuple[int, str], tuple[tuple[float, int, int], ...]]:
     """CDF de notas exatas, exclusivamente em memoria do backend.
 

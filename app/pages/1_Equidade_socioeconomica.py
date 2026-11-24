@@ -60,7 +60,7 @@ DIST_EQUIDADE = Path(os.environ.get("RADAR_DIST_EQUIDADE", RAIZ / "data" / "anal
 COR_FAIXA, COR_CONTRASTE = COR_PROPRIO, COR_VIZINHO
 
 
-@st.cache_resource(show_spinner=False)
+@st.cache_resource(show_spinner="Carregando os dados do ENEM...")
 def _cdfs():
     return congelar(carregar(DIST_EQUIDADE))
 
