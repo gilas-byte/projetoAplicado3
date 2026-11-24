@@ -173,7 +173,7 @@ def funil(con: duckdb.DuckDBPyConnection, particao: Path) -> dict:
         """
     ).fetchone()
     chaves = ["inscritos", "treineiros", "eliminados", "faltou_alguma_area", "elegiveis"]
-    return dict(zip(chaves, linha))
+    return dict(zip(chaves, linha, strict=True))
 
 
 def hash_zip(ano: int) -> str | None:

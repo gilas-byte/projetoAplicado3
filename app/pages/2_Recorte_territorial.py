@@ -148,7 +148,7 @@ def mostrar(cdfs, r) -> None:
              cor={r.uf: COR_UF, r.regiao: COR_REGIAO}.get(destaque, COR_BRASIL))
     else:
         st.subheader(f"{AREAS[e.area]}: nota {formatar_nota(e.nota)}")
-    for coluna, cenario in zip(st.columns(3), cenarios):
+    for coluna, cenario in zip(st.columns(3), cenarios, strict=True):
         with coluna:
             if cenario.disponivel:
                 st.metric(cenario.rotulo, cenario.texto_percentil)
@@ -160,7 +160,7 @@ def mostrar(cdfs, r) -> None:
                                f"perto {extremo}, num grupo de {formatar_inteiro(cenario.n)} participantes; o "
                                f"valor exato não é mostrado para proteger quem está nas pontas")
                 else:
-                    st.caption(f"acima dessa porcentagem dos {formatar_inteiro(cenario.n)} participantes")
+                    st.caption(f"parcela dos {formatar_inteiro(cenario.n)} participantes com nota menor que a sua")
             else:
                 st.metric(cenario.rotulo, "—")
                 st.info(f"{cenario.rotulo}: {cenario.motivo}.")

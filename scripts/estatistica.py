@@ -303,7 +303,7 @@ def psi(referencia: list[tuple[float, int, int]], atual: list[tuple[float, int, 
         return saida
 
     soma = 0.0
-    for r, a in zip(proporcoes(referencia, total_r), proporcoes(atual, total_a)):
+    for r, a in zip(proporcoes(referencia, total_r), proporcoes(atual, total_a), strict=True):
         r, a = max(r, epsilon), max(a, epsilon)
         soma += (a - r) * log(a / r)
     return soma

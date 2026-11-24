@@ -16,6 +16,10 @@ jobs:
         run: python -m pip install -r requirements.txt
       - name: Checagem estatica
         run: python -m compileall -q scripts app tests
+      - name: Linter (ruff, regras em ruff.toml)
+        run: |
+          python -m pip install ruff==0.16.9
+          ruff check app scripts tests
       - name: Testes com dados sinteticos
         run: python -m unittest discover -s tests -v
       - name: Piso de publicacao no versionado

@@ -28,7 +28,6 @@ sys.path.insert(0, str(RAIZ / "app"))
 from colunas import PISO_GRUPO  # noqa: E402
 from estatistica import densidade_protegida, formatar_percentil  # noqa: E402
 from ui import (  # noqa: E402
-    COR_BRASIL,
     congelar,
     COR_NOTA,
     COR_PROPRIO,

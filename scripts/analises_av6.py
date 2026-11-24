@@ -29,6 +29,7 @@ import hashlib
 import json
 import random
 import subprocess
+from itertools import pairwise
 import sys
 import time
 from bisect import bisect_right
@@ -120,7 +121,7 @@ def analise_caixas(cdfs) -> list[dict]:
 
 def analise_drift(cdfs) -> list[dict]:
     anos = sorted({ano for ano, _ in cdfs})
-    pares = list(zip(anos, anos[1:])) + ([(anos[0], anos[-1])] if len(anos) > 2 else [])
+    pares = list(pairwise(anos)) + ([(anos[0], anos[-1])] if len(anos) > 2 else [])
     saida = []
     for area in AREAS:
         for ref, atual in pares:

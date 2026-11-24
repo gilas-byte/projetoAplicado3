@@ -12,7 +12,6 @@ Rodam sem os microdados do INEP:
 
 from __future__ import annotations
 
-import math
 import os
 import random
 import shutil
@@ -578,7 +577,7 @@ class TestAgregacao(unittest.TestCase):
         self.assertEqual(total("BR"), 779)
 
     def test_percentil_igual_ao_calculo_bruto(self):
-        for (ano, area, grupo), distribuicao in self.cdfs.items():
+        for (ano, area, grupo), _distribuicao in self.cdfs.items():
             notas = self.notas(area, grupo)
             for nota in {min(notas), max(notas), 300.0, 500.0, 512.5, 640.0, 1000.0}:
                 with self.subTest(area=area, grupo=grupo, nota=nota):

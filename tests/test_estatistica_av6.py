@@ -122,7 +122,7 @@ class TestPSI(unittest.TestCase):
             return [c / len(registros) for c in caixas]
 
         total = 0.0
-        for r, a in zip(proporcoes(ref), proporcoes(atual)):
+        for r, a in zip(proporcoes(ref), proporcoes(atual), strict=True):
             r, a = max(r, 1e-6), max(a, 1e-6)
             total += (a - r) * math.log(a / r)
         return total

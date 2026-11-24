@@ -705,10 +705,10 @@ def filho_consulta(p: dict) -> dict:
 def conferem(a: list, b: list) -> bool:
     if len(a) != len(b):
         return False
-    for la, lb in zip(a, b):
+    for la, lb in zip(a, b, strict=True):
         if len(la) != len(lb):
             return False
-        for x, y in zip(la, lb):
+        for x, y in zip(la, lb, strict=True):
             if isinstance(x, float) and isinstance(y, float):
                 if not math.isclose(x, y, rel_tol=1e-9, abs_tol=1e-6):
                     return False

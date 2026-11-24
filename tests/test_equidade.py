@@ -15,6 +15,7 @@ import math
 import os
 import random
 import shutil
+from itertools import pairwise
 import sys
 import tempfile
 import unittest
@@ -61,7 +62,7 @@ class TestFaixasQ006(unittest.TestCase):
         self.assertEqual(len(alternativas), len(set(alternativas)))
 
     def test_faixas_contiguas_em_salarios_minimos(self):
-        for anterior, atual in zip(eq.FAIXAS, eq.FAIXAS[1:]):
+        for anterior, atual in pairwise(eq.FAIXAS):
             self.assertEqual(anterior.sm_max, atual.sm_min)
         self.assertEqual(eq.FAIXAS[0].sm_min, 0)
         self.assertIsNone(eq.FAIXAS[-1].sm_max)
@@ -444,7 +445,7 @@ class TestAgregacao(unittest.TestCase):
         self.assertEqual(total(eq.CONTRASTE), 140)  # só quem declarou escola privada
 
     def test_percentil_igual_ao_calculo_bruto(self):
-        for (ano, area, grupo), distribuicao in self.cdfs.items():
+        for (ano, area, grupo), _distribuicao in self.cdfs.items():
             notas = self.notas(area, grupo)
             for nota in {min(notas), max(notas), 300.0, 500.0, 512.5, 640.0, 680.0, 1000.0}:
                 with self.subTest(area=area, grupo=grupo, nota=nota):

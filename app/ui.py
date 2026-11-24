@@ -543,7 +543,7 @@ def clarear(cor: str, quanto: float = 0.78) -> str:
     fundo = paleta()["bg"]
     a = [int(cor.lstrip("#")[i:i + 2], 16) for i in (0, 2, 4)]
     b = [int(fundo.lstrip("#")[i:i + 2], 16) for i in (0, 2, 4)]
-    return "#" + "".join(f"{round(x + (y - x) * quanto):02x}" for x, y in zip(a, b))
+    return "#" + "".join(f"{round(x + (y - x) * quanto):02x}" for x, y in zip(a, b, strict=True))
 
 
 def formatar_porcento(valor: float) -> str:
