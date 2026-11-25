@@ -7,6 +7,7 @@ Rodam sem os microdados do INEP:
 from __future__ import annotations
 
 import random
+from itertools import pairwise
 import sys
 import tempfile
 import unittest
@@ -130,7 +131,7 @@ class TestFaixas(unittest.TestCase):
         self.assertTrue(all(n >= 100 for *_, n in f))
         self.assertEqual(sum(n for *_, n in f), len(self.notas))
         # Faixas contiguas e sem sobreposicao.
-        self.assertTrue(all(a[1] < b[0] for a, b in zip(f, f[1:])))
+        self.assertTrue(all(a[1] < b[0] for a, b in pairwise(f)))
 
     def test_total_abaixo_do_piso_nao_publica(self):
         self.assertEqual(estatistica.faixas([(500.0, 40), (600.0, 59)], piso=100), [])

@@ -19,11 +19,13 @@
 
 ---
 
-## 🌐 Aplicação publicada (beta)
+## 🌐 Aplicação publicada
 
 **https://radarenem-projetoaplicado3-kirasapiens.replit.app**
 
-Publicada em 19/11/2026 no Replit (Reserved VM, 0,5 vCPU e 2 GB, região South America).
+Publicada em 19/11/2026 no Replit (Reserved VM, 0,5 vCPU e 2 GB, região South America) e
+republicada em 24/11/2026 com a identidade visual nova (PR #38). QA, segurança e
+otimização da AV6 em [`docs/qa/relatorio-qa-av6.md`](docs/qa/relatorio-qa-av6.md).
 Decisão em [`docs/decisoes/README.md`](docs/decisoes/README.md) (DL-06 e DL-08);
 procedimento e medições em [`docs/deploy/replit.md`](docs/deploy/replit.md).
 
@@ -112,14 +114,16 @@ python scripts/etl.py
 cat data/analytics/_manifesto_analytics.json
 ```
 
-**Status (15/11/2026):** pipeline executado sobre os microdados oficiais das
+**Status (24/11/2026):** pipeline executado sobre os microdados oficiais das
 quatro edicoes (17.744.217 registros), com divergencia nula entre a
 distribuicao exata e a contagem direta (`docs/relatorio/AV3.md` e
 `docs/modulos/equidade-resultados.md`). Os testes automatizados, com dados
 sinteticos, passam no CI. Modulos na `main`: Equidade socioeconomica, Recorte
 territorial e Capital escolar familiar (PR #20); Rede de ensino de origem fora
 do escopo (DL-07). Hospedagem: versao beta publicada no Replit em 19/11/2026
-(DL-08), link na secao "Aplicacao publicada" acima.
+(DL-08), link na secao "Aplicacao publicada" acima. Pente fino de QA, seguranca e
+otimizacao feito em 24/11/2026 (DL-10): 279 testes, 95% de cobertura no nucleo do
+produto, ruff e pip-audit no CI.
 
 ---
 

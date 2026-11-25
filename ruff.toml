@@ -1,0 +1,11 @@
+# Linter do projeto (pente fino da AV6, 24/11/2026). Roda no CI (.github/workflows/qualidade.yml).
+# Regras: F (Pyflakes: nomes e imports), E9 (erros de sintaxe) e B (flake8-bugbear: padroes
+# que costumam virar bug, como zip sem strict).
+target-version = "py312"
+line-length = 120
+
+[lint]
+select = ["F", "E9", "B"]
+# B023 (funcao que usa variavel do laco): nos 6 casos do projeto a funcao e chamada dentro da
+# propria iteracao (cronometro, somas), entao nao ha o atraso de ligacao que a regra procura.
+ignore = ["B023"]

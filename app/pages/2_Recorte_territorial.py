@@ -28,6 +28,7 @@ sys.path.insert(0, str(RAIZ / "app"))
 from colunas import PISO_GRUPO  # noqa: E402
 from estatistica import alcance_do_limite, densidade_protegida, formatar_percentil  # noqa: E402
 from ui import (  # noqa: E402
+    congelar,
     COR_BRASIL,
     COR_NOTA,
     COR_PROPRIO,
@@ -64,9 +65,9 @@ DIST_TERRITORIAL = Path(os.environ.get("RADAR_DIST_TERRITORIAL",
 COR_UF, COR_REGIAO = COR_PROPRIO, COR_VIZINHO
 
 
-@st.cache_data
+@st.cache_resource(show_spinner="Carregando os dados do ENEM...")
 def _cdfs():
-    return carregar(DIST_TERRITORIAL)
+    return congelar(carregar(DIST_TERRITORIAL))
 
 
 def grafico_distribuicoes(cdfs, e) -> go.Figure:
@@ -147,7 +148,7 @@ def mostrar(cdfs, r) -> None:
              cor={r.uf: COR_UF, r.regiao: COR_REGIAO}.get(destaque, COR_BRASIL))
     else:
         st.subheader(f"{AREAS[e.area]}: nota {formatar_nota(e.nota)}")
-    for coluna, cenario in zip(st.columns(3), cenarios):
+    for coluna, cenario in zip(st.columns(3), cenarios, strict=True):
         with coluna:
             if cenario.disponivel:
                 st.metric(cenario.rotulo, cenario.texto_percentil)
@@ -159,7 +160,8 @@ def mostrar(cdfs, r) -> None:
                                f"perto {extremo}, num grupo de {formatar_inteiro(cenario.n)} participantes; o "
                                f"valor exato não é mostrado para proteger quem está nas pontas")
                 else:
-                    st.caption(f"acima dessa porcentagem dos {formatar_inteiro(cenario.n)} participantes")
+                    st.caption(f"parcela dos {formatar_inteiro(cenario.n)} participantes com nota menor que a sua, "
+                               f"contando metade de quem tirou a mesma nota")
             else:
                 st.metric(cenario.rotulo, "—")
                 st.info(f"{cenario.rotulo}: {cenario.motivo}.")

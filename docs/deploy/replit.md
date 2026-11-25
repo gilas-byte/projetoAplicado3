@@ -90,7 +90,15 @@ Se uma instalação no Replit voltar com 403, não contorne o filtro (por exempl
 
 ## Atualizar o app
 
-- **Código:** no *Shell* do Replit, `git pull`, rodar a auditoria (passo 4) e publicar de novo.
+- **Código:** a `main` do Replit tem de ficar igual à do GitHub, sem commits próprios. O
+  procedimento usado em 24/11/2026 (PR #38), pelo agente com o prompt de
+  [`prompt-agente-republicar.md`](prompt-agente-republicar.md), foi: guardar os commits locais
+  numa branch de backup, `git fetch origin` e `git reset --hard origin/main` (o Replit exige
+  autorizar esses comandos com `DANGEROUSLY_ALLOW_GIT=1`), auditoria, testes, **parar e
+  iniciar de novo o Run** (o Streamlit não recarrega o `app/ui.py` já importado) e publicar.
+  Nunca fazer push nem "Sincronizar alterações" pelo Replit: o GitHub só recebe mudanças
+  por PR. Se o agente usar Node.js (automação de navegador), o Replit acrescenta
+  `nodejs-24` ao `.replit`; essa mudança é descartada pelo painel Git antes de publicar.
 - **Dados:** gerar os artefatos com o pipeline, substituir os arquivos em
   `data/analytics/`, atualizar `artefatos.sha256` por PR, rodar a auditoria e publicar de novo.
 - **Voltar uma versão (rollback):** no *Shell*, `git checkout <commit anterior>`, auditoria e
@@ -131,7 +139,18 @@ Os dois JSON estão em [`medicoes/`](medicoes/).
 | Tempo até o resultado aparecer (navegador, 10 repetições por página) | não medido na beta | Fica para o teste de usabilidade da AV6 |
 | Artefatos expostos | nenhum (`[]`) | `checar_saude.py` |
 | Tempo de publicação (primeira publicação bem-sucedida) | cerca de 8 min, do clique ao app no ar. O botão já se chamava *Republicar* porque a tentativa de 18/11, às 18:40, foi bloqueada pela verificação de segurança antes de ir ao ar | Logs da publicação (19/11, 03:10:33 a 03:18:31 UTC) |
+| Tempo de republicação (24/11, identidade visual do PR #38) | cerca de 3 min, do clique ao app no ar | Logs da publicação (24/11, 10:59:47 a 11:02:51) |
 | Tempo para recriar a publicação do zero (RTO) | não medido | Do import ao link no ar |
+
+**Republicação de 24/11/2026 (PR #38):** `checar_saude.py --vezes 20` pelo agente, às
+11:05: 0 falhas em 40 requisições; `/_stcore/health` com p50 de 390 ms e p95 de 732 ms;
+página inicial com p50 de 222 ms e p95 de 593 ms; `artefatos_expostos` vazio. Os tempos
+ficaram no mesmo nível da beta: os logotipos e o CSS neon não pesaram na resposta.
+
+**Pente fino da AV6 (24/11/2026):** os artefatos passaram para `st.cache_resource`, sem a
+cópia que o `st.cache_data` fazia a cada clique (37 MB no Recorte territorial). Uma
+execução completa da página territorial caiu de 611 ms para 23 ms com 1 CPU. Detalhes em
+[`docs/qa/relatorio-qa-av6.md`](../qa/relatorio-qa-av6.md), seção 3.
 
 **Leitura.** Todas as consultas ficaram abaixo de 0,5 s, muito dentro da meta de 3 s
 (RNF02). A primeira abertura do territorial levou 4,1 s no Shell do Replit (4 CPUs); esse

@@ -40,6 +40,7 @@ from capital_escolar import (  # noqa: E402
 )
 from estatistica import alcance_do_limite, densidade_protegida, formatar_percentil  # noqa: E402
 from ui import (  # noqa: E402
+    congelar,
     COR_BRASIL,
     COR_NOTA,
     COR_PROPRIO,
@@ -57,9 +58,9 @@ from ui import (  # noqa: E402
 DIST_CAPITAL = Path(os.environ.get("RADAR_DIST_CAPITAL", RAIZ / "data" / "analytics" / "dist_capital.parquet"))
 
 
-@st.cache_data
+@st.cache_resource(show_spinner="Carregando os dados do ENEM...")
 def _cdfs():
-    return carregar(DIST_CAPITAL)
+    return congelar(carregar(DIST_CAPITAL))
 
 
 @st.cache_data
@@ -100,7 +101,8 @@ def mostrar_metrica(cenario) -> None:
                    f"perto {extremo}, num grupo de {formatar_inteiro(cenario.n)} participantes; o "
                    f"valor exato não é mostrado para proteger quem está nas pontas")
     else:
-        st.caption(f"acima dessa porcentagem dos {formatar_inteiro(cenario.n)} participantes")
+        st.caption(f"parcela dos {formatar_inteiro(cenario.n)} participantes com nota menor que a sua, "
+                   f"contando metade de quem tirou a mesma nota")
 
 
 def mostrar(cdfs, r) -> None:
@@ -113,7 +115,7 @@ def mostrar(cdfs, r) -> None:
              cor=COR_PROPRIO if destaque is r.proprio else COR_BRASIL)
     else:
         st.subheader(f"{AREAS[e.area]}: nota {formatar_nota(e.nota)}")
-    for coluna, cenario in zip(st.columns(len(cenarios)), cenarios):
+    for coluna, cenario in zip(st.columns(len(cenarios)), cenarios, strict=True):
         with coluna:
             mostrar_metrica(cenario)
     if r.diferenca_pp is not None:

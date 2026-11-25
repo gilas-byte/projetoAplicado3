@@ -113,8 +113,8 @@ Detalhamento em `docs/av6/estatistica.md`.
 | Fonte e atualização visíveis | Sim (AV6) | Rodapé com fonte, data da conferência e commit |
 | Informação essencial fora do passar do mouse | Sim (AV6) | N das UFs no rótulo do eixo |
 | SQL parametrizada | Sim (AV6) | `read_parquet(?)` no app |
-| Cache | Sim | `st.cache_data` com dados públicos agregados, iguais para todos os usuários (sem risco de servir dado de um usuário a outro) |
+| Cache | Sim | Dados públicos agregados, iguais para todos os usuários (sem risco de servir dado de um usuário a outro). No pente fino da AV6 os artefatos passaram de `st.cache_data`, que copiava até 37 MB a cada clique, para `st.cache_resource`, compartilhado e só de leitura: a página territorial caiu de 611 ms para 23 ms (`docs/qa/relatorio-qa-av6.md`) |
 | Medição de desempenho p50/p95 | Sim (AV6) | `medir_desempenho.py`, `checar_saude.py` |
-| Teste com público-alvo | Em andamento | Protocolo em `docs/qa/teste-usabilidade.md` |
+| Teste com público-alvo | Não, por decisão do PO (DL-10) | O protocolo está pronto (`docs/qa/teste-usabilidade.md`), mas não houve como recrutar pessoas de fora da equipe a tempo. Em parte, foi substituído por auditoria automática de acessibilidade (WCAG 2.1 AA) e avaliação heurística interna (`docs/qa/relatorio-qa-av6.md`), que não medem a compreensão de um usuário real |
 | Metas, semáforos, alertas | Não | O produto descreve uma posição; não há meta nem ação esperada do usuário |
 | Velocímetros e pizza | Não | O anel de posição mostra uma única proporção (o percentil, parte de 100%) e é acompanhado pelo valor em texto |

@@ -160,5 +160,22 @@ exato, não um método de aproximação da distribuição.
 03/11/2026 (ADR-001 e DL-04, "Aceite do PO"). O teste em ambiente de nuvem
 efetivo é feito na publicação beta (DL-08): `scripts/auditar_artefatos.py` antes
 de publicar e `scripts/checar_saude.py` depois, que falha se algum artefato
-puder ser baixado pelo link público. Revisão de QA do ADR-001 continua pendente
-(Guilherme da Silva Anselmo).
+puder ser baixado pelo link público.
+
+**Revisão de QA do ADR-001 (24/11/2026):** feita pelo Product Owner no pente fino da
+AV6, no lugar do Guilherme da Silva Anselmo, por prazo; a revisão do PR fica com a
+equipe. Cada ação prevista acima foi conferida assim:
+
+| Ação prevista | Como foi conferida | Resultado |
+| --- | --- | --- |
+| Restringir acesso ao artefato | Projeto do Replit privado; `data/` no `.gitignore`; CI recusa `.csv`, `.parquet` e `.zip` versionados | Atendida |
+| Impedir endpoints de frequência ou contagem detalhada | `checar_saude.py` no link público (19/11 e 24/11): `artefatos_expostos` vazio. No navegador, `/data/analytics/dist_exata.parquet` e o caminho com `..` pelo servidor de estáticos devolvem a página do app (HTML), nunca o Parquet | Atendida |
+| Gráficos a partir da estrutura de faixas | Histograma lê `dist_notas` (faixas com piso); a CDF exata só calcula o percentil no servidor (`app/app.py`, `carregar_exatas`) | Atendida |
+| Logs e retenção | O app não grava nem registra as notas digitadas (R6); análises de visitantes e widget de feedback do Replit desligados; erros mostram só o tipo da exceção (`showErrorDetails = "type"`) | Atendida |
+| Testes com recortes pequenos | `verificar_piso.py` no CI e `auditar_artefatos.py` antes de publicar (piso de 100 por grupo) | Atendida |
+| Consultas reiteradas e diferença entre grupos | O resultado é um percentil com uma casa decimal; perto das pontas aparece só "acima/abaixo de" um limite que cobre pelo menos ~100 pessoas (DL-04, item 8), e a diferença para o Brasil é omitida nesses casos | Atendida |
+
+Risco residual aceito: o Streamlit não permite configurar cabeçalhos como
+`Content-Security-Policy` e `X-Frame-Options`; o link público tem HTTPS com HSTS (do
+Replit) e proteção XSRF ativa. Como o app não tem login nem ação que altere dados, o
+risco de um site de terceiros embutir a página é baixo.

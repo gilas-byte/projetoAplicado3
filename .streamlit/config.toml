@@ -14,6 +14,13 @@ toolbarMode = "viewer"
 
 [server]
 headless = true
+# Protecoes contra requisicoes forjadas (XSRF) e de origem cruzada (CORS). Ja sao o padrao do
+# Streamlit; ficam explicitas para uma mudanca futura nao desliga-las sem revisao (pente fino
+# da AV6, 24/11/2026). Conferido no link publico: o cookie _streamlit_xsrf e emitido.
+enableXsrfProtection = true
+enableCORS = true
+# O app nao recebe arquivos do usuario: limite minimo para upload (1 MB).
+maxUploadSize = 1
 # Serve so app/static/ (fontes IBM Plex, licenca OFL). Dados ficam em data/,
 # fora dessa pasta. Fontes proprias evitam pedir a fonte ao Google (IP do visitante).
 enableStaticServing = true
@@ -30,7 +37,8 @@ headingFont = "IBM Plex Mono, monospace"
 codeFont = "IBM Plex Mono, monospace"
 
 [theme.dark]
-base = "dark"
+# Sem "base": no Streamlit 1.66 as secoes [theme.dark] e [theme.light] ja definem o tipo do
+# tema, e "base" dentro delas gerava o aviso "not a valid config option" (pente fino da AV6).
 primaryColor = "#3b8cff"
 backgroundColor = "#0d1016"
 secondaryBackgroundColor = "#131820"
@@ -42,7 +50,6 @@ linkColor = "#3b8cff"
 chartCategoricalColors = ["#1375ff", "#a3731a", "#008c71", "#eb3030"]
 
 [theme.light]
-base = "light"
 primaryColor = "#1f6fe5"
 backgroundColor = "#f4f6fa"
 secondaryBackgroundColor = "#ffffff"

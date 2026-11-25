@@ -1,5 +1,11 @@
 # Teste de usabilidade e acessibilidade — protocolo da AV6
 
+> **Situação (24/11/2026):** não aplicado. Por decisão do PO (DL-10), a equipe não
+> conseguiu recrutar pessoas de fora a tempo da entrega. O protocolo fica pronto para uma
+> próxima versão. Em parte, foi substituído por auditoria automática de acessibilidade e
+> avaliação heurística interna (`docs/qa/relatorio-qa-av6.md`), que não medem se um
+> usuário real entende o resultado sozinho.
+
 Protocolo para validar o Radar ENEM com pessoas do público-alvo antes do relatório
 final. Segue o "teste das cinco tarefas" da disciplina de Business Intelligence e Data
 Visualization (aulas de dashboards e de visualizações interativas): o objetivo é saber

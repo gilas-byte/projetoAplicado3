@@ -26,8 +26,9 @@ capítulo autoral.
 
 **Riscos conhecidos**
 - Memória: pico de cerca de 1,2 GB com as quatro páginas no mesmo processo, medido no
-  ambiente de desenvolvimento; a VM compartilhada tem 2 GB. Medição no Replit na beta.
-- Revisão de QA do ADR-001 pendente.
+  ambiente de desenvolvimento; a VM compartilhada tem 2 GB. Na beta, a publicação usou no
+  pico cerca de 838 MiB (41%).
+- Revisão de QA do ADR-001 pendente (concluída em 24/11/2026, DL-10).
 - Teste de usabilidade com o público-alvo em andamento (`docs/qa/teste-usabilidade.md`).
 
 **Como voltar** (rollback): republicar o commit da tag anterior, conforme
@@ -35,5 +36,26 @@ capítulo autoral.
 
 ## v1.0 (AV6, entrega final)
 
-A criar depois do QA e das correções da beta, antes do envio do relatório final
-(19/11/2026). Mesmo formato: o que mudou desde a beta, artefatos, riscos e rollback.
+- **Tag:** `v1.0`, a criar na `main` depois do merge do PR do pente fino (DL-10) e da
+  republicação no Replit.
+- **Link público:** o mesmo da beta, registrado no README.
+- **Artefatos publicados:** os mesmos cinco da beta, conferidos por
+  `scripts/auditar_artefatos.py` antes de cada publicação.
+
+**Novidades em relação à beta**
+- Identidade visual (PR #38): logotipos do Radar ENEM e da KiraSapiens Neurotech e bordas
+  e arcos em azul neon nos dois temas.
+- Dependências indiretas fixadas para a verificação de segurança do Replit (PR #36).
+- Artefatos em cache sem cópia: a página territorial executa em 23 ms, e não mais 611 ms
+  (1 CPU).
+- Legenda dos percentis com a mesma definição em todas as páginas.
+- CI com linter (ruff) e auditoria de vulnerabilidades (pip-audit).
+- Revisão de QA do ADR-001 concluída.
+
+**Riscos conhecidos**
+- Teste de usabilidade com o público-alvo não feito (`docs/qa/relatorio-qa-av6.md`, seção 6).
+- RTO não medido; a republicação leva cerca de 3 min.
+- O Streamlit não permite configurar CSP nem X-Frame-Options.
+
+**Como voltar** (rollback): republicar o commit da tag `v1.0-beta`, conforme
+`docs/deploy/replit.md`.

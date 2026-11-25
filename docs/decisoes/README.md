@@ -574,6 +574,10 @@ apagada: quando muda, a entrada antiga recebe "substituída por DL-xx".
     para a AV6.
   - **AV4:** relatório consolidado em `docs/av4/`, entregue no AVA.
   - **17/11 e 19/11:** mantidos para o relatório final (AV6).
+- **Atualização (24/11/2026), entrega ao professor Hugo:** o professor Hugo (Engenharia de
+  Dados) pediu a AV3, e não a AV6. A equipe enviou a AV3, mesmo desatualizada em vários
+  pontos, para ficar padronizada com o que foi entregue no Projeto Aplicado. O relatório
+  final da AV6 segue como entrega do Projeto Aplicado.
 - **Substitui:** o prazo de 24/11/2026 usado como referência nas DL-05 e DL-06 e no
   plano da Sprint 6; completa a DL-02 (corte do quarto módulo).
 - **Evidência:** revisão do PO no PR #15 (08/11/2026) e mensagem ao grupo da equipe
@@ -661,3 +665,35 @@ apagada: quando muda, a entrada antiga recebe "substituída por DL-xx".
 - **Alternativa descartada:** fontes do Google Fonts (terceiro recebe o IP do visitante) ou
   fontes do sistema (perde a identidade visual do front).
 - **Evidência:** `.streamlit/config.toml`, `app/static/fonts/`, `scripts/checar_saude.py`.
+
+## DL-10 — Pente fino da AV6 feito pelo PO e identidade visual
+
+- **Data:** 24/11/2026
+- **Responsável:** Samuel Silva de Rezende (Product Owner)
+- **Situação:** aceita
+- **Contexto:** depois da beta (DL-08), faltavam o QA da aplicação completa, a revisão de
+  segurança (inclusive a revisão de QA do ADR-001, pendente desde 03/11), a otimização e a
+  identidade visual. Pelo prazo, não havia tempo para dividir essas tarefas e esperar cada
+  entrega.
+- **Decisão:**
+  1. **O PO executa o pente fino** (QA, segurança, otimização e documentação) e os outros
+     dois integrantes revisam os PRs. A rastreabilidade continua no GitHub: cada mudança
+     entra por PR, com revisão e CI.
+  2. **Identidade visual** (PR #38, revisado e aprovado pelo Guilherme): logotipo do Radar
+     ENEM no topo da sidebar, logotipo da KiraSapiens Neurotech (startup do PO) no pé da
+     sidebar e bordas e arcos em azul neon nos dois temas, inspirados no AVA Neolevel.
+  3. **Entrega em dois PRs:** um unificado com o pente fino (este registro, o relatório de
+     QA e os commits de otimização, QA e segurança) e outro só com o documento da AV6.
+- **Resultado:** `docs/qa/relatorio-qa-av6.md`. O principal achado foi o cache: os
+  artefatos saíram do `st.cache_data`, que copiava até 37 MB a cada clique, para o
+  `st.cache_resource`, e a execução da página territorial caiu de 611 ms para 23 ms (1 CPU).
+- **O que não foi feito, por decisão do PO:**
+  1. **Teste de usabilidade com pessoas de fora da equipe:** não houve como recrutar
+     participantes a tempo. O protocolo fica pronto (`docs/qa/teste-usabilidade.md`); a
+     auditoria automática de acessibilidade e a avaliação heurística interna cobrem parte
+     do risco, sem substituir usuários reais.
+  2. **RTO medido:** recriar a publicação do zero exigiria apagar o projeto no Replit às
+     vésperas da entrega. Fica a estimativa documentada (`docs/av6/nuvem.md`, seção 7) e o
+     tempo medido de republicação, cerca de 3 min (24/11/2026).
+- **Evidência:** PR #38, PR do pente fino, `docs/qa/relatorio-qa-av6.md`,
+  `docs/privacidade.md` (revisão do ADR-001), `.github/workflows/qualidade.yml`.

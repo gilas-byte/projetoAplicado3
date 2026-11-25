@@ -13,10 +13,13 @@ from __future__ import annotations
 
 import json
 import re
+from collections.abc import Mapping
 from datetime import datetime
 from functools import lru_cache
 from html import escape
+from itertools import chain
 from pathlib import Path
+from types import MappingProxyType
 from typing import NoReturn
 from urllib.parse import quote
 
@@ -96,6 +99,10 @@ def _arcos(cor: str, raios: tuple[int, ...], forte: int, opacidade: float, canto
 def _css_neon(c: dict, tema: str) -> str:
     """Bordas e arcos em azul neon: fundo da pagina, sidebar, formulario e cartoes.
 
+    A coluna de conteudo (.stMainBlockContainer) tem o fundo da pagina, opaco: os arcos so
+    aparecem nas margens e nunca passam por tras de texto (no celular, a coluna ocupa a tela
+    e os arcos somem). Achado da avaliacao heuristica do pente fino da AV6.
+
     `tema` e "dark" ou "light" (o de tema_atual()). Os seletores dependem de internos do
     Streamlit (data-testid, .st-key-*), que mudam entre versoes: por isso o requirements.txt
     fixa streamlit==1.66.1, e uma atualizacao do Streamlit precisa conferir a sidebar e os
@@ -108,6 +115,7 @@ def _css_neon(c: dict, tema: str) -> str:
 [data-testid="stApp"]{{background-image:{fundo},{topo};background-repeat:no-repeat;background-attachment:fixed;
  background-position:right -30px bottom -30px,right 0 top 0;background-size:400px,240px}}
 @media (max-width:900px){{[data-testid="stApp"]{{background-size:240px,150px}}}}
+.stMainBlockContainer{{background:var(--r-bg)}}
 [data-testid="stSidebar"]{{border-right:1px solid var(--r-neon-borda);box-shadow:1px 0 0 var(--r-neon-glow),6px 0 24px var(--r-neon-glow)}}
 .r-logo{{border-bottom-color:var(--r-neon-borda)}}
 [data-testid="stForm"]{{border-color:var(--r-neon-borda);border-width:2px;box-shadow:0 0 0 1px var(--r-neon-glow),0 0 22px var(--r-neon-glow)}}
@@ -124,11 +132,44 @@ def _css_neon(c: dict, tema: str) -> str:
 @media (max-height:820px){{.st-key-r-marca img{{width:120px!important;height:auto!important}}.st-key-r-marca{{padding-top:.6rem}}}}
 .st-key-r-topo{{padding:0 0 1rem;margin-bottom:1rem;border-bottom:1px solid var(--r-neon-borda)}}
 .st-key-r-topo img{{border-radius:12px;border:1px solid var(--r-neon-borda);box-shadow:0 0 14px var(--r-neon-glow)}}
-.r-sr{{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}}
 .st-key-r-marca img{{border-radius:var(--r-raio);border:1px solid var(--r-neon-borda);
  box-shadow:0 0 18px var(--r-neon-glow),0 0 2px var(--r-neon)}}
 [data-testid="stSidebar"] [data-testid="stImageToolbar"],[data-testid="stSidebar"] [data-testid="stFullScreenFrame"] button{{display:none}}
 </style>"""
+
+
+def congelar(dados: Mapping) -> MappingProxyType:
+    """Versao so de leitura, em todos os niveis, de um artefato para guardar em st.cache_resource.
+
+    O st.cache_data devolve uma copia (pickle) a cada chamada: no Recorte territorial eram
+    cerca de 37 MB copiados a cada execucao da pagina e por sessao (pente fino da AV6,
+    24/11/2026). O st.cache_resource devolve sempre o mesmo objeto, compartilhado entre as
+    sessoes; para ninguem altera-lo por engano, o congelamento e recursivo: dicionarios viram
+    MappingProxyType, listas e tuplas viram tuplas (com os itens tambem congelados) e
+    conjuntos viram frozenset. Qualquer outro tipo que nao seja imutavel (array do numpy,
+    DataFrame, objeto proprio) levanta TypeError, em vez de entrar no cache mutavel.
+    """
+    return _congelar(dados)
+
+
+_IMUTAVEIS = (str, bytes, int, float, complex, bool, type(None))
+_TIPOS_IMUTAVEIS = frozenset(_IMUTAVEIS)
+
+
+def _congelar(valor):
+    if isinstance(valor, _IMUTAVEIS):
+        return valor
+    if isinstance(valor, (dict, MappingProxyType)):
+        return MappingProxyType({_congelar(k): _congelar(v) for k, v in valor.items()})
+    if isinstance(valor, (list, tuple)):
+        # Caminho rapido para o formato dos artefatos (lista de tuplas nota, n, abaixo): confere
+        # os tipos de uma vez, sem uma chamada por item (2,2 milhoes de linhas no territorial).
+        if set(map(type, valor)) <= {tuple} and set(map(type, chain.from_iterable(valor))) <= _TIPOS_IMUTAVEIS:
+            return tuple(valor)
+        return tuple(_congelar(v) for v in valor)
+    if isinstance(valor, (set, frozenset)):
+        return frozenset(_congelar(v) for v in valor)
+    raise TypeError(f"congelar: tipo nao suportado no cache compartilhado: {type(valor).__name__}")
 
 
 def tema_atual() -> str:
@@ -256,8 +297,8 @@ def _logo() -> None:
     """Logotipo do Radar ENEM no topo da sidebar. Sem o arquivo, volta ao nome em texto."""
     if LOGO_APP.exists():
         with st.container(key="r-topo"):
-            st.html('<span class="r-sr">Radar ENEM</span>')  # nome para leitores de tela
-            st.image(str(LOGO_APP), width="stretch")
+            # alt: nome para leitores de tela (WCAG 1.1.1; axe acusava imagem sem alt).
+            st.image(str(LOGO_APP), width="stretch", alt="Radar ENEM")
     else:
         st.html('<div class="r-logo"><span>Radar<b>.</b>ENEM</span></div>')
     st.html('<p class="r-menu">Módulos</p>')
@@ -318,8 +359,7 @@ def _marca() -> None:
     if not MARCA.exists():  # app empacotado sem o arquivo: a sidebar segue sem a marca
         return
     with st.sidebar, st.container(key="r-marca"):
-        st.html('<span class="r-sr">KiraSapiens Neurotech</span>')  # nome para leitores de tela
-        st.image(str(MARCA), width=160)
+        st.image(str(MARCA), width=160, alt="KiraSapiens Neurotech")
 
 
 def aplicar_tema(pagina: str) -> None:
@@ -531,7 +571,7 @@ def clarear(cor: str, quanto: float = 0.78) -> str:
     fundo = paleta()["bg"]
     a = [int(cor.lstrip("#")[i:i + 2], 16) for i in (0, 2, 4)]
     b = [int(fundo.lstrip("#")[i:i + 2], 16) for i in (0, 2, 4)]
-    return "#" + "".join(f"{round(x + (y - x) * quanto):02x}" for x, y in zip(a, b))
+    return "#" + "".join(f"{round(x + (y - x) * quanto):02x}" for x, y in zip(a, b, strict=True))
 
 
 def formatar_porcento(valor: float) -> str:

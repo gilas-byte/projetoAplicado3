@@ -144,8 +144,16 @@ estimativa de 600 MB da DL-06.
 - Painel da publicação no Replit: estado, logs e uso de CPU e memória.
 - Monitoramento do app oferecido pelo Replit ao publicar (opção "Enable app monitoring",
   disponível no plano Core), quando aparecer para o tipo de publicação escolhido.
-- Monitor externo de disponibilidade (por exemplo, UptimeRobot, gratuito) apontado para
-  `https://<app>.replit.app/_stcore/health`, com aviso por e-mail ao PO.
+- Monitor externo de disponibilidade e de privacidade: o workflow
+  `.github/workflows/monitor-producao.yml` roda `scripts/checar_saude.py` contra o link
+  público a cada 3 horas, de fora do Replit (GitHub Actions), e falha se o app não
+  responder ou se algum artefato puder ser baixado. O GitHub avisa por e-mail quem
+  acompanha o repositório, e o histórico na aba Actions é a evidência contínua de
+  disponibilidade. Substitui o serviço de terceiros (UptimeRobot) previsto inicialmente:
+  usa o script da equipe e não exige cadastro nem segredo (pente fino da AV6, DL-10).
+  O GitHub desativa workflows agendados depois de 60 dias sem atividade no repositório:
+  com o projeto parado, o monitor precisa ser reativado na aba Actions ("Enable
+  workflow"), ou desativado de vez se o link for desligado depois da banca.
 - `scripts/checar_saude.py` antes de divulgar o link e antes da banca.
 
 Os logs do app não registram valores digitados: o Streamlit roda com
@@ -165,8 +173,13 @@ Os logs do app não registram valores digitados: o Streamlit roda com
   artefatos têm cópia no computador do PO e são reproduzíveis pelo pipeline a partir dos
   microdados com hash registrado.
 - **RPO (perda tolerável):** zero de código e de dados publicados, pelos motivos acima.
-- **RTO (tempo para voltar):** o tempo de importar o projeto, enviar os cinco arquivos e
-  publicar. A ser medido na primeira publicação e registrado em `docs/deploy/replit.md`.
+- **RTO (tempo para voltar):** estimado, não medido (decisão do PO em 24/11/2026, DL-10):
+  medir exigiria apagar e recriar o projeto no Replit às vésperas da entrega. O tempo
+  medido é o da republicação, cerca de 3 min do clique ao app no ar (24/11/2026,
+  `docs/deploy/replit.md`). Recriar do zero soma a esse tempo a importação do repositório
+  pelo GitHub, o envio dos cinco artefatos (cerca de 13 MB) e a configuração da Reserved
+  VM, todos descritos passo a passo em `docs/deploy/replit.md`. A estimativa é de 30 a 60
+  minutos, dominada por passos manuais, e não por processamento.
 
 **Rollback.** Se uma versão nova quebrar o app: no Shell do projeto, voltar para o
 commit anterior (`git checkout <commit>`), rodar a auditoria e republicar. O commit em
