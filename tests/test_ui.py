@@ -312,6 +312,32 @@ class TestCacheSemCopia(unittest.TestCase):
         with self.assertRaises(AttributeError):
             dados[("2022", "mt")].append((600.0, 1, 3))
 
+    def test_congelar_protege_todos_os_niveis(self):
+        # Revisao do #39: o formato real e lista de tuplas (nota, n, abaixo); o congelamento
+        # e recursivo, entao nenhum nivel pode ser alterado por dentro.
+        dados = ui.congelar({("2022", "mt", "BR"): [(400.0, 1, 0), [500.0, 2, 1]],
+                             "aninhado": {"faixas": [[1, 2], [3]], "grupos": {"R1", "R2"}}})
+        with self.assertRaises(TypeError):
+            dados[("2022", "mt", "BR")][0][1] = 99
+        with self.assertRaises(TypeError):
+            dados[("2022", "mt", "BR")][1][1] = 99          # a lista interna virou tupla
+        with self.assertRaises(TypeError):
+            dados["aninhado"]["faixas"] = ()                  # dicionario interno so leitura
+        with self.assertRaises(TypeError):
+            dados["aninhado"]["faixas"][0][0] = 0
+        with self.assertRaises(AttributeError):
+            dados["aninhado"]["grupos"].add("R3")             # conjunto virou frozenset
+
+    def test_congelar_recusa_tipo_mutavel_desconhecido(self):
+        with self.assertRaises(TypeError):
+            ui.congelar({"a": [bytearray(b"x")]})
+
+        class Registro:
+            pass
+
+        with self.assertRaises(TypeError):
+            ui.congelar({"a": Registro()})
+
     def test_artefatos_grandes_nao_usam_cache_data(self):
         # cache_data copiaria o artefato a cada execucao da pagina (37 MB no territorial).
         app = Path(ui.__file__).resolve().parent

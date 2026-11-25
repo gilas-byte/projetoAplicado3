@@ -13,9 +13,11 @@ from __future__ import annotations
 
 import json
 import re
+from collections.abc import Mapping
 from datetime import datetime
 from functools import lru_cache
 from html import escape
+from itertools import chain
 from pathlib import Path
 from types import MappingProxyType
 from typing import NoReturn
@@ -136,16 +138,39 @@ def _css_neon(c: dict, tema: str) -> str:
 </style>"""
 
 
-def congelar(dados: dict) -> MappingProxyType:
-    """Versao so de leitura de um dicionario de listas, para guardar em st.cache_resource.
+def congelar(dados: Mapping) -> MappingProxyType:
+    """Versao so de leitura, em todos os niveis, de um artefato para guardar em st.cache_resource.
 
     O st.cache_data devolve uma copia (pickle) a cada chamada: no Recorte territorial eram
     cerca de 37 MB copiados a cada execucao da pagina e por sessao (pente fino da AV6,
     24/11/2026). O st.cache_resource devolve sempre o mesmo objeto, compartilhado entre as
-    sessoes; para ninguem altera-lo por engano, o dicionario vira um MappingProxyType e cada
-    lista vira uma tupla.
+    sessoes; para ninguem altera-lo por engano, o congelamento e recursivo: dicionarios viram
+    MappingProxyType, listas e tuplas viram tuplas (com os itens tambem congelados) e
+    conjuntos viram frozenset. Qualquer outro tipo que nao seja imutavel (array do numpy,
+    DataFrame, objeto proprio) levanta TypeError, em vez de entrar no cache mutavel.
     """
-    return MappingProxyType({chave: tuple(valor) for chave, valor in dados.items()})
+    return _congelar(dados)
+
+
+_IMUTAVEIS = (str, bytes, int, float, complex, bool, type(None))
+_TIPOS_IMUTAVEIS = frozenset(_IMUTAVEIS)
+
+
+def _congelar(valor):
+    if isinstance(valor, _IMUTAVEIS):
+        return valor
+    if isinstance(valor, (dict, MappingProxyType)):
+        return MappingProxyType({_congelar(k): _congelar(v) for k, v in valor.items()})
+    if isinstance(valor, (list, tuple)):
+        # Caminho rapido para o formato dos artefatos (lista de tuplas nota, n, abaixo): confere
+        # os tipos de uma vez, sem uma chamada por item (2,2 milhoes de linhas no territorial).
+        if set(map(type, valor)) <= {tuple} and set(map(type, chain.from_iterable(valor))) <= _TIPOS_IMUTAVEIS:
+            return tuple(valor)
+        return tuple(_congelar(v) for v in valor)
+    if isinstance(valor, (set, frozenset)):
+        return frozenset(_congelar(v) for v in valor)
+    raise TypeError(f"congelar: tipo nao suportado no cache compartilhado: {type(valor).__name__}")
+
 
 def tema_atual() -> str:
     """\"dark\" ou \"light\", conforme o tema ativo no navegador (padrao: light)."""

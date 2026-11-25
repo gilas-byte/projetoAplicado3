@@ -18,7 +18,7 @@ de publicar. Cada achado virou um commit com a medida de antes e depois.
 | Otimização | Artefatos em `st.cache_data`: cópia de até 37 MB a cada clique e por sessão | `st.cache_resource` com o dado congelado (só leitura) | Execução da página territorial de 611 ms para 23 ms (1 CPU) |
 | Otimização | Observador de arquivos ligado na publicação | `--server.fileWatcherType none` no `[deployment]` | Menos CPU e memória parados na VM de 0,5 vCPU |
 | QA | Aviso `theme.*.base is not a valid config option` (Streamlit 1.66) | Linhas `base` removidas do `config.toml` | Aviso sumiu, visual igual |
-| QA | Legenda "acima dessa porcentagem dos N participantes" ambígua | "parcela dos N participantes com nota menor que a sua" | Mesma definição em todas as páginas |
+| QA | Legenda "acima dessa porcentagem dos N participantes" ambígua | "parcela dos N participantes com nota menor que a sua, contando metade de quem tirou a mesma nota" (posto médio, como no cálculo) | Mesma definição em todas as páginas e igual à do cálculo |
 | QA | CI só fazia `compileall` | ruff (F, E9, B) no CI; 21 apontamentos resolvidos | `zip(..., strict=True)` no PSI evita cálculo truncado |
 | Segurança | Dependências sem auditoria automática | `pip-audit` no CI | Nenhuma vulnerabilidade conhecida |
 | Segurança | XSRF e CORS só pelo padrão do Streamlit | Explícitos no `config.toml`; upload limitado a 1 MB | Cookie XSRF conferido no link público |
@@ -32,8 +32,8 @@ de publicar. Cada achado virou um commit com a medida de antes e depois.
 
 | Medida | Valor |
 | --- | --- |
-| Testes automatizados | 280 (`python -m unittest discover -s tests`), todos passando |
-| Cobertura do núcleo do produto (app, motor estatístico, três módulos, ETL e auditoria) | 95% das linhas (2.166 linhas, 119 sem execução) |
+| Testes automatizados | 282 (`python -m unittest discover -s tests`), todos passando |
+| Cobertura do núcleo do produto (app, motor estatístico, três módulos, ETL e auditoria) | 95% das linhas (2.176 linhas, 119 sem execução) |
 | Cobertura por página do app | Início 98%, Equidade 94%, Territorial 93%, Capital 95%, `ui.py` 97% |
 | Cobertura do repositório inteiro | 58%: os scripts de uso único (benchmark da AV3, profiling, dicionário, contrato) e os que dependem de rede (`checar_saude.py`) não têm teste automatizado |
 | Linter | `ruff check app scripts tests` sem apontamentos |
@@ -42,8 +42,9 @@ Medido com `coverage run --source=app,scripts -m unittest discover -s tests`.
 
 Testes novos deste pente fino:
 
-- `TestCacheSemCopia` (`tests/test_ui.py`): o dado em cache é só leitura, e nenhuma página
-  volta a usar `cache_data` nos artefatos.
+- `TestCacheSemCopia` (`tests/test_ui.py`): o dado em cache é só leitura em todos os
+  níveis (o `congelar()` é recursivo e recusa tipos mutáveis desconhecidos, como arrays do
+  numpy; revisão do #39), e nenhuma página volta a usar `cache_data` nos artefatos.
 - `TestIdentidadeVisual` (PR #38): o CSS neon não carrega recurso externo, os arcos ficam
   só no fundo da página e os logotipos ficam fora de `app/static/`.
 - `TestLogotiposAcessiveis` (`tests/test_ui.py`): os dois logotipos têm texto alternativo.
@@ -95,6 +96,19 @@ O botão Run do editor continua com o observador, para o desenvolvimento.
 vulnerabilidade conhecida em 24/11/2026. O passo entrou no CI para barrar o PR antes de
 a dependência chegar ao filtro de pacotes do Replit, que já tinha recusado o Pillow 12.x
 por CVE (PR #35). As versões continuam fixas no `requirements.txt` (PR #36).
+
+**Quando o pip-audit apontar uma vulnerabilidade nova** (revisão do #39): o passo falha
+em qualquer PR, mesmo sem relação com a dependência, porque a base de vulnerabilidades
+muda sem mudança no repositório. O tratamento combinado é:
+
+1. Atualizar a dependência para a versão corrigida num PR próprio (`fix(deps): ...`), com
+   a suíte de testes passando, como no PR #35. É o caminho padrão.
+2. Só se não houver versão corrigida, ou se a correção quebrar o app: acrescentar
+   `--ignore-vuln <ID>` ao passo do workflow, com um comentário no YAML dizendo o motivo
+   (por exemplo, a função vulnerável não é usada pelo app), a data e a data de revisão,
+   e registrar a exceção no Decision Log. A exceção sai assim que a correção existir.
+3. Os outros PRs abertos esperam o PR da dependência e fazem rebase; não se desliga o
+   passo para destravar um PR.
 
 ### 4.2 Análise estática (bandit)
 
@@ -161,7 +175,7 @@ Gravidade de 0 (não é problema) a 4 (catastrófico).
 | Heurística | Observação | Gravidade | Ação |
 | --- | --- | --- | --- |
 | 1. Visibilidade do estado do sistema | Na primeira abertura depois de publicar, aparecia "Running carregar()" por alguns segundos | 2 | Mensagem trocada por "Carregando os dados do ENEM..." |
-| 2. Correspondência com o mundo real | Visão simples em frequência natural ("cerca de 76 em cada 100"); a legenda dos cartões dizia "acima dessa porcentagem", ambígua | 2 | Legenda unificada: "parcela dos N participantes com nota menor que a sua" |
+| 2. Correspondência com o mundo real | Visão simples em frequência natural ("cerca de 76 em cada 100"); a legenda dos cartões dizia "acima dessa porcentagem", ambígua | 2 | Legenda unificada: "parcela dos N participantes com nota menor que a sua, contando metade de quem tirou a mesma nota" (posto médio, como no cálculo) |
 | 3. Controle e liberdade do usuário | Campos com botão de limpar, edição e navegação sempre disponíveis | 0 | — |
 | 4. Consistência e padrões | Mesmo formulário, mesma ordem de áreas e mesmo rodapé nas 4 páginas | 0 | — |
 | 5. Prevenção de erros | Notas limitadas de 0 a 1.000 no próprio campo; a página só compara com ao menos uma nota | 0 | — |
@@ -183,6 +197,16 @@ cumpre esse papel sem serviço de terceiros: a cada 3 horas, o GitHub Actions ro
 não responder (código 1) ou se algum artefato puder ser baixado (código 2, ADR-001). O
 resumo de cada execução fica na aba Actions, que vira o histórico de disponibilidade da
 aplicação em nuvem. O workflow só faz GET de leitura e não usa segredos.
+
+Dois cuidados de operação (revisão do #39):
+
+- O GitHub desativa workflows agendados depois de 60 dias sem atividade no repositório.
+  Se o projeto ficar parado depois da banca, o monitor para sem aviso; para reativar,
+  basta abrir a aba Actions, escolher "Monitor da publicação" e clicar em "Enable
+  workflow" (ou fazer qualquer commit). Se o link for desligado depois da banca, o
+  monitor deve ser desativado junto, para não falhar todo dia.
+- Os dois workflows usam `actions/checkout@v5` e `actions/setup-python@v6`, que rodam em
+  Node.js 24; as versões anteriores geravam o aviso de descontinuação do Node.js 20.
 
 ## 7. Publicação
 

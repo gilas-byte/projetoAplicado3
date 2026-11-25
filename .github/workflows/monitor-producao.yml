@@ -23,8 +23,8 @@ jobs:
     env:
       URL_PUBLICA: https://radarenem-projetoaplicado3-kirasapiens.replit.app
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.12'
       - name: Saude e privacidade pelo link publico

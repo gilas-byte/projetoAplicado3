@@ -151,6 +151,9 @@ estimativa de 600 MB da DL-06.
   acompanha o repositório, e o histórico na aba Actions é a evidência contínua de
   disponibilidade. Substitui o serviço de terceiros (UptimeRobot) previsto inicialmente:
   usa o script da equipe e não exige cadastro nem segredo (pente fino da AV6, DL-10).
+  O GitHub desativa workflows agendados depois de 60 dias sem atividade no repositório:
+  com o projeto parado, o monitor precisa ser reativado na aba Actions ("Enable
+  workflow"), ou desativado de vez se o link for desligado depois da banca.
 - `scripts/checar_saude.py` antes de divulgar o link e antes da banca.
 
 Os logs do app não registram valores digitados: o Streamlit roda com

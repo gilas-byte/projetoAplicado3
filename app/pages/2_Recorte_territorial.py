@@ -160,7 +160,8 @@ def mostrar(cdfs, r) -> None:
                                f"perto {extremo}, num grupo de {formatar_inteiro(cenario.n)} participantes; o "
                                f"valor exato não é mostrado para proteger quem está nas pontas")
                 else:
-                    st.caption(f"parcela dos {formatar_inteiro(cenario.n)} participantes com nota menor que a sua")
+                    st.caption(f"parcela dos {formatar_inteiro(cenario.n)} participantes com nota menor que a sua, "
+                               f"contando metade de quem tirou a mesma nota")
             else:
                 st.metric(cenario.rotulo, "—")
                 st.info(f"{cenario.rotulo}: {cenario.motivo}.")

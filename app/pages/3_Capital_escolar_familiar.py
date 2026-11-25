@@ -101,7 +101,8 @@ def mostrar_metrica(cenario) -> None:
                    f"perto {extremo}, num grupo de {formatar_inteiro(cenario.n)} participantes; o "
                    f"valor exato não é mostrado para proteger quem está nas pontas")
     else:
-        st.caption(f"parcela dos {formatar_inteiro(cenario.n)} participantes com nota menor que a sua")
+        st.caption(f"parcela dos {formatar_inteiro(cenario.n)} participantes com nota menor que a sua, "
+                   f"contando metade de quem tirou a mesma nota")
 
 
 def mostrar(cdfs, r) -> None:
