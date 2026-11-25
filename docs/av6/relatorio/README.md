@@ -14,7 +14,7 @@ seção, quadros e figuras numerados e sumário).
 | `figuras/` | Capturas do app (24/11/2026, código do PR #39, artefatos reais), diagrama de arquitetura (`.svg` e `.png`) e gráficos das análises |
 | `montar_docx.py` | Monta o `.docx` a partir das fontes; a marcação aceita está no cabeçalho do script |
 | `paginar.py` | Monta, renderiza no LibreOffice, adia figuras que deixariam buraco no fim da página (`adiamentos.json`), mede a página de cada título e monta de novo com os números do sumário |
-| `gerar-pdf-av6.ps1` | No Windows, com o Word: atualiza os números de página do sumário e exporta o PDF |
+| `gerar-pdf-av6.ps1` | No Windows, com o Word: refaz o sumário (entradas e números de página), salva o `.docx` e exporta o PDF |
 
 ## Como atualizar
 

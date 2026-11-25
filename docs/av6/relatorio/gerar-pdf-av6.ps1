@@ -11,8 +11,11 @@ $word.DisplayAlerts = 0
 try {
     $doc = $word.Documents.Open($docx)
     $doc.Repaginate()
-    # A paginacao do Word difere um pouco da do LibreOffice usada na montagem:
-    # atualiza so os numeros de pagina, sem refazer o texto das entradas.
+    # Refaz o sumario inteiro no Word (entradas no formato dos titulos, como no
+    # "Atualizar o indice inteiro"), repagina e confere de novo os numeros de pagina,
+    # porque a paginacao do Word difere um pouco da do LibreOffice usada na montagem.
+    foreach ($toc in $doc.TablesOfContents) { $toc.Update() }
+    $doc.Repaginate()
     foreach ($toc in $doc.TablesOfContents) { $toc.UpdatePageNumbers() }
     $doc.Save()
     $doc.ExportAsFixedFormat($pdf, 17)   # 17 = PDF
