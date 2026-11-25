@@ -56,7 +56,8 @@ Larguras: 22,26,26,26
 | --- | --- | --- | --- |
 | 19/11/2026 (beta) | 40 | 0 | Nenhum |
 | 24/11/2026 (PR #38) | 40 | 0 | Nenhum |
-| A partir do merge do PR #39 (24/11/2026) | Monitor do GitHub Actions a cada 3 h | Histórico na aba Actions | Job falha se algum artefato for baixado |
+| 24/11/2026 (monitor do GitHub Actions, duas execuções) | 20 | 0 | Nenhum |
+| A partir de 25/11/2026 | Monitor a cada 3 h | Histórico na aba Actions | Job falha se algum artefato for baixado |
 Fonte: `docs/deploy/medicoes/` e workflow `monitor-producao.yml`.
 
 A conferência manual de 24/11 confirmou também os cabeçalhos de segurança da plataforma (HSTS) e a proteção XSRF ativa, e que os caminhos dos artefatos e dos logotipos devolvem a página da aplicação, nunca o arquivo (seção 6.11).
@@ -127,7 +128,7 @@ Larguras: 10,44,46
 | RF05 | Entradas inválidas e grupos insuficientes | Atendido: casos de erro testados e validados no link público |
 | RF06 | Aplicação web pública | Atendido: link público desde 19/11/2026, sem cadastro |
 | RNF01 | Runtime sem o CSV bruto | Atendido: 12,6 MB de artefatos em lugar de 7,51 GB |
-| RNF02 | Consultas em até 3 s no ambiente-alvo | Atendido: p95 de 70 a 416 ms no Replit |
+| RNF02 | Consultas em até 3 s no ambiente-alvo | Atendido: p95 de 70 a 416 ms no Replit; só a primeira abertura do Recorte territorial depois de cada publicação ou reinício passa da meta (4,1 s, uma vez por processo, seção 7.2) |
 | RNF03 | Pipeline reprodutível, testado e rastreável | Atendido: hash, manifestos com `run_id`, 282 testes, CI e PRs revisados |
 | RNF04 | Não persistência da entrada | Atendido: sessão apenas, sem URL, log ou terceiros; teste automatizado |
 | RNF05 | Segurança, acessibilidade, responsividade e monitoramento | Atendido: pip-audit, XSRF, nenhum artefato exposto, 0 violações WCAG 2.1 AA, telas de 375 px e monitor a cada 3 h; teste com usuários externos não realizado (DL-10) |

@@ -16,7 +16,7 @@ Do ponto de vista de produto e de nuvem, a aplicação foi publicada em modelo P
 - **Um pipeline reprodutível e auditável** sobre os Microdados do ENEM de quatro edições, com contrato de dados gerado de uma fonte única, funil de elegibilidade sem perdas silenciosas, barreira de qualidade antes da publicação e testes que reproduzem tudo com dados sintéticos.
 - **Um tratamento de privacidade estatística** que vai além do piso de tamanho de grupo: limites de exibição do percentil contra inferência por consultas repetidas, dependência entre medidas e caixa protegida no boxplot, todos auditados sobre os dados reais.
 - **Evidência empírica para escolhas metodológicas** que normalmente são tomadas por convenção: o custo da aproximação normal, o erro da amostragem e a magnitude do drift entre edições, todos medidos e versionados.
-- **Rastreabilidade completa** de cada número exibido até a fonte do INEP e de cada mudança no código até um Pull Request revisado.
+- **Rastreabilidade completa** de cada número exibido até a fonte do INEP e de cada mudança no código, depois da criação do repositório, até um Pull Request.
 
 ## Limitações
 

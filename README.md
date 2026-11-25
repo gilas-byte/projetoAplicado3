@@ -122,7 +122,7 @@ sinteticos, passam no CI. Modulos na `main`: Equidade socioeconomica, Recorte
 territorial e Capital escolar familiar (PR #20); Rede de ensino de origem fora
 do escopo (DL-07). Hospedagem: versao beta publicada no Replit em 19/11/2026
 (DL-08), link na secao "Aplicacao publicada" acima. Pente fino de QA, seguranca e
-otimizacao feito em 24/11/2026 (DL-10): 279 testes, 95% de cobertura no nucleo do
+otimizacao feito em 24/11/2026 (DL-10): 282 testes, 95% de cobertura no nucleo do
 produto, ruff e pip-audit no CI.
 
 ---

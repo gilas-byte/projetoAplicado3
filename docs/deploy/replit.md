@@ -85,7 +85,7 @@ supõe versões para as dependências indiretas que não estão fixadas. Por iss
 os alertas altos e médios que vinham dele.
 
 Se uma instalação no Replit voltar com 403, não contorne o filtro (por exemplo, trocando o
-índice de pacotes): ache a versão corrigida, teste com os 273 testes e atualize o
+índice de pacotes): ache a versão corrigida, teste com os 282 testes e atualize o
 `requirements.txt` por PR.
 
 ## Atualizar o app

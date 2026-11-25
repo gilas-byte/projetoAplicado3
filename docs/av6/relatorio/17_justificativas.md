@@ -156,7 +156,7 @@ Larguras: 20,22,58
 | Decisão | Escolha | Por que a escolha e por que não as alternativas |
 | --- | --- | --- |
 | Forma de trabalho | Iterativa, em sprints associadas às avaliações | Cada avaliação exigia um incremento funcional; ciclos curtos permitiram reduzir escopo cedo quando um módulo atrasou |
-| Integração de mudanças | Pull Request revisado por outro integrante | Garante uma segunda leitura de todo código e documento; nos PRs da AV6 as revisões resultaram em correções reais |
+| Integração de mudanças | Pull Request revisado por outro integrante | Garante uma segunda leitura do código e dos documentos antes do merge; nos PRs da AV6 as revisões resultaram em correções reais |
 | Registro de decisões | Decision Log e ADR | Torna explícito o motivo de cada escolha e permite revisá-la depois; decisões só no chat da equipe se perderiam |
 | Autoria dos módulos | Um autor por módulo, lógica separada e testada | Cada integrante responde pelo próprio módulo; um teste impede que um módulo importe a lógica de outro |
 | Controle de escopo | Corte do quarto módulo antes de transferir autoria | Preservou a qualidade dos três módulos entregues em vez de dividir o esforço em quatro incompletos (DL-07) |

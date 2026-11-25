@@ -202,7 +202,7 @@ Larguras: 12,14,18,18,19,19
 | P90 | 701,2 | 1,24 | 4,5 | 1,21 | 6,0 |
 Fonte: `docs/av6/analises_av6.json` (chave `amostragem`).
 
-Dois resultados merecem leitura. Primeiro, a estratificação por UF não reduziu o erro. A teoria de amostragem prevê ganho de precisão quando a variável de estratificação está associada à variável medida, e a UF explica pouco da variação das notas dentro de uma edição; o resultado esperado pela teoria ficou agora medido. Segundo, na Redação, cujas notas são múltiplas de 20, o quantil estimado ou acerta a nota ou erra por 20 pontos (maior erro de 20 em todos os quantis até P75; erro médio de 1,2 a 4,4).
+Dois resultados merecem leitura. Primeiro, a estratificação por UF não reduziu o erro. A teoria de amostragem prevê ganho de precisão quando a variável de estratificação está associada à variável medida, mas a UF explica pouco da variação das notas dentro de uma edição. Por isso o ganho não apareceu: os erros da amostra estratificada ficaram praticamente iguais aos da aleatória simples, ora um pouco menores, ora um pouco maiores. Segundo, na Redação, cujas notas são múltiplas de 20, o quantil estimado ou acerta a nota ou erra por 20 pontos (maior erro de 20 em todos os quantis até P75; erro médio de 1,2 a 4,4).
 
 Para o produto, um ponto de nota no meio da distribuição de Matemática 2022 equivale a cerca de 0,25 a 0,33 ponto percentual de posição (entre P10 e P75, medido na CDF exata). Usar a população inteira custa cerca de dois minutos de processamento offline e elimina esse erro. A decisão de não amostrar fica justificada com números, e não só pelo enunciado do Plano.
 

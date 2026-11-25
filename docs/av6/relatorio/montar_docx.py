@@ -318,9 +318,11 @@ class Doc:
 def ler_tabela(linhas: list[str], i: int):
     tab = []
     while i < len(linhas) and linhas[i].strip().startswith("|"):
-        cel = [c.strip() for c in linhas[i].strip().strip("|").split("|")]
+        # "\|" é uma barra dentro da célula (ex.: valor absoluto), não separador de coluna
+        conteudo = linhas[i].strip().removeprefix("|").removesuffix("|")
+        cel = [c.strip().replace("\\|", "|") for c in re.split(r"(?<!\\)\|", conteudo)]
         if not all(re.fullmatch(r":?-{3,}:?", c) for c in cel):
-            tab.append([c.replace("\\|", "|") for c in cel])
+            tab.append(cel)
         i += 1
     return tab, i
 
@@ -646,6 +648,16 @@ def montar(paginas: dict[str, int]):
                          Target=url, TargetMode="External")
     rels.write(str(rels_path), xml_declaration=True, encoding="UTF-8", standalone=True)
     arvore.write(str(tmp / "word/document.xml"), xml_declaration=True, encoding="UTF-8", standalone=True)
+
+    # rodapé: no modelo, a célula "Página N de M" (1276 dxa) quebra em duas linhas a partir da
+    # página 10; passa 300 dxa da primeira coluna (código do formulário, com folga) para ela
+    for rodape in sorted((tmp / "word").glob("footer*.xml")):
+        t_rod = rodape.read_text(encoding="utf-8")
+        t_rod = t_rod.replace('<w:gridCol w:w="2836"/>', '<w:gridCol w:w="2536"/>')
+        t_rod = t_rod.replace('<w:gridCol w:w="1276"/>', '<w:gridCol w:w="1576"/>')
+        t_rod = t_rod.replace('<w:tcW w:w="2836" w:type="dxa"/>', '<w:tcW w:w="2536" w:type="dxa"/>')
+        t_rod = t_rod.replace('<w:tcW w:w="1276" w:type="dxa"/>', '<w:tcW w:w="1576" w:type="dxa"/>')
+        rodape.write_text(t_rod, encoding="utf-8")
 
     # tipo de conteúdo para as imagens JPEG da capa
     ct = tmp / "[Content_Types].xml"
